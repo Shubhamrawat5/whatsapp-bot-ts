@@ -1,9 +1,9 @@
-module.exports.countRemainder = async (
-  sendMessage,
-  res,
-  from,
-  senderNumber,
-  sender
+export const countRemainder = async (
+  sendMessage: any,
+  res: any,
+  from: string,
+  senderNumber: string,
+  sender: string
 ) => {
   if (res.currentGroup && res.currentGroup % 5000 === 0) {
     sendMessage(

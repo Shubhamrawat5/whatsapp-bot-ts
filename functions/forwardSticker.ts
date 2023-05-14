@@ -1,9 +1,6 @@
-const {
-  downloadContentFromMessage,
-  toBuffer,
-} = require("@adiwajshing/baileys");
-const { Exif } = require("wa-sticker-formatter");
-const { LoggerTg } = require("./loggerBot");
+import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
+import { Exif } from "wa-sticker-formatter";
+import { LoggerTg } from "./loggerBot";
 
 let countSent = 0;
 let countIn = 0,
@@ -13,11 +10,11 @@ let last20SentStickersSize = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
-module.exports.forwardSticker = async (
-  sendMessage,
-  downloadFilePath,
-  pvxstickeronly1,
-  pvxstickeronly2
+export const forwardSticker = async (
+  sendMessage: any,
+  downloadFilePath: any,
+  pvxstickeronly1: string,
+  pvxstickeronly2: string
 ) => {
   try {
     const stickerSize = downloadFilePath.fileLength;
@@ -65,8 +62,8 @@ module.exports.forwardSticker = async (
     );
     return true;
   } catch (err) {
-    console.log(err);
-    await LoggerTg(`ERROR: [FORWARD-STICKER]\n${err.toString()}`);
+    console.log(err as Error);
+    await LoggerTg(`ERROR: [FORWARD-STICKER]\n${(err as Error).toString()}`);
     countErr += 1;
     return false;
   }

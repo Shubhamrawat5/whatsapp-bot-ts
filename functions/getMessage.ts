@@ -1,9 +1,6 @@
-const checkTaggedMessage = async (msg) => {
+const checkTaggedMessage = async (msg: any) => {
   if (
-    msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
+    msg.message.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
   ) {
     // simple tagged text message
     return msg.message.extendedTextMessage.contextInfo.quotedMessage
@@ -15,8 +12,8 @@ const checkTaggedMessage = async (msg) => {
   }
 };
 
-const checkNonTaggedMessage = async (msg) => {
-  if (msg.message.extendedTextMessage && msg.message.extendedTextMessage.text) {
+const checkNonTaggedMessage = async (msg: any) => {
+  if (msg.message.extendedTextMessage?.text) {
     // message has url, member mentioned
     return msg.message.extendedTextMessage.text;
   } else {
@@ -25,14 +22,10 @@ const checkNonTaggedMessage = async (msg) => {
   }
 };
 
-module.exports.getMessage = async (msg, prefix, command) => {
+export const getMessage = async (msg: any, prefix: string, command: string) => {
   let message = "";
   try {
-    if (
-      msg.message.extendedTextMessage &&
-      msg.message.extendedTextMessage.contextInfo &&
-      msg.message.extendedTextMessage.contextInfo.quotedMessage
-    ) {
+    if (msg.message.extendedTextMessage?.contextInfo?.quotedMessage) {
       message = await checkTaggedMessage(msg);
     } else {
       message = await checkNonTaggedMessage(msg);

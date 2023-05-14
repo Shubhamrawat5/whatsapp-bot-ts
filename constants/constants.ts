@@ -1,4 +1,4 @@
-module.exports.pvxgroups = {
+export const pvxgroups: Pvxgroups = {
   pvxcommunity: "919557666582-1467533860@g.us",
   pvxprogrammer: "919557666582-1584193120@g.us",
   pvxadmin: "919557666582-1498394056@g.us",
@@ -15,3 +15,21 @@ module.exports.pvxgroups = {
   pvxstatus: "919557666582-1627834788@g.us",
   pvxtesting: "919478205112-1598720728@g.us",
 };
+
+export interface Pvxgroups {
+  pvxcommunity: string;
+  pvxprogrammer: string;
+  pvxadmin: string;
+  pvxsubadmin: string;
+  pvxstudy: string;
+  pvxmano: string;
+  pvxtech: string;
+  pvxsport: string;
+  pvxmovies: string;
+  pvxsticker: string;
+  pvxstickeronly1: string;
+  pvxstickeronly2: string;
+  pvxdeals: string;
+  pvxstatus: string;
+  pvxtesting: string;
+}

@@ -1,18 +1,20 @@
+import { Pvxgroups } from "../constants/constants";
+
 const { getBlacklist } = require("../db/blacklistDB");
-const { LoggerBot } = require("./loggerBot");
+import { LoggerBot } from "./loggerBot";
 
 require("dotenv").config();
 const prefix = "!";
 
 const myNumber = process.env.myNumber;
 
-module.exports.memberAddCheck = async (
-  bot,
-  from,
-  num_split,
-  numJid,
-  groupSubject,
-  pvxgroups
+export const memberAddCheck = async (
+  bot: any,
+  from: string,
+  num_split: string,
+  numJid: string,
+  groupSubject: string,
+  pvxgroups: Pvxgroups
 ) => {
   const {
     pvxcommunity,
@@ -30,18 +32,17 @@ module.exports.memberAddCheck = async (
       let blacklistRes = await getBlacklist(num_split);
       // console.log(blacklistRes);
       if (blacklistRes.length) {
+        await bot.groupParticipantsUpdate(from, [numJid], "remove");
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${blacklistRes[0].reason}`,
         });
-
-        await bot.groupParticipantsUpdate(from, [numJid], "remove");
         await bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
         });
         return;
       }
 
-      if (!num_split.startsWith(91)) {
+      if (!num_split.startsWith("91")) {
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
         });

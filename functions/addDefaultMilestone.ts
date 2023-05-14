@@ -1,15 +1,34 @@
+import { GroupMetadata } from "@adiwajshing/baileys";
+import { Pvxgroups } from "../constants/constants";
+
 const { getCountTop } = require("../db/countMemberDB");
 const { getDonation } = require("../db/donationDB");
 
-module.exports.addDefaultMilestones = async (
-  groupFetchAllParticipating,
-  pvxgroups
+export const addDefaultMilestones = async (
+  groupFetchAllParticipating: any,
+  pvxgroups: Pvxgroups
 ) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
-  const milestones = {};
+
+  //TODO: CHECK _ and key
+  interface Milestones {
+    [key: string]: string[];
+  }
+  interface Chats {
+    [key: string]: GroupMetadata;
+  }
+  interface ResultCountGroupTop {
+    memberjid: string;
+  }
+  interface donationRes {
+    number: number;
+    amount: number;
+  }
+  const milestones: Milestones = {};
+
   console.log("Adding default milestones");
 
-  let chats = await groupFetchAllParticipating();
+  let chats: Chats = await groupFetchAllParticipating();
 
   chats[pvxsubadmin].participants.forEach((member) => {
     milestones[member.id] = ["Sub-Admin of PVX"];
@@ -18,7 +37,7 @@ module.exports.addDefaultMilestones = async (
     milestones[member.id] = ["Main Admin of PVX"];
   });
 
-  const resultCountGroupTop = await getCountTop(100);
+  const resultCountGroupTop: ResultCountGroupTop[] = await getCountTop(100);
   resultCountGroupTop.forEach((member, index) => {
     let memberjid = member.memberjid;
     let number = index + 1;
@@ -41,7 +60,7 @@ module.exports.addDefaultMilestones = async (
     }
   });
 
-  const donationRes = await getDonation();
+  const donationRes: donationRes[] = await getDonation();
   donationRes.forEach((member, index) => {
     let memberjid = `${member.number}@s.whatsapp.net`;
     if (index === 0) {

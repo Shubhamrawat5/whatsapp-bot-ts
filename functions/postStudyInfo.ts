@@ -1,9 +1,9 @@
-const Parser = require("rss-parser");
+import Parser from "rss-parser";
 const parser = new Parser();
+import { LoggerBot } from "./loggerBot";
 const { storeNewsStudy } = require("../db/postStudyDB");
-const { LoggerBot } = require("./loggerBot");
 
-const postStudyInfo = async (sendMessage, pvxstudy) => {
+export const postStudyInfo = async (sendMessage: any, pvxstudy: string) => {
   try {
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
@@ -42,5 +42,3 @@ const postStudyInfo = async (sendMessage, pvxstudy) => {
     await LoggerBot(undefined, "STUDY-NEWS", err, undefined);
   }
 };
-
-module.exports = { postStudyInfo };

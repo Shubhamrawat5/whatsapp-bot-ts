@@ -1,20 +1,31 @@
-const axios = require("axios");
+import axios from "axios";
 const { storeNewsTech } = require("../db/postTechDB");
-const { LoggerBot } = require("./loggerBot");
+import { LoggerBot } from "./loggerBot";
 require("dotenv").config();
 
 const newsapi = process.env.newsapi;
 let countNews = 0;
 
-const postTechNews = async (sendMessage, pvxtech) => {
+export const postTechNews = async (sendMessage: any, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
       let url =
         "https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=" +
         newsapi;
-      let { data } = await axios.get(url);
-      const articles = data.articles;
+
+      interface Articles {
+        title: string;
+        description: string;
+        url: string;
+        source: {
+          name: string;
+        };
+      }
+
+      let response = await axios.get(url);
+      let data = response.data;
+      const articles: Articles[] = data.articles;
 
       let res = false;
       let count = 1;
@@ -91,5 +102,3 @@ const postTechNews = async (sendMessage, pvxtech) => {
     await LoggerBot(undefined, "TECH-NEWS", err, undefined);
   }
 };
-
-module.exports = { postTechNews };

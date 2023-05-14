@@ -1,6 +1,9 @@
+import { GroupMetadata } from "@adiwajshing/baileys";
+import { LoggerBot } from "./loggerBot";
+
 const { getCountVideo } = require("../db/countVideoDB");
 
-module.exports.kickZeroMano = async (bot, pvxmano) => {
+export const kickZeroMano = async (bot: any, pvxmano: string) => {
   try {
     let resultCountGroupIndi = await getCountVideo(pvxmano);
 
@@ -9,10 +12,10 @@ module.exports.kickZeroMano = async (bot, pvxmano) => {
       memWithMsg.add(member.memberjid);
     }
 
-    const groupMetadata = await bot.groupMetadata(pvxmano);
+    const groupMetadata: GroupMetadata = await bot.groupMetadata(pvxmano);
     const groupMembers = groupMetadata.participants;
 
-    let zeroMano = [];
+    let zeroMano: string[] = [];
     groupMembers.forEach((mem) => {
       if (!memWithMsg.has(mem.id)) {
         zeroMano.push(mem.id);

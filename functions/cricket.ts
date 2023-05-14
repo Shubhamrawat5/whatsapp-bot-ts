@@ -1,13 +1,18 @@
-const axios = require("axios");
+import axios from "axios";
 
 //return object {message:"", info:""} =>
 //message having score and info having extra info about game like inning over, game over etc
 //INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
 // const getCricketScore = async (matchID) => {
 
-module.exports.getCricketScore = async (matchID) => {
-  let obj = {};
+export const getCricketScore = async (matchID: string) => {
+  interface Res {
+    message?: string;
+    info?: string;
+  }
+  let res: Res = {};
   try {
+    //TODO: MAKE INTERFACE OF DATA
     let { data } = await axios.get(
       "https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/" +
         matchID
@@ -15,9 +20,9 @@ module.exports.getCricketScore = async (matchID) => {
 
     if (typeof data === "string") {
       console.log(data);
-      obj.message = data + "\nCheck the match ID in description!!";
-      obj.info = "ER";
-      return obj;
+      res.message = data + "\nCheck the match ID in description!!";
+      res.info = "ER";
+      return res;
     }
 
     let title = data.title;
@@ -52,8 +57,8 @@ module.exports.getCricketScore = async (matchID) => {
       //title and update only
       message += `*${title}*\n`;
       message += `\n${update}`;
-      obj.message = message;
-      return obj;
+      res.message = message;
+      return res;
     }
 
     if (Object.keys(data.Innings2[2]).length === 0) {
@@ -72,12 +77,12 @@ module.exports.getCricketScore = async (matchID) => {
 
     //inning over or not
     if (update === "innings break") {
-      obj.info = "IO";
+      res.info = "IO";
       isInningOver = true;
     }
 
     //find playing 2 batsman
-    data[currentInning][0]["Batsman"].forEach((batsman) => {
+    data[currentInning][0]["Batsman"].forEach((batsman: any) => {
       if (batsman.dismissal === "batting") {
         if (alt) {
           let batsmanName = batsman.name;
@@ -100,7 +105,7 @@ module.exports.getCricketScore = async (matchID) => {
 
     //is match over?
     if (data["result"]["winning_team"] !== "Not Completed") {
-      obj.info = "MO";
+      res.info = "MO";
     }
 
     if (batsman1 === batsman2) batsman1 = batsman2 = "";
@@ -135,7 +140,7 @@ module.exports.getCricketScore = async (matchID) => {
 
     //bowler and last wicket info | isInningOver (when inning over) - "out of gya" , "data not found" comes!
     message +=
-      isInningOver || obj.info === "MO"
+      isInningOver || res.info === "MO"
         ? ""
         : `\n\n🏏 ${batsman1} \n🏏 ${batsman2}\n
 ⚾ ${bowler} ${bowlerruns}-${bowlerwickets} (${bowlerover})
@@ -146,21 +151,21 @@ _recent balls_ \n${recentballs}`;
     message +=
       currentInning === "Innings2" || isInningOver ? `\n\n${update}` : "";
 
-    obj.message = message;
+    res.message = message;
   } catch (err) {
     console.log(err);
-    obj.message = err.toString();
-    obj.info = "ER";
+    res.message = (err as Error).toString();
+    res.info = "ER";
   }
 
-  // console.log(obj);
-  return obj;
+  // console.log(res);
+  return res;
 };
 
 // getCricketScore(66369);
 
 // const getScoreCard = async (matchID) => {
-module.exports.getScoreCard = async (matchID) => {
+module.exports.getScoreCard = async (matchID: string) => {
   try {
     let { data } = await axios.get(
       "https://cric-score.skdev.one/scorecard/" + matchID
@@ -177,14 +182,14 @@ module.exports.getScoreCard = async (matchID) => {
       secondInningTeamScore = data.Innings2[2].score;
     }
 
-    data.Innings1[0].Batsman.forEach((player) => {
+    data.Innings1[0].Batsman.forEach((player: any) => {
       message += `\n${player.runs} (${player.balls}) : ${player.name}`;
       if (player.dismissal == "batting") message += `*`;
     });
 
     if (secondInningTeam) {
       message += `\n\n*${secondInningTeam} 🏏*\nscore: ${secondInningTeamScore}\n`;
-      data.Innings2[0].Batsman.forEach((player) => {
+      data.Innings2[0].Batsman.forEach((player: any) => {
         message += `\n${player.runs} (${player.balls}) : ${player.name}`;
         if (player.dismissal == "batting") message += `*`;
       });
@@ -193,7 +198,7 @@ module.exports.getScoreCard = async (matchID) => {
     return message;
   } catch (err) {
     console.log(err);
-    return err.toString();
+    return (err as Error).toString();
   }
 };
 

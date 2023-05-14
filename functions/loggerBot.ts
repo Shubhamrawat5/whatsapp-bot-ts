@@ -7,7 +7,12 @@ const token = process.env.TG_BOT; //tg bot token here
 const kryptonChatId = 649341653; // my chat id to receive all the updates
 const botTG = pvx ? new TelegramBot(token, { polling: false }) : null;
 
-module.exports.LoggerBot = async (botWA, eventType, err, msgObj) => {
+export const LoggerBot = async (
+  botWA: any,
+  eventType: string,
+  err: any,
+  msgObj: any
+) => {
   const errMsg = err.stack ? err.stack : err.toString();
   const msg = JSON.stringify(msgObj);
 
@@ -20,6 +25,6 @@ module.exports.LoggerBot = async (botWA, eventType, err, msgObj) => {
     });
 };
 
-module.exports.LoggerTg = async (message) => {
+export const LoggerTg = async (message: string) => {
   if (pvx) botTG.sendMessage(kryptonChatId, message);
 };

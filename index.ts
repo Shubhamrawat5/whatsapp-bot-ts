@@ -1,25 +1,25 @@
 /* --------------------------------- SERVER --------------------------------- */
-const express = require("express");
-const app = express();
+import express, { Express, Request, Response } from "express";
+const app: Express = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
-const port = process.env.PORT || 8080;
-app.get("/", (req, res) => {
+const port = process.env.PORT || 80;
+app.get("/", (req: Request, res: Response) => {
   // res.send("Bot is running");
   console.log("Get request to /");
   res.sendFile(__dirname + "/index.html");
 });
 
 /* -------------------------- delete auth from url -------------------------- */
-const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
 const { dropAuth } = require("./db/dropauthDB");
-app.get("/" + authHiddenPath, async (req, res) => {
-  console.log("Get request to /" + authHiddenPath);
-  let response = await dropAuth();
-  if (response) res.send("Auth DB deleted!");
-  else res.send("There is some error!");
-});
+// const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
+// app.get("/" + authHiddenPath, async (req, res) => {
+//   console.log("Get request to /" + authHiddenPath);
+//   let response = await dropAuth();
+//   if (response) res.send("Auth DB deleted!");
+//   else res.send("There is some error!");
+// });
 
 app.listen(port, () => {
   // console.clear();
@@ -27,20 +27,25 @@ app.listen(port, () => {
 });
 
 /* ------------------------------ add packages ------------------------------ */
-const {
-  default: makeWASocket,
+import makeWASocket, {
   DisconnectReason,
   useMultiFileAuthState,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
   isJidBroadcast,
-} = require("@adiwajshing/baileys");
-const pino = require("pino");
-const fs = require("fs");
+  GroupMetadata,
+  ParticipantAction,
+  WAMessage,
+  MessageUpsertType,
+} from "@adiwajshing/baileys";
+
+import { Boom } from "@hapi/boom";
+import pino from "pino";
+import fs from "fs";
 const stringSimilarity = require("string-similarity");
-const NodeCache = require("node-cache");
+import NodeCache from "node-cache";
 const cache = new NodeCache();
-const msgRetryCounterMap = {};
+const msgRetryCounterCache = new NodeCache();
 
 // start a connection
 // console.log('state : ', state.creds);
@@ -49,19 +54,22 @@ const msgRetryCounterMap = {};
 const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
 const { getDisableCommandData } = require("./db/disableCommandDB");
-const { postStudyInfo } = require("./functions/postStudyInfo");
-const { postTechNews } = require("./functions/postTechNews");
-const { checkTodayBday } = require("./functions/checkTodayBday");
 const { storeAuth, fetchAuth } = require("./db/authDB");
-const { getGroupAdmins } = require("./functions/getGroupAdmins");
-const { addCommands } = require("./functions/addCommands");
-const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
-const { forwardSticker } = require("./functions/forwardSticker");
-const { memberAddCheck } = require("./functions/memberAddCheck");
-const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 const { addUnknownCmd } = require("./db/addUnknownCmdDB");
-const { countRemainder } = require("./functions/countRemainder");
-// const { setGroupParticipant } = require("./db/groupParticipantDB");
+
+const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
+
+import { postTechNews } from "./functions/postTechNews";
+import { postStudyInfo } from "./functions/postStudyInfo";
+import { checkTodayBday } from "./functions/checkTodayBday";
+import { addCommands } from "./functions/addCommands";
+import { memberAddCheck } from "./functions/memberAddCheck";
+import { addDefaultMilestones } from "./functions/addDefaultMilestone";
+import { forwardSticker } from "./functions/forwardSticker";
+import { countRemainder } from "./functions/countRemainder";
+
+import { pvxgroups } from "./constants/constants";
+import { getGroupData } from "./functions/getGroupData";
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -91,9 +99,7 @@ stats.started = new Date().toLocaleString("en-GB", {
 });
 
 let startCount = 1;
-let dateCheckerInterval;
-
-const { pvxgroups } = require("./constants/constants");
+let dateCheckerInterval: NodeJS.Timeout;
 
 let milestones = {};
 
@@ -140,9 +146,9 @@ const startBot = async () => {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, silentLogs),
       },
-      msgRetryCounterMap,
+      msgRetryCounterCache,
       generateHighQualityLinkPreview: true,
-      shouldIgnoreJid: (jid) => isJidBroadcast(jid),
+      shouldIgnoreJid: (jid: string) => isJidBroadcast(jid),
     });
 
     if (pvx === "true") {
@@ -184,7 +190,7 @@ const startBot = async () => {
       botNumberJid.slice(0, botNumberJid.search(":")) +
       botNumberJid.slice(botNumberJid.search("@"));
 
-    bot.ev.on("groups.upsert", async (msg) => {
+    bot.ev.on("groups.upsert", async (msg: GroupMetadata[]) => {
       //new group added
       try {
         console.log("[groups.upsert]");
@@ -202,7 +208,8 @@ const startBot = async () => {
       }
     });
 
-    bot.ev.on("groups.update", async (msg) => {
+    //TODO: CHECK PARTIAL
+    bot.ev.on("groups.update", async (msg: Partial<GroupMetadata>[]) => {
       //subject change, etc
       try {
         console.log("[groups.update]");
@@ -213,66 +220,78 @@ const startBot = async () => {
       }
     });
 
+    interface GroupParticipantUpdate {
+      id: string;
+      participants: string[];
+      action: ParticipantAction;
+    }
     //---------------------------------------group-participants.update-----------------------------------------//
-    bot.ev.on("group-participants.update", async (msg) => {
-      console.log("[group-participants.update]");
-      try {
-        let from = msg.id;
-        let numJid = msg.participants[0];
+    bot.ev.on(
+      "group-participants.update",
+      async (msg: GroupParticipantUpdate) => {
+        console.log("[group-participants.update]");
+        try {
+          let from = msg.id;
+          let numJid = msg.participants[0];
 
-        let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
-        if (numJid === botNumberJid && msg.action === "remove") {
-          //bot is removed
-          bot.sendMessage(myNumberWithJid, {
-            text: `Bot is removed from group.`,
-          });
-          return;
+          let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
+          if (numJid === botNumberJid && msg.action === "remove") {
+            //bot is removed
+            bot.sendMessage(myNumberWithJid, {
+              text: `Bot is removed from group.`,
+            });
+            return;
+          }
+
+          cache.del(from + ":groupMetadata");
+          const groupMetadata = await bot.groupMetadata(from);
+          let groupSubject = groupMetadata.subject;
+
+          if (msg.action === "add") {
+            // if (groupSubject.toUpperCase().includes("<{PVX}>"))
+            //   await setGroupParticipant(numJid, from, "ADD");
+            await memberAddCheck(
+              bot,
+              from,
+              num_split,
+              numJid,
+              groupSubject,
+              pvxgroups
+            );
+            const text = `${groupSubject}\n[ADD] ${num_split}`;
+            await bot.sendMessage(myNumberWithJid, { text });
+            console.log(text);
+            ++stats.memberJoined;
+          } else if (msg.action === "remove") {
+            // if (groupSubject.toUpperCase().includes("<{PVX}>"))
+            //   await setGroupParticipant(numJid, from, "REMOVE");
+            const text = `${groupSubject}\n[REMOVE] ${num_split}`;
+            await bot.sendMessage(myNumberWithJid, { text });
+            console.log(text);
+            ++stats.memberLeft;
+          }
+        } catch (err) {
+          await LoggerBot(bot, "group-participants.update", err, msg);
         }
-
-        cache.del(from + ":groupMetadata");
-        const groupMetadata = await bot.groupMetadata(from);
-        let groupSubject = groupMetadata.subject;
-
-        if (msg.action === "add") {
-          // if (groupSubject.toUpperCase().includes("<{PVX}>"))
-          //   await setGroupParticipant(numJid, from, "ADD");
-          await memberAddCheck(
-            bot,
-            from,
-            num_split,
-            numJid,
-            groupSubject,
-            pvxgroups
-          );
-          const text = `${groupSubject}\n[ADD] ${num_split}`;
-          await bot.sendMessage(myNumberWithJid, { text });
-          console.log(text);
-          ++stats.memberJoined;
-        } else if (msg.action === "remove") {
-          // if (groupSubject.toUpperCase().includes("<{PVX}>"))
-          //   await setGroupParticipant(numJid, from, "REMOVE");
-          const text = `${groupSubject}\n[REMOVE] ${num_split}`;
-          await bot.sendMessage(myNumberWithJid, { text });
-          console.log(text);
-          ++stats.memberLeft;
-        }
-      } catch (err) {
-        await LoggerBot(bot, "group-participants.update", err, msg);
       }
-    });
+    );
 
-    bot.ev.on("messages.upsert", async (m) => {
+    interface GroupMessageUpsert {
+      messages: WAMessage[];
+      type: MessageUpsertType;
+    }
+    bot.ev.on("messages.upsert", async (msgs: GroupMessageUpsert) => {
       // console.log("m", JSON.stringify(m, undefined, 2));
-      // console.log(m.messages);
+      // console.log(msgs.messages);
       try {
         //type: append (whatsapp web), notify (app)
-        if (m.type === "append") return;
-        const msg = JSON.parse(JSON.stringify(m)).messages[0];
+        if (msgs.type === "append") return;
+        const msg = msgs.messages[0];
         if (msg.key && msg.key.remoteJid == "status@broadcast") return;
         if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
 
         //type to extract body text
-        const type = msg.message.conversation
+        const type: string = msg.message.conversation
           ? "textMessage"
           : msg.message.reactionMessage
           ? "reactionMessage"
@@ -307,49 +326,54 @@ const startBot = async () => {
           return;
         }
 
-        ++stats.totalMessages;
-        if (type === "extendedTextMessage") ++stats["textMessage"];
-        else ++stats[type];
+        //TODO: FIX
+        // ++stats.totalMessages;
+        // if (type === "extendedTextMessage") ++stats["textMessage"];
+        // else ++stats[type];
 
         //body will have the text message
-        let body =
-          type === "textMessage"
-            ? msg.message.conversation
-            : type === "reactionMessage" && msg.message.reactionMessage.text
-            ? msg.message.reactionMessage.text
-            : type == "imageMessage" && msg.message.imageMessage.caption
-            ? msg.message.imageMessage.caption
-            : type == "videoMessage" && msg.message.videoMessage.caption
-            ? msg.message.videoMessage.caption
-            : type == "documentMessage" && msg.message.documentMessage.captionf
-            ? msg.message.documentMessage.caption
-            : type == "extendedTextMessage" &&
-              msg.message.extendedTextMessage.text
-            ? msg.message.extendedTextMessage.text
-            : "";
+        let body = msg.message.conversation
+          ? msg.message.conversation
+          : msg.message.reactionMessage?.text
+          ? msg.message.reactionMessage.text
+          : msg.message.imageMessage?.caption
+          ? msg.message.imageMessage.caption
+          : msg.message.videoMessage?.caption
+          ? msg.message.videoMessage.caption
+          : msg.message.documentMessage?.caption
+          ? msg.message.documentMessage.caption
+          : msg.message.extendedTextMessage?.text
+          ? msg.message.extendedTextMessage.text
+          : "";
         body = body.replace(/\n|\r/g, ""); //remove all \n and \r
 
+        //TODO: FIX
+        // if (isGroup) {
+        //   groupMetadata = cache.get(from + ":groupMetadata");
+        //   if (!groupMetadata) {
+        //     groupMetadata = await bot.groupMetadata(from);
+        //     const success = cache.set(
+        //       from + ":groupMetadata",
+        //       groupMetadata,
+        //       60 * 60
+        //     );
+        //   }
+        // }
+
         const from = msg.key.remoteJid;
+        if (!from) return;
         const isGroup = from.endsWith("@g.us");
 
-        let groupMetadata = "";
-        if (isGroup) {
-          groupMetadata = cache.get(from + ":groupMetadata");
-          if (!groupMetadata) {
-            groupMetadata = await bot.groupMetadata(from);
-            const success = cache.set(
-              from + ":groupMetadata",
-              groupMetadata,
-              60 * 60
-            );
-          }
-        }
-
+        let groupMetadata: GroupMetadata;
+        groupMetadata = await bot.groupMetadata(from);
         const groupName = isGroup ? groupMetadata.subject : "";
+
         let sender = isGroup ? msg.key.participant : from;
+        if (!sender) return;
         if (msg.key.fromMe) sender = botNumberJid;
+
+        //remove : from number
         if (sender.includes(":"))
-          //remove : from number
           sender =
             sender.slice(0, sender.search(":")) +
             sender.slice(sender.search("@"));
@@ -405,15 +429,13 @@ const startBot = async () => {
         let isCmd = body.startsWith(prefix);
         const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
 
-        //auto sticker maker in pvx sticker group [empty caption]
-        if (from === pvxgroups.pvxsticker && body === "" && isMedia) {
-          if (
-            msg.message.videoMessage &&
-            msg.message.videoMessage.fileLength &&
-            msg.message.videoMessage.fileLength > 2 * 1000 * 1000
-          ) {
-            return;
-          }
+        //auto sticker maker in pvx sticker group [empty caption], less than 2mb
+        if (
+          from === pvxgroups.pvxsticker &&
+          body === "" &&
+          msg.message.videoMessage?.fileLength &&
+          Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000
+        ) {
           isCmd = true;
           body = "!s";
         }
@@ -455,7 +477,8 @@ const startBot = async () => {
 
         if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
         const args = body.slice(1).trim().split(/ +/);
-        const command = args.shift().toLowerCase();
+        const command = args.shift()?.toLowerCase();
+        if (!command) return;
 
         // Display every command info
         console.log(
@@ -474,12 +497,13 @@ const startBot = async () => {
           groupMetadata = await bot.groupMetadata(from);
         }
 
-        const groupDesc =
-          isGroup && groupMetadata.desc ? groupMetadata.desc.toString() : "";
-        const groupMembers = isGroup ? groupMetadata.participants : "";
-        const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
-        const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
-        const isGroupAdmins = groupAdmins.includes(sender) || false;
+        const {
+          groupDesc,
+          groupMembers,
+          groupAdmins,
+          isBotGroupAdmins,
+          isGroupAdmins,
+        } = getGroupData(groupMetadata, botNumberJid, sender);
 
         const content = JSON.stringify(msg.message);
         const isTaggedImage =
@@ -491,30 +515,32 @@ const startBot = async () => {
         const isTaggedDocument =
           type === "extendedTextMessage" && content.includes("documentMessage");
 
-        const reply = async (text) => {
+        const reply = async (text: string | undefined) => {
+          if (!text) return;
           await bot.sendMessage(from, { text }, { quoted: msg });
         };
 
         //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
-        let resDisabled = [];
-        if (isGroup && !isGroupAdmins) {
-          resDisabled = cache.get(from + ":resDisabled");
-          if (!resDisabled) {
-            resDisabled = await getDisableCommandData(from);
-            const success = cache.set(
-              from + ":resDisabled",
-              resDisabled,
-              60 * 60
-            );
-          }
-        }
-        if (resDisabled.includes(command)) {
-          await reply("❌ Command disabled for this group!");
-          return;
-        }
-        if (command === "enable" || command === "disable") {
-          cache.del(from + ":resDisabled");
-        }
+        //TODO: FIX
+        // let resDisabled = [];
+        // if (isGroup && !isGroupAdmins) {
+        //   resDisabled = cache.get(from + ":resDisabled");
+        //   if (!resDisabled) {
+        //     resDisabled = await getDisableCommandData(from);
+        //     const success = cache.set(
+        //       from + ":resDisabled",
+        //       resDisabled,
+        //       60 * 60
+        //     );
+        //   }
+        // }
+        // if (resDisabled.includes(command)) {
+        //   await reply("❌ Command disabled for this group!");
+        //   return;
+        // }
+        // if (command === "enable" || command === "disable") {
+        //   cache.del(from + ":resDisabled");
+        // }
 
         // send every command info to my whatsapp, won't work when i send something for bot
         if (myNumber && myNumberWithJid !== sender) {
@@ -525,15 +551,16 @@ const startBot = async () => {
         }
 
         switch (command) {
-          case "stats":
-            let statsMessage = "📛 PVX BOT STATS 📛\n";
+          //TODO: FIX
+          // case "stats":
+          //   let statsMessage = "📛 PVX BOT STATS 📛\n";
 
-            Object.keys(stats).forEach((key) => {
-              statsMessage += `\n${key}: ${stats[key]}`;
-            });
+          //   Object.keys(stats).forEach((key) => {
+          //     statsMessage += `\n${key}: ${stats[key]}`;
+          //   });
 
-            await reply(statsMessage);
-            return;
+          //   await reply(statsMessage);
+          //   return;
 
           case "check":
             return;
@@ -554,7 +581,7 @@ const startBot = async () => {
                 await reply(JSON.stringify(resultTest));
               else await reply(resultTest.toString());
             } catch (err) {
-              await reply(err.stack);
+              await reply((err as Error).stack);
             }
             return;
         }
@@ -631,7 +658,7 @@ const startBot = async () => {
             return;
           }
         } catch (err) {
-          await reply(err.stack);
+          await reply((err as Error).stack);
           await LoggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
           return;
         }
@@ -652,7 +679,7 @@ const startBot = async () => {
           await addUnknownCmd(command);
         }
       } catch (err) {
-        await LoggerBot(bot, "messages.upsert", err, m);
+        await LoggerBot(bot, "messages.upsert", err, msgs);
       }
     });
 
@@ -690,12 +717,11 @@ const startBot = async () => {
           // );
         } else if (connection === "close") {
           // reconnect if not logged out
-          if (
-            (lastDisconnect.error &&
-              lastDisconnect.error.output &&
-              lastDisconnect.error.output.statusCode) !==
-            DisconnectReason.loggedOut
-          ) {
+          if (!lastDisconnect) return;
+          const shouldReconnect =
+            (lastDisconnect.error as Boom)?.output?.statusCode !==
+            DisconnectReason.loggedOut;
+          if (shouldReconnect) {
             await LoggerBot(
               false,
               "CONNECTION-CLOSED",

@@ -1,12 +1,17 @@
-const fs = require("fs");
-const util = require("util");
+import fs from "fs";
+import util from "util";
 const readdir = util.promisify(fs.readdir);
 
-module.exports.addCommands = async () => {
-  const commandsPublic = {};
-  const commandsMembers = {};
-  const commandsAdmins = {};
-  const commandsOwners = {};
+export const addCommands = async () => {
+  //TODO: CHECK
+  interface CommandsObj {
+    [key: string]: Function;
+  }
+
+  const commandsPublic: CommandsObj = {};
+  const commandsMembers: CommandsObj = {};
+  const commandsAdmins: CommandsObj = {};
+  const commandsOwners: CommandsObj = {};
 
   let path = __dirname + "/../commands/public/";
   let filenames = await readdir(path);
