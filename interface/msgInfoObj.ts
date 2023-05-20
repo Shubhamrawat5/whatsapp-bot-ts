@@ -3,25 +3,29 @@ import { GroupParticipant } from "@adiwajshing/baileys";
 export interface MsgInfoObj {
   from: string;
   prefix: string;
-  sender: string;
-  senderName: string | undefined | null;
-  groupName: string;
-  groupDesc: string;
-  isBotGroupAdmins: boolean;
-  isGroupAdmins: boolean;
   isMedia: boolean;
   type: string;
+  command: string;
+  args: string[];
+  milestones: any;
+  allCommandsName: string[];
+
+  reply: any;
+
   isTaggedImage: boolean;
   isTaggedDocument: boolean;
   isTaggedVideo: boolean;
   isTaggedSticker: boolean;
+
+  sender: string;
+  senderName: string | undefined | null;
   myNumber: string | undefined;
   botNumberJid: string;
-  command: string;
-  args: string[];
-  groupMembers: GroupParticipant[];
+
+  groupName: string | undefined;
+  groupDesc: string | undefined;
+  isBotGroupAdmins: boolean;
+  isGroupAdmins: boolean;
+  groupMembers: GroupParticipant[] | undefined;
   groupAdmins: string[];
-  reply: any;
-  milestones: any;
-  allCommandsName: string[];
 }

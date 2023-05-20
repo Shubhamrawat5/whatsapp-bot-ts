@@ -41,6 +41,7 @@ import makeWASocket, {
   WAMessageContent,
   proto,
   makeInMemoryStore,
+  GroupParticipant,
 } from "@adiwajshing/baileys";
 
 import { Boom } from "@hapi/boom";
@@ -87,6 +88,8 @@ import { countRemainder } from "./functions/countRemainder";
 import { pvxgroups } from "./constants/constants";
 import { getGroupData } from "./functions/getGroupData";
 import { MsgInfoObj } from "./interface/msgInfoObj";
+import { GroupData } from "./interface/GroupData";
+import { getGroupAdmins } from "./functions/getGroupAdmins";
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -365,336 +368,323 @@ const startBot = async () => {
           : "";
         body = body.replace(/\n|\r/g, ""); //remove all \n and \r
 
-        //TODO: FIX
-        // if (isGroup) {
-        //   groupMetadata = cache.get(from + ":groupMetadata");
-        //   if (!groupMetadata) {
-        //     groupMetadata = await bot.groupMetadata(from);
-        //     const success = cache.set(
-        //       from + ":groupMetadata",
-        //       groupMetadata,
-        //       60 * 60
-        //     );
-        //   }
-        // }
-
         const from = msg.key.remoteJid;
         if (!from) return;
         const isGroup = from.endsWith("@g.us");
 
-        let groupMetadata: GroupMetadata;
-        groupMetadata = await bot.groupMetadata(from);
-        const groupName = isGroup ? groupMetadata.subject : "";
+        let groupMetadata: GroupMetadata | undefined = undefined;
+        groupMetadata = cache.get(from + ":groupMetadata");
 
-        let sender = isGroup ? msg.key.participant : from;
-        if (!sender) return;
-        if (msg.key.fromMe) sender = botNumberJid;
-
-        //remove : from number
-        if (sender.includes(":"))
-          sender =
-            sender.slice(0, sender.search(":")) +
-            sender.slice(sender.search("@"));
-        const senderNumber = sender.split("@")[0];
-        const senderName = msg.pushName;
-
-        //Count message
-        if (
-          isGroup &&
-          groupName.toUpperCase().includes("<{PVX}>") &&
-          from !== pvxgroups.pvxstickeronly1 &&
-          from != pvxgroups.pvxstickeronly2 &&
-          from != pvxgroups.pvxdeals &&
-          from !== pvxgroups.pvxtesting
-        ) {
-          const res = await setCountMember(sender, from, senderName);
-          // console.log(JSON.stringify(res));
-          await countRemainder(
-            bot.sendMessage,
-            res,
-            from,
-            senderNumber,
-            sender
-          );
-        }
-
-        //count video
-        if (from == pvxgroups.pvxmano && isGroup && type === "videoMessage") {
-          setCountVideo(sender, from);
-        }
-
-        //Forward all stickers
-        if (
-          type === "stickerMessage" &&
-          isStickerForward === "true" &&
-          isGroup &&
-          groupName.toUpperCase().startsWith("<{PVX}>") &&
-          from !== pvxgroups.pvxstickeronly1 &&
-          from != pvxgroups.pvxstickeronly2 &&
-          from !== pvxgroups.pvxmano
-        ) {
-          const res = await forwardSticker(
-            bot.sendMessage,
-            msg.message.stickerMessage,
-            pvxgroups.pvxstickeronly1,
-            pvxgroups.pvxstickeronly2
-          );
-          if (res) ++stats.stickerForwarded;
-          else ++stats.stickerNotForwarded;
-          return;
-        }
-
-        let isCmd = body.startsWith(prefix);
-        const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
-
-        //auto sticker maker in pvx sticker group [empty caption], less than 2mb
-        if (
-          from === pvxgroups.pvxsticker &&
-          body === "" &&
-          msg.message.videoMessage?.fileLength &&
-          Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000
-        ) {
-          isCmd = true;
-          body = "!s";
-        }
-
-        // if (
-        //   body.endsWith("?") &&
-        //   sender !== botNumberJid &&
-        //   msg.message.extendedTextMessage &&
-        //   msg.message.extendedTextMessage.contextInfo &&
-        //   msg.message.extendedTextMessage.contextInfo.participant ===
-        //     botNumberJid &&
-        //   !isCmd &&
-        //   isGroup
-        // ) {
-        //   isCmd = true;
-        //   body = "!chatgpt " + body;
-        // }
-
-        // if (from === pvxstatus && !isCmd && body.includes("you")) {
-        //   isCmd = true;
-        //   body = "!ytv " + body;
-        // }
-        // if (from === pvxstatus && !isCmd && body.includes("insta")) {
-        //   isCmd = true;
-        //   body = "!insta " + body;
-        // }
-
-        if (!isCmd) {
-          const messageLog =
-            "[MESSAGE] " +
-            (body ? body.substr(0, 30) : type) +
-            " [FROM] " +
-            senderNumber +
-            " [IN] " +
-            (groupName || from);
-          console.log(messageLog);
-          return;
-        }
-
-        if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
-        const args = body.slice(1).trim().split(/ +/);
-        const command = args.shift()?.toLowerCase();
-        if (!command) return;
-
-        // Display every command info
-        console.log(
-          "[COMMAND]",
-          command,
-          "[FROM]",
-          senderNumber,
-          "[IN]",
-          groupName || from
-        );
-
-        if (
-          ["score", "scorecard", "scoreboard", "sc", "sb"].includes(command)
-        ) {
-          //for latest group desc
+        if (isGroup && !groupMetadata) {
           groupMetadata = await bot.groupMetadata(from);
-        }
+          const success = cache.set(
+            from + ":groupMetadata",
+            groupMetadata,
+            60 * 60
+          );
 
-        const {
-          groupDesc,
-          groupMembers,
-          groupAdmins,
-          isBotGroupAdmins,
-          isGroupAdmins,
-        } = getGroupData(groupMetadata, botNumberJid, sender);
+          let sender = groupMetadata ? msg.key.participant : from;
+          if (!sender) return;
+          if (msg.key.fromMe) sender = botNumberJid;
 
-        const content = JSON.stringify(msg.message);
-        const isTaggedImage =
-          type === "extendedTextMessage" && content.includes("imageMessage");
-        const isTaggedVideo =
-          type === "extendedTextMessage" && content.includes("videoMessage");
-        const isTaggedSticker =
-          type === "extendedTextMessage" && content.includes("stickerMessage");
-        const isTaggedDocument =
-          type === "extendedTextMessage" && content.includes("documentMessage");
+          //remove : from number
+          if (sender.includes(":"))
+            sender =
+              sender.slice(0, sender.search(":")) +
+              sender.slice(sender.search("@"));
+          const senderNumber = sender.split("@")[0];
+          const senderName = msg.pushName;
 
-        const reply = async (text: string | undefined) => {
-          if (!text) return;
-          await bot.sendMessage(from, { text }, { quoted: msg });
-        };
+          const groupName: string | undefined = groupMetadata?.subject;
+          const groupDesc: string | undefined = groupMetadata?.desc?.toString();
+          const groupMembers: GroupParticipant[] | undefined =
+            groupMetadata?.participants;
+          const groupAdmins: string[] | undefined =
+            getGroupAdmins(groupMembers);
+          const isBotGroupAdmins: boolean =
+            groupAdmins?.includes(botNumberJid) || false;
+          const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
 
-        //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
-        //TODO: FIX
-        // let resDisabled = [];
-        // if (isGroup && !isGroupAdmins) {
-        //   resDisabled = cache.get(from + ":resDisabled");
-        //   if (!resDisabled) {
-        //     resDisabled = await getDisableCommandData(from);
-        //     const success = cache.set(
-        //       from + ":resDisabled",
-        //       resDisabled,
-        //       60 * 60
-        //     );
-        //   }
-        // }
-        // if (resDisabled.includes(command)) {
-        //   await reply("❌ Command disabled for this group!");
-        //   return;
-        // }
-        // if (command === "enable" || command === "disable") {
-        //   cache.del(from + ":resDisabled");
-        // }
-
-        // send every command info to my whatsapp, won't work when i send something for bot
-        if (myNumber && myNumberWithJid !== sender) {
-          ++stats.commandExecuted;
-          await bot.sendMessage(myNumberWithJid, {
-            text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
-          });
-        }
-
-        switch (command) {
-          //TODO: FIX
-          // case "stats":
-          //   let statsMessage = "📛 PVX BOT STATS 📛\n";
-
-          //   Object.keys(stats).forEach((key) => {
-          //     statsMessage += `\n${key}: ${stats[key]}`;
-          //   });
-
-          //   await reply(statsMessage);
-          //   return;
-
-          case "check":
-            return;
-
-          case "test":
-            if (myNumberWithJid !== sender) {
-              await reply(`❌ Command only for owner for bot testing purpose!`);
-              return;
-            }
-
-            if (args.length === 0) {
-              await reply(`❌ empty query!`);
-              return;
-            }
-            try {
-              let resultTest = eval(args[0]);
-              if (typeof resultTest === "object")
-                await reply(JSON.stringify(resultTest));
-              else await reply(resultTest.toString());
-            } catch (err) {
-              await reply((err as Error).stack);
-            }
-            return;
-        }
-
-        let msgInfoObj: MsgInfoObj = {
-          from,
-          prefix,
-          sender,
-          senderName,
-          groupName,
-          groupDesc,
-          isBotGroupAdmins,
-          isGroupAdmins,
-          isMedia,
-          type,
-          isTaggedImage,
-          isTaggedDocument,
-          isTaggedVideo,
-          isTaggedSticker,
-          myNumber,
-          botNumberJid,
-          command,
-          args,
-          groupMembers,
-          groupAdmins,
-          reply,
-          milestones,
-          allCommandsName,
-        };
-
-        try {
-          /* ----------------------------- public commands ---------------------------- */
-          if (commandsPublic[command]) {
-            await commandsPublic[command](bot, msg, msgInfoObj);
-            return;
-          }
-
-          /* ------------------------- group members commands ------------------------- */
-          if (commandsMembers[command]) {
-            if (isGroup) {
-              await commandsMembers[command](bot, msg, msgInfoObj);
-              return;
-            }
-            reply(
-              "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+          //Count message
+          if (
+            groupMetadata &&
+            groupName?.toUpperCase().includes("<{PVX}>") &&
+            from !== pvxgroups.pvxstickeronly1 &&
+            from != pvxgroups.pvxstickeronly2 &&
+            from != pvxgroups.pvxdeals &&
+            from !== pvxgroups.pvxtesting
+          ) {
+            const res = await setCountMember(sender, from, senderName);
+            // console.log(JSON.stringify(res));
+            await countRemainder(
+              bot.sendMessage,
+              res,
+              from,
+              senderNumber,
+              sender
             );
+          }
+
+          //count video
+          if (
+            from == pvxgroups.pvxmano &&
+            groupMetadata &&
+            type === "videoMessage"
+          ) {
+            setCountVideo(sender, from);
+          }
+
+          //Forward all stickers
+          if (
+            type === "stickerMessage" &&
+            isStickerForward === "true" &&
+            groupMetadata &&
+            groupName?.toUpperCase().startsWith("<{PVX}>") &&
+            from !== pvxgroups.pvxstickeronly1 &&
+            from != pvxgroups.pvxstickeronly2 &&
+            from !== pvxgroups.pvxmano
+          ) {
+            const res = await forwardSticker(
+              bot.sendMessage,
+              msg.message.stickerMessage,
+              pvxgroups.pvxstickeronly1,
+              pvxgroups.pvxstickeronly2
+            );
+            if (res) ++stats.stickerForwarded;
+            else ++stats.stickerNotForwarded;
             return;
           }
 
-          /* -------------------------- group admins commands ------------------------- */
-          if (commandsAdmins[command]) {
-            if (!isGroup) {
+          let isCmd = body.startsWith(prefix);
+          const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
+
+          //auto sticker maker in pvx sticker group [empty caption], less than 2mb
+          if (
+            from === pvxgroups.pvxsticker &&
+            body === "" &&
+            msg.message.videoMessage?.fileLength &&
+            Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000
+          ) {
+            isCmd = true;
+            body = "!s";
+          }
+
+          if (!isCmd) {
+            const messageLog =
+              "[MESSAGE] " +
+              (body ? body.substr(0, 30) : type) +
+              " [FROM] " +
+              senderNumber +
+              " [IN] " +
+              (groupName || from);
+            console.log(messageLog);
+            return;
+          }
+
+          if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
+          const args = body.slice(1).trim().split(/ +/);
+          const command = args.shift()?.toLowerCase();
+          if (!command) return;
+
+          // Display every command info
+          console.log(
+            "[COMMAND]",
+            command,
+            "[FROM]",
+            senderNumber,
+            "[IN]",
+            groupName || from
+          );
+
+          if (
+            ["score", "scorecard", "scoreboard", "sc", "sb"].includes(command)
+          ) {
+            //for latest group desc
+            groupMetadata = await bot.groupMetadata(from);
+          }
+
+          // let groupData: GroupData | undefined = undefined;
+          // if (groupMetadata) {
+          //   groupData = getGroupData(groupMetadata, botNumberJid, sender);
+          // }
+
+          const content = JSON.stringify(msg.message);
+          const isTaggedImage =
+            type === "extendedTextMessage" && content.includes("imageMessage");
+          const isTaggedVideo =
+            type === "extendedTextMessage" && content.includes("videoMessage");
+          const isTaggedSticker =
+            type === "extendedTextMessage" &&
+            content.includes("stickerMessage");
+          const isTaggedDocument =
+            type === "extendedTextMessage" &&
+            content.includes("documentMessage");
+
+          const reply = async (text: string | undefined) => {
+            if (!text) return;
+            await bot.sendMessage(from, { text }, { quoted: msg });
+          };
+
+          //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
+          //TODO: FIX
+          // let resDisabled = [];
+          // if (isGroup && !isGroupAdmins) {
+          //   resDisabled = cache.get(from + ":resDisabled");
+          //   if (!resDisabled) {
+          //     resDisabled = await getDisableCommandData(from);
+          //     const success = cache.set(
+          //       from + ":resDisabled",
+          //       resDisabled,
+          //       60 * 60
+          //     );
+          //   }
+          // }
+          // if (resDisabled.includes(command)) {
+          //   await reply("❌ Command disabled for this group!");
+          //   return;
+          // }
+          // if (command === "enable" || command === "disable") {
+          //   cache.del(from + ":resDisabled");
+          // }
+
+          // send every command info to my whatsapp, won't work when i send something for bot
+          if (myNumber && myNumberWithJid !== sender) {
+            ++stats.commandExecuted;
+            await bot.sendMessage(myNumberWithJid, {
+              text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
+            });
+          }
+
+          switch (command) {
+            //TODO: FIX
+            // case "stats":
+            //   let statsMessage = "📛 PVX BOT STATS 📛\n";
+
+            //   Object.keys(stats).forEach((key) => {
+            //     statsMessage += `\n${key}: ${stats[key]}`;
+            //   });
+
+            //   await reply(statsMessage);
+            //   return;
+
+            case "check":
+              return;
+
+            case "test":
+              if (myNumberWithJid !== sender) {
+                await reply(
+                  `❌ Command only for owner for bot testing purpose!`
+                );
+                return;
+              }
+
+              if (args.length === 0) {
+                await reply(`❌ empty query!`);
+                return;
+              }
+              try {
+                let resultTest = eval(args[0]);
+                if (typeof resultTest === "object")
+                  await reply(JSON.stringify(resultTest));
+                else await reply(resultTest.toString());
+              } catch (err) {
+                await reply((err as Error).stack);
+              }
+              return;
+          }
+
+          let msgInfoObj: MsgInfoObj = {
+            from,
+            prefix,
+            sender,
+            senderName,
+            groupName,
+            groupDesc,
+            isBotGroupAdmins,
+            isGroupAdmins,
+            isMedia,
+            type,
+            isTaggedImage,
+            isTaggedDocument,
+            isTaggedVideo,
+            isTaggedSticker,
+            myNumber,
+            botNumberJid,
+            command,
+            args,
+            groupMembers,
+            groupAdmins,
+            reply,
+            milestones,
+            allCommandsName,
+          };
+
+          try {
+            /* ----------------------------- public commands ---------------------------- */
+            if (commandsPublic[command]) {
+              await commandsPublic[command](bot, msg, msgInfoObj);
+              return;
+            }
+
+            /* ------------------------- group members commands ------------------------- */
+            if (commandsMembers[command]) {
+              if (groupMetadata) {
+                await commandsMembers[command](bot, msg, msgInfoObj);
+                return;
+              }
               reply(
                 "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
               );
               return;
             }
 
-            if (isGroupAdmins) {
-              await commandsAdmins[command](bot, msg, msgInfoObj);
+            /* -------------------------- group admins commands ------------------------- */
+            if (commandsAdmins[command]) {
+              if (!groupMetadata) {
+                reply(
+                  "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+                );
+                return;
+              }
+
+              if (isGroupAdmins) {
+                await commandsAdmins[command](bot, msg, msgInfoObj);
+                return;
+              }
+              reply("❌ Admin command!");
               return;
             }
-            reply("❌ Admin command!");
+
+            /* ----------------------------- owner commands ----------------------------- */
+            if (commandsOwners[command]) {
+              if (myNumberWithJid === sender) {
+                await commandsOwners[command](bot, msg, msgInfoObj);
+                return;
+              }
+              reply("❌ Owner command only!");
+              return;
+            }
+          } catch (err) {
+            await reply((err as Error).stack);
+            await LoggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
             return;
           }
 
-          /* ----------------------------- owner commands ----------------------------- */
-          if (commandsOwners[command]) {
-            if (myNumberWithJid === sender) {
-              await commandsOwners[command](bot, msg, msgInfoObj);
-              return;
-            }
-            reply("❌ Owner command only!");
-            return;
+          /* ----------------------------- unknown command ---------------------------- */
+          let message = `Send ${prefix}help for <{PVX}> BOT commands list`;
+
+          const matches = stringSimilarity.findBestMatch(
+            command,
+            allCommandsName
+          );
+          if (matches.bestMatch.rating > 0.5)
+            message =
+              `Did you mean ${prefix}${matches.bestMatch.target}\n\n` + message;
+
+          reply(message);
+          if (command) {
+            await addUnknownCmd(command);
           }
-        } catch (err) {
-          await reply((err as Error).stack);
-          await LoggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
-          return;
-        }
-
-        /* ----------------------------- unknown command ---------------------------- */
-        let message = `Send ${prefix}help for <{PVX}> BOT commands list`;
-
-        const matches = stringSimilarity.findBestMatch(
-          command,
-          allCommandsName
-        );
-        if (matches.bestMatch.rating > 0.5)
-          message =
-            `Did you mean ${prefix}${matches.bestMatch.target}\n\n` + message;
-
-        reply(message);
-        if (command) {
-          await addUnknownCmd(command);
         }
       } catch (err) {
         await LoggerBot(bot, "messages.upsert", err, msgs);

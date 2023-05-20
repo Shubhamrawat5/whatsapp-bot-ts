@@ -1,22 +1,28 @@
-import { GroupMetadata } from "@adiwajshing/baileys";
+import { GroupMetadata, GroupParticipant } from "@adiwajshing/baileys";
 import { getGroupAdmins } from "./getGroupAdmins";
+import { GroupData } from "../interface/GroupData";
 
 export const getGroupData = (
   groupMetadata: GroupMetadata,
   botNumberJid: string,
   sender: string
-) => {
-  const groupDesc = groupMetadata.desc ? groupMetadata.desc.toString() : "";
-  const groupMembers = groupMetadata.participants;
-  const groupAdmins = getGroupAdmins(groupMembers);
-  const isBotGroupAdmins = groupAdmins?.includes(botNumberJid) || false;
-  const isGroupAdmins = groupAdmins?.includes(sender) || false;
+): GroupData => {
+  const groupDesc: string = groupMetadata.desc
+    ? groupMetadata.desc.toString()
+    : "";
+  const groupMembers: GroupParticipant[] = groupMetadata.participants;
+  const groupAdmins: string[] = getGroupAdmins(groupMembers);
+  const isBotGroupAdmins: boolean =
+    groupAdmins?.includes(botNumberJid) || false;
+  const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
 
-  return {
+  const groupData: GroupData = {
     groupDesc,
     groupMembers,
     groupAdmins,
     isBotGroupAdmins,
     isGroupAdmins,
   };
+
+  return groupData;
 };

@@ -1,7 +1,7 @@
 import { GroupParticipant } from "@adiwajshing/baileys";
 
 export const getGroupAdmins = (
-  participants: GroupParticipant[] | ""
+  participants: GroupParticipant[] | undefined
 ): string[] => {
   if (!participants) return [];
   const admins = [];
