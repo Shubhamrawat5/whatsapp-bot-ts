@@ -37,6 +37,10 @@ import makeWASocket, {
   ParticipantAction,
   WAMessage,
   MessageUpsertType,
+  WAMessageKey,
+  WAMessageContent,
+  proto,
+  makeInMemoryStore,
 } from "@adiwajshing/baileys";
 
 import { Boom } from "@hapi/boom";
@@ -46,6 +50,18 @@ const stringSimilarity = require("string-similarity");
 import NodeCache from "node-cache";
 const cache = new NodeCache();
 const msgRetryCounterCache = new NodeCache();
+
+let silentLogs = pino({ level: "silent" }); //to hide the chat logs
+// let debugLogs = pino({ level: "debug" });
+
+// the store maintains the data of the WA connection in memory
+// can be written out to a file & read from it
+const store = makeInMemoryStore({ logger: silentLogs });
+store?.readFromFile("./baileys_store_multi.json");
+// save every 10s
+setInterval(() => {
+  store?.writeToFile("./baileys_store_multi.json");
+}, 10_000);
 
 // start a connection
 // console.log('state : ', state.creds);
@@ -70,6 +86,7 @@ import { countRemainder } from "./functions/countRemainder";
 
 import { pvxgroups } from "./constants/constants";
 import { getGroupData } from "./functions/getGroupData";
+import { MsgInfoObj } from "./interface/msgInfoObj";
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -130,14 +147,12 @@ const startBot = async () => {
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
-    let silentLogs = pino({ level: "silent" }); //to hide the chat logs
-    // let debugLogs = pino({ level: "debug" });
-
     //Fetch login auth
     const { cred, auth_row_count } = await fetchAuth(state);
     if (auth_row_count != 0) {
       state.creds = cred.creds;
     }
+
     const bot = makeWASocket({
       version,
       logger: silentLogs,
@@ -149,7 +164,10 @@ const startBot = async () => {
       msgRetryCounterCache,
       generateHighQualityLinkPreview: true,
       shouldIgnoreJid: (jid: string) => isJidBroadcast(jid),
+      getMessage,
     });
+
+    store?.bind(bot.ev);
 
     if (pvx === "true") {
       let usedDate = new Date()
@@ -586,7 +604,7 @@ const startBot = async () => {
             return;
         }
 
-        let msgInfoObj = {
+        let msgInfoObj: MsgInfoObj = {
           from,
           prefix,
           sender,
@@ -765,6 +783,18 @@ const startBot = async () => {
     return bot;
   } catch (err) {
     await LoggerBot(false, "BOT-ERROR", err, "");
+  }
+
+  async function getMessage(
+    key: WAMessageKey
+  ): Promise<WAMessageContent | undefined> {
+    if (store) {
+      const msg = await store.loadMessage(key.remoteJid!, key.id!);
+      return msg?.message || undefined;
+    }
+
+    // only if store is present
+    return proto.Message.fromObject({});
   }
 };
 
