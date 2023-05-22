@@ -11,7 +11,7 @@ const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["sticker", "s"];
 
   return { cmd, handler };
