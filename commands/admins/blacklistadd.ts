@@ -1,12 +1,15 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { addBlacklist } = require("../../db/blacklistDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["blacklistadd", "addblacklist", "bla"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
 
   if (args.length < 2) {
@@ -48,8 +51,10 @@ const handler = async (bot, msg, msgInfoObj) => {
   let blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)
-    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
+    .filter(
+      (v: any) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>")
+    )
+    .map((v: any) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
   // console.log(groups);
@@ -57,7 +62,7 @@ const handler = async (bot, msg, msgInfoObj) => {
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 
   for (let group of groups) {
-    group.participants.forEach(async (mem) => {
+    group.participants.forEach(async (mem: any) => {
       if (mem.id === blacklistNumbWithJid) {
         pvxMsg += `\n*${group.subject}*`;
       }

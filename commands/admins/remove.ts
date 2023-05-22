@@ -1,10 +1,13 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["remove", "ban", "kick"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
@@ -12,7 +15,7 @@ const handler = async (bot, msg, msgInfoObj) => {
     return;
   }
 
-  if (!msg.message.extendedTextMessage) {
+  if (!msg.message?.extendedTextMessage) {
     await reply("❌ Tag someone!");
     return;
   }
@@ -42,7 +45,7 @@ const handler = async (bot, msg, msgInfoObj) => {
           }
   */
 
-  let mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid;
+  let mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
@@ -66,9 +69,10 @@ const handler = async (bot, msg, msgInfoObj) => {
   } else {
     //when message is tagged with command
     let taggedMessageUser = [
-      msg.message.extendedTextMessage.contextInfo.participant,
+      msg.message.extendedTextMessage.contextInfo?.participant,
     ];
-    if (groupAdmins.includes(taggedMessageUser[0])) {
+    const participant = taggedMessageUser[0];
+    if (participant && groupAdmins.includes(participant)) {
       //if admin then don't remove
       await reply("❌ Cannot remove admin!");
       return;

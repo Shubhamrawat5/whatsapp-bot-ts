@@ -512,9 +512,10 @@ const startBot = async () => {
         const isTaggedDocument =
           type === "extendedTextMessage" && content.includes("documentMessage");
 
-        const reply = async (text: string | undefined) => {
-          if (!text) return;
+        const reply = async (text: string | undefined): Promise<boolean> => {
+          if (!text) return false;
           await bot.sendMessage(from, { text }, { quoted: msg });
+          return true;
         };
 
         //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin

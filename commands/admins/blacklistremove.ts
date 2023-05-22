@@ -1,12 +1,15 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { removeBlacklist } = require("../../db/blacklistDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["blacklistremove", "removeblacklist", "blr"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {

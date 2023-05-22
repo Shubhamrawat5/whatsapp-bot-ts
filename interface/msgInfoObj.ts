@@ -7,10 +7,10 @@ export interface MsgInfoObj {
   type: string;
   command: string;
   args: string[];
-  milestones: any;
+  milestones: { [key: string]: string[] };
   allCommandsName: string[];
 
-  reply: any;
+  reply: (text: string | undefined) => Promise<boolean>;
 
   isTaggedImage: boolean;
   isTaggedDocument: boolean;

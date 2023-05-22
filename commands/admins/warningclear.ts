@@ -1,19 +1,22 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { clearCountWarning } = require("../../db/warningDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["warnclear", "clearwarn", "warningclear", "clearwarning"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, from } = msgInfoObj;
 
-  if (!msg.message.extendedTextMessage) {
+  if (!msg.message?.extendedTextMessage) {
     await reply("❌ Tag someone!");
     return;
   }
-  let mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid;
+  let mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
@@ -32,9 +35,10 @@ const handler = async (bot, msg, msgInfoObj) => {
   } else {
     //when message is tagged with command
     let taggedMessageUser = [
-      msg.message.extendedTextMessage.contextInfo.participant,
+      msg.message.extendedTextMessage.contextInfo?.participant,
     ];
-    let num_split = taggedMessageUser[0].split("@s.whatsapp.net")[0];
+    const participant = taggedMessageUser[0];
+    let num_split = participant && participant.split("@s.whatsapp.net")[0];
     await clearCountWarning(taggedMessageUser[0], from);
     let warnMsg = `@${num_split} ,Your warnings have been cleared for this group!`;
     await bot.sendMessage(from, {

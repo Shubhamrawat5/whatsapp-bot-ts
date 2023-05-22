@@ -1,19 +1,27 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const {
   setMilestone,
   getMilestone,
   getMilestoneText,
 } = require("../../db/milestoneDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
-  let body = msg.message.conversation;
+  let body = msg.message?.conversation;
+  if (!body) {
+    await reply(`❌ Body is empty!`);
+    return;
+  }
+
   let milestoneList = body.trim().split("#");
   if (milestoneList.length !== 3) {
     await reply(
@@ -52,9 +60,11 @@ const handler = async (bot, msg, msgInfoObj) => {
     return;
   }
 
-  let achieved = milestoneRes[0].achieved.filter((milestone, index) => {
-    return index + 1 !== sno;
-  });
+  let achieved = milestoneRes[0].achieved.filter(
+    (milestone: any, index: number) => {
+      return index + 1 !== sno;
+    }
+  );
 
   const res = await setMilestone(memberJid, achieved);
   if (res) await reply(`✔ Milestone removed!`);

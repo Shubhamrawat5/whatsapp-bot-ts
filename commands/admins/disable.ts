@@ -1,22 +1,25 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const {
   getDisableCommandData,
   setDisableCommandData,
 } = require("../../db/disableCommandDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["disable"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, args, allCommandsName, prefix, from } = msgInfoObj;
 
   if (args.length === 0) {
     await reply("❌ Give command name also by !disable commandName");
     return;
   }
-  let cmd = args[0].toLowerCase();
+  let cmd: string = args[0].toLowerCase();
   if (cmd.startsWith("!")) cmd = cmd.slice(1);
 
   //check if cmd is actually a command or not

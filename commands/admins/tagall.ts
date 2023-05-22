@@ -1,13 +1,17 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { getMessage } = require("../../functions/getMessage");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["tagall", "hiddentagall", "tagallhidden"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { groupMembers, prefix, command, from } = msgInfoObj;
+  if (!groupMembers) return;
   //if (
   //  groupName.toUpperCase().includes("PVX") &&
   //  ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)

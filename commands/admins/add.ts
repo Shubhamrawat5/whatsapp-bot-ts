@@ -1,10 +1,13 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["add"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { isBotGroupAdmins, reply, args, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
@@ -12,8 +15,8 @@ const handler = async (bot, msg, msgInfoObj) => {
     return;
   }
 
-  let num;
-  if (msg.message.extendedTextMessage) {
+  let num: string;
+  if (msg.message?.extendedTextMessage?.contextInfo?.participant) {
     //member's message is tagged to add
     num = msg.message.extendedTextMessage.contextInfo.participant;
   } else {
@@ -29,13 +32,15 @@ const handler = async (bot, msg, msgInfoObj) => {
     }
   }
 
-  let response;
+  let response: any;
   try {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
   } catch (err) {
     console.log(err);
     reply(
-      `_❌ Check the number, include country code also!_\nError: ${err.toString()}`
+      `_❌ Check the number, include country code also!_\nError: ${(
+        err as Error
+      ).toString()}`
     );
     return;
   }

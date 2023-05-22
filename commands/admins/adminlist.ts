@@ -1,13 +1,16 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { pvxgroups } = require("../../constants/constants");
 const { getUsernames } = require("../../db/countMemberDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["adminlist"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -15,15 +18,17 @@ const handler = async (bot, msg, msgInfoObj) => {
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
-    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
+    .filter(
+      (v: any) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>")
+    )
+    .map((v: any) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
 
   //get all jids of admin
-  const memberjidAllArray = [];
+  const memberjidAllArray: string[] = [];
   for (let group of groups) {
-    group.participants.forEach(async (mem) => {
+    group.participants.forEach(async (mem: any) => {
       if (mem.admin && !memberjidAllArray.includes(mem.id)) {
         memberjidAllArray.push(mem.id);
       }
@@ -37,22 +42,26 @@ const handler = async (bot, msg, msgInfoObj) => {
     reply("Some names are not found in DB.");
   }
 
+  interface MemberjidToUsername {
+    [key: string]: string;
+  }
+
   //create object of { jid: name }
-  const memberjidObj = {};
-  res.forEach((mem) => {
+  const memberjidObj: MemberjidToUsername = {};
+  res.forEach((mem: any) => {
     memberjidObj[mem.memberjid] = mem.name;
   });
 
   //create the message
   let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberjidAllArray.length}${readMore}`;
 
-  const subAdminPanel = [];
+  const subAdminPanel: string[] = [];
   //get all admins from sub admin panel
-  chats[pvxgroups.pvxsubadmin].participants.forEach((mem) => {
+  chats[pvxgroups.pvxsubadmin].participants.forEach((mem: any) => {
     subAdminPanel.push(mem.id);
   });
 
-  let notInSubPanel = {};
+  let notInSubPanel: MemberjidToUsername = {};
   let notInSubPanelMsg = "\n\n[NOT IN SUB ADMIN PANEL]";
 
   let tempMsg = "";
@@ -60,8 +69,8 @@ const handler = async (bot, msg, msgInfoObj) => {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
     tempMsg += `\n\n*[${grpName}]*`;
-    count = 1;
-    group.participants.forEach(async (mem) => {
+    let count = 1;
+    group.participants.forEach(async (mem: any) => {
       if (mem.admin) {
         const id = mem.id;
         const name = memberjidObj[id];
