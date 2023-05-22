@@ -11,6 +11,9 @@
 // 📛 ${prefix}flower text
 // 📛 ${prefix}sand text
 
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 // 📛 *${prefix}fb url* ❌
 //   - _Facebook videos downloader!_
 // 📛 *${prefix}slist* ❌
@@ -25,13 +28,13 @@
 // 📛 *${prefix}91only*
 // - _To instant ban all numbers other than 91 when joined in group!_
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["help", "menu", "list"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);

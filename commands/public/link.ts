@@ -1,10 +1,13 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["link", "pvx", "pvxlink"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { from } = msgInfoObj;
 
   let text =

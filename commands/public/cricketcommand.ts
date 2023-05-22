@@ -1,10 +1,13 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["cricketcommand", "cc"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, from } = msgInfoObj;
   let text = `_*🏏  CRICKET COMMANDS:*_
 

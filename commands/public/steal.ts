@@ -1,3 +1,6 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const {
   downloadContentFromMessage,
   toBuffer,
@@ -5,13 +8,13 @@ const {
 
 const { Exif } = require("wa-sticker-formatter");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["steal"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { isTaggedSticker, reply, args, from } = msgInfoObj;
 
   let packName = "BOT 🤖";
@@ -23,7 +26,8 @@ const handler = async (bot, msg, msgInfoObj) => {
     }
 
     let downloadFilePath =
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage;
+      msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
+        ?.stickerMessage;
     const stream = await downloadContentFromMessage(
       downloadFilePath,
       "sticker"

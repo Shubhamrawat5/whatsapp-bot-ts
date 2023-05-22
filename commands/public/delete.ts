@@ -1,34 +1,35 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["delete", "d"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
     msgInfoObj;
 
-  if (!msg.message.extendedTextMessage) {
+  if (!msg.message?.extendedTextMessage) {
     await reply("❌ Tag message to delete.");
     return;
   }
 
   //bot message, anyone can delete
-  if (msg.message.extendedTextMessage.contextInfo.participant == botNumberJid) {
+  if (
+    msg.message.extendedTextMessage.contextInfo?.participant == botNumberJid
+  ) {
     // await reply("❌ Tag message of bot to delete.");
 
     //Message with tagged user, links has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
     const quotedMessage =
       msg.message.extendedTextMessage.contextInfo.quotedMessage;
     if (
-      (quotedMessage.extendedTextMessage &&
-        quotedMessage.extendedTextMessage.text.includes("Birthday")) ||
-      (quotedMessage.extendedTextMessage &&
-        quotedMessage.extendedTextMessage.text.includes("Welcome")) ||
-      (quotedMessage.conversation &&
-        quotedMessage.conversation.includes("📰")) ||
-      (quotedMessage.conversation &&
-        quotedMessage.conversation.includes("Rank"))
+      quotedMessage?.extendedTextMessage?.text?.includes("Birthday") ||
+      quotedMessage?.extendedTextMessage?.text?.includes("Welcome") ||
+      quotedMessage?.conversation?.includes("📰") ||
+      quotedMessage?.conversation?.includes("Rank")
     ) {
       await reply("❌ Cannot delete this message.");
     } else {
@@ -54,8 +55,8 @@ const handler = async (bot, msg, msgInfoObj) => {
     const options = {
       remoteJid: from,
       fromMe: false,
-      id: msg.message.extendedTextMessage.contextInfo.stanzaId,
-      participant: msg.message.extendedTextMessage.contextInfo.participant,
+      id: msg.message.extendedTextMessage.contextInfo?.stanzaId,
+      participant: msg.message.extendedTextMessage.contextInfo?.participant,
     };
     await bot.sendMessage(from, {
       delete: options,

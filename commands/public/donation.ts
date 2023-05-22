@@ -1,13 +1,16 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { getDonation } = require("../../db/donationDB");
 const fs = require("fs");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["donation", "donations", "donate"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { from } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -16,7 +19,7 @@ const handler = async (bot, msg, msgInfoObj) => {
   // console.log(donaResult);
   let totalDona = 0;
   let donaMsgTemp = "";
-  donaResult.forEach((dona, index) => {
+  donaResult.forEach((dona: any, index: number) => {
     totalDona += dona.amount;
     donaMsgTemp += `\n❤️ Rs ${dona.amount} - ${dona.name}`;
   });
