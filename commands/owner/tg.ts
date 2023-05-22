@@ -1,3 +1,6 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const {
   downloadContentFromMessage,
   toBuffer,
@@ -6,17 +9,17 @@ const { writeFile } = require("fs/promises");
 const AdmZip = require("adm-zip");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["tg"];
 
   return { cmd, handler };
 };
 
-const getRandom = (ext) => {
+const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, isTaggedDocument, from } = msgInfoObj;
 
   if (!isTaggedDocument) {
@@ -26,7 +29,8 @@ const handler = async (bot, msg, msgInfoObj) => {
   // https://t.me/tgstowebpbot <- animated 128px.zip
   // https://t.me/Stickerdownloadbot <- non-animated webp.zip
   const encmediatg =
-    msg.message.extendedTextMessage.contextInfo.quotedMessage.documentMessage;
+    msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
+      ?.documentMessage;
 
   console.log("downloading...");
   const stream = await downloadContentFromMessage(encmediatg, "document");
@@ -50,12 +54,12 @@ const handler = async (bot, msg, msgInfoObj) => {
 
   await reply(`✔ Sending all ${stickerCounttg} stickers`);
   let itg = -1;
-  setIntervaltg = setInterval(async () => {
+  const setIntervaltg = setInterval(async () => {
     itg += 1;
 
     //last file
     if (itg >= stickerCounttg - 1) {
-      stickertg = false;
+      // stickertg = false;
       clearInterval(setIntervaltg);
       await reply(`✔ Finished!`);
     }

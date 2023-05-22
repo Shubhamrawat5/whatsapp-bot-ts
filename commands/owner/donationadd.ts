@@ -1,13 +1,22 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const { addDonation } = require("../../db/donationDB");
-module.exports.command = () => {
+
+export const command = () => {
   let cmd = ["donationadd", "da"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
-  let body = msg.message.conversation;
+  let body = msg.message?.conversation;
+  if (!body) {
+    await reply(`❌ Body is empty!`);
+    return;
+  }
+
   if (args.length == 0) {
     await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
     return;

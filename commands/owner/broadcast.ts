@@ -1,36 +1,34 @@
-module.exports.command = () => {
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
+export const command = () => {
   let cmd = ["broadcast", "bc"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, args } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
-    .filter((v) => v.id.endsWith("g.us"))
-    .map((v) => {
+    .filter((v: any) => v.id.endsWith("g.us"))
+    .map((v: any) => {
       return { subject: v.subject, id: v.id };
     });
   //  && v.subject.startsWith("<{PVX}>")
   // console.log(groups);
 
   let message = "Broadcast:\n";
-  if (
-    msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage
-  ) {
-    console.log("true");
+  if (msg.message?.extendedTextMessage?.contextInfo?.quotedMessage) {
     if (msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation)
       message +=
         msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation;
     else
       message +=
-        msg.message.extendedTextMessage.contextInfo.quotedMessage
-          .extendedTextMessage.text;
+        msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
+          .extendedTextMessage?.text;
   } else {
     message += args.length ? args.join(" ") : "";
   }

@@ -1,16 +1,19 @@
+import { WAMessage } from "@adiwajshing/baileys";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+
 const {
   setMilestone,
   getMilestone,
   setMilestoneText,
 } = require("../../db/milestoneDB");
 
-module.exports.command = () => {
+export const command = () => {
   let cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];
 
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, msgInfoObj) => {
+const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 
   if (args.length === 0) {
