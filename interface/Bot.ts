@@ -46,4 +46,5 @@ export interface Bot {
     setting: "announcement" | "locked" | "not_announcement" | "unlocked"
   ) => Promise<void>;
   groupInviteCode: (jid: string) => Promise<string | undefined>;
+  groupUpdateSubject: (jid: string, subject: string) => Promise<void>;
 }

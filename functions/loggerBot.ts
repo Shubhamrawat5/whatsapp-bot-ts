@@ -1,3 +1,5 @@
+import { Bot } from "../interface/Bot";
+
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
@@ -8,7 +10,7 @@ const kryptonChatId = 649341653; // my chat id to receive all the updates
 const botTG = pvx ? new TelegramBot(token, { polling: false }) : null;
 
 export const LoggerBot = async (
-  botWA: any,
+  botWA: Bot,
   eventType: string,
   err: any,
   msgObj: any

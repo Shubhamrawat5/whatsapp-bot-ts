@@ -1,6 +1,7 @@
 import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 import { Exif } from "wa-sticker-formatter";
 import { LoggerTg } from "./loggerBot";
+import { Bot } from "../interface/Bot";
 
 let countSent = 0;
 let countIn = 0,
@@ -11,7 +12,7 @@ let last20SentStickersSize = [
 ];
 
 export const forwardSticker = async (
-  sendMessage: any,
+  bot: Bot,
   downloadFilePath: any,
   pvxstickeronly1: string,
   pvxstickeronly2: string
@@ -37,20 +38,18 @@ export const forwardSticker = async (
     }).add(buffer);
 
     // 1000*60*60*24 = 86400ms = 1 day
-    await sendMessage(
+    await bot.sendMessage(
       pvxstickeronly1,
       { sticker: webpWithExif },
       {
-        mimetype: "sticker",
         ephemeralExpiration: 86400,
         mediaUploadTimeoutMs: 1000 * 30,
       }
     );
-    await sendMessage(
+    await bot.sendMessage(
       pvxstickeronly2,
       { sticker: webpWithExif },
       {
-        mimetype: "sticker",
         ephemeralExpiration: 86400,
         mediaUploadTimeoutMs: 1000 * 30,
       }

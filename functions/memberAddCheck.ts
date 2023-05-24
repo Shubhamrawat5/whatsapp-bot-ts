@@ -1,4 +1,5 @@
 import { Pvxgroups } from "../constants/constants";
+import { Bot } from "../interface/Bot";
 
 const { getBlacklist } = require("../db/blacklistDB");
 import { LoggerBot } from "./loggerBot";
@@ -9,7 +10,7 @@ const prefix = "!";
 const myNumber = process.env.myNumber;
 
 export const memberAddCheck = async (
-  bot: any,
+  bot: Bot,
   from: string,
   num_split: string,
   numJid: string,

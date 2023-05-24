@@ -1,3 +1,4 @@
+import { Bot } from "../interface/Bot";
 import { LoggerBot } from "./loggerBot";
 import mongoose from "mongoose";
 const uri = process.env.uri;
@@ -51,7 +52,7 @@ const getBdayData = async () => {
 };
 
 export const checkTodayBday = async (
-  bot: any,
+  bot: Bot,
   todayDate: string,
   pvxcommunity: string
 ): Promise<void> => {

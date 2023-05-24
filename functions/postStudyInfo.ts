@@ -1,9 +1,10 @@
 import Parser from "rss-parser";
 const parser = new Parser();
 import { LoggerBot } from "./loggerBot";
+import { Bot } from "../interface/Bot";
 const { storeNewsStudy } = require("../db/postStudyDB");
 
-export const postStudyInfo = async (sendMessage: any, pvxstudy: string) => {
+export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
@@ -32,13 +33,13 @@ export const postStudyInfo = async (sendMessage: any, pvxstudy: string) => {
       res = await storeNewsStudy(news.title);
       if (res) {
         console.log("NEW STUDY NEWS!");
-        await sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+        await bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
       } else {
         console.log("OLD STUDY NEWS!");
         count += 1;
       }
     }
   } catch (err) {
-    await LoggerBot(undefined, "STUDY-NEWS", err, undefined);
+    await LoggerBot(bot, "STUDY-NEWS", err, undefined);
   }
 };

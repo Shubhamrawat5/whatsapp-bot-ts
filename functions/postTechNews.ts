@@ -1,12 +1,13 @@
 import axios from "axios";
 const { storeNewsTech } = require("../db/postTechDB");
 import { LoggerBot } from "./loggerBot";
+import { Bot } from "../interface/Bot";
 require("dotenv").config();
 
 const newsapi = process.env.newsapi;
 let countNews = 0;
 
-export const postTechNews = async (sendMessage: any, pvxtech: string) => {
+export const postTechNews = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
@@ -51,7 +52,7 @@ export const postTechNews = async (sendMessage: any, pvxtech: string) => {
           // if (description) message += `\n_${description}_`;
           if (url) message += `\nSource: ${url}`;
 
-          await sendMessage(pvxtech, {
+          await bot.sendMessage(pvxtech, {
             text: message,
           });
         } else {
@@ -91,7 +92,7 @@ export const postTechNews = async (sendMessage: any, pvxtech: string) => {
         res = await storeNewsTech(news);
         if (res) {
           console.log("NEW TECH NEWS!");
-          await sendMessage(pvxtech, { text: `📰 ${news}` });
+          await bot.sendMessage(pvxtech, { text: `📰 ${news}` });
         } else {
           console.log("OLD TECH NEWS!");
           count += 1;
@@ -99,6 +100,6 @@ export const postTechNews = async (sendMessage: any, pvxtech: string) => {
       }
     }
   } catch (err) {
-    await LoggerBot(undefined, "TECH-NEWS", err, undefined);
+    await LoggerBot(bot, "TECH-NEWS", err, undefined);
   }
 };

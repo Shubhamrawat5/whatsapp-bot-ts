@@ -14,8 +14,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
-    .filter((v: any) => v.id.endsWith("g.us"))
-    .map((v: any) => {
+    .filter((v) => v.id.endsWith("g.us"))
+    .map((v) => {
       return { subject: v.subject, id: v.id };
     });
   //  && v.subject.startsWith("<{PVX}>")

@@ -2,8 +2,8 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const ytdl = require("ytdl-core");
-const fs = require("fs");
+import ytdl from "ytdl-core";
+import fs from "fs";
 
 const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
@@ -30,7 +30,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
     let infoYt = await ytdl.getInfo(urlYt);
     //30 MIN
-    if (infoYt.videoDetails.lengthSeconds >= 1800) {
+    if (Number(infoYt.videoDetails.lengthSeconds) >= 1800) {
       await reply(`❌ Video file too big!`);
       return;
     }
@@ -38,7 +38,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     let randomName = getRandom(".mp4");
 
     const stream = ytdl(urlYt, {
-      filter: (info: any) => info.itag == 22 || info.itag == 18,
+      filter: (info) => info.itag == 22 || info.itag == 18,
     }).pipe(fs.createWriteStream(`./${randomName}`));
     //22 - 1080p/720p and 18 - 360p
     console.log("Video downloading ->", urlYt);

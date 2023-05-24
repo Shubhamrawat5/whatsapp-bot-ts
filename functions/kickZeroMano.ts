@@ -1,9 +1,10 @@
 import { GroupMetadata } from "@adiwajshing/baileys";
 import { LoggerBot } from "./loggerBot";
+import { Bot } from "../interface/Bot";
 
 const { getCountVideo } = require("../db/countVideoDB");
 
-export const kickZeroMano = async (bot: any, pvxmano: string) => {
+export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
   try {
     let resultCountGroupIndi = await getCountVideo(pvxmano);
 

@@ -1,13 +1,11 @@
 import { GroupMetadata } from "@adiwajshing/baileys";
 import { Pvxgroups } from "../constants/constants";
+import { Bot } from "../interface/Bot";
 
 const { getCountTop } = require("../db/countMemberDB");
 const { getDonation } = require("../db/donationDB");
 
-export const addDefaultMilestones = async (
-  groupFetchAllParticipating: any,
-  pvxgroups: Pvxgroups
-) => {
+export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
 
   //TODO: CHECK _ and key
@@ -28,7 +26,7 @@ export const addDefaultMilestones = async (
 
   console.log("Adding default milestones");
 
-  let chats: Chats = await groupFetchAllParticipating();
+  let chats: Chats = await bot.groupFetchAllParticipating();
 
   chats[pvxsubadmin].participants.forEach((member) => {
     milestones[member.id] = ["Sub-Admin of PVX"];

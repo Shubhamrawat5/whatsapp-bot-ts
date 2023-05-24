@@ -33,7 +33,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   }
 
-  let response: any;
+  let response:
+    | {
+        status: string;
+        jid: string;
+      }[]
+    | undefined = undefined;
+
   try {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
   } catch (err) {
@@ -46,7 +52,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let { status } = response[0];
+  if (response == undefined) {
+    reply(`_❌ There is some problem`);
+    return;
+  }
+
+  let status = Number(response[0].status);
   if (status == 400) {
     await reply("_❌ Invalid number, include country code also!_");
   } else if (status == 403) {

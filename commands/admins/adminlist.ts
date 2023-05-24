@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage, GroupParticipant } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
@@ -19,17 +19,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
-    .filter(
-      (v: any) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>")
-    )
-    .map((v: any) => {
+    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
+    .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
 
   //get all jids of admin
   const memberjidAllArray: string[] = [];
   for (let group of groups) {
-    group.participants.forEach(async (mem: any) => {
+    group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.admin && !memberjidAllArray.includes(mem.id)) {
         memberjidAllArray.push(mem.id);
       }
@@ -58,7 +56,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const subAdminPanel: string[] = [];
   //get all admins from sub admin panel
-  chats[pvxgroups.pvxsubadmin].participants.forEach((mem: any) => {
+  chats[pvxgroups.pvxsubadmin].participants.forEach((mem: GroupParticipant) => {
     subAdminPanel.push(mem.id);
   });
 
@@ -71,7 +69,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     grpName = grpName.replace("<{PVX}> ", "");
     tempMsg += `\n\n*[${grpName}]*`;
     let count = 1;
-    group.participants.forEach(async (mem: any) => {
+    group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.admin) {
         const id = mem.id;
         const name = memberjidObj[id];

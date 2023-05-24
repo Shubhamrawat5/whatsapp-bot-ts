@@ -196,8 +196,8 @@ const startBot = async () => {
         );
         //8 to 24 ON
         if (hour >= 8) {
-          await postTechNews(bot.sendMessage, pvxgroups.pvxtech);
-          await postStudyInfo(bot.sendMessage, pvxgroups.pvxstudy);
+          await postTechNews(bot, pvxgroups.pvxtech);
+          await postStudyInfo(bot, pvxgroups.pvxstudy);
           ++stats.newsPosted;
         }
 
@@ -311,7 +311,7 @@ const startBot = async () => {
       try {
         //type: append (whatsapp web), notify (app)
         if (msgs.type === "append") return;
-        const msg = msgs.messages[0];
+        const msg: WAMessage = msgs.messages[0];
         if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
 
         //type to extract body text
@@ -418,13 +418,7 @@ const startBot = async () => {
           ) {
             const res = await setCountMember(sender, from, senderName);
             // console.log(JSON.stringify(res));
-            await countRemainder(
-              bot.sendMessage,
-              res,
-              from,
-              senderNumber,
-              sender
-            );
+            await countRemainder(bot, res, from, senderNumber, sender);
           }
 
           //count video
@@ -442,7 +436,7 @@ const startBot = async () => {
             from !== pvxgroups.pvxmano
           ) {
             const res = await forwardSticker(
-              bot.sendMessage,
+              bot,
               msg.message.stickerMessage,
               pvxgroups.pvxstickeronly1,
               pvxgroups.pvxstickeronly2
@@ -691,10 +685,7 @@ const startBot = async () => {
           await bot.sendMessage(myNumberWithJid, {
             text: `[BOT STARTED] - ${startCount}`,
           });
-          milestones = await addDefaultMilestones(
-            bot.groupFetchAllParticipating,
-            pvxgroups
-          );
+          milestones = await addDefaultMilestones(bot, pvxgroups);
           // bot.sendMessage(
           //   pvxcommunity,
           //   {

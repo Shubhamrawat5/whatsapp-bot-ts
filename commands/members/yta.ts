@@ -2,10 +2,10 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const ytdl = require("ytdl-core");
-const fs = require("fs");
+import ytdl from "ytdl-core";
+import fs from "fs";
 
-const getRandom = (ext: any) => {
+const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
@@ -29,7 +29,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
     let infoYt = await ytdl.getInfo(urlYt);
     //30 MIN
-    if (infoYt.videoDetails.lengthSeconds >= 1800) {
+    if (Number(infoYt.videoDetails.lengthSeconds) >= 1800) {
       await reply(`❌ Video too big!`);
       return;
     }
@@ -37,8 +37,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     let randomName = getRandom(".mp3");
 
     const stream = ytdl(urlYt, {
-      filter: (info: any) =>
-        info.audioBitrate == 160 || info.audioBitrate == 128,
+      filter: (info) => info.audioBitrate == 160 || info.audioBitrate == 128,
     }).pipe(fs.createWriteStream(`./${randomName}`));
     console.log("Audio downloading ->", urlYt);
     // await reply("Downloading.. This may take upto 5 min!");

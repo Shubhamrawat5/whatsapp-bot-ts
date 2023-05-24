@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { GroupParticipant, WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
@@ -52,10 +52,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)
-    .filter(
-      (v: any) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>")
-    )
-    .map((v: any) => {
+    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
+    .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
   // console.log(groups);
@@ -63,7 +61,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 
   for (let group of groups) {
-    group.participants.forEach(async (mem: any) => {
+    group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.id === blacklistNumbWithJid) {
         pvxMsg += `\n*${group.subject}*`;
       }
