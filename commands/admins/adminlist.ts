@@ -2,7 +2,7 @@ import { WAMessage, GroupParticipant } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const { pvxgroups } = require("../../constants/constants");
+import { pvxgroups } from "../../constants/constants";
 const { getUsernames } = require("../../db/countMemberDB");
 
 export const command = () => {

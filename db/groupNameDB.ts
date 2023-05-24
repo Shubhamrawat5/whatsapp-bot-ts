@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create groupname table if not there
 const createGroupNameTable = async () => {
@@ -17,7 +17,7 @@ const createGroupNameTable = async () => {
 //   }
 // };
 
-module.exports.setGroupName = async (groupJid, gname) => {
+export const setGroupName = async (groupJid: string, gname: string) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createGroupNameTable();
 

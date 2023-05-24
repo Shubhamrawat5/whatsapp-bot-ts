@@ -2,7 +2,7 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const { getScoreCard } = require("../../functions/cricket");
+import { getScoreCard } from "../../functions/cricket";
 
 export const command = () => {
   let cmd = ["scorecard", "scoreboard", "sc", "sb"];

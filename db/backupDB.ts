@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create count table if not there
 const createGroupbackupTable = async () => {
@@ -7,7 +7,11 @@ const createGroupbackupTable = async () => {
   );
 };
 
-module.exports.takeGroupbackup = async (groupName, groupDesc, groupData) => {
+export const takeGroupbackup = async (
+  groupName: string,
+  groupDesc: string,
+  groupData: any
+) => {
   try {
     await createGroupbackupTable();
 

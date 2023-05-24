@@ -6,8 +6,8 @@ import {
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const fs = require("fs");
-const { writeFile } = require("fs/promises");
+import fs from "fs";
+import { writeFile } from "fs/promises";
 
 export const command = () => {
   let cmd = ["image", "img", "toimg"];

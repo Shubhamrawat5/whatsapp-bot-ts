@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create createCountVideoTable table if not there
 //15/03/23
@@ -25,12 +25,16 @@ const createGroupParticipantTable = async () => {
 //   }
 // };
 
-module.exports.setGroupParticipant = async (memberJid, groupJid, action) => {
+export const setGroupParticipant = async (
+  memberJid: string,
+  groupJid: string,
+  action: string
+) => {
   let today = new Date();
   let localeDate = today.toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
   });
-  localeDateList = localeDate.split("/");
+  const localeDateList = localeDate.split("/");
   let temp = localeDateList[0];
   localeDateList[0] = localeDateList[2];
   localeDateList[2] = temp;
@@ -40,15 +44,15 @@ module.exports.setGroupParticipant = async (memberJid, groupJid, action) => {
     timeZone: "Asia/kolkata",
   });
 
-  today = localeDate + " " + localeTime;
-  console.log(today);
+  const todayNew = localeDate + " " + localeTime;
+  console.log(todayNew);
 
   try {
     await pool.query("INSERT INTO groupparticipant VALUES($1,$2,$3,$4);", [
       memberJid,
       groupJid,
       action,
-      today,
+      todayNew,
     ]);
   } catch (err) {
     console.log(err);

@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 const createDisableCommandTable = async () => {
   await pool.query(
@@ -6,13 +6,13 @@ const createDisableCommandTable = async () => {
   );
 };
 
-module.exports.getDisableCommandData = async (chat_id) => {
+export const getDisableCommandData = async (groupjid: string) => {
   await createDisableCommandTable();
 
   //check if today date is present in DB or not
   let result = await pool.query(
     "select * from disablecommand where chat_id=$1;",
-    [chat_id]
+    [groupjid]
   );
   if (result.rowCount) {
     return result.rows[0].disabled;
@@ -21,19 +21,22 @@ module.exports.getDisableCommandData = async (chat_id) => {
   }
 };
 
-module.exports.setDisableCommandData = async (chat_id, disabled) => {
+export const setDisableCommandData = async (
+  groupjid: string,
+  disabled: any
+) => {
   disabled = JSON.stringify(disabled);
 
   try {
     let res = await pool.query(
       "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
-      [disabled, chat_id]
+      [disabled, groupjid]
     );
 
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
-        chat_id,
+        groupjid,
         disabled,
       ]);
     }

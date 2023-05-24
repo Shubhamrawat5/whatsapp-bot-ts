@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create blacklist table if not there
 const createBlacklistTable = async () => {
@@ -7,7 +7,7 @@ const createBlacklistTable = async () => {
   );
 };
 
-module.exports.getBlacklist = async (number) => {
+export const getBlacklist = async (number: string) => {
   await createBlacklistTable();
   let result;
   if (number) {
@@ -23,7 +23,8 @@ module.exports.getBlacklist = async (number) => {
     return [];
   }
 };
-module.exports.addBlacklist = async (number, reason) => {
+
+export const addBlacklist = async (number: string, reason: string) => {
   try {
     const res = await pool.query("INSERT INTO blacklist VALUES($1,$2);", [
       number,
@@ -33,16 +34,17 @@ module.exports.addBlacklist = async (number, reason) => {
     if (res.rowCount === 0) return false;
     else return "✔️ Added to blacklist!";
   } catch (err) {
-    if (err.code == 23505) {
-      return "Number already blacklisted!";
-    }
+    //TODO :FIX, in one place it is there
+    // if (err.code == 23505) {
+    //   return "Number already blacklisted!";
+    // }
 
     await createBlacklistTable();
-    return err.toString();
+    return (err as Error).toString();
   }
 };
 
-module.exports.removeBlacklist = async (number) => {
+export const removeBlacklist = async (number: string) => {
   try {
     const res = await pool.query("DELETE FROM blacklist WHERE number=$1;", [
       number,
@@ -53,6 +55,6 @@ module.exports.removeBlacklist = async (number) => {
   } catch (err) {
     console.log(err);
     await createBlacklistTable();
-    return err.toString();
+    return (err as Error).toString();
   }
 };

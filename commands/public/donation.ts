@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 const { getDonation } = require("../../db/donationDB");
-const fs = require("fs");
+import fs from "fs";
 
 export const command = () => {
   let cmd = ["donation", "donations", "donate"];

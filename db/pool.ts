@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Pool } = require("pg");
+import { Pool } from "pg";
 
 const proConfig = {
   connectionString: process.env.DATABASE_URL,
@@ -9,5 +9,4 @@ const proConfig = {
   max: 4, //max connection limit
 };
 
-const pool = new Pool(proConfig);
-module.exports = pool;
+export const pool = new Pool(proConfig);

@@ -77,7 +77,7 @@ const { getDisableCommandData } = require("./db/disableCommandDB");
 const { storeAuth, fetchAuth } = require("./db/authDB");
 const { addUnknownCmd } = require("./db/addUnknownCmdDB");
 
-const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
+import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 
 import { postTechNews } from "./functions/postTechNews";
 import { postStudyInfo } from "./functions/postStudyInfo";
@@ -713,7 +713,7 @@ const startBot = async () => {
             DisconnectReason.loggedOut;
           if (shouldReconnect) {
             await LoggerBot(
-              false,
+              undefined,
               "CONNECTION-CLOSED",
               lastDisconnect.error,
               update
@@ -740,7 +740,7 @@ const startBot = async () => {
 
         console.log("connection update", update);
       } catch (err) {
-        await LoggerBot(false, "connection.update", err, update);
+        await LoggerBot(undefined, "connection.update", err, update);
       }
     });
     // listen for when the auth credentials is updated
@@ -749,13 +749,13 @@ const startBot = async () => {
         await saveCreds();
         await storeAuth(state);
       } catch (err) {
-        await LoggerBot(false, "creds.update", err, undefined);
+        await LoggerBot(bot, "creds.update", err, undefined);
       }
     });
 
     return bot;
   } catch (err) {
-    await LoggerBot(false, "BOT-ERROR", err, "");
+    await LoggerBot(undefined, "BOT-ERROR", err, "");
   }
 
   async function getMessage(

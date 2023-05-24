@@ -2,13 +2,10 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const {
-  downloadContentFromMessage,
-  toBuffer,
-} = require("@adiwajshing/baileys");
-const { writeFile } = require("fs/promises");
+import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
+import { writeFile } from "fs/promises";
 const AdmZip = require("adm-zip");
-const { Sticker, StickerTypes } = require("wa-sticker-formatter");
+import { Sticker, StickerTypes } from "wa-sticker-formatter";
 
 export const command = () => {
   let cmd = ["tg"];
@@ -32,6 +29,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const encmediatg =
     msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
       ?.documentMessage;
+
+  if (!encmediatg) {
+    await reply(`❌ There is some problem with downloading media!`);
+    return;
+  }
 
   console.log("downloading...");
   const stream = await downloadContentFromMessage(encmediatg, "document");

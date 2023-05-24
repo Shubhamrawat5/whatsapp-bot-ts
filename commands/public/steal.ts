@@ -2,12 +2,9 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const {
-  downloadContentFromMessage,
-  toBuffer,
-} = require("@adiwajshing/baileys");
+import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 
-const { Exif } = require("wa-sticker-formatter");
+import { Exif } from "wa-sticker-formatter";
 
 export const command = () => {
   let cmd = ["steal"];
@@ -29,6 +26,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     let downloadFilePath =
       msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
         ?.stickerMessage;
+
+    if (!downloadFilePath) {
+      await reply(`❌ There is some problem with downloading media!`);
+      return;
+    }
+
     const stream = await downloadContentFromMessage(
       downloadFilePath,
       "sticker"

@@ -2,7 +2,7 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const axios = require("axios");
+import axios from "axios";
 
 const getNews = async () => {
   const more = String.fromCharCode(8206);

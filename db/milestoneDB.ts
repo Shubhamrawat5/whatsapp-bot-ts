@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create createCountVideoTable table if not there
 const createMilestoneTable = async () => {
@@ -7,7 +7,7 @@ const createMilestoneTable = async () => {
   );
 };
 
-module.exports.getMilestone = async (memberJid) => {
+export const getMilestone = async (memberJid: string) => {
   try {
     let result = await pool.query(
       "SELECT m.memberJid,m.achieved,cmn.name FROM milestone m INNER JOIN countmembername cmn ON m.memberJid=cmn.memberJid WHERE m.memberJid=$1;",
@@ -24,7 +24,7 @@ module.exports.getMilestone = async (memberJid) => {
   }
 };
 
-module.exports.setMilestone = async (memberJid, achieved) => {
+export const setMilestone = async (memberJid: string, achieved: string) => {
   achieved = JSON.stringify(achieved);
 
   try {
@@ -55,7 +55,7 @@ const createMilestoneTextTable = async () => {
   );
 };
 
-module.exports.getMilestoneText = async () => {
+export const getMilestoneText = async () => {
   try {
     let result = await pool.query("SELECT * from milestonetext;");
     if (result.rowCount) {
@@ -69,7 +69,7 @@ module.exports.getMilestoneText = async () => {
   }
 };
 
-module.exports.setMilestoneText = async (milestone) => {
+export const setMilestoneText = async (milestone: string) => {
   try {
     await pool.query("INSERT INTO milestonetext(milestone) VALUES($1);", [
       milestone,

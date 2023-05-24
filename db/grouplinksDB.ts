@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create group links table if not there
 const createGroupLinksEnabledTable = async () => {
@@ -7,7 +7,7 @@ const createGroupLinksEnabledTable = async () => {
   );
 };
 
-module.exports.setGroupLinkEnabled = async (enabled) => {
+export const setGroupLinkEnabled = async (enabled: any) => {
   try {
     let res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
       enabled,
@@ -31,7 +31,7 @@ const createGroupLinksTable = async () => {
   );
 };
 
-module.exports.setGroupLink = async (groupJid, link) => {
+export const setGroupLink = async (groupJid: string, link: string) => {
   try {
     let res = await pool.query(
       "UPDATE grouplinks SET link = $1 WHERE groupjid=$2;",
@@ -52,7 +52,7 @@ module.exports.setGroupLink = async (groupJid, link) => {
   }
 };
 
-module.exports.getGroupLink = async () => {
+export const getGroupLink = async () => {
   try {
     let res = await pool.query(
       "SELECT gl.groupjid,gl.link,gn.gname FROM grouplinks gl LEFT JOIN groupname gn ON gl.groupjid=gn.groupjid;"

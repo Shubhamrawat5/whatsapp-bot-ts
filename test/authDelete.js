@@ -21,7 +21,7 @@
 //   process.exit(1);
 // });
 
-const pool = require("./pool");
+import { pool } from "./pool";
 
 const x = pool.query("DROP table auth;");
 console.log(x);

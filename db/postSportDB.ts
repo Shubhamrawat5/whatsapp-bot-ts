@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create count table if not there
 const createSportTable = async () => {
@@ -7,7 +7,7 @@ const createSportTable = async () => {
   );
 };
 
-module.exports.storeNewsSport = async (news) => {
+export const storeNewsSport = async (news: string) => {
   try {
     await createSportTable();
     await pool.query("INSERT INTO sportsnews VALUES($1);", [news]);

@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 const createVotingTable = async () => {
   await pool.query(
@@ -6,12 +6,12 @@ const createVotingTable = async () => {
   );
 };
 
-module.exports.getVotingData = async (chat_id) => {
+export const getVotingData = async (groupjid: string) => {
   await createVotingTable();
 
   //check if today date is present in DB or not
   let result = await pool.query("select * from voting where chat_id=$1;", [
-    chat_id,
+    groupjid,
   ]);
   if (result.rowCount) {
     return result.rows[0];
@@ -21,14 +21,14 @@ module.exports.getVotingData = async (chat_id) => {
 };
 
 const updateVotingData = async (
-  chat_id,
-  is_started,
-  started_by,
-  title,
-  choices,
-  count,
-  members_voted_for,
-  voted_members
+  groupjid: string,
+  is_started: boolean,
+  started_by: string,
+  title: string,
+  choices: any,
+  count: any,
+  members_voted_for: any,
+  voted_members: any
 ) => {
   await pool.query(
     "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE chat_id=$8;",
@@ -40,32 +40,32 @@ const updateVotingData = async (
       count,
       members_voted_for,
       voted_members,
-      chat_id,
+      groupjid,
     ]
   );
 };
 
-module.exports.stopVotingData = async (chat_id) => {
+export const stopVotingData = async (groupjid: string) => {
   let todayDate = new Date().toLocaleString("en-GB", {
     timeZone: "Asia/kolkata",
   });
-  let new_chat_id = chat_id + " " + todayDate;
+  let new_chat_id = groupjid + " " + todayDate;
 
   await pool.query(
     "UPDATE voting SET chat_id=$1, is_started=$2 WHERE chat_id=$3;",
-    [new_chat_id, false, chat_id]
+    [new_chat_id, false, groupjid]
   );
 };
 
-module.exports.setVotingData = async (
-  chat_id,
-  is_started,
-  started_by,
-  title,
-  choices,
-  count,
-  members_voted_for,
-  voted_members
+export const setVotingData = async (
+  groupjid: string,
+  is_started: boolean,
+  started_by: string,
+  title: string,
+  choices: any,
+  count: any,
+  members_voted_for: any,
+  voted_members: any
 ) => {
   await createVotingTable();
 
@@ -74,12 +74,12 @@ module.exports.setVotingData = async (
   members_voted_for = JSON.stringify(members_voted_for);
   voted_members = JSON.stringify(voted_members);
   let result = await pool.query("SELECT * FROM voting WHERE chat_id=$1", [
-    chat_id,
+    groupjid,
   ]);
   if (result.rows.length) {
     //already present
     await updateVotingData(
-      chat_id,
+      groupjid,
       is_started,
       started_by,
       title,
@@ -93,7 +93,7 @@ module.exports.setVotingData = async (
 
   //insert new
   await pool.query("INSERT INTO voting VALUES($1,$2,$3,$4,$5,$6,$7,$8);", [
-    chat_id,
+    groupjid,
     is_started,
     started_by,
     title,

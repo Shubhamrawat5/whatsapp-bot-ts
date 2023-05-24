@@ -2,8 +2,8 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const google = require("googlethis");
-const { getMessage } = require("../../functions/getMessage");
+import google from "googlethis";
+import { getMessage } from "../../functions/getMessage";
 
 const options = {
   page: 0,
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   try {
     const message = await getMessage(msg, prefix, command);
 
-    if (message === "") {
+    if (!message) {
       let message = `❌ Query is not given! \nSend ${prefix}google query`;
       await reply(message);
       return;

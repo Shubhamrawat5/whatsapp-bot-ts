@@ -1,4 +1,4 @@
-const { pvxgroups } = require("../../constants/constants");
+import { pvxgroups } from "../../constants/constants";
 const { getCountVideo } = require("../../db/countVideoDB");
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";

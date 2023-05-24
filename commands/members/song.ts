@@ -2,8 +2,8 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const axios = require("axios");
-const fs = require("fs");
+import axios from "axios";
+import fs from "fs";
 
 const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;

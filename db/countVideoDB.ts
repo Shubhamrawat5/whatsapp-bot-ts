@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create createCountVideoTable table if not there
 const createCountVideoTable = async () => {
@@ -7,7 +7,7 @@ const createCountVideoTable = async () => {
   );
 };
 
-module.exports.getCountVideo = async (groupJid) => {
+export const getCountVideo = async (groupJid: string) => {
   try {
     let result = await pool.query(
       "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
@@ -24,7 +24,7 @@ module.exports.getCountVideo = async (groupJid) => {
   }
 };
 
-module.exports.setCountVideo = async (memberJid, groupJid) => {
+export const setCountVideo = async (memberJid: string, groupJid: string) => {
   if (!groupJid.endsWith("@g.us")) return;
 
   try {

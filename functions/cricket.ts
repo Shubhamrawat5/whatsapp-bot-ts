@@ -165,7 +165,7 @@ _recent balls_ \n${recentballs}`;
 // getCricketScore(66369);
 
 // const getScoreCard = async (matchID) => {
-module.exports.getScoreCard = async (matchID: string) => {
+export const getScoreCard = async (matchID: string) => {
   try {
     let { data } = await axios.get(
       "https://cric-score.skdev.one/scorecard/" + matchID

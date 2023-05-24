@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create count table if not there
 const createCountTable = async () => {
@@ -7,7 +7,7 @@ const createCountTable = async () => {
   );
 };
 
-module.exports.getcount = async () => {
+export const getcount = async () => {
   await createCountTable();
   let result = await pool.query(
     "SELECT to_char(day, 'DD/MM/YYYY'),day,times FROM count ORDER BY(day) DESC;"
@@ -19,7 +19,7 @@ module.exports.getcount = async () => {
   }
 };
 
-module.exports.countToday = async () => {
+export const countToday = async () => {
   let todayDate = new Date().toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
   });

@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create blacklist table if not there
 // 25/02/23
@@ -8,7 +8,7 @@ const createUnknownCmdTable = async () => {
   );
 };
 
-module.exports.getUnknowCmdlist = async () => {
+export const getUnknowCmdlist = async () => {
   await createUnknownCmdTable();
   let result = await pool.query("select * from unknowncmd order by count;");
   if (result.rowCount) {
@@ -18,7 +18,7 @@ module.exports.getUnknowCmdlist = async () => {
   }
 };
 
-module.exports.addUnknownCmd = async (command) => {
+export const addUnknownCmd = async (command: string) => {
   try {
     let res = await pool.query(
       "UPDATE unknowncmd SET count = count+1 WHERE command=$1;",

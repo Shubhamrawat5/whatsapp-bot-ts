@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 //create createCountWarningTable table if not there
 const createCountWarningTable = async () => {
@@ -7,7 +7,7 @@ const createCountWarningTable = async () => {
   );
 };
 
-module.exports.getCountWarning = async (memberjid, groupJid) => {
+export const getCountWarning = async (memberjid: string, groupJid: string) => {
   await createCountWarningTable();
   let result = await pool.query(
     "SELECT count FROM countwarning WHERE memberjid=$1 AND groupJid=$2;",
@@ -20,7 +20,7 @@ module.exports.getCountWarning = async (memberjid, groupJid) => {
   }
 };
 
-module.exports.getCountWarningAllGroup = async () => {
+export const getCountWarningAllGroup = async () => {
   await createCountWarningTable();
   let result = await pool.query(
     "SELECT cw.memberjid,sum(cw.count) as count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid group by cw.memberjid,cmn.name ORDER BY count DESC;"
@@ -32,7 +32,7 @@ module.exports.getCountWarningAllGroup = async () => {
   }
 };
 
-module.exports.getCountWarningAll = async (groupJid) => {
+export const getCountWarningAll = async (groupJid: string) => {
   await createCountWarningTable();
   let result = await pool.query(
     "SELECT cw.memberjid,cw.count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
@@ -45,7 +45,7 @@ module.exports.getCountWarningAll = async (groupJid) => {
   }
 };
 
-module.exports.setCountWarning = async (memberJid, groupJid) => {
+export const setCountWarning = async (memberJid: string, groupJid: string) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createCountWarningTable();
 
@@ -76,7 +76,10 @@ module.exports.setCountWarning = async (memberJid, groupJid) => {
   }
 };
 
-module.exports.reduceCountWarning = async (memberJid, groupJid) => {
+export const reduceCountWarning = async (
+  memberJid: string,
+  groupJid: string
+) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createCountWarningTable();
 
@@ -105,7 +108,10 @@ module.exports.reduceCountWarning = async (memberJid, groupJid) => {
   }
 };
 
-module.exports.clearCountWarning = async (memberJid, groupJid) => {
+export const clearCountWarning = async (
+  memberJid: string,
+  groupJid: string
+) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createCountWarningTable();
 

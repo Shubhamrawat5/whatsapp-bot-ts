@@ -1,4 +1,4 @@
-const pool = require("./pool");
+import { pool } from "./pool";
 
 const createAuthTable = async () => {
   await pool.query(
@@ -6,11 +6,11 @@ const createAuthTable = async () => {
   );
 };
 
-module.exports.fetchAuth = async (state) => {
+export const fetchAuth = async (state: any) => {
   let cred, auth_row_count;
   await createAuthTable();
   try {
-    auth_result = await pool.query("select * from auth;"); //checking auth table
+    const auth_result = await pool.query("select * from auth;"); //checking auth table
 
     console.log("Fetching login data...");
     auth_row_count = await auth_result.rowCount;
@@ -67,7 +67,7 @@ module.exports.fetchAuth = async (state) => {
   return { cred, auth_row_count };
 };
 
-module.exports.storeAuth = async (state) => {
+export const storeAuth = async (state: any) => {
   try {
     let noiseKey = JSON.stringify(state.creds.noiseKey);
     let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
