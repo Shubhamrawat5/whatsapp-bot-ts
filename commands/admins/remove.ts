@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   let cmd = ["remove", "ban", "kick"];
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
@@ -68,10 +69,12 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   } else {
     //when message is tagged with command
-    let taggedMessageUser = [
-      msg.message.extendedTextMessage.contextInfo?.participant,
-    ];
-    const participant = taggedMessageUser[0];
+    //TODO: MAKE A COMMON FUNCTION
+    const participant =
+      msg.message.extendedTextMessage.contextInfo?.participant;
+    if (!participant) return;
+    let taggedMessageUser = [participant];
+
     if (participant && groupAdmins.includes(participant)) {
       //if admin then don't remove
       await reply("❌ Cannot remove admin!");

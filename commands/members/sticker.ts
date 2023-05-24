@@ -7,6 +7,7 @@ import {
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
@@ -45,7 +46,7 @@ const downloadMedia = async (
   return buffer;
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { type, reply, args, from } = msgInfoObj;
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";

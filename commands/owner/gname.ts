@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const { setGroupName } = require("../../db/groupNameDB");
 
@@ -9,7 +10,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)

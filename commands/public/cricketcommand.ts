@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   let cmd = ["cricketcommand", "cc"];
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, from } = msgInfoObj;
   let text = `_*🏏  CRICKET COMMANDS:*_
 
@@ -26,5 +27,5 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 📛 *${prefix}stopc*
   - _Stop match live score!_`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg, detectLinks: false });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

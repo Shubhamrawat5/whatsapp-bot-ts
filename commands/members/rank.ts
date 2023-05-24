@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const {
   getRankInAllGroups,
@@ -13,7 +14,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { sender, reply, args, milestones, from } = msgInfoObj;
   if (args.length) {
     sender = args.join("") + "@s.whatsapp.net";

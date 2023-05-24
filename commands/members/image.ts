@@ -4,6 +4,7 @@ import {
   toBuffer,
 } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const fs = require("fs");
 const { writeFile } = require("fs/promises");
@@ -18,7 +19,7 @@ const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { isMedia, isTaggedSticker, reply, from } = msgInfoObj;
 
   if (
@@ -48,7 +49,6 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         image: fs.readFileSync(media),
       },
       {
-        mimetype: "image/png",
         quoted: msg,
         mediaUploadTimeoutMs: 1000 * 30,
       }

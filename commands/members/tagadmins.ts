@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   let cmd = ["tagadmin", "tagadmins", "ta"];
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { groupAdmins, args, from } = msgInfoObj;
   let jids = [];
   let message = "ADMINS: ";

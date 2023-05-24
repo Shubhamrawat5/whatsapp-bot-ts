@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const {
   downloadContentFromMessage,
@@ -14,7 +15,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { isTaggedSticker, reply, args, from } = msgInfoObj;
 
   let packName = "BOT 🤖";
@@ -43,7 +44,6 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       from,
       { sticker: webpWithExif },
       {
-        mimetype: "sticker",
         mediaUploadTimeoutMs: 1000 * 30,
       }
     );

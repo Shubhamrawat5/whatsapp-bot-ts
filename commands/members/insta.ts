@@ -7,12 +7,13 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 
 import axios from "axios";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   return { cmd: ["insta", "i", "ig"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
     reply(`❌ URL is empty! \nSend ${prefix}insta url`);

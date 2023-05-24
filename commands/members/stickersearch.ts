@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const gis = require("g-i-s");
 const fs = require("fs");
@@ -12,7 +13,7 @@ export const command = () => {
   return { cmd: ["stickersearch", "ss"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {

@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const axios = require("axios");
 const fs = require("fs");
@@ -71,7 +72,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
@@ -99,9 +100,8 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       document: fs.readFileSync(`./${randomName}`),
       fileName: response + ".mp3",
       mimetype: "audio/mpeg",
-      mediaUploadTimeoutMs: 1000 * 30,
     },
-    { quoted: msg }
+    { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
   );
   fs.unlinkSync(`./${randomName}`);
 };

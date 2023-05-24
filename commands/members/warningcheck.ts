@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const { getCountWarning } = require("../../db/warningDB");
 
@@ -9,7 +10,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { sender, reply, args, from } = msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
@@ -42,10 +43,10 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   } else {
     //when message is tagged with command
-    let taggedMessageUser = [
-      msg.message.extendedTextMessage.contextInfo?.participant,
-    ];
-    const participant = taggedMessageUser[0];
+    const participant =
+      msg.message.extendedTextMessage.contextInfo?.participant;
+    if (!participant) return;
+    let taggedMessageUser = [participant];
     let warnCount = await getCountWarning(taggedMessageUser[0], from);
     let num_split = participant && participant.split("@s.whatsapp.net")[0];
     let warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;

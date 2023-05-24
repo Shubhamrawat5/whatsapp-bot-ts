@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
 require("dotenv").config();
@@ -11,7 +12,7 @@ export const command = () => {
   return { cmd: ["ai"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args, groupName } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);

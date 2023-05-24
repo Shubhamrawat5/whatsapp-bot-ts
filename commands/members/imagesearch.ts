@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const gis = require("g-i-s");
 
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd: ["imagesearch", "is"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
@@ -45,7 +46,6 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
               image: { url: img },
             },
             {
-              mimetype: "image/png",
               quoted: msg,
               mediaUploadTimeoutMs: 1000 * 30,
             }

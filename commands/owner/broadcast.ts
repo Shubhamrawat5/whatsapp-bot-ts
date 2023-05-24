@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   let cmd = ["broadcast", "bc"];
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, args } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
@@ -43,7 +44,7 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await reply("Broadcasting...");
   groups.forEach((group) => {
     setTimeout(async () => {
-      await bot.sendMessage(group.id, { text: message, detectLinks: true });
+      await bot.sendMessage(group.id, { text: message });
     }, time);
     time += 1000 * 30; //30 sec
   });

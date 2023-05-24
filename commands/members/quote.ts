@@ -1,6 +1,7 @@
 import axios from "axios";
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const getQuote = async () => {
   try {
@@ -20,7 +21,7 @@ export const command = () => {
   return { cmd: ["quote"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   let text = await getQuote();
 

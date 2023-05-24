@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const { getCricketScore } = require("../../functions/cricket");
 let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
@@ -61,7 +62,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply, command, groupName } = msgInfoObj;
 
   reply("❌ Command temporary disabled");

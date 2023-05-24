@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 const google = require("googlethis");
 const { getMessage } = require("../../functions/getMessage");
@@ -18,7 +19,7 @@ export const command = () => {
   return { cmd: ["google", "search", "gs"], handler: handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, command } = msgInfoObj;
 
   try {

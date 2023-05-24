@@ -93,6 +93,7 @@ import { getGroupData } from "./functions/getGroupData";
 import { MsgInfoObj } from "./interface/msgInfoObj";
 import { GroupData } from "./interface/GroupData";
 import { getGroupAdmins } from "./functions/getGroupAdmins";
+import { Bot } from "./interface/Bot";
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -159,7 +160,7 @@ const startBot = async () => {
       state.creds = cred.creds;
     }
 
-    const bot = makeWASocket({
+    const bot: Bot = makeWASocket({
       version,
       logger: silentLogs,
       printQRInTerminal: true,
@@ -728,9 +729,10 @@ const startBot = async () => {
             );
             ++startCount;
 
+            console.log("[CONNECTION-CLOSED]: Restarting bot in 30 seconds!");
             setTimeout(() => {
               startBot();
-            }, 1000 * 15);
+            }, 1000 * 30);
           } else {
             LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`

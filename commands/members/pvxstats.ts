@@ -1,5 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 
 export const command = () => {
   let cmd = ["pvxstats"];
@@ -7,7 +8,7 @@ export const command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -15,10 +16,8 @@ const handler = async (bot: any, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
-    .filter(
-      (v: any) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>")
-    )
-    .map((v: any) => {
+    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
+    .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
   // console.log(groups);
