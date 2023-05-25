@@ -7,11 +7,17 @@ const createCountTable = async () => {
   );
 };
 
-export const getcount = async () => {
+export interface GetCount {
+  day: string;
+  times: number;
+}
+
+export const getcount = async (): Promise<GetCount[]> => {
   await createCountTable();
   let result = await pool.query(
     "SELECT to_char(day, 'DD/MM/YYYY'),day,times FROM count ORDER BY(day) DESC;"
   );
+
   if (result.rowCount) {
     return result.rows;
   } else {
@@ -19,7 +25,7 @@ export const getcount = async () => {
   }
 };
 
-export const countToday = async () => {
+export const countToday = async (): Promise<number> => {
   let todayDate = new Date().toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
   });

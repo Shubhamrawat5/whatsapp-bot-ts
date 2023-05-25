@@ -7,21 +7,36 @@ const createCountWarningTable = async () => {
   );
 };
 
-export const getCountWarning = async (memberjid: string, groupJid: string) => {
-  await createCountWarningTable();
+export interface GetCountWarning {
+  name: string;
+  number: string;
+  amount: number;
+}
+
+export const getCountWarning = async (
+  memberjid: string,
+  groupJid: string
+): Promise<GetCountWarning[]> => {
   let result = await pool.query(
     "SELECT count FROM countwarning WHERE memberjid=$1 AND groupJid=$2;",
     [memberjid, groupJid]
   );
   if (result.rowCount) {
-    return result.rows[0].count;
+    return result.rows;
   } else {
-    return 0;
+    return [];
   }
 };
 
-export const getCountWarningAllGroup = async () => {
-  await createCountWarningTable();
+export interface GetCountWarningAllGroup {
+  name: string;
+  number: string;
+  amount: number;
+}
+
+export const getCountWarningAllGroup = async (): Promise<
+  GetCountWarningAllGroup[]
+> => {
   let result = await pool.query(
     "SELECT cw.memberjid,sum(cw.count) as count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid group by cw.memberjid,cmn.name ORDER BY count DESC;"
   );
@@ -31,9 +46,15 @@ export const getCountWarningAllGroup = async () => {
     return [];
   }
 };
+export interface GetCountWarningAll {
+  name: string;
+  number: string;
+  amount: number;
+}
 
-export const getCountWarningAll = async (groupJid: string) => {
-  await createCountWarningTable();
+export const getCountWarningAll = async (
+  groupJid: string
+): Promise<GetCountWarningAll[]> => {
   let result = await pool.query(
     "SELECT cw.memberjid,cw.count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
     [groupJid]
@@ -45,92 +66,101 @@ export const getCountWarningAll = async (groupJid: string) => {
   }
 };
 
-export const setCountWarning = async (memberJid: string, groupJid: string) => {
-  if (!groupJid.endsWith("@g.us")) return;
-  await createCountWarningTable();
+export const setCountWarning = async (
+  memberJid: string,
+  groupJid: string
+): Promise<boolean> => {
+  try {
+    if (!groupJid.endsWith("@g.us")) return false;
 
-  //check if groupjid is present in DB or not
-  let result = await pool.query(
-    "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
-
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
-
-    await pool.query(
-      "UPDATE countwarning SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+    //check if groupjid is present in DB or not
+    let result = await pool.query(
+      "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
 
-    return count + 1;
-  } else {
-    await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
-      memberJid,
-      groupJid,
-      1,
-    ]);
+    //present
+    if (result.rows.length) {
+      let count = result.rows[0].count;
 
-    return 1;
+      await pool.query(
+        "UPDATE countwarning SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+        [memberJid, groupJid]
+      );
+    } else {
+      await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
+        memberJid,
+        groupJid,
+        1,
+      ]);
+    }
+    return true;
+  } catch (error) {
+    console.log(error);
+    await createCountWarningTable();
+    return false;
   }
 };
 
 export const reduceCountWarning = async (
   memberJid: string,
   groupJid: string
-) => {
-  if (!groupJid.endsWith("@g.us")) return;
-  await createCountWarningTable();
+): Promise<boolean> => {
+  try {
+    if (!groupJid.endsWith("@g.us")) return false;
 
-  //check if groupjid is present in DB or not
-  let result = await pool.query(
-    "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
-
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
-
-    await pool.query(
-      "UPDATE countwarning SET count = count-1 WHERE memberjid=$1 AND groupjid=$2;",
+    //check if groupjid is present in DB or not
+    let result = await pool.query(
+      "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-    return count - 1;
-  } else {
-    await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
-      memberJid,
-      groupJid,
-      1,
-    ]);
-    return 1;
+
+    //present
+    if (result.rows.length) {
+      let count = result.rows[0].count;
+
+      await pool.query(
+        "UPDATE countwarning SET count = count-1 WHERE memberjid=$1 AND groupjid=$2;",
+        [memberJid, groupJid]
+      );
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.log(error);
+    await createCountWarningTable();
+    return false;
   }
 };
 
 export const clearCountWarning = async (
   memberJid: string,
   groupJid: string
-) => {
-  if (!groupJid.endsWith("@g.us")) return;
-  await createCountWarningTable();
+): Promise<boolean> => {
+  try {
+    if (!groupJid.endsWith("@g.us")) return false;
 
-  //check if groupjid is present in DB or not
-  let result = await pool.query(
-    "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
-
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
-
-    await pool.query(
-      "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",
+    //check if groupjid is present in DB or not
+    let result = await pool.query(
+      "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-    return 1;
-  } else {
-    return 0;
+
+    //present
+    if (result.rows.length) {
+      let count = result.rows[0].count;
+
+      await pool.query(
+        "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",
+        [memberJid, groupJid]
+      );
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+    await createCountWarningTable();
+    return false;
   }
 };

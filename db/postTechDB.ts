@@ -7,7 +7,7 @@ const createTechTable = async () => {
   );
 };
 
-export const storeNewsTech = async (news: string) => {
+export const storeNewsTech = async (news: string): Promise<boolean> => {
   try {
     await createTechTable();
     await pool.query("INSERT INTO technews VALUES($1);", [news]);

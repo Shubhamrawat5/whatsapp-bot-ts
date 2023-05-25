@@ -14,8 +14,16 @@ const createCountMemberNameTable = async () => {
   );
 };
 
+export interface GetCountGroupMembers {
+  memberjid: string;
+  count: number;
+  name: string;
+}
+
 //pvxm: current group member stats
-export const getCountGroupMembers = async (groupJid: string) => {
+export const getCountGroupMembers = async (
+  groupJid: string
+): Promise<GetCountGroupMembers[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT cm.memberJid,cm.count,cmn.name FROM countmember cm INNER JOIN countmembername cmn ON cm.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",

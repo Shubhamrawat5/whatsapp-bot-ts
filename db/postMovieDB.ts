@@ -7,7 +7,7 @@ const createMovieTable = async () => {
   );
 };
 
-export const storeNewsMovie = async (news: string) => {
+export const storeNewsMovie = async (news: string): Promise<boolean> => {
   try {
     await createMovieTable();
     await pool.query("INSERT INTO moviesnews VALUES($1);", [news]);

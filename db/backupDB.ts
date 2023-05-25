@@ -11,7 +11,7 @@ export const takeGroupbackup = async (
   groupName: string,
   groupDesc: string,
   groupData: any
-) => {
+): Promise<boolean> => {
   try {
     await createGroupbackupTable();
 

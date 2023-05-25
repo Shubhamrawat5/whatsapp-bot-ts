@@ -29,7 +29,7 @@ export const setGroupParticipant = async (
   memberJid: string,
   groupJid: string,
   action: string
-) => {
+): Promise<boolean> => {
   let today = new Date();
   let localeDate = today.toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
@@ -54,8 +54,10 @@ export const setGroupParticipant = async (
       action,
       todayNew,
     ]);
+    return true;
   } catch (err) {
     console.log(err);
     await createGroupParticipantTable();
+    return false;
   }
 };

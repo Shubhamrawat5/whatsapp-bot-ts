@@ -6,7 +6,15 @@ const createDisableCommandTable = async () => {
   );
 };
 
-export const getDisableCommandData = async (groupjid: string) => {
+//TODO: check this
+export interface GetDisableCommandData {
+  chat_id: string;
+  disabled: any;
+}
+
+export const getDisableCommandData = async (
+  groupjid: string
+): Promise<GetDisableCommandData[]> => {
   await createDisableCommandTable();
 
   //check if today date is present in DB or not
@@ -24,7 +32,7 @@ export const getDisableCommandData = async (groupjid: string) => {
 export const setDisableCommandData = async (
   groupjid: string,
   disabled: any
-) => {
+): Promise<boolean> => {
   disabled = JSON.stringify(disabled);
 
   try {
@@ -40,8 +48,10 @@ export const setDisableCommandData = async (
         disabled,
       ]);
     }
+    return true;
   } catch (err) {
     console.log(err);
     await createDisableCommandTable();
+    return false;
   }
 };

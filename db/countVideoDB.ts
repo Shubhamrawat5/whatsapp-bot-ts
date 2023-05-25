@@ -7,7 +7,15 @@ const createCountVideoTable = async () => {
   );
 };
 
-export const getCountVideo = async (groupJid: string) => {
+export interface GetCountVideo {
+  memberjid: string;
+  count: number;
+  name: string;
+}
+
+export const getCountVideo = async (
+  groupJid: string
+): Promise<GetCountVideo[]> => {
   try {
     let result = await pool.query(
       "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
@@ -24,8 +32,11 @@ export const getCountVideo = async (groupJid: string) => {
   }
 };
 
-export const setCountVideo = async (memberJid: string, groupJid: string) => {
-  if (!groupJid.endsWith("@g.us")) return;
+export const setCountVideo = async (
+  memberJid: string,
+  groupJid: string
+): Promise<boolean> => {
+  if (!groupJid.endsWith("@g.us")) return false;
 
   try {
     let res = await pool.query(
@@ -41,9 +52,11 @@ export const setCountVideo = async (memberJid: string, groupJid: string) => {
         1,
       ]);
     }
+    return true;
   } catch (err) {
     console.log(err);
     await createCountVideoTable();
+    return false;
   }
 };
 

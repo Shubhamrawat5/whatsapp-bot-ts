@@ -1,13 +1,38 @@
 import { pool } from "./pool";
 
 //create group links table if not there
+const createGroupLinksTable = async () => {
+  await pool.query(
+    "CREATE TABLE IF NOT EXISTS grouplinks(groupjid text PRIMARY KEY, link text);"
+  );
+};
+
+export interface GetGroupLink {
+  groupjid: string;
+  link: string;
+  gname: string;
+}
+
+export const getGroupLink = async (): Promise<GetGroupLink[]> => {
+  let res = await pool.query(
+    "SELECT gl.groupjid,gl.link,gn.gname FROM grouplinks gl LEFT JOIN groupname gn ON gl.groupjid=gn.groupjid;"
+  );
+  //not updated. time to insert
+  if (res.rowCount) {
+    return res.rows;
+  } else {
+    return [];
+  }
+};
+
+//create group links table if not there
 const createGroupLinksEnabledTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS grouplinksenabled(enabled integer PRIMARY KEY);"
   );
 };
 
-export const setGroupLinkEnabled = async (enabled: any) => {
+export const setGroupLinkEnabled = async (enabled: any): Promise<boolean> => {
   try {
     let res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
       enabled,
@@ -24,14 +49,10 @@ export const setGroupLinkEnabled = async (enabled: any) => {
   }
 };
 
-//create group links table if not there
-const createGroupLinksTable = async () => {
-  await pool.query(
-    "CREATE TABLE IF NOT EXISTS grouplinks(groupjid text PRIMARY KEY, link text);"
-  );
-};
-
-export const setGroupLink = async (groupJid: string, link: string) => {
+export const setGroupLink = async (
+  groupJid: string,
+  link: string
+): Promise<boolean> => {
   try {
     let res = await pool.query(
       "UPDATE grouplinks SET link = $1 WHERE groupjid=$2;",
@@ -49,22 +70,5 @@ export const setGroupLink = async (groupJid: string, link: string) => {
     console.log(err);
     await createGroupLinksTable();
     return false;
-  }
-};
-
-export const getGroupLink = async () => {
-  try {
-    let res = await pool.query(
-      "SELECT gl.groupjid,gl.link,gn.gname FROM grouplinks gl LEFT JOIN groupname gn ON gl.groupjid=gn.groupjid;"
-    );
-    //not updated. time to insert
-    if (res.rowCount) {
-      return res.rows;
-    } else {
-      return [];
-    }
-  } catch (err) {
-    console.log(err);
-    await createGroupLinksTable();
   }
 };

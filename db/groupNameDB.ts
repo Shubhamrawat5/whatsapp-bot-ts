@@ -17,24 +17,39 @@ const createGroupNameTable = async () => {
 //   }
 // };
 
-export const setGroupName = async (groupJid: string, gname: string) => {
-  if (!groupJid.endsWith("@g.us")) return;
-  await createGroupNameTable();
+export const setGroupName = async (
+  groupJid: string,
+  gname: string
+): Promise<boolean> => {
+  try {
+    if (!groupJid.endsWith("@g.us")) return false;
+    await createGroupNameTable();
 
-  //check if groupjid is present in DB or not
-  let result = await pool.query("select * from groupname where groupjid=$1;", [
-    groupJid,
-  ]);
+    //check if groupjid is present in DB or not
+    let result = await pool.query(
+      "select * from groupname where groupjid=$1;",
+      [groupJid]
+    );
 
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
+    //present
+    if (result.rows.length) {
+      let count = result.rows[0].count;
 
-    await pool.query("UPDATE groupname SET gname = $1 WHERE groupjid=$2;", [
-      gname,
-      groupJid,
-    ]);
-  } else {
-    await pool.query("INSERT INTO groupname VALUES($1,$2);", [groupJid, gname]);
+      await pool.query("UPDATE groupname SET gname = $1 WHERE groupjid=$2;", [
+        gname,
+        groupJid,
+      ]);
+    } else {
+      await pool.query("INSERT INTO groupname VALUES($1,$2);", [
+        groupJid,
+        gname,
+      ]);
+    }
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    await createGroupNameTable();
+    return false;
   }
 };

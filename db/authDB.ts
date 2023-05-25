@@ -6,14 +6,20 @@ const createAuthTable = async () => {
   );
 };
 
-export const fetchAuth = async (state: any) => {
-  let cred, auth_row_count;
+export interface FetchAuth {
+  cred: any;
+  auth_row_count: number;
+}
+
+export const fetchAuth = async (state: any): Promise<FetchAuth> => {
+  let cred: any,
+    auth_row_count: number = 0;
   await createAuthTable();
   try {
     const auth_result = await pool.query("select * from auth;"); //checking auth table
 
     console.log("Fetching login data...");
-    auth_row_count = await auth_result.rowCount;
+    auth_row_count = auth_result.rowCount;
     let data = auth_result.rows[0];
 
     if (auth_row_count == 0) {
@@ -67,7 +73,7 @@ export const fetchAuth = async (state: any) => {
   return { cred, auth_row_count };
 };
 
-export const storeAuth = async (state: any) => {
+export const storeAuth = async (state: any): Promise<boolean> => {
   try {
     let noiseKey = JSON.stringify(state.creds.noiseKey);
     let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
@@ -125,11 +131,13 @@ export const storeAuth = async (state: any) => {
         ]
       );
       console.log("New login data inserted!");
-      return;
+      return true;
     }
     console.log("Login data updated!");
+    return true;
   } catch (err) {
     console.log(err);
     await createAuthTable();
+    return false;
   }
 };

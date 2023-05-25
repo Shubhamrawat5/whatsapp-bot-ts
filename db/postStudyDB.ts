@@ -7,7 +7,7 @@ const createStudyTable = async () => {
   );
 };
 
-export const storeNewsStudy = async (news: string) => {
+export const storeNewsStudy = async (news: string): Promise<boolean> => {
   try {
     await createStudyTable();
     await pool.query("INSERT INTO studynews VALUES($1);", [news]);

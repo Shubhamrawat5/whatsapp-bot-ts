@@ -7,7 +7,13 @@ const createDonationTable = async () => {
   );
 };
 
-export const getDonation = async () => {
+export interface GetDonation {
+  name: string;
+  number: string;
+  amount: number;
+}
+
+export const getDonation = async (): Promise<GetDonation[]> => {
   await createDonationTable();
   let result = await pool.query("select * from donation ORDER BY amount DESC;");
   if (result.rowCount) {
@@ -21,7 +27,7 @@ export const addDonation = async (
   name: string,
   number: number,
   amount: number
-) => {
+): Promise<boolean> => {
   try {
     await createDonationTable();
     await pool.query("INSERT INTO donation VALUES($1,$2,$3);", [
