@@ -2,7 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const { getCricketScore } = require("../../functions/cricket");
 let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
 let matchIdGroups = {}; //to store every group name with its match ID
 let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not

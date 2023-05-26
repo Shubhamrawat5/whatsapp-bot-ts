@@ -47,7 +47,7 @@ import makeWASocket, {
 import { Boom } from "@hapi/boom";
 import pino from "pino";
 import fs from "fs";
-const stringSimilarity = require("string-similarity");
+import stringSimilarity from "string-similarity";
 import NodeCache from "node-cache";
 const cache = new NodeCache();
 const msgRetryCounterCache = new NodeCache();

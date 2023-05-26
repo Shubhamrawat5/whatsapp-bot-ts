@@ -2,7 +2,7 @@ import Parser from "rss-parser";
 const parser = new Parser();
 import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
-const { storeNewsStudy } = require("../db/postStudyDB");
+import { storeNewsStudy } from "../db/postStudyDB";
 
 export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
@@ -28,12 +28,14 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
       }
 
       let index = Math.floor(Math.random() * li.length);
-      let news = li[index];
+      let { title } = li[index];
 
-      res = await storeNewsStudy(news.title);
+      if (!title) title = "";
+
+      res = await storeNewsStudy(title);
       if (res) {
         console.log("NEW STUDY NEWS!");
-        await bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+        await bot.sendMessage(pvxstudy, { text: `📰 ${title}` });
       } else {
         console.log("OLD STUDY NEWS!");
         count += 1;

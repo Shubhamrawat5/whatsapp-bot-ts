@@ -3,8 +3,10 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 const gis = require("g-i-s");
-const fs = require("fs");
-const { Sticker, StickerTypes } = require("wa-sticker-formatter");
+import fs from "fs";
+import { Sticker, StickerTypes } from "wa-sticker-formatter";
+
+//TODO: USE COMMON GET RANDOM FUNC
 const getRandom = (ext: string) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };

@@ -2,8 +2,8 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-const { getDonation } = require("../../db/donationDB");
 import fs from "fs";
+import { getDonation } from "../../db/donationDB";
 
 export const command = () => {
   let cmd = ["donation", "donations", "donate"];

@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getVotingData, setVotingData } = require("../../db/VotingDB");
+import { getVotingData, setVotingData } from "../../db/VotingDB";
 
 export const command = () => {
   let cmd = ["startvote"];
@@ -18,7 +17,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
     return;
   }
-  let votingResult = await getVotingData(from);
+  const res = await getVotingData(from);
+  let votingResult = res[0];
+
   if (votingResult.is_started) {
     await reply(
       `❌ Voting already going on, Stop by ${prefix}stopvote command`
@@ -55,11 +56,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     voteListMember,
     []
   );
-  votingResult = await getVotingData(from);
+
+  //CHECK THIS ONCE, AND USE SAME VARIABLE AS USED IN FUNCTION SIGNATURE
+  const res2 = await getVotingData(from);
+  let votingResult2 = res2[0];
 
   let voteMsg = `*Voting started!*\nsend "${prefix}vote number" to vote\n\n*🗣️ ${voteTitle}*`;
 
-  votingResult.choices.forEach((name: string, index: number) => {
+  votingResult2.choices.forEach((name: string, index: number) => {
     voteMsg += `\n${index + 1} for [${name.trim()}]`;
   });
 

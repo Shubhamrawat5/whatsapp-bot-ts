@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { setGroupName } = require("../../db/groupNameDB");
+import { setGroupName } from "../../db/groupNameDB";
 
 export const command = () => {
   let cmd = ["gname"];

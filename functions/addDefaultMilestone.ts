@@ -1,9 +1,8 @@
 import { GroupMetadata } from "@adiwajshing/baileys";
 import { Pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
-
-const { getCountTop } = require("../db/countMemberDB");
-const { getDonation } = require("../db/donationDB");
+import { getCountTop } from "../db/countMemberDB";
+import { getDonation } from "../db/donationDB";
 
 export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
@@ -58,7 +57,7 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
     }
   });
 
-  const donationRes: donationRes[] = await getDonation();
+  const donationRes = await getDonation();
   donationRes.forEach((member, index) => {
     let memberjid = `${member.number}@s.whatsapp.net`;
     if (index === 0) {

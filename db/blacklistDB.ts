@@ -1,6 +1,7 @@
 import { pool } from "./pool";
 
 //create blacklist table if not there
+//TODO: VERIFY ALL THE NUMBER ARE OF TYPE TEXT IN SCHEMA
 const createBlacklistTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text);"
@@ -12,7 +13,7 @@ export interface GetBlacklist {
 }
 
 export const getBlacklist = async (
-  number?: number
+  number?: string
 ): Promise<GetBlacklist[]> => {
   await createBlacklistTable();
   let result;

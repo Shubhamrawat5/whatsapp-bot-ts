@@ -1,12 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
-  setMilestone,
-  getMilestone,
-  setMilestoneText,
-} = require("../../db/milestoneDB");
+import { setMilestoneText } from "../../db/milestoneDB";
 
 export const command = () => {
   let cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];

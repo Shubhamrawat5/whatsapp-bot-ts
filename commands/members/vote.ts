@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getVotingData, setVotingData } = require("../../db/VotingDB");
+import { getVotingData, setVotingData } from "../../db/VotingDB";
 
 export const command = () => {
   let cmd = ["vote"];
@@ -12,7 +11,9 @@ export const command = () => {
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, sender, senderName, args, from } = msgInfoObj;
-  let votingResult = await getVotingData(from);
+  const res = await getVotingData(from);
+  let votingResult = res[0];
+
   if (!votingResult.is_started) {
     await reply(
       `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`

@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getCricketScore } = require("../../functions/cricket");
+import { getCricketScore } from "../../functions/cricket";
 
 export const command = () => {
   let cmd = ["score"];

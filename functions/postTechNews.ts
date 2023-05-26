@@ -1,7 +1,7 @@
 import axios from "axios";
-const { storeNewsTech } = require("../db/postTechDB");
 import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
+import { storeNewsTech } from "../db/postTechDB";
 require("dotenv").config();
 
 const newsapi = process.env.newsapi;

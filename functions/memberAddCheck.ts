@@ -1,7 +1,7 @@
 import { Pvxgroups } from "../constants/constants";
+import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interface/Bot";
 
-const { getBlacklist } = require("../db/blacklistDB");
 import { LoggerBot } from "./loggerBot";
 
 require("dotenv").config();

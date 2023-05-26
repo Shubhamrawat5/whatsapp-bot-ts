@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getCountWarning } = require("../../db/warningDB");
+import { getCountWarning } from "../../db/warningDB";
 
 export const command = () => {
   let cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];

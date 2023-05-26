@@ -7,10 +7,11 @@ import axios from "axios";
 
 export const getCricketScore = async (matchID: string) => {
   interface Res {
-    message?: string;
-    info?: string;
+    message: string;
+    info: string;
   }
-  let res: Res = {};
+
+  let res: Res = { message: "", info: "" };
   try {
     //TODO: MAKE INTERFACE OF DATA
     let { data } = await axios.get(

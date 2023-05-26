@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 import { writeFile } from "fs/promises";
-const AdmZip = require("adm-zip");
+import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 
 export const command = () => {

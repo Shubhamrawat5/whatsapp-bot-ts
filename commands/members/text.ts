@@ -1,11 +1,11 @@
-// const { UltimateTextToImage } = require("ultimate-text-to-image");
-// const { Sticker, StickerTypes } = require("wa-sticker-formatter");
-// const fs = require("fs");
-// const { getMessage } = require("../../functions/getMessage");
+const { UltimateTextToImage } = require("ultimate-text-to-image");
+import { Sticker } from "wa-sticker-formatter";
+import fs from "fs";
 
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
+import { getMessage } from "../../functions/getMessage";
 
 export const command = () => {
   return { cmd: ["text", "tts"], handler: handler };
@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   reply("Command temperory disabled!");
 };
 
-// const handler = async (bot, msg, msgInfoObj) => {
+// const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //   let { reply, prefix, command, from } = msgInfoObj;
 
 //   const message = await getMessage(msg, prefix, command);
@@ -52,7 +52,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
 //   let packName = "BOT 🤖";
 //   let authorName = "pvxcommunity.com";
-//   stickerMake = new Sticker(buffer, {
+//   const stickerMake = new Sticker(buffer, {
 //     pack: packName,
 //     author: authorName,
 //   });
@@ -66,7 +66,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //     },
 //     {
 //       quoted: msg,
-//       mimetype: "sticker",
 //       mediaUploadTimeoutMs: 1000 * 30,
 //     }
 //   );
