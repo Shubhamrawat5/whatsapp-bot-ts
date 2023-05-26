@@ -16,7 +16,7 @@ export const addCommands = async () => {
   let path = __dirname + "/../commands/public/";
   let filenames = await readdir(path);
   filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
+    if (file.endsWith(".ts")) {
       let { command } = require(path + file);
       let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
@@ -29,7 +29,7 @@ export const addCommands = async () => {
   path = __dirname + "/../commands/members/";
   filenames = await readdir(path);
   filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
+    if (file.endsWith(".ts")) {
       let { command } = require(path + file);
       let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
@@ -42,7 +42,7 @@ export const addCommands = async () => {
   path = __dirname + "/../commands/admins/";
   filenames = await readdir(path);
   filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
+    if (file.endsWith(".ts")) {
       let { command } = require(path + file);
       let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
@@ -55,7 +55,7 @@ export const addCommands = async () => {
   path = __dirname + "/../commands/owner/";
   filenames = await readdir(path);
   filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
+    if (file.endsWith(".ts")) {
       let { command } = require(path + file);
       let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
