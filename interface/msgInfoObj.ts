@@ -18,7 +18,7 @@ export interface MsgInfoObj {
   isTaggedSticker: boolean;
 
   sender: string;
-  senderName: string | undefined | null;
+  senderName: string;
   myNumber: string | undefined;
   botNumberJid: string;
 

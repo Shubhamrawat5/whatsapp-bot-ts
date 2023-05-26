@@ -18,17 +18,17 @@ const createGroupNameTable = async () => {
 // };
 
 export const setGroupName = async (
-  groupJid: string,
+  groupjid: string,
   gname: string
 ): Promise<boolean> => {
   try {
-    if (!groupJid.endsWith("@g.us")) return false;
+    if (!groupjid.endsWith("@g.us")) return false;
     await createGroupNameTable();
 
     //check if groupjid is present in DB or not
     let result = await pool.query(
       "select * from groupname where groupjid=$1;",
-      [groupJid]
+      [groupjid]
     );
 
     //present
@@ -37,11 +37,11 @@ export const setGroupName = async (
 
       await pool.query("UPDATE groupname SET gname = $1 WHERE groupjid=$2;", [
         gname,
-        groupJid,
+        groupjid,
       ]);
     } else {
       await pool.query("INSERT INTO groupname VALUES($1,$2);", [
-        groupJid,
+        groupjid,
         gname,
       ]);
     }

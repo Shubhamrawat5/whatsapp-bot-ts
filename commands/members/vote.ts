@@ -11,6 +11,7 @@ export const command = () => {
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { prefix, reply, sender, senderName, args, from } = msgInfoObj;
+
   const res = await getVotingData(from);
   let votingResult = res[0];
 

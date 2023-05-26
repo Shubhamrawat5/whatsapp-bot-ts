@@ -14,12 +14,12 @@ export interface GetCountVideo {
 }
 
 export const getCountVideo = async (
-  groupJid: string
+  groupjid: string
 ): Promise<GetCountVideo[]> => {
   try {
     let result = await pool.query(
-      "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
-      [groupJid]
+      "SELECT cv.memberjid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+      [groupjid]
     );
     if (result.rowCount) {
       return result.rows;
@@ -33,22 +33,22 @@ export const getCountVideo = async (
 };
 
 export const setCountVideo = async (
-  memberJid: string,
-  groupJid: string
+  memberjid: string,
+  groupjid: string
 ): Promise<boolean> => {
-  if (!groupJid.endsWith("@g.us")) return false;
+  if (!groupjid.endsWith("@g.us")) return false;
 
   try {
     let res = await pool.query(
       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
+      [memberjid, groupjid]
     );
 
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
-        memberJid,
-        groupJid,
+        memberjid,
+        groupjid,
         1,
       ]);
     }
@@ -60,19 +60,19 @@ export const setCountVideo = async (
   }
 };
 
-// module.exports.setCountVideo = async (memberJid, groupJid) => {
-//   if (!groupJid.endsWith("@g.us")) return;
+// module.exports.setCountVideo = async (memberjid, groupjid) => {
+//   if (!groupjid.endsWith("@g.us")) return;
 //   let result;
 //   try {
 //     result = await pool.query(
 //       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid]
+//       [memberjid, groupjid]
 //     );
 //   } catch (err) {
 //     await createCountVideoTable();
 //     result = await pool.query(
 //       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid]
+//       [memberjid, groupjid]
 //     );
 //   }
 
@@ -82,14 +82,14 @@ export const setCountVideo = async (
 
 //     await pool.query(
 //       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid]
+//       [memberjid, groupjid]
 //     );
 //
 //     return count + 1;
 //   } else {
 //     await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
-//       memberJid,
-//       groupJid,
+//       memberjid,
+//       groupjid,
 //       1,
 //     ]);
 //

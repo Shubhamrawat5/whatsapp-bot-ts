@@ -13,11 +13,11 @@ export interface GetCountWarning {
 
 export const getCountWarning = async (
   memberjid: string,
-  groupJid: string
+  groupjid: string
 ): Promise<GetCountWarning[]> => {
   let result = await pool.query(
-    "SELECT count FROM countwarning WHERE memberjid=$1 AND groupJid=$2;",
-    [memberjid, groupJid]
+    "SELECT count FROM countwarning WHERE memberjid=$1 AND groupjid=$2;",
+    [memberjid, groupjid]
   );
   if (result.rowCount) {
     return result.rows;
@@ -28,6 +28,7 @@ export const getCountWarning = async (
 
 export interface GetCountWarningAllGroup {
   memberjid: string;
+  name: string;
   count: number;
 }
 
@@ -50,11 +51,11 @@ export interface GetCountWarningAll {
 }
 
 export const getCountWarningAll = async (
-  groupJid: string
+  groupjid: string
 ): Promise<GetCountWarningAll[]> => {
   let result = await pool.query(
     "SELECT cw.memberjid,cw.count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
-    [groupJid]
+    [groupjid]
   );
   if (result.rowCount) {
     return result.rows;
@@ -64,16 +65,16 @@ export const getCountWarningAll = async (
 };
 
 export const setCountWarning = async (
-  memberJid: string,
-  groupJid: string
+  memberjid: string,
+  groupjid: string
 ): Promise<boolean> => {
   try {
-    if (!groupJid.endsWith("@g.us")) return false;
+    if (!groupjid.endsWith("@g.us")) return false;
 
     //check if groupjid is present in DB or not
     let result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
+      [memberjid, groupjid]
     );
 
     //present
@@ -82,12 +83,12 @@ export const setCountWarning = async (
 
       await pool.query(
         "UPDATE countwarning SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-        [memberJid, groupJid]
+        [memberjid, groupjid]
       );
     } else {
       await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
-        memberJid,
-        groupJid,
+        memberjid,
+        groupjid,
         1,
       ]);
     }
@@ -100,16 +101,16 @@ export const setCountWarning = async (
 };
 
 export const reduceCountWarning = async (
-  memberJid: string,
-  groupJid: string
+  memberjid: string,
+  groupjid: string
 ): Promise<boolean> => {
   try {
-    if (!groupJid.endsWith("@g.us")) return false;
+    if (!groupjid.endsWith("@g.us")) return false;
 
     //check if groupjid is present in DB or not
     let result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
+      [memberjid, groupjid]
     );
 
     //present
@@ -118,7 +119,7 @@ export const reduceCountWarning = async (
 
       await pool.query(
         "UPDATE countwarning SET count = count-1 WHERE memberjid=$1 AND groupjid=$2;",
-        [memberJid, groupJid]
+        [memberjid, groupjid]
       );
       return true;
     }
@@ -132,16 +133,16 @@ export const reduceCountWarning = async (
 };
 
 export const clearCountWarning = async (
-  memberJid: string,
-  groupJid: string
+  memberjid: string,
+  groupjid: string
 ): Promise<boolean> => {
   try {
-    if (!groupJid.endsWith("@g.us")) return false;
+    if (!groupjid.endsWith("@g.us")) return false;
 
     //check if groupjid is present in DB or not
     let result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
+      [memberjid, groupjid]
     );
 
     //present
@@ -150,7 +151,7 @@ export const clearCountWarning = async (
 
       await pool.query(
         "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",
-        [memberJid, groupJid]
+        [memberjid, groupjid]
       );
       return true;
     }

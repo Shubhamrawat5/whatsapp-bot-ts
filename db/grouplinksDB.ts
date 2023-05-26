@@ -32,7 +32,9 @@ const createGroupLinksEnabledTable = async () => {
   );
 };
 
-export const setGroupLinkEnabled = async (enabled: any): Promise<boolean> => {
+export const setGroupLinkEnabled = async (
+  enabled: string[]
+): Promise<boolean> => {
   try {
     let res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
       enabled,
@@ -50,18 +52,18 @@ export const setGroupLinkEnabled = async (enabled: any): Promise<boolean> => {
 };
 
 export const setGroupLink = async (
-  groupJid: string,
+  groupjid: string,
   link: string
 ): Promise<boolean> => {
   try {
     let res = await pool.query(
       "UPDATE grouplinks SET link = $1 WHERE groupjid=$2;",
-      [link, groupJid]
+      [link, groupjid]
     );
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO grouplinks VALUES($1,$2);", [
-        groupJid,
+        groupjid,
         link,
       ]);
     }

@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let countGroupMsgTop = `*${groupName}*\n_MEMBERS RANK_${readMore}\n`;
 
-  resultCountGroupTop.forEach((member: any, index: number) => {
+  resultCountGroupTop.forEach((member, index) => {
     if (groupMembersId.includes(member.memberjid))
       countGroupMsgTop += `\n${index + 1}) ${member.name} - ${member.count}`;
   });

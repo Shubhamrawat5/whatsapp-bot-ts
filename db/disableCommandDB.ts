@@ -32,21 +32,21 @@ export const getDisableCommandData = async (
 
 export const setDisableCommandData = async (
   groupjid: string,
-  disabled: any
+  disabled: string[]
 ): Promise<boolean> => {
-  disabled = JSON.stringify(disabled);
+  const disabledJson = JSON.stringify(disabled);
 
   try {
     let res = await pool.query(
       "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
-      [disabled, groupjid]
+      [disabledJson, groupjid]
     );
 
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
         groupjid,
-        disabled,
+        disabledJson,
       ]);
     }
     return true;

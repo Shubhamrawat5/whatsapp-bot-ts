@@ -47,7 +47,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   //create object of { jid: name }
   const memberjidObj: MemberjidToUsername = {};
-  res.forEach((mem: any) => {
+  res.forEach((mem) => {
     memberjidObj[mem.memberjid] = mem.name;
   });
 

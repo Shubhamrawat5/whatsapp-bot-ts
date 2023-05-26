@@ -41,16 +41,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //     return;
 //   }
 
-//   const memberJid = `${number}@s.whatsapp.net`;
+//   const memberjid = `${number}@s.whatsapp.net`;
 //   const achievedText = args.slice(1).join(" ");
 //   let achieved = [achievedText];
-//   const milestoneRes = await getMilestone(memberJid);
+//   const milestoneRes = await getMilestone(memberjid);
 //   if (milestoneRes.length) {
 //     achieved = milestoneRes[0].achieved;
 //     achieved.push(achievedText);
 //   }
 
-//   const res = await setMilestone(memberJid, achieved);
+//   const res = await setMilestone(memberjid, achieved);
 //   if (res) await reply(`✔ Milestone added!`);
 //   else await reply(`❌ There is some problem!`);
 // };

@@ -8,11 +8,11 @@ const createGroupParticipantTable = async () => {
   );
 };
 
-// module.exports.getGroupParticipant = async (groupJid) => {
+// module.exports.getGroupParticipant = async (groupjid) => {
 //   try {
 //     let result = await pool.query(
-//       "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
-//       [groupJid]
+//       "SELECT cv.memberjid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+//       [groupjid]
 //     );
 //     if (result.rowCount) {
 //       return result.rows;
@@ -26,8 +26,8 @@ const createGroupParticipantTable = async () => {
 // };
 
 export const setGroupParticipant = async (
-  memberJid: string,
-  groupJid: string,
+  memberjid: string,
+  groupjid: string,
   action: string
 ): Promise<boolean> => {
   let today = new Date();
@@ -49,8 +49,8 @@ export const setGroupParticipant = async (
 
   try {
     await pool.query("INSERT INTO groupparticipant VALUES($1,$2,$3,$4);", [
-      memberJid,
-      groupJid,
+      memberjid,
+      groupjid,
       action,
       todayNew,
     ]);

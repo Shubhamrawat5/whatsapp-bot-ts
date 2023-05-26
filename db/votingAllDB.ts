@@ -10,10 +10,10 @@ export interface GetVotingAllData {
   is_started: boolean;
   started_by: string;
   title: string;
-  choices: any;
-  count: any;
-  members_voted_for: any;
-  voted_members: any;
+  choices: string[];
+  count: number[];
+  members_voted_for: string[][];
+  voted_members: string[];
 }
 
 export const getVotingAllData = async (
@@ -35,10 +35,10 @@ const updateVotingAllData = async (
   is_started: boolean,
   started_by: string,
   title: string,
-  choices: any,
-  count: any,
-  members_voted_for: any,
-  voted_members: any
+  choices: string,
+  count: string,
+  members_voted_for: string,
+  voted_members: string
 ): Promise<boolean> => {
   try {
     await pool.query(
@@ -86,16 +86,17 @@ export const setVotingAllData = async (
   is_started: boolean,
   started_by: string,
   title: string,
-  choices: any,
-  count: any,
-  members_voted_for: any,
-  voted_members: any
+  choices: string[],
+  count: number[],
+  members_voted_for: string[][],
+  voted_members: string[]
 ): Promise<boolean> => {
   try {
-    choices = JSON.stringify(choices);
-    count = JSON.stringify(count);
-    members_voted_for = JSON.stringify(members_voted_for);
-    voted_members = JSON.stringify(voted_members);
+    const choicesJson = JSON.stringify(choices);
+    const countJson = JSON.stringify(count);
+    const members_voted_forJson = JSON.stringify(members_voted_for);
+    const voted_membersJson = JSON.stringify(voted_members);
+
     let result = await pool.query("SELECT * FROM votingall WHERE chat_id=$1", [
       groupjid,
     ]);
@@ -106,10 +107,10 @@ export const setVotingAllData = async (
         is_started,
         started_by,
         title,
-        choices,
-        count,
-        members_voted_for,
-        voted_members
+        choicesJson,
+        countJson,
+        members_voted_forJson,
+        voted_membersJson
       );
     } else {
       //insert new
@@ -120,10 +121,10 @@ export const setVotingAllData = async (
           is_started,
           started_by,
           title,
-          choices,
-          count,
-          members_voted_for,
-          voted_members,
+          choicesJson,
+          countJson,
+          members_voted_forJson,
+          voted_membersJson,
         ]
       );
     }

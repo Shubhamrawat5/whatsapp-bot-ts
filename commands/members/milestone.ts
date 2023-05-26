@@ -33,7 +33,7 @@ Send ${prefix}rank to know your rank with milestones.${readMore}
   const res = await getMilestoneText();
   if (res.length) {
     message += `\n\n *[CUSTOM MILESTONES]*\nAdmin can give following milestones by ${prefix}milestoneadd #contact #sno\nEg: ${prefix}milestoneadd #919876.... #2`;
-    res.forEach((milestone: any, index: number) => {
+    res.forEach((milestone, index) => {
       message += `\n⭐ ${index + 1}. ${milestone.milestone}`;
     });
   }

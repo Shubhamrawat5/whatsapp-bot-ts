@@ -14,12 +14,12 @@ export interface GetMilestone {
 }
 
 export const getMilestone = async (
-  memberJid: string
+  memberjid: string
 ): Promise<GetMilestone[]> => {
   try {
     let result = await pool.query(
-      "SELECT m.memberJid,m.achieved,cmn.name FROM milestone m INNER JOIN countmembername cmn ON m.memberJid=cmn.memberJid WHERE m.memberJid=$1;",
-      [memberJid]
+      "SELECT m.memberjid,m.achieved,cmn.name FROM milestone m INNER JOIN countmembername cmn ON m.memberjid=cmn.memberjid WHERE m.memberjid=$1;",
+      [memberjid]
     );
     if (result.rowCount) {
       return result.rows;
@@ -33,20 +33,20 @@ export const getMilestone = async (
 };
 
 export const setMilestone = async (
-  memberJid: string,
+  memberjid: string,
   achieved: string[]
 ): Promise<boolean> => {
   try {
     const achievedJson = JSON.stringify(achieved);
     let res = await pool.query(
       "UPDATE milestone SET achieved=$2 WHERE memberjid=$1;",
-      [memberJid, achievedJson]
+      [memberjid, achievedJson]
     );
 
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO milestone VALUES($1,$2);", [
-        memberJid,
+        memberjid,
         achievedJson,
       ]);
     }

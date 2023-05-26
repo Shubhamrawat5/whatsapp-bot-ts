@@ -42,8 +42,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const memberJid = `${contact}@s.whatsapp.net`;
-  const milestoneRes = await getMilestone(memberJid);
+  const memberjid = `${contact}@s.whatsapp.net`;
+  const milestoneRes = await getMilestone(memberjid);
 
   if (milestoneRes.length === 0) {
     await reply(`❌ There are 0 custom milestones for ${contact}`);
@@ -60,7 +60,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return index + 1 !== sno;
   });
 
-  const res = await setMilestone(memberJid, achieved);
+  const res = await setMilestone(memberjid, achieved);
   if (res) await reply(`✔ Milestone removed!`);
   else await reply(`❌ There is some problem!`);
 };

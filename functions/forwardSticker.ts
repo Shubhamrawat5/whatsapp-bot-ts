@@ -1,4 +1,8 @@
-import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
+import {
+  downloadContentFromMessage,
+  proto,
+  toBuffer,
+} from "@adiwajshing/baileys";
 import { Exif } from "wa-sticker-formatter";
 import { LoggerTg } from "./loggerBot";
 import { Bot } from "../interface/Bot";
@@ -13,12 +17,16 @@ let last20SentStickersSize = [
 
 export const forwardSticker = async (
   bot: Bot,
-  downloadFilePath: any,
+  downloadFilePath: proto.Message.IStickerMessage,
   pvxstickeronly1: string,
   pvxstickeronly2: string
 ) => {
   try {
-    const stickerSize = downloadFilePath.fileLength;
+    const stickerSize = Number(downloadFilePath.fileLength);
+    if (!stickerSize) {
+      return false;
+    }
+
     if (last20SentStickersSize.includes(stickerSize)) {
       console.log("same sticker again.");
       sameSticker += 1;

@@ -14,7 +14,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const res = await getGroupLink();
   let message = "📛 PVX LINKS 📛";
-  res.forEach((group: any) => {
+  res.forEach((group) => {
     message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;
   });
 

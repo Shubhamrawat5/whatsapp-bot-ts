@@ -10,14 +10,14 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply, groupName } = msgInfoObj;
+  let { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
   let warnCount = await getCountWarningAllGroup();
   let warnMsg = `*ALL PVX GROUPS*\n_warning status_${readMore}\n`;
 
-  warnCount.forEach((mem: any) => {
+  warnCount.forEach((mem) => {
     warnMsg += `\n${mem.count} - ${mem.name}`;
   });
 

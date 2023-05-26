@@ -396,7 +396,8 @@ const startBot = async () => {
             sender.slice(0, sender.search(":")) +
             sender.slice(sender.search("@"));
         const senderNumber = sender.split("@")[0];
-        const senderName = msg.pushName;
+        let senderName = msg.pushName;
+        if (!senderName) senderName = "null";
 
         const groupName: string | undefined = groupMetadata?.subject;
         const groupDesc: string | undefined = groupMetadata?.desc?.toString();
@@ -429,7 +430,7 @@ const startBot = async () => {
           //Forward all stickers
           if (
             groupName?.toUpperCase().startsWith("<{PVX}>") &&
-            type === "stickerMessage" &&
+            msg.message.stickerMessage &&
             isStickerForward === "true" &&
             from !== pvxgroups.pvxstickeronly1 &&
             from != pvxgroups.pvxstickeronly2 &&

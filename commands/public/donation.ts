@@ -20,7 +20,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // console.log(donaResult);
   let totalDona = 0;
   let donaMsgTemp = "";
-  donaResult.forEach((dona: any, index: number) => {
+  donaResult.forEach((dona, index) => {
     totalDona += dona.amount;
     donaMsgTemp += `\n❤️ Rs ${dona.amount} - ${dona.name}`;
   });
