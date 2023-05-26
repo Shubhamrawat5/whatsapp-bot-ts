@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { setCountWarning, getCountWarning } = require("../../db/warningDB");
+import { getCountWarning, setCountWarning } from "../../db/warningDB";
 
 export const command = () => {
   let cmd = ["warn", "warning"];
@@ -22,12 +21,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     //when member are mentioned with command
     if (mentioned.length === 1) {
       const participant = mentioned[0];
-      let warnCount = await getCountWarning(participant, from);
+      const res = await getCountWarning(participant, from);
+      let warnCount = res[0].count;
       let num_split = participant.split("@s.whatsapp.net")[0];
 
       if (warnCount < 3) {
         //0,1,2
-        warnCount = await setCountWarning(participant, from);
+        const res = await setCountWarning(participant, from);
+        if (res) warnCount += 1;
       }
       let warnMsg = `@${num_split} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
@@ -60,12 +61,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       msg.message.extendedTextMessage.contextInfo?.participant;
     if (!participant) return;
     let taggedMessageUser = [participant];
-    let warnCount = await getCountWarning(participant, from);
+    const res = await getCountWarning(participant, from);
+    let warnCount = res[0].count;
     let num_split = participant && participant.split("@s.whatsapp.net")[0];
 
     if (warnCount < 3) {
       //0,1,2
-      warnCount = await setCountWarning(participant, from);
+      const res = await setCountWarning(participant, from);
+      if (res) warnCount += 1;
     }
     let warnMsg = `@${num_split} ,You have been warned. Warning status (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
 

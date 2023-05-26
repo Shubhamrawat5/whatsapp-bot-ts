@@ -1,12 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
-  setMilestone,
-  getMilestone,
-  getMilestoneText,
-} = require("../../db/milestoneDB");
+import { getMilestone, setMilestone } from "../../db/milestoneDB";
 
 export const command = () => {
   let cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
@@ -61,11 +56,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let achieved = milestoneRes[0].achieved.filter(
-    (milestone: any, index: number) => {
-      return index + 1 !== sno;
-    }
-  );
+  let achieved = milestoneRes[0].achieved.filter((milestone, index) => {
+    return index + 1 !== sno;
+  });
 
   const res = await setMilestone(memberJid, achieved);
   if (res) await reply(`✔ Milestone removed!`);

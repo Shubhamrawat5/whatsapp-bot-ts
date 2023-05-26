@@ -1,12 +1,11 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
-  setMilestone,
-  getMilestone,
+import {
   getMilestoneText,
-} = require("../../db/milestoneDB");
+  getMilestone,
+  setMilestone,
+} from "../../db/milestoneDB";
 
 export const command = () => {
   let cmd = ["milestoneadd", "addmilestone", "ma", "am"];
@@ -58,7 +57,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const memberJid = `${contact}@s.whatsapp.net`;
   const achievedText = milestoneTextRes[sno - 1].milestone;
 
-  let achieved;
+  let achieved: string[];
   const milestoneRes = await getMilestone(memberJid);
   if (milestoneRes.length) {
     if (milestoneRes[0].achieved.includes(achievedText)) {

@@ -1,7 +1,7 @@
-const { getCountTop10 } = require("../../db/countMemberDB");
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
+import { getCountTop10 } from "../../db/countMemberDB";
 
 export const command = () => {
   let cmd = ["pvxt10"];

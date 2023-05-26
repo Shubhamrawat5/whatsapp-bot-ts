@@ -8,9 +8,7 @@ const createCountWarningTable = async () => {
 };
 
 export interface GetCountWarning {
-  name: string;
-  number: string;
-  amount: number;
+  count: number;
 }
 
 export const getCountWarning = async (
@@ -29,9 +27,8 @@ export const getCountWarning = async (
 };
 
 export interface GetCountWarningAllGroup {
-  name: string;
-  number: string;
-  amount: number;
+  memberjid: string;
+  count: number;
 }
 
 export const getCountWarningAllGroup = async (): Promise<
@@ -48,8 +45,8 @@ export const getCountWarningAllGroup = async (): Promise<
 };
 export interface GetCountWarningAll {
   name: string;
-  number: string;
-  amount: number;
+  memberjid: string;
+  count: number;
 }
 
 export const getCountWarningAll = async (

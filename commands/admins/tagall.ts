@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getMessage } = require("../../functions/getMessage");
+import { getMessage } from "../../functions/getMessage";
 
 export const command = () => {
   let cmd = ["tagall", "hiddentagall", "tagallhidden"];

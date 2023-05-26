@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getCountWarningAllGroup } = require("../../db/warningDB");
+import { getCountWarningAllGroup } from "../../db/warningDB";
 
 export const command = () => {
   let cmd = ["warnlistall", "warninglistall"];

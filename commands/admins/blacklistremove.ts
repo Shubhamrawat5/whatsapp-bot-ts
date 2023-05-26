@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { removeBlacklist } = require("../../db/blacklistDB");
+import { removeBlacklist } from "../../db/blacklistDB";
 
 export const command = () => {
   let cmd = ["blacklistremove", "removeblacklist", "blr"];

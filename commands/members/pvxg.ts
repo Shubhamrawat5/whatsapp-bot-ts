@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { getCountGroups } = require("../../db/countMemberDB");
+import { getCountGroups } from "../../db/countMemberDB";
 
 export const command = () => {
   let cmd = ["pvxg"];

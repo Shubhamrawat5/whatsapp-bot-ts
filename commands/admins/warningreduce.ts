@@ -1,12 +1,11 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
-  reduceCountWarning,
-  getCountWarning,
+import {
   clearCountWarning,
-} = require("../../db/warningDB");
+  getCountWarning,
+  reduceCountWarning,
+} from "../../db/warningDB";
 
 export const command = () => {
   let cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
@@ -25,7 +24,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
-      let warnCount = await getCountWarning(mentioned[0], from);
+      const res = await getCountWarning(mentioned[0], from);
+      let warnCount = res[0].count;
       let num_split = mentioned[0].split("@s.whatsapp.net")[0];
 
       if (warnCount < 1) {
@@ -59,7 +59,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     let taggedMessageUser = [participant];
 
     let num_split = participant && participant.split("@s.whatsapp.net")[0];
-    let warnCount = await getCountWarning(taggedMessageUser[0], from);
+    const res = await getCountWarning(taggedMessageUser[0], from);
+    let warnCount = res[0].count;
 
     if (warnCount < 1) {
       let warnMsg = `@${num_split} ,Your warning is already 0`;

@@ -12,7 +12,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 /* -------------------------- delete auth from url -------------------------- */
-const { dropAuth } = require("./db/dropauthDB");
+import { dropAuth } from "./db/dropauthDB";
 // const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
 // app.get("/" + authHiddenPath, async (req, res) => {
 //   console.log("Get request to /" + authHiddenPath);
@@ -71,11 +71,11 @@ if (store) {
 // console.log('state : ', state.creds);
 
 /* ----------------------------- add local files ---------------------------- */
-const { setCountMember } = require("./db/countMemberDB");
-const { setCountVideo } = require("./db/countVideoDB");
-const { getDisableCommandData } = require("./db/disableCommandDB");
-const { storeAuth, fetchAuth } = require("./db/authDB");
-const { addUnknownCmd } = require("./db/addUnknownCmdDB");
+import { setCountMember } from "./db/countMemberDB";
+import { setCountVideo } from "./db/countVideoDB";
+import { getDisableCommandData } from "./db/disableCommandDB";
+import { storeAuth, fetchAuth } from "./db/authDB";
+import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 

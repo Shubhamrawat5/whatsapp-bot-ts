@@ -36,45 +36,61 @@ export const getCountGroupMembers = async (
   }
 };
 
+export interface GetCountIndividual {
+  count: number;
+  name: string;
+}
+
 //count: user current group total messsage count
 export const getCountIndividual = async (
   memberJid: string,
   groupJid: string
-) => {
+): Promise<GetCountIndividual[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT cmn.name,cm.count FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid WHERE cm.memberJid=$1 AND cm.groupJid=$2;",
     [memberJid, groupJid]
   );
-  let resultObj: { name: string; count: number } = { name: "", count: 0 };
   if (result.rowCount) {
-    resultObj.name = result.rows[0].name;
-    resultObj.count = result.rows[0].count;
+    return result.rows;
+  } else {
+    return [];
   }
-
-  return resultObj;
 };
 
+export interface GetCountIndividualAllGroup {
+  count: number;
+  name: string;
+}
+
 //total: user all group total message count
-export const getCountIndividualAllGroup = async (memberJid: string) => {
+export const getCountIndividualAllGroup = async (
+  memberJid: string
+): Promise<GetCountIndividualAllGroup[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT cmn.name,sum(cm.count) as count,cm.memberJid FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid GROUP BY cmn.name,cm.memberJid HAVING cm.memberJid=$1;",
     [memberJid]
   );
 
-  let resultObj: { name: string; count: number } = { name: "", count: 0 };
-
   if (result.rowCount) {
-    resultObj.name = result.rows[0].name;
-    resultObj.count = result.rows[0].count;
+    return result.rows;
+  } else {
+    return [];
   }
-
-  return resultObj;
 };
 
+export interface GetRankInAllGroups {
+  name: string;
+  count: number;
+  ranks: number;
+  totalUsers: number;
+}
+
 //rank: rank in all groups message count
-export const getRankInAllGroups = async (memberJid: string) => {
+export const getRankInAllGroups = async (
+  memberJid: string
+): Promise<GetRankInAllGroups[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT cmn.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN countmembername cmn on table1.memberjid = cmn.memberjid where table1.memberJid=$1;",
@@ -85,25 +101,34 @@ export const getRankInAllGroups = async (memberJid: string) => {
     "select count(*) from (select memberjid,count(*) from countmember GROUP BY memberjid) table1;"
   );
 
-  let resultObj: {
-    name: string;
-    count: number;
-    ranks: number;
-    totalUsers: number;
-  } = { name: "", count: 0, ranks: 0, totalUsers: 0 };
-
+  let resultObj: GetRankInAllGroups = {
+    name: "",
+    count: 0,
+    ranks: 0,
+    totalUsers: 0,
+  };
+  //TODO:FIX
   if (result.rowCount) {
     resultObj.name = result.rows[0].name;
     resultObj.count = result.rows[0].count;
     resultObj.ranks = result.rows[0].ranks;
     resultObj.totalUsers = result2.rows[0].count;
+    return [resultObj];
+  } else {
+    return [];
   }
-
-  return resultObj;
 };
 
+export interface GetCountIndividualAllGroupWithName {
+  name: string;
+  gname: string;
+  count: number;
+}
+
 //count: user all group (with group wise) message count
-export const getCountIndividualAllGroupWithName = async (memberJid: string) => {
+export const getCountIndividualAllGroupWithName = async (
+  memberJid: string
+): Promise<GetCountIndividualAllGroupWithName[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT cmn.name,gn.gname,cm.count FROM countmember cm INNER JOIN countmembername cmn ON cmn.memberJid=cm.memberJid INNER JOIN groupname gn ON gn.groupJid=cm.groupJid WHERE cm.memberJid=$1 ORDER BY count DESC;",
@@ -116,8 +141,16 @@ export const getCountIndividualAllGroupWithName = async (memberJid: string) => {
   }
 };
 
+export interface GetCountTop {
+  name: string;
+  memberjid: string;
+  count: number;
+}
+
 //pvxt: top members stats of all groups
-export const getCountTop = async (noOfResult: number) => {
+export const getCountTop = async (
+  noOfResult: number
+): Promise<GetCountTop[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     `SELECT countmembername.name,countmember.memberJid,sum(countmember.count) as count FROM countmember LEFT JOIN countmembername ON countmember.memberjid=countmembername.memberjid GROUP BY countmember.memberjid,countmembername.name ORDER BY count DESC LIMIT ${noOfResult};`
@@ -129,8 +162,14 @@ export const getCountTop = async (noOfResult: number) => {
   }
 };
 
+export interface GetCountTop5 {
+  gname: string;
+  name: string;
+  count: number;
+}
+
 //pvxt5: top members stats of all groups
-export const getCountTop5 = async () => {
+export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT groupname.gname,countmembername.name,rs.count FROM (SELECT groupJid,memberJid,count, Rank() over (Partition BY groupJid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groupname on rs.groupJid=groupname.groupJid INNER JOIN countmembername ON rs.memberJid=countmembername.memberJid WHERE Rank <= 5;"
@@ -142,8 +181,14 @@ export const getCountTop5 = async () => {
   }
 };
 
+export interface GetCountTop10 {
+  gname: string;
+  name: string;
+  count: number;
+}
+
 //pvxt10: top members stats of all groups
-export const getCountTop10 = async () => {
+export const getCountTop10 = async (): Promise<GetCountTop10[]> => {
   await createCountMemberTable();
   let result = await pool.query(
     "SELECT groupname.gname,countmembername.name,rs.count FROM (SELECT groupJid,memberJid,count, Rank() over (Partition BY groupJid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groupname on rs.groupJid=groupname.groupJid INNER JOIN countmembername ON rs.memberJid=countmembername.memberJid WHERE Rank <= 10;"
@@ -155,8 +200,13 @@ export const getCountTop10 = async () => {
   }
 };
 
+export interface GetCountGroups {
+  gname: string;
+  count: number;
+}
+
 //pvxg: all groups stats
-export const getCountGroups = async () => {
+export const getCountGroups = async (): Promise<GetCountGroups[]> => {
   await createCountMemberTable();
   // let result = await pool.query(
   //   "SELECT groupJid,SUM(count) as count FROM countmember GROUP BY groupJid ORDER BY count DESC;"
@@ -171,8 +221,14 @@ export const getCountGroups = async () => {
   }
 };
 
+export interface GetUsernames {
+  [key: string]: string;
+}
+
 //get usesrnames
-export const getUsernames = async (memberjidArray: any) => {
+export const getUsernames = async (
+  memberjidArray: any
+): Promise<GetUsernames[]> => {
   console.log(memberjidArray);
   let result = await pool.query(
     "SELECT * from countmembername where memberjid = ANY($1::text[])",
@@ -253,8 +309,8 @@ export const getUsernames = async (memberjidArray: any) => {
 export const setCountMember = async (
   memberJid: string,
   groupJid: string,
-  name: string
-) => {
+  name: string | undefined | null
+): Promise<any> => {
   const result = { currentGroup: 0, allGroup: 0 };
   try {
     let res = await pool.query(

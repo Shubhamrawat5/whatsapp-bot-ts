@@ -1,11 +1,10 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
+import {
   getDisableCommandData,
   setDisableCommandData,
-} = require("../../db/disableCommandDB");
+} from "../../db/disableCommandDB";
 
 export const command = () => {
   let cmd = ["enable"];
@@ -29,15 +28,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let res: string[] = await getDisableCommandData(from);
+  let res = await getDisableCommandData(from);
+  const disabledCmdArray = res[0].disabled;
 
-  if (!res.includes(cmd)) {
+  if (!disabledCmdArray.includes(cmd)) {
     await reply(`❌ ${prefix}${cmd} is already enabled!`);
     return;
   }
 
-  //TODO: RETURN TYPE IN ALL FUNCTIONS
-  const resNew: string[] = res.filter((c: string) => {
+  const resNew = disabledCmdArray.filter((c) => {
     return cmd != c;
   });
 

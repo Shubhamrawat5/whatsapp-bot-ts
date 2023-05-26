@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const { setGroupLink, setGroupLinkEnabled } = require("../../db/grouplinksDB");
+import { setGroupLink, setGroupLinkEnabled } from "../../db/grouplinksDB";
 
 export const command = () => {
   let cmd = ["setlink", "sl"];

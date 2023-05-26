@@ -10,7 +10,7 @@ const createMilestoneTable = async () => {
 export interface GetMilestone {
   memberjid: string;
   name: string;
-  achieved: any;
+  achieved: string[];
 }
 
 export const getMilestone = async (
@@ -34,20 +34,20 @@ export const getMilestone = async (
 
 export const setMilestone = async (
   memberJid: string,
-  achieved: string
+  achieved: string[]
 ): Promise<boolean> => {
   try {
-    achieved = JSON.stringify(achieved);
+    const achievedJson = JSON.stringify(achieved);
     let res = await pool.query(
       "UPDATE milestone SET achieved=$2 WHERE memberjid=$1;",
-      [memberJid, achieved]
+      [memberJid, achievedJson]
     );
 
     //not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO milestone VALUES($1,$2);", [
         memberJid,
-        achieved,
+        achievedJson,
       ]);
     }
     return true;

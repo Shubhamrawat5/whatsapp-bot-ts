@@ -1,11 +1,10 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-const {
+import {
   getDisableCommandData,
   setDisableCommandData,
-} = require("../../db/disableCommandDB");
+} from "../../db/disableCommandDB";
 
 export const command = () => {
   let cmd = ["disable"];
@@ -31,12 +30,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let res = await getDisableCommandData(from);
 
-  if (res.includes(cmd)) {
+  //TODO: CHECK RES LENGTH
+  const disabledCmdArray = res[0].disabled;
+
+  if (disabledCmdArray.includes(cmd)) {
     await reply(`❌ ${prefix}${cmd} is already disabled!`);
     return;
   }
-  res.push(cmd);
-  await setDisableCommandData(from, res);
+  disabledCmdArray.push(cmd);
+  //TODO: ADD VARIABLE RESPONSE IN ALL
+  await setDisableCommandData(from, disabledCmdArray);
 
   await reply(`✔️ ${prefix}${cmd} command disabled!`);
 };

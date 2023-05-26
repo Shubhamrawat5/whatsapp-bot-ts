@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 import { pvxgroups } from "../../constants/constants";
-const { getUsernames } = require("../../db/countMemberDB");
+import { getUsernames } from "../../db/countMemberDB";
 
 export const command = () => {
   let cmd = ["adminlist"];
