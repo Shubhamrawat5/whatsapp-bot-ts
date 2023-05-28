@@ -4,33 +4,33 @@ import { Bot } from "../../interface/Bot";
 import { getCountWarning, setCountWarning } from "../../db/warningDB";
 
 export const command = () => {
-  let cmd = ["warn", "warning"];
+  const cmd = ["warn", "warning"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
+  const { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
     await reply("❌ Tag someone!");
     return;
   }
-  let mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
+  const mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
       const participant = mentioned[0];
       const res = await getCountWarning(participant, from);
       let warnCount = res[0].count;
-      let num_split = participant.split("@s.whatsapp.net")[0];
+      const num_split = participant.split("@s.whatsapp.net")[0];
 
       if (warnCount < 3) {
         //0,1,2
         const res = await setCountWarning(participant, from);
         if (res) warnCount += 1;
       }
-      let warnMsg = `@${num_split} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
+      const warnMsg = `@${num_split} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
       await bot.sendMessage(from, {
         text: warnMsg,
@@ -60,17 +60,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const participant =
       msg.message.extendedTextMessage.contextInfo?.participant;
     if (!participant) return;
-    let taggedMessageUser = [participant];
+    const taggedMessageUser = [participant];
     const res = await getCountWarning(participant, from);
     let warnCount = res[0].count;
-    let num_split = participant && participant.split("@s.whatsapp.net")[0];
+    const num_split = participant && participant.split("@s.whatsapp.net")[0];
 
     if (warnCount < 3) {
       //0,1,2
       const res = await setCountWarning(participant, from);
       if (res) warnCount += 1;
     }
-    let warnMsg = `@${num_split} ,You have been warned. Warning status (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
+    const warnMsg = `@${num_split} ,You have been warned. Warning status (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
 
     await bot.sendMessage(from, {
       text: warnMsg,

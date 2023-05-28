@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { addBlacklist } from "../../db/blacklistDB";
 
 export const command = () => {
-  let cmd = ["blacklistadd", "addblacklist", "bla"];
+  const cmd = ["blacklistadd", "addblacklist", "bla"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args } = msgInfoObj;
 
   if (args.length < 2) {
     await reply(`❌ Wrong query!\nSend ${prefix}bla number reason`);
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let reason = args.slice(1).join(" ");
+  const reason = args.slice(1).join(" ");
   if (!reason) {
     await reply(`❌ Incorrect reason!\nSend ${prefix}bla number reason`);
     return;
@@ -45,12 +45,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let blacklistRes = await addBlacklist(blacklistNumb, reason);
+  const blacklistRes = await addBlacklist(blacklistNumb, reason);
   await reply(blacklistRes);
 
-  let blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
-  let chats = await bot.groupFetchAllParticipating();
-  let groups = Object.values(chats)
+  const blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
+  const chats = await bot.groupFetchAllParticipating();
+  const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
@@ -59,7 +59,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 
-  for (let group of groups) {
+  for (const group of groups) {
     group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.id === blacklistNumbWithJid) {
         pvxMsg += `\n*${group.subject}*`;

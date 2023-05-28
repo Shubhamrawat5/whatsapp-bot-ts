@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 import { getCountIndividualAllGroupWithName } from "../../db/countMemberDB";
 
 export const command = () => {
-  let cmd = ["count", "total"];
+  const cmd = ["count", "total"];
 
   return { cmd, handler };
 };
@@ -23,16 +23,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       sender = msg.message.extendedTextMessage.contextInfo.mentionedJid[0];
   }
 
-  let resultCountGroup = await getCountIndividualAllGroupWithName(sender);
+  const resultCountGroup = await getCountIndividualAllGroupWithName(sender);
 
-  let username: string = resultCountGroup.length
+  const username: string = resultCountGroup.length
     ? resultCountGroup[0].name
     : sender.split("@")[0];
 
   let countGroupMsg = `*📛 ${username} PVX STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;
-  for (let group of resultCountGroup) {
+  for (const group of resultCountGroup) {
     let grpName = group.gname;
     grpName = grpName.replace("<{PVX}> ", "");
     totalGrpCount += Number(group.count);

@@ -9,15 +9,15 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args, from } = msgInfoObj;
+  const { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
-    let message = `❌ Query is not given! \nSend ${prefix}is query`;
+    const message = `❌ Query is not given! \nSend ${prefix}is query`;
     await reply(message);
     return;
   }
 
-  let name = args.join(" ");
+  const name = args.join(" ");
 
   gis(name, async (error: any, results: any) => {
     if (error) {
@@ -37,7 +37,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           } else if (results.length > 10) {
             index = Math.floor(Math.random() * 10);
           }
-          let img = results[index]["url"];
+          const img = results[index]["url"];
           console.log(img);
 
           await bot.sendMessage(

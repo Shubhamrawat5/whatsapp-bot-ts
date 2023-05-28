@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["rules", "r", "rule"];
+  const cmd = ["rules", "r", "rule"];
 
   return { cmd, handler };
 };
@@ -13,7 +13,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let text = `*─「 <{PVX}> RULES 」 ─*
+  const text = `*─「 <{PVX}> RULES 」 ─*
   ${readMore}
 ✔ Rule 01 -
 _Do not spam in the grp._

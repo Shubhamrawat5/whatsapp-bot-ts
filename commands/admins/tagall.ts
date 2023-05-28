@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { getMessage } from "../../functions/getMessage";
 
 export const command = () => {
-  let cmd = ["tagall", "hiddentagall", "tagallhidden"];
+  const cmd = ["tagall", "hiddentagall", "tagallhidden"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupMembers, prefix, command, from } = msgInfoObj;
+  const { groupMembers, prefix, command, from } = msgInfoObj;
   if (!groupMembers) return;
   //if (
   //  groupName.toUpperCase().includes("PVX") &&
@@ -20,10 +20,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   //  return;
   //}
 
-  let jids = [];
+  const jids = [];
   let message = "ALL: " + (await getMessage(msg, prefix, command)) + "\n\n";
 
-  for (let member of groupMembers) {
+  for (const member of groupMembers) {
     if (command === "tagall") message += "@" + member.id.split("@")[0] + " ";
     jids.push(member.id);
   }

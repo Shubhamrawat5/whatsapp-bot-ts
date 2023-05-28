@@ -13,7 +13,7 @@ export interface FetchAuth {
 
 export const fetchAuth = async (state: any): Promise<FetchAuth> => {
   let cred: any,
-    auth_row_count: number = 0;
+    auth_row_count = 0;
   await createAuthTable();
   try {
     const auth_result = await pool.query("select * from auth;"); //checking auth table

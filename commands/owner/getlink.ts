@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { getGroupLink } from "../../db/grouplinksDB";
 
 export const command = () => {
-  let cmd = ["getlink", "gl"];
+  const cmd = ["getlink", "gl"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply } = msgInfoObj;
+  const { reply } = msgInfoObj;
 
   const res = await getGroupLink();
   let message = "📛 PVX LINKS 📛";

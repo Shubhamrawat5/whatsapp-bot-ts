@@ -17,10 +17,10 @@ export const addCommands = async () => {
   let filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".ts")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
+      const { command } = require(path + file);
+      const cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
+      for (const c of cmdinfo.cmd) {
         commandsPublic[c] = cmdinfo.handler;
       }
     }
@@ -30,10 +30,10 @@ export const addCommands = async () => {
   filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".ts")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
+      const { command } = require(path + file);
+      const cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
+      for (const c of cmdinfo.cmd) {
         commandsMembers[c] = cmdinfo.handler;
       }
     }
@@ -43,10 +43,10 @@ export const addCommands = async () => {
   filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".ts")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
+      const { command } = require(path + file);
+      const cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
+      for (const c of cmdinfo.cmd) {
         commandsAdmins[c] = cmdinfo.handler;
       }
     }
@@ -56,10 +56,10 @@ export const addCommands = async () => {
   filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".ts")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
+      const { command } = require(path + file);
+      const cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
+      for (const c of cmdinfo.cmd) {
         commandsOwners[c] = cmdinfo.handler;
       }
     }

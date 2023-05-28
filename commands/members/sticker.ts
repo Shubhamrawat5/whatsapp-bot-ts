@@ -13,7 +13,7 @@ const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 export const command = () => {
-  let cmd = ["sticker", "s"];
+  const cmd = ["sticker", "s"];
 
   return { cmd, handler };
 };
@@ -47,9 +47,9 @@ const downloadMedia = async (
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { type, reply, args, from } = msgInfoObj;
-  let packName = "BOT 🤖";
-  let authorName = "pvxcommunity.com";
+  const { type, reply, args, from } = msgInfoObj;
+  const packName = "BOT 🤖";
+  const authorName = "pvxcommunity.com";
   let quality: number;
   let downloadFilePath: WAGenericMediaMessage | null | undefined;
   let mediaType: "image" | "video";

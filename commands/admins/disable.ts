@@ -7,13 +7,13 @@ import {
 } from "../../db/disableCommandDB";
 
 export const command = () => {
-  let cmd = ["disable"];
+  const cmd = ["disable"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply, args, allCommandsName, prefix, from } = msgInfoObj;
+  const { reply, args, allCommandsName, prefix, from } = msgInfoObj;
 
   if (args.length === 0) {
     await reply("❌ Give command name also by !disable commandName");
@@ -28,7 +28,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let res = await getDisableCommandData(from);
+  const res = await getDisableCommandData(from);
 
   //TODO: CHECK RES LENGTH
   const disabledCmdArray = res[0].disabled;

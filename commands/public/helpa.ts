@@ -3,17 +3,17 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["helpa"];
+  const cmd = ["helpa"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+  const { prefix, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let text = `*─「 🔥 <{PVX}> BOT 🔥 」─*
+  const text = `*─「 🔥 <{PVX}> BOT 🔥 」─*
   ${readMore}
 _Admin commands only!_
 

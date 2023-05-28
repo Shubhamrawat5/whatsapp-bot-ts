@@ -6,7 +6,7 @@ import fs from "fs";
 import { getDonation } from "../../db/donationDB";
 
 export const command = () => {
-  let cmd = ["donation", "donations", "donate"];
+  const cmd = ["donation", "donations", "donate"];
 
   return { cmd, handler };
 };
@@ -16,7 +16,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let donaResult = await getDonation();
+  const donaResult = await getDonation();
   // console.log(donaResult);
   let totalDona = 0;
   let donaMsgTemp = "";

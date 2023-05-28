@@ -4,20 +4,20 @@ import { Bot } from "../../interface/Bot";
 import { getCountTop } from "../../db/countMemberDB";
 
 export const command = () => {
-  let cmd = ["pvxtm", "pvxmt"];
+  const cmd = ["pvxtm", "pvxmt"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupName, reply, groupMembers } = msgInfoObj;
+  const { groupName, reply, groupMembers } = msgInfoObj;
   if (!groupMembers) return;
 
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   const groupMembersId = groupMembers.map((member) => member.id);
 
-  let resultCountGroupTop = await getCountTop(10000);
+  const resultCountGroupTop = await getCountTop(10000);
 
   let countGroupMsgTop = `*${groupName}*\n_MEMBERS RANK_${readMore}\n`;
 

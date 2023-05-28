@@ -4,22 +4,22 @@ import { Bot } from "../../interface/Bot";
 import { setGroupName } from "../../db/groupNameDB";
 
 export const command = () => {
-  let cmd = ["gname"];
+  const cmd = ["gname"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
-  let chats = await bot.groupFetchAllParticipating();
-  let groups = Object.values(chats)
+  const chats = await bot.groupFetchAllParticipating();
+  const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => {
       return { name: v.subject, id: v.id };
     });
 
   // console.log(groups);
-  for (let group of groups) {
+  for (const group of groups) {
     await setGroupName(group.id, group.name);
   }
 

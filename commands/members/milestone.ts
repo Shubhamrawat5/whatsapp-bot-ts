@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { getMilestoneText } from "../../db/milestoneDB";
 
 export const command = () => {
-  let cmd = ["milestone", "milestones"];
+  const cmd = ["milestone", "milestones"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+  const { prefix, reply } = msgInfoObj;
 
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);

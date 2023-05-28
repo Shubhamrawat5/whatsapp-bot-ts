@@ -7,23 +7,23 @@ import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 import { Exif } from "wa-sticker-formatter";
 
 export const command = () => {
-  let cmd = ["steal"];
+  const cmd = ["steal"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { isTaggedSticker, reply, args, from } = msgInfoObj;
+  const { isTaggedSticker, reply, args, from } = msgInfoObj;
 
   let packName = "BOT 🤖";
-  let authorName = "pvxcommunity.com";
+  const authorName = "pvxcommunity.com";
 
   if (isTaggedSticker) {
     if (args.length) {
       packName = args.join(" ");
     }
 
-    let downloadFilePath =
+    const downloadFilePath =
       msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
         ?.stickerMessage;
 

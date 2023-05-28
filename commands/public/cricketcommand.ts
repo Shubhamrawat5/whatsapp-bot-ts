@@ -3,14 +3,14 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["cricketcommand", "cc"];
+  const cmd = ["cricketcommand", "cc"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, from } = msgInfoObj;
-  let text = `_*🏏  CRICKET COMMANDS:*_
+  const { prefix, from } = msgInfoObj;
+  const text = `_*🏏  CRICKET COMMANDS:*_
 
 - Put matchID in starting of group description.
 - Get match ID from cricbuzz today match url.

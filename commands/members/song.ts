@@ -67,21 +67,21 @@ const downloadSong = async (randomName: string, query: string) => {
 };
 
 export const command = () => {
-  let cmd = ["song"];
+  const cmd = ["song"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args, from } = msgInfoObj;
+  const { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
     await reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
-  let randomName = getRandom(".mp3");
-  let query = args.join("%20");
-  let response: any = await downloadSong(randomName, query);
+  const randomName = getRandom(".mp3");
+  const query = args.join("%20");
+  const response: any = await downloadSong(randomName, query);
   if (response && response.info == "NF") {
     await reply(
       `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`

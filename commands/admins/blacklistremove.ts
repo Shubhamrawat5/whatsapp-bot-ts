@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { removeBlacklist } from "../../db/blacklistDB";
 
 export const command = () => {
-  let cmd = ["blacklistremove", "removeblacklist", "blr"];
+  const cmd = ["blacklistremove", "removeblacklist", "blr"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args } = msgInfoObj;
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
@@ -33,6 +33,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let blacklistRes = await removeBlacklist(blacklistNumb);
+  const blacklistRes = await removeBlacklist(blacklistNumb);
   await reply(blacklistRes);
 };

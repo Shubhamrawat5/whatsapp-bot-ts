@@ -3,13 +3,13 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["remove", "ban", "kick"];
+  const cmd = ["remove", "ban", "kick"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
+  const { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     await reply("❌ I'm not Admin here!");
@@ -46,7 +46,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           }
   */
 
-  let mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
+  const mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
@@ -73,7 +73,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const participant =
       msg.message.extendedTextMessage.contextInfo?.participant;
     if (!participant) return;
-    let taggedMessageUser = [participant];
+    const taggedMessageUser = [participant];
 
     if (participant && groupAdmins.includes(participant)) {
       //if admin then don't remove

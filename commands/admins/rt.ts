@@ -3,16 +3,16 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["rt", "randomtag"];
+  const cmd = ["rt", "randomtag"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupMembers, args, from } = msgInfoObj;
+  const { groupMembers, args, from } = msgInfoObj;
   if (!groupMembers) return;
 
-  let jids = [];
+  const jids = [];
   let message = "Hey ";
   if (
     msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     message += args.length ? args.join(" ") + "\n\n" : "";
   }
 
-  let member = groupMembers[Math.floor(Math.random() * groupMembers.length)];
+  const member = groupMembers[Math.floor(Math.random() * groupMembers.length)];
   message += "@" + member.id.split("@")[0] + " ";
   jids.push(member.id.replace("c.us", "s.whatsapp.net"));
 

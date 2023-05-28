@@ -5,18 +5,13 @@ import { Bot } from "../../interface/Bot";
 import { getBlacklist } from "../../db/blacklistDB";
 
 export const command = () => {
-  let cmd = ["blacklist"];
+  const cmd = ["blacklist"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply } = msgInfoObj;
-
-  interface BlacklistRes {
-    number: string;
-    reason: string;
-  }
+  const { reply } = msgInfoObj;
 
   const blacklistRes = await getBlacklist();
   let blacklistMsg = "Blacklisted Numbers\n";

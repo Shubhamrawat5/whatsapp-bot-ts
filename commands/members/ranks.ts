@@ -3,15 +3,15 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["ranks"];
+  const cmd = ["ranks"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+  const { prefix, reply } = msgInfoObj;
 
-  let text = `*─「 <{PVX}> RANKS 」 ─*
+  const text = `*─「 <{PVX}> RANKS 」 ─*
 
 Send ${prefix}rank to know your rank (based on total messages in all PVX groups from 24 Nov 2021) and message count.
 

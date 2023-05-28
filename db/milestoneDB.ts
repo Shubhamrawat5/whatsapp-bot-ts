@@ -17,7 +17,7 @@ export const getMilestone = async (
   memberjid: string
 ): Promise<GetMilestone[]> => {
   try {
-    let result = await pool.query(
+    const result = await pool.query(
       "SELECT m.memberjid,m.achieved,cmn.name FROM milestone m INNER JOIN countmembername cmn ON m.memberjid=cmn.memberjid WHERE m.memberjid=$1;",
       [memberjid]
     );
@@ -38,7 +38,7 @@ export const setMilestone = async (
 ): Promise<boolean> => {
   try {
     const achievedJson = JSON.stringify(achieved);
-    let res = await pool.query(
+    const res = await pool.query(
       "UPDATE milestone SET achieved=$2 WHERE memberjid=$1;",
       [memberjid, achievedJson]
     );
@@ -72,7 +72,7 @@ export interface GetMilestoneText {
 
 export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
   try {
-    let result = await pool.query("SELECT * from milestonetext;");
+    const result = await pool.query("SELECT * from milestonetext;");
     if (result.rowCount) {
       return result.rows;
     } else {

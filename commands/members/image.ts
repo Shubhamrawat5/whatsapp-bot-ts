@@ -10,7 +10,7 @@ import fs from "fs";
 import { writeFile } from "fs/promises";
 
 export const command = () => {
-  let cmd = ["image", "img", "toimg"];
+  const cmd = ["image", "img", "toimg"];
 
   return { cmd, handler };
 };
@@ -20,7 +20,7 @@ const getRandom = (ext: string) => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { isMedia, isTaggedSticker, reply, from } = msgInfoObj;
+  const { isMedia, isTaggedSticker, reply, from } = msgInfoObj;
 
   if (
     (isMedia && !msg.message?.stickerMessage?.isAnimated) ||

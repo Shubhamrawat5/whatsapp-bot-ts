@@ -5,25 +5,25 @@ import { getCountVideo } from "../db/countVideoDB";
 
 export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
   try {
-    let resultCountGroupIndi = await getCountVideo(pvxmano);
+    const resultCountGroupIndi = await getCountVideo(pvxmano);
 
-    let memWithMsg = new Set();
-    for (let member of resultCountGroupIndi) {
+    const memWithMsg = new Set();
+    for (const member of resultCountGroupIndi) {
       memWithMsg.add(member.memberjid);
     }
 
     const groupMetadata: GroupMetadata = await bot.groupMetadata(pvxmano);
     const groupMembers = groupMetadata.participants;
 
-    let zeroMano: string[] = [];
+    const zeroMano: string[] = [];
     groupMembers.forEach((mem) => {
       if (!memWithMsg.has(mem.id)) {
         zeroMano.push(mem.id);
       }
     });
 
-    let randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
-    let num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
+    const randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
+    const num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
 
     console.log(`Removing ${randomMemId} from Mano.`);
     await bot.sendMessage(pvxmano, {

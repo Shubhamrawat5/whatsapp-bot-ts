@@ -4,19 +4,19 @@ import { Bot } from "../../interface/Bot";
 import { getCountGroupMembers } from "../../db/countMemberDB";
 
 export const command = () => {
-  let cmd = ["zero"];
+  const cmd = ["zero"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupName, groupMembers, reply, from } = msgInfoObj;
+  const { groupName, groupMembers, reply, from } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  let resultCountGroupIndi = await getCountGroupMembers(from);
+  const resultCountGroupIndi = await getCountGroupMembers(from);
 
-  let memWithMsg = new Set();
-  for (let member of resultCountGroupIndi) {
+  const memWithMsg = new Set();
+  for (const member of resultCountGroupIndi) {
     memWithMsg.add(member.memberjid);
   }
 

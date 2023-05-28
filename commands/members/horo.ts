@@ -7,16 +7,16 @@ import axios from "axios";
 const getHoro = async (name: string): Promise<string> => {
   try {
     // let url = `https://aztro.sameerkumar.website/?sign=${name}&day=today`;
-    let url = `	https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
+    const url = `	https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
 
-    let { data } = await axios.post(url, null, {
+    const { data } = await axios.post(url, null, {
       params: {
         sign: name,
         date: "today",
         token: "mmEUtLATc8w_UNnHuR2",
       },
     });
-    let horoText = `*Horo:* ${name.toUpperCase()}
+    const horoText = `*Horo:* ${name.toUpperCase()}
 *Date:* ${data.current_date}
 *Lucky Number:* ${data.lucky_number}
 *Lucky Time:* ${data.lucky_time}
@@ -45,15 +45,15 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args } = msgInfoObj;
 
   if (args.length === 0) {
-    let message = `❌ Name is not given! \nSend ${prefix}horo name`;
+    const message = `❌ Name is not given! \nSend ${prefix}horo name`;
     await reply(message);
     return;
   }
 
-  let name = args[0].toLowerCase();
+  const name = args[0].toLowerCase();
   const horos = [
     "aries",
     "taurus",
@@ -70,13 +70,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   ];
 
   if (!horos.includes(name)) {
-    let message = `❌ Wrong horo name given! \nSend ${prefix}horo name\n\nHoro List: ${JSON.stringify(
+    const message = `❌ Wrong horo name given! \nSend ${prefix}horo name\n\nHoro List: ${JSON.stringify(
       horos
     )}`;
     await reply(message);
     return;
   }
-  let text = await getHoro(name);
+  const text = await getHoro(name);
   await reply(text);
 };
 

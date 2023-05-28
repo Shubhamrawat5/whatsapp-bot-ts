@@ -4,15 +4,15 @@ import { Bot } from "../../interface/Bot";
 import { getVotingData } from "../../db/VotingDB";
 
 export const command = () => {
-  let cmd = ["checkvote", "cv"];
+  const cmd = ["checkvote", "cv"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, from } = msgInfoObj;
+  const { prefix, reply, from } = msgInfoObj;
   const res = await getVotingData(from);
-  let votingResult = res[0];
+  const votingResult = res[0];
 
   if (!votingResult.is_started) {
     await reply(
@@ -29,7 +29,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
   resultVoteMsg += `\n\n*Voting Current Status:*`;
 
-  let totalVoted = votingResult.voted_members.length;
+  const totalVoted = votingResult.voted_members.length;
 
   votingResult.choices.forEach((name: string, index: number) => {
     resultVoteMsg += `\n======= ${(

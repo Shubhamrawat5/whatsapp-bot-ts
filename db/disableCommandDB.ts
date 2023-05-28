@@ -19,7 +19,7 @@ export const getDisableCommandData = async (
   await createDisableCommandTable();
 
   //check if today date is present in DB or not
-  let result = await pool.query(
+  const result = await pool.query(
     "select * from disablecommand where chat_id=$1;",
     [groupjid]
   );
@@ -37,7 +37,7 @@ export const setDisableCommandData = async (
   const disabledJson = JSON.stringify(disabled);
 
   try {
-    let res = await pool.query(
+    const res = await pool.query(
       "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
       [disabledJson, groupjid]
     );

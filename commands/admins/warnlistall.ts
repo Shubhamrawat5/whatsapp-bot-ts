@@ -4,17 +4,17 @@ import { Bot } from "../../interface/Bot";
 import { getCountWarningAllGroup } from "../../db/warningDB";
 
 export const command = () => {
-  let cmd = ["warnlistall", "warninglistall"];
+  const cmd = ["warnlistall", "warninglistall"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply } = msgInfoObj;
+  const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let warnCount = await getCountWarningAllGroup();
+  const warnCount = await getCountWarningAllGroup();
   let warnMsg = `*ALL PVX GROUPS*\n_warning status_${readMore}\n`;
 
   warnCount.forEach((mem) => {

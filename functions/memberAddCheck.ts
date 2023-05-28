@@ -30,7 +30,7 @@ export const memberAddCheck = async (
     // blockCommandsInDesc.includes("only91")
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       //if number is blacklisted
-      let blacklistRes = await getBlacklist(num_split);
+      const blacklistRes = await getBlacklist(num_split);
       // console.log(blacklistRes);
       if (blacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");

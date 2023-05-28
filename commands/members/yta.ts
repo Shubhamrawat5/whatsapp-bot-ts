@@ -10,31 +10,31 @@ const getRandom = (ext: string) => {
 };
 
 export const command = () => {
-  let cmd = ["yta"];
+  const cmd = ["yta"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args, from } = msgInfoObj;
+  const { prefix, reply, args, from } = msgInfoObj;
   try {
     if (args.length === 0) {
       await reply(`❌ URL is empty! \nSend ${prefix}yta url`);
       return;
     }
-    let urlYt = args[0];
+    const urlYt = args[0];
     if (!urlYt.startsWith("http")) {
       await reply(`❌ Give youtube link!`);
       return;
     }
-    let infoYt = await ytdl.getInfo(urlYt);
+    const infoYt = await ytdl.getInfo(urlYt);
     //30 MIN
     if (Number(infoYt.videoDetails.lengthSeconds) >= 1800) {
       await reply(`❌ Video too big!`);
       return;
     }
-    let titleYt = infoYt.videoDetails.title;
-    let randomName = getRandom(".mp3");
+    const titleYt = infoYt.videoDetails.title;
+    const randomName = getRandom(".mp3");
 
     const stream = ytdl(urlYt, {
       filter: (info) => info.audioBitrate == 160 || info.audioBitrate == 128,
@@ -46,10 +46,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       stream.on("finish", resolve);
     });
 
-    let stats = fs.statSync(`./${randomName}`);
-    let fileSizeInBytes = stats.size;
+    const stats = fs.statSync(`./${randomName}`);
+    const fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
-    let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
+    const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
     console.log("Audio downloaded ! Size: " + fileSizeInMegabytes);
     if (fileSizeInMegabytes <= 40) {
       await bot.sendMessage(

@@ -30,17 +30,17 @@ export const setGroupParticipant = async (
   groupjid: string,
   action: string
 ): Promise<boolean> => {
-  let today = new Date();
+  const today = new Date();
   let localeDate = today.toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
   });
   const localeDateList = localeDate.split("/");
-  let temp = localeDateList[0];
+  const temp = localeDateList[0];
   localeDateList[0] = localeDateList[2];
   localeDateList[2] = temp;
   localeDate = localeDateList.join("/");
 
-  let localeTime = today.toLocaleTimeString("en-GB", {
+  const localeTime = today.toLocaleTimeString("en-GB", {
     timeZone: "Asia/kolkata",
   });
 

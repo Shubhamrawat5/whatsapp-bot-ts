@@ -15,7 +15,7 @@ export interface GetDonation {
 
 export const getDonation = async (): Promise<GetDonation[]> => {
   await createDonationTable();
-  let result = await pool.query("select * from donation ORDER BY amount DESC;");
+  const result = await pool.query("select * from donation ORDER BY amount DESC;");
   if (result.rowCount) {
     return result.rows;
   } else {

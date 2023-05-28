@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { getCricketScore } from "../../functions/cricket";
 
 export const command = () => {
-  let cmd = ["score"];
+  const cmd = ["score"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { groupDesc, reply, from } = msgInfoObj;
+  const { groupDesc, reply, from } = msgInfoObj;
   const descErrorMessage = `❌ ERROR
 - Group description is empty.
 - Put match ID in starting of group description. 
@@ -24,13 +24,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let matchId = groupDesc.slice(0, 5);
+  const matchId = groupDesc.slice(0, 5);
   if (isNaN(Number(matchId))) {
     await reply(descErrorMessage);
     return;
   }
 
-  let response = await getCricketScore(matchId);
+  const response = await getCricketScore(matchId);
 
   //response.info have "MO" only when command is startc
   //   if (response.info === "ER") {

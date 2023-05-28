@@ -13,7 +13,7 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args, groupName } = msgInfoObj;
+  const { prefix, reply, args, groupName } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   if (pvx && !groupName?.toUpperCase().includes("PVX")) {
@@ -37,7 +37,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return;
     }
 
-    let query = args.join(" ");
+    const query = args.join(" ");
     const res = await api.sendMessage(query);
 
     if (res.text.length > 400) {

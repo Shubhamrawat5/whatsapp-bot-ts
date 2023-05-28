@@ -17,7 +17,7 @@ export const getCountVideo = async (
   groupjid: string
 ): Promise<GetCountVideo[]> => {
   try {
-    let result = await pool.query(
+    const result = await pool.query(
       "SELECT cv.memberjid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
       [groupjid]
     );
@@ -39,7 +39,7 @@ export const setCountVideo = async (
   if (!groupjid.endsWith("@g.us")) return false;
 
   try {
-    let res = await pool.query(
+    const res = await pool.query(
       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );

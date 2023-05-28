@@ -6,9 +6,9 @@ import axios from "axios";
 
 const getGender = async (name: string) => {
   try {
-    let url = "https://api.genderize.io/?name=" + name;
-    let { data } = await axios.get(url);
-    let genderText = `${data.name} is ${data.gender} with ${data.probability} probability`;
+    const url = "https://api.genderize.io/?name=" + name;
+    const { data } = await axios.get(url);
+    const genderText = `${data.name} is ${data.gender} with ${data.probability} probability`;
     return genderText;
   } catch (err) {
     console.log(err);
@@ -21,19 +21,19 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args } = msgInfoObj;
 
   if (args.length === 0) {
-    let message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
+    const message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
     await reply(message);
     return;
   }
-  let namePerson = args[0];
+  const namePerson = args[0];
   if (namePerson.includes("@")) {
-    let message = `❌ Don't tag! \nSend ${prefix}gender firstname`;
+    const message = `❌ Don't tag! \nSend ${prefix}gender firstname`;
     await reply(message);
     return;
   }
-  let text = await getGender(namePerson);
+  const text = await getGender(namePerson);
   await reply(text);
 };

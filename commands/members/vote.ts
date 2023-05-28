@@ -4,16 +4,16 @@ import { Bot } from "../../interface/Bot";
 import { getVotingData, setVotingData } from "../../db/VotingDB";
 
 export const command = () => {
-  let cmd = ["vote"];
+  const cmd = ["vote"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, sender, senderName, args, from } = msgInfoObj;
+  const { prefix, reply, sender, senderName, args, from } = msgInfoObj;
 
   const res = await getVotingData(from);
-  let votingResult = res[0];
+  const votingResult = res[0];
 
   if (!votingResult.is_started) {
     await reply(
@@ -30,7 +30,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let voteNumber = Math.floor(Number(args[0]));
+  const voteNumber = Math.floor(Number(args[0]));
   if (isNaN(voteNumber)) {
     await reply("❌ Give a number!");
     return;

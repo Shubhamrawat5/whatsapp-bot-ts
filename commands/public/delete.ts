@@ -3,13 +3,13 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["delete", "d"];
+  const cmd = ["delete", "d"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
+  const { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
     msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {

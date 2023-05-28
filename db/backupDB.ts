@@ -15,8 +15,8 @@ export const takeGroupbackup = async (
   try {
     await createGroupbackupTable();
 
-    let date = new Date().toLocaleString("en-GB", { timeZone: "Asia/kolkata" });
-    let membersCount = groupData.length;
+    const date = new Date().toLocaleString("en-GB", { timeZone: "Asia/kolkata" });
+    const membersCount = groupData.length;
     groupData = JSON.stringify(groupData);
 
     //insert new

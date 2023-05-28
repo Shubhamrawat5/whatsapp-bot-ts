@@ -33,9 +33,9 @@ const getBdayData = async () => {
 
   const data = await Birthday.find().sort({ date: 1 }); //sort by date
 
-  let bday: Bday[] = [];
+  const bday: Bday[] = [];
   data.forEach((document) => {
-    let { name, username, date, month, place, numb } = document;
+    const { name, username, date, month, place, numb } = document;
     bday.push({
       name,
       username,
@@ -90,7 +90,7 @@ export const checkTodayBday = async (
       }
     });
     if (bday.length) {
-      let bdayComb = bday.join(" & ");
+      const bdayComb = bday.join(" & ");
       try {
         await bot.groupParticipantsUpdate(pvxcommunity, mentions, "add");
       } catch (err) {

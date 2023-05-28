@@ -8,17 +8,17 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, args, reply, from } = msgInfoObj;
+  const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
     reply(`❌ URL is empty! \nSend ${prefix}fb url`);
     return;
   }
 
-  let urlFb = args[0];
+  const urlFb = args[0];
   console.log(urlFb);
 
   try {
-    let res = await axios.get(
+    const res = await axios.get(
       "https://fantox001-scrappy-api.vercel.app/fbdl?url=" + urlFb
     );
 

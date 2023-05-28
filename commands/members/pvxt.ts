@@ -4,18 +4,18 @@ import { Bot } from "../../interface/Bot";
 import { getCountTop } from "../../db/countMemberDB";
 
 export const command = () => {
-  let cmd = ["pvxt"];
+  const cmd = ["pvxt"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { args, reply } = msgInfoObj;
+  const { args, reply } = msgInfoObj;
 
   let noOfResult = 20;
   //get number from args if available
   if (args.length) {
-    let no = Number(args[0]);
+    const no = Number(args[0]);
     //if number is given then
     if (no && no > 0 && no <= 500) {
       noOfResult = no;
@@ -23,7 +23,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  let resultCountGroupTop = await getCountTop(noOfResult);
+  const resultCountGroupTop = await getCountTop(noOfResult);
   let countGroupMsgTop = `*📛 PVX TOP ${noOfResult} MEMBERS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
   let countGroupMsgTempTop = "\n";

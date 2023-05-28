@@ -5,9 +5,9 @@ import { Bot } from "../../interface/Bot";
 
 const getQuote = async () => {
   try {
-    let url = "https://zenquotes.io/api/random";
-    let { data } = await axios.get(url);
-    let quote = "💬 " + data[0].q;
+    const url = "https://zenquotes.io/api/random";
+    const { data } = await axios.get(url);
+    const quote = "💬 " + data[0].q;
     // console.log(quote);
     return quote;
   } catch (err) {
@@ -23,7 +23,7 @@ export const command = () => {
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
-  let text = await getQuote();
+  const text = await getQuote();
 
   await reply(text);
 };

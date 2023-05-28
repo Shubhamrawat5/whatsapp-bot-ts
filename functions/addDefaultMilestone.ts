@@ -25,7 +25,7 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
   console.log("Adding default milestones");
 
-  let chats: Chats = await bot.groupFetchAllParticipating();
+  const chats: Chats = await bot.groupFetchAllParticipating();
 
   chats[pvxsubadmin].participants.forEach((member) => {
     milestones[member.id] = ["Sub-Admin of PVX"];
@@ -36,8 +36,8 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
   const resultCountGroupTop: ResultCountGroupTop[] = await getCountTop(100);
   resultCountGroupTop.forEach((member, index) => {
-    let memberjid = member.memberjid;
-    let number = index + 1;
+    const memberjid = member.memberjid;
+    const number = index + 1;
     if (number > 50) {
       if (milestones[memberjid])
         milestones[memberjid].push("Top 100 active member of PVX");
@@ -59,7 +59,7 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
   const donationRes = await getDonation();
   donationRes.forEach((member, index) => {
-    let memberjid = `${member.number}@s.whatsapp.net`;
+    const memberjid = `${member.number}@s.whatsapp.net`;
     if (index === 0) {
       if (milestones[memberjid])
         milestones[memberjid].push("Highest contribution in PVX funds");

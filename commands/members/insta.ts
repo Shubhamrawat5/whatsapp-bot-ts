@@ -14,7 +14,7 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, args, reply, from } = msgInfoObj;
+  const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
     reply(`❌ URL is empty! \nSend ${prefix}insta url`);
     return;
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   console.log(urlInsta);
 
   try {
-    let res = await axios.get(
+    const res = await axios.get(
       "https://fantox001-scrappy-api.vercel.app/instadl?url=" + urlInsta
     );
 

@@ -3,19 +3,19 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["pvxstats"];
+  const cmd = ["pvxstats"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply } = msgInfoObj;
+  const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  let chats = await bot.groupFetchAllParticipating();
+  const chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
-  let groups = Object.values(chats)
+  const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
@@ -24,17 +24,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let pvxMsg = `*📛 PVX STATS 📛*${readMore}`;
   let totalMem = 0;
-  let uniqueMem = new Set();
+  const uniqueMem = new Set();
   let temppvxMsg = "";
   let temppvxList = [];
-  for (let group of groups) {
+  for (const group of groups) {
     totalMem += group.participants.length;
     temppvxList.push({
       subject: group.subject,
       count: group.participants.length,
     });
 
-    for (let participant of group.participants) {
+    for (const participant of group.participants) {
       uniqueMem.add(participant.id);
     }
   }

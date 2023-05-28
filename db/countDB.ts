@@ -14,7 +14,7 @@ export interface GetCount {
 
 export const getcount = async (): Promise<GetCount[]> => {
   await createCountTable();
-  let result = await pool.query(
+  const result = await pool.query(
     "SELECT to_char(day, 'DD/MM/YYYY'),day,times FROM count ORDER BY(day) DESC;"
   );
 
@@ -29,8 +29,8 @@ export const countToday = async (): Promise<number> => {
   let todayDate = new Date().toLocaleDateString("en-GB", {
     timeZone: "Asia/kolkata",
   });
-  let li = todayDate.split("/");
-  let temp = li[0];
+  const li = todayDate.split("/");
+  const temp = li[0];
   li[0] = li[2];
   li[2] = temp;
   todayDate = li.join("/");
@@ -38,13 +38,13 @@ export const countToday = async (): Promise<number> => {
   await createCountTable();
 
   //check if today date is present in DB or not
-  let result = await pool.query("select * from count where day=$1;", [
+  const result = await pool.query("select * from count where day=$1;", [
     todayDate,
   ]);
 
   //present
   if (result.rows.length) {
-    let times = result.rows[0].times;
+    const times = result.rows[0].times;
 
     await pool.query("UPDATE count SET times = times+1 WHERE day=$1;", [
       todayDate,

@@ -3,17 +3,17 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["broadcast", "bc"];
+  const cmd = ["broadcast", "bc"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply, args } = msgInfoObj;
-  let chats = await bot.groupFetchAllParticipating();
+  const { reply, args } = msgInfoObj;
+  const chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
-  let groups = Object.values(chats)
+  const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us"))
     .map((v) => {
       return { subject: v.subject, id: v.id };

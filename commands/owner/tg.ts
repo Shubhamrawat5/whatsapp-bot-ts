@@ -8,7 +8,7 @@ import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 
 export const command = () => {
-  let cmd = ["tg"];
+  const cmd = ["tg"];
 
   return { cmd, handler };
 };
@@ -18,7 +18,7 @@ const getRandom = (ext: string) => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply, isTaggedDocument, from } = msgInfoObj;
+  const { reply, isTaggedDocument, from } = msgInfoObj;
 
   if (!isTaggedDocument) {
     await reply(`❌ Send zip document file!`);
@@ -46,13 +46,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // return;
 
   // reading zip
-  let zip = new AdmZip(`./${media}`);
+  const zip = new AdmZip(`./${media}`);
   // extracts everything
   zip.extractAllTo(`./`, true);
-  let zipEntries = zip.getEntries(); // an array of ZipEntry records
+  const zipEntries = zip.getEntries(); // an array of ZipEntry records
 
   // let filestg = fs.readdirSync(dirNametg);
-  let stickerCounttg = zipEntries.length;
+  const stickerCounttg = zipEntries.length;
   console.log("extracted: files " + stickerCounttg);
 
   await reply(`✔ Sending all ${stickerCounttg} stickers`);

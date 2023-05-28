@@ -9,11 +9,11 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
     // "https://zeenews.india.com/rss/india-national-news.xml"
-    let feed = await parser.parseURL(
+    const feed = await parser.parseURL(
       "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
     );
 
-    let li = feed.items.map((item) => {
+    const li = feed.items.map((item) => {
       return { title: item.title, link: item.link };
     });
 
@@ -27,7 +27,7 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
         return;
       }
 
-      let index = Math.floor(Math.random() * li.length);
+      const index = Math.floor(Math.random() * li.length);
       let { title } = li[index];
 
       if (!title) title = "";

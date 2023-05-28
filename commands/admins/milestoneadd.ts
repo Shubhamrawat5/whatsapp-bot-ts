@@ -8,7 +8,7 @@ import {
 } from "../../db/milestoneDB";
 
 export const command = () => {
-  let cmd = ["milestoneadd", "addmilestone", "ma", "am"];
+  const cmd = ["milestoneadd", "addmilestone", "ma", "am"];
 
   return { cmd, handler };
 };
@@ -16,21 +16,21 @@ export const command = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
-  let body = msg.message?.conversation;
+  const body = msg.message?.conversation;
   if (!body) {
     await reply(`❌ Body is empty!`);
     return;
   }
 
-  let milestoneList = body.trim().split("#");
+  const milestoneList = body.trim().split("#");
   if (milestoneList.length !== 3) {
     await reply(
       `❌ Give correct details\nCommand: ${prefix}milestoneadd #contact #sno`
     );
     return;
   }
-  let contact = milestoneList[1].trim();
-  let sno = Number(milestoneList[2].trim());
+  const contact = milestoneList[1].trim();
+  const sno = Number(milestoneList[2].trim());
 
   if (!contact || !sno) {
     await reply(

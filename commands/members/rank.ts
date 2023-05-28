@@ -5,7 +5,7 @@ import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
 import { getMilestone } from "../../db/milestoneDB";
 
 export const command = () => {
-  let cmd = ["rank"];
+  const cmd = ["rank"];
 
   return { cmd, handler };
 };
@@ -30,14 +30,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const res = await getRankInAllGroups(sender);
-  let { name, ranks, count, totalUsers } = res[0];
+  const { name, ranks, count, totalUsers } = res[0];
   if (!name) {
     await reply(`❌ ERROR: ${sender.split("@")[0]} NOT FOUND in Database!`);
     return;
   }
 
-  let res2 = await getCountIndividual(sender, from);
-  let countCurGroup = res2[0].count;
+  const res2 = await getCountIndividual(sender, from);
+  const countCurGroup = res2[0].count;
 
   //find rank
   let rankName;

@@ -26,14 +26,14 @@ export const setGroupName = async (
     await createGroupNameTable();
 
     //check if groupjid is present in DB or not
-    let result = await pool.query(
+    const result = await pool.query(
       "select * from groupname where groupjid=$1;",
       [groupjid]
     );
 
     //present
     if (result.rows.length) {
-      let count = result.rows[0].count;
+      const count = result.rows[0].count;
 
       await pool.query("UPDATE groupname SET gname = $1 WHERE groupjid=$2;", [
         gname,

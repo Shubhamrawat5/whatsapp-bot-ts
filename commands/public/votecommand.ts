@@ -3,14 +3,14 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["votecommand", "vc"];
+  const cmd = ["votecommand", "vc"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
-  let text = `_*🗣️ VOTING COMMANDS:*_
+  const { prefix, reply } = msgInfoObj;
+  const text = `_*🗣️ VOTING COMMANDS:*_
 
 📛 *${prefix}startvote #title #name1 #name2..*
   - _Start voting with seperated values with #_

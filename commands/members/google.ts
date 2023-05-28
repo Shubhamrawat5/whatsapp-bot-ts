@@ -20,13 +20,13 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, command } = msgInfoObj;
+  const { prefix, reply, command } = msgInfoObj;
 
   try {
     const message = await getMessage(msg, prefix, command);
 
     if (!message) {
-      let message = `❌ Query is not given! \nSend ${prefix}google query`;
+      const message = `❌ Query is not given! \nSend ${prefix}google query`;
       await reply(message);
       return;
     }

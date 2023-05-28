@@ -8,11 +8,11 @@ const getNews = async () => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   try {
-    let url = "https://pvx-api-vercel.vercel.app/api/news";
+    const url = "https://pvx-api-vercel.vercel.app/api/news";
     const { data } = await axios.get(url);
 
     let msg = `☆☆💥 Tech News 💥☆☆${readMore}`;
-    let inshorts = data.inshorts;
+    const inshorts = data.inshorts;
     let count = 0; //for first 14 news only
     for (let i = 0; i < inshorts.length; ++i) {
       ++count;
@@ -29,15 +29,15 @@ const getNews = async () => {
 };
 
 export const command = () => {
-  let cmd = ["technews", "tn"];
+  const cmd = ["technews", "tn"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { from } = msgInfoObj;
+  const { from } = msgInfoObj;
 
-  let text = await getNews();
+  const text = await getNews();
 
   await bot.sendMessage(from, { text }, { quoted: msg });
 };

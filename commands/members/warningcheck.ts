@@ -4,19 +4,19 @@ import { Bot } from "../../interface/Bot";
 import { getCountWarning } from "../../db/warningDB";
 
 export const command = () => {
-  let cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];
+  const cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { sender, reply, args, from } = msgInfoObj;
+  const { sender, reply, args, from } = msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
     if (args.length === 0) {
       //check for user
-      let warnCount = await getCountWarning(sender, from);
-      let warnMsg = `Your warning count is ${warnCount} for this group!`;
+      const warnCount = await getCountWarning(sender, from);
+      const warnMsg = `Your warning count is ${warnCount} for this group!`;
       await reply(warnMsg);
     } else {
       await reply("❌ Tag someone!");
@@ -24,13 +24,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
+  const mentioned = msg.message.extendedTextMessage.contextInfo?.mentionedJid;
   if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
-      let warnCount = await getCountWarning(mentioned[0], from);
-      let num_split = mentioned[0].split("@s.whatsapp.net")[0];
-      let warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
+      const warnCount = await getCountWarning(mentioned[0], from);
+      const num_split = mentioned[0].split("@s.whatsapp.net")[0];
+      const warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
 
       await bot.sendMessage(from, {
         text: warnMsg,
@@ -45,10 +45,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const participant =
       msg.message.extendedTextMessage.contextInfo?.participant;
     if (!participant) return;
-    let taggedMessageUser = [participant];
-    let warnCount = await getCountWarning(taggedMessageUser[0], from);
-    let num_split = participant && participant.split("@s.whatsapp.net")[0];
-    let warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
+    const taggedMessageUser = [participant];
+    const warnCount = await getCountWarning(taggedMessageUser[0], from);
+    const num_split = participant && participant.split("@s.whatsapp.net")[0];
+    const warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
 
     await bot.sendMessage(from, {
       text: warnMsg,

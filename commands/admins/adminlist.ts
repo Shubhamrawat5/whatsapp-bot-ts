@@ -6,19 +6,19 @@ import { pvxgroups } from "../../constants/constants";
 import { getUsernames } from "../../db/countMemberDB";
 
 export const command = () => {
-  let cmd = ["adminlist"];
+  const cmd = ["adminlist"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply } = msgInfoObj;
+  const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  let chats = await bot.groupFetchAllParticipating();
+  const chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
-  let groups = Object.values(chats)
+  const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
@@ -26,7 +26,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   //get all jids of admin
   const memberjidAllArray: string[] = [];
-  for (let group of groups) {
+  for (const group of groups) {
     group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.admin && !memberjidAllArray.includes(mem.id)) {
         memberjidAllArray.push(mem.id);
@@ -38,7 +38,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const res = await getUsernames(memberjidAllArray);
 
   if (res.length != memberjidAllArray.length) {
-    reply("Some names are not found in DB.");
+    await reply("Some names are not found in DB.");
   }
 
   interface MemberjidToUsername {
@@ -60,11 +60,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     subAdminPanel.push(mem.id);
   });
 
-  let notInSubPanel: MemberjidToUsername = {};
+  const notInSubPanel: MemberjidToUsername = {};
   let notInSubPanelMsg = "\n\n[NOT IN SUB ADMIN PANEL]";
 
   let tempMsg = "";
-  for (let group of groups) {
+  for (const group of groups) {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
     tempMsg += `\n\n*[${grpName}]*`;

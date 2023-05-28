@@ -20,7 +20,7 @@ export const getVotingAllData = async (
   groupjid: string
 ): Promise<GetVotingAllData[]> => {
   //check if today date is present in DB or not
-  let result = await pool.query("select * from votingall where chat_id=$1;", [
+  const result = await pool.query("select * from votingall where chat_id=$1;", [
     groupjid,
   ]);
   if (result.rowCount) {
@@ -64,10 +64,10 @@ const updateVotingAllData = async (
 
 export const stopVotingAllData = async (groupjid: string): Promise<boolean> => {
   try {
-    let todayDate = new Date().toLocaleString("en-GB", {
+    const todayDate = new Date().toLocaleString("en-GB", {
       timeZone: "Asia/kolkata",
     });
-    let new_chat_id = groupjid + " " + todayDate;
+    const new_chat_id = groupjid + " " + todayDate;
 
     await pool.query(
       "UPDATE votingall SET chat_id=$1, is_started=$2 WHERE chat_id=$3;",
@@ -97,7 +97,7 @@ export const setVotingAllData = async (
     const members_voted_forJson = JSON.stringify(members_voted_for);
     const voted_membersJson = JSON.stringify(voted_members);
 
-    let result = await pool.query("SELECT * FROM votingall WHERE chat_id=$1", [
+    const result = await pool.query("SELECT * FROM votingall WHERE chat_id=$1", [
       groupjid,
     ]);
     if (result.rows.length) {

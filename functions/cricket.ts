@@ -11,7 +11,7 @@ export const getCricketScore = async (matchID: string) => {
     info: string;
   }
 
-  let res: Res = { message: "", info: "" };
+  const res: Res = { message: "", info: "" };
   try {
     //TODO: MAKE INTERFACE OF DATA
     let { data } = await axios.get(
@@ -28,18 +28,18 @@ export const getCricketScore = async (matchID: string) => {
 
     let title = data.title;
     title = title.slice(0, title.search(","));
-    let score = data.current;
-    let runrate = data.runrate;
-    let lastwicket = data.lastwicket;
+    const score = data.current;
+    const runrate = data.runrate;
+    const lastwicket = data.lastwicket;
     let recentballs = data.recentballs;
-    let currentBatsman = data.batsman.slice(0, -1);
-    let bowler = data.bowler;
-    let bowlerover = data.bowlerover;
-    let bowlerruns = data.bowlerruns;
-    let bowlerwickets = data.bowlerwickets;
+    const currentBatsman = data.batsman.slice(0, -1);
+    const bowler = data.bowler;
+    const bowlerover = data.bowlerover;
+    const bowlerruns = data.bowlerruns;
+    const bowlerwickets = data.bowlerwickets;
     if (recentballs === "Data Not Found") recentballs = data.lastwicket;
 
-    let d = await axios.get(
+    const d = await axios.get(
       "https://cric-score.skdev.one/scorecard/" + matchID
     );
     data = d.data;
@@ -49,7 +49,7 @@ export const getCricketScore = async (matchID: string) => {
     let currentInning;
     let alt = true;
     let firstInningRuns, firstInningTeam;
-    let update = data["result"]["update"];
+    const update = data["result"]["update"];
     let message = "";
 
     let isMatchStarted = false;
@@ -168,7 +168,7 @@ _recent balls_ \n${recentballs}`;
 // const getScoreCard = async (matchID) => {
 export const getScoreCard = async (matchID: string) => {
   try {
-    let { data } = await axios.get(
+    const { data } = await axios.get(
       "https://cric-score.skdev.one/scorecard/" + matchID
     );
     let firstInningTeam = "",

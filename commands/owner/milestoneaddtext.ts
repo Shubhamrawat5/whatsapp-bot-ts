@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 import { setMilestoneText } from "../../db/milestoneDB";
 
 export const command = () => {
-  let cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];
+  const cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];
 
   return { cmd, handler };
 };

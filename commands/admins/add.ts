@@ -3,13 +3,13 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const command = () => {
-  let cmd = ["add"];
+  const cmd = ["add"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { isBotGroupAdmins, reply, args, from } = msgInfoObj;
+  const { isBotGroupAdmins, reply, args, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     await reply("❌ I'm not Admin here!");
@@ -44,7 +44,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
   } catch (err) {
     console.log(err);
-    reply(
+    await reply(
       `_❌ Check the number, include country code also!_\nError: ${(
         err as Error
       ).toString()}`
@@ -53,11 +53,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   if (response == undefined) {
-    reply(`_❌ There is some problem`);
+    await reply(`_❌ There is some problem`);
     return;
   }
 
-  let status = Number(response[0].status);
+  const status = Number(response[0].status);
   if (status == 400) {
     await reply("_❌ Invalid number, include country code also!_");
   } else if (status == 403) {

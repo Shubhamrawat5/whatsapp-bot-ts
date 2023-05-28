@@ -11,7 +11,7 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
-      let url =
+      const url =
         "https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=" +
         newsapi;
 
@@ -24,8 +24,8 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
         };
       }
 
-      let response = await axios.get(url);
-      let data = response.data;
+      const response = await axios.get(url);
+      const data = response.data;
       const articles: Articles[] = data.articles;
 
       let res = false;
@@ -38,10 +38,10 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
           return;
         }
 
-        let index = Math.floor(Math.random() * articles.length);
+        const index = Math.floor(Math.random() * articles.length);
         let { title, description, url, source } = articles[index];
 
-        let found = title.lastIndexOf("-");
+        const found = title.lastIndexOf("-");
         if (found != -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
         res = source.name != "Sportskeeda" && (await storeNewsTech(title));
@@ -61,11 +61,11 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
         }
       }
     } else {
-      let url = "https://pvx-api-vercel.vercel.app/api/news";
-      let { data } = await axios.get(url);
+      const url = "https://pvx-api-vercel.vercel.app/api/news";
+      const { data } = await axios.get(url);
       delete data["about"];
 
-      let newsWeb = [
+      const newsWeb = [
         "gadgets-ndtv",
         "gadgets-now",
         "inshorts",
@@ -85,9 +85,9 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
           return;
         }
 
-        let randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
-        let index = Math.floor(Math.random() * data[randomWeb].length);
-        let news = data[randomWeb][index];
+        const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
+        const index = Math.floor(Math.random() * data[randomWeb].length);
+        const news = data[randomWeb][index];
 
         res = await storeNewsTech(news);
         if (res) {

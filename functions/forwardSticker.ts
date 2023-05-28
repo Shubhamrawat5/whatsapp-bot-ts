@@ -11,7 +11,7 @@ let countSent = 0;
 let countIn = 0,
   countErr = 0,
   sameSticker = 0;
-let last20SentStickersSize = [
+const last20SentStickersSize = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
@@ -36,9 +36,9 @@ export const forwardSticker = async (
     last20SentStickersSize.shift();
     last20SentStickersSize.push(stickerSize);
     countIn += 1;
-    let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
+    const stream = await downloadContentFromMessage(downloadFilePath, "sticker");
 
-    let buffer = await toBuffer(stream);
+    const buffer = await toBuffer(stream);
 
     const webpWithExif = await new Exif({
       pack: "BOT 🤖",

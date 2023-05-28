@@ -2,9 +2,9 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
-let matchIdGroups = {}; //to store every group name with its match ID
-let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
+const cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
+const matchIdGroups = {}; //to store every group name with its match ID
+const cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
 
 //return false when stopped in middle. return true when run fully
 // const startcHelper = async (isFromSetInterval = false) => {
@@ -56,13 +56,13 @@ let cricStartedGroups = {}; //to store every group name with boolean value to kn
 // };
 
 export const command = () => {
-  let cmd = ["startc", "stopc"];
+  const cmd = ["startc", "stopc"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { reply, command, groupName } = msgInfoObj;
+  const { reply, command, groupName } = msgInfoObj;
 
   reply("❌ Command temporary disabled");
 
