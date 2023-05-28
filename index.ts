@@ -73,7 +73,10 @@ if (store) {
 /* ----------------------------- add local files ---------------------------- */
 import { setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-// import { getDisableCommandData } from "./db/disableCommandDB";
+import {
+  GetDisableCommandData,
+  getDisableCommandData,
+} from "./db/disableCommandDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -355,8 +358,6 @@ const startBot = async () => {
         // if (type === "extendedTextMessage") ++stats["textMessage"];
         // else ++stats[type];
 
-        const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
-
         //body will have the text message
         let body = msg.message.conversation
           ? msg.message.conversation
@@ -498,16 +499,6 @@ const startBot = async () => {
         //   groupData = getGroupData(groupMetadata, botNumberJid, sender);
         // }
 
-        const content = JSON.stringify(msg.message);
-        const isTaggedImage =
-          type === "extendedTextMessage" && content.includes("imageMessage");
-        const isTaggedVideo =
-          type === "extendedTextMessage" && content.includes("videoMessage");
-        const isTaggedSticker =
-          type === "extendedTextMessage" && content.includes("stickerMessage");
-        const isTaggedDocument =
-          type === "extendedTextMessage" && content.includes("documentMessage");
-
         const reply = async (text: string | undefined): Promise<boolean> => {
           if (!text) return false;
           await bot.sendMessage(from, { text }, { quoted: msg });
@@ -515,26 +506,22 @@ const startBot = async () => {
         };
 
         //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
-        //TODO: FIX
-        // let resDisabled = [];
-        // if (isGroup && !isGroupAdmins) {
-        //   resDisabled = cache.get(from + ":resDisabled");
-        //   if (!resDisabled) {
-        //     resDisabled = await getDisableCommandData(from);
-        //     const success = cache.set(
-        //       from + ":resDisabled",
-        //       resDisabled,
-        //       60 * 60
-        //     );
-        //   }
-        // }
-        // if (resDisabled.includes(command)) {
-        //   await reply("❌ Command disabled for this group!");
-        //   return;
-        // }
-        // if (command === "enable" || command === "disable") {
-        //   cache.del(from + ":resDisabled");
-        // }
+        let resDisabled: string[] | undefined = [];
+        if (groupMetadata && !isGroupAdmins) {
+          resDisabled = cache.get(from + ":resDisabled");
+          if (!resDisabled) {
+            const res = await getDisableCommandData(from);
+            resDisabled = res[0].disabled;
+            cache.set(from + ":resDisabled", resDisabled, 60 * 60);
+          }
+        }
+        if (resDisabled && resDisabled.includes(command)) {
+          await reply("❌ Command disabled for this group!");
+          return;
+        }
+        if (command === "enable" || command === "disable") {
+          cache.del(from + ":resDisabled");
+        }
 
         // send every command info to my whatsapp, won't work when i send something for bot
         if (myNumber && myNumberWithJid !== sender) {
@@ -589,12 +576,7 @@ const startBot = async () => {
           groupDesc,
           isBotGroupAdmins,
           isGroupAdmins,
-          isMedia,
           type,
-          isTaggedImage,
-          isTaggedDocument,
-          isTaggedVideo,
-          isTaggedSticker,
           myNumber,
           botNumberJid,
           command,
@@ -723,10 +705,10 @@ const startBot = async () => {
             );
             ++startCount;
 
-            console.log("[CONNECTION-CLOSED]: Restarting bot in 30 seconds!");
+            console.log("[CONNECTION-CLOSED]: Restarting bot in 15 seconds!");
             setTimeout(async () => {
               await startBot();
-            }, 1000 * 30);
+            }, 1000 * 15);
           } else {
             await LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`

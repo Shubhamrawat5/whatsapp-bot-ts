@@ -3,7 +3,6 @@ import { GroupParticipant } from "@adiwajshing/baileys";
 export interface MsgInfoObj {
   from: string;
   prefix: string;
-  isMedia: boolean;
   type: string;
   command: string;
   args: string[];
@@ -11,11 +10,6 @@ export interface MsgInfoObj {
   allCommandsName: string[];
 
   reply: (text: string | undefined) => Promise<boolean>;
-
-  isTaggedImage: boolean;
-  isTaggedDocument: boolean;
-  isTaggedVideo: boolean;
-  isTaggedSticker: boolean;
 
   sender: string;
   senderName: string;

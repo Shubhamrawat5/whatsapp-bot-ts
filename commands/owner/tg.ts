@@ -18,22 +18,18 @@ const getRandom = (ext: string) => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, isTaggedDocument, from } = msgInfoObj;
+  const { reply, from } = msgInfoObj;
 
-  if (!isTaggedDocument) {
-    await reply(`❌ Send zip document file!`);
-    return;
-  }
-  // https://t.me/tgstowebpbot <- animated 128px.zip
-  // https://t.me/Stickerdownloadbot <- non-animated webp.zip
   const encmediatg =
     msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
       ?.documentMessage;
 
   if (!encmediatg) {
-    await reply(`❌ There is some problem with downloading media!`);
+    await reply(`❌ Send zip document file!`);
     return;
   }
+  // https://t.me/tgstowebpbot <- animated 128px.zip
+  // https://t.me/Stickerdownloadbot <- non-animated webp.zip
 
   console.log("downloading...");
   const stream = await downloadContentFromMessage(encmediatg, "document");
