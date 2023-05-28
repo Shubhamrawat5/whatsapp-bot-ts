@@ -4,18 +4,15 @@ import { Bot } from "../interface/Bot";
 
 import { LoggerBot } from "./loggerBot";
 
-import "dotenv/config";
-const prefix = "!";
-
-const myNumber = process.env.myNumber;
-
 export const memberAddCheck = async (
   bot: Bot,
   from: string,
   num_split: string,
   numJid: string,
   groupSubject: string,
-  pvxgroups: Pvxgroups
+  pvxgroups: Pvxgroups,
+  myNumber: string | undefined,
+  prefix: string
 ) => {
   const { pvxcommunity, pvxprogrammer, pvxmano, pvxmovies, pvxsticker } =
     pvxgroups;

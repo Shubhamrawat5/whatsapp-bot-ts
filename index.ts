@@ -11,16 +11,6 @@ app.get("/", (req: Request, res: Response) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-/* -------------------------- delete auth from url -------------------------- */
-import { dropAuth } from "./db/dropauthDB";
-// const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
-// app.get("/" + authHiddenPath, async (req, res) => {
-//   console.log("Get request to /" + authHiddenPath);
-//   let response = await dropAuth();
-//   if (response) res.send("Auth DB deleted!");
-//   else res.send("There is some error!");
-// });
-
 app.listen(port, () => {
   // console.clear();
   console.log("\nWeb-server running!\n");
@@ -71,6 +61,7 @@ if (store) {
 // console.log('state : ', state.creds);
 
 /* ----------------------------- add local files ---------------------------- */
+import { dropAuth } from "./db/dropauthDB";
 import { setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
 import { getDisableCommandData } from "./db/disableCommandDB";
@@ -89,8 +80,6 @@ import { forwardSticker } from "./functions/forwardSticker";
 import { countRemainder } from "./functions/countRemainder";
 
 import { pvxgroups } from "./constants/constants";
-// import { getGroupData } from "./functions/getGroupData";
-// import { GroupData } from "./interface/GroupData";
 import { MsgInfoObj } from "./interface/msgInfoObj";
 import { getGroupAdmins } from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
@@ -279,7 +268,9 @@ const startBot = async () => {
               num_split,
               numJid,
               groupSubject,
-              pvxgroups
+              pvxgroups,
+              myNumber,
+              prefix
             );
             const text = `${groupSubject} [ADD] ${num_split}`;
             await bot.sendMessage(myNumberWithJid, { text });

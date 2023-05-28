@@ -7,6 +7,7 @@ import { Exif } from "wa-sticker-formatter";
 import { LoggerTg } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 
+//TODO: GLOBAL VARIALBES
 let countSent = 0;
 let countIn = 0,
   countErr = 0,
@@ -36,7 +37,10 @@ export const forwardSticker = async (
     last20SentStickersSize.shift();
     last20SentStickersSize.push(stickerSize);
     countIn += 1;
-    const stream = await downloadContentFromMessage(downloadFilePath, "sticker");
+    const stream = await downloadContentFromMessage(
+      downloadFilePath,
+      "sticker"
+    );
 
     const buffer = await toBuffer(stream);
 

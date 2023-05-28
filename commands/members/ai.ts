@@ -4,9 +4,11 @@ import { Bot } from "../../interface/Bot";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
 import "dotenv/config";
-const pvx = process.env.pvx;
-let api: any;
-let isApiSetup = false;
+
+const { ChatGPTAPI } = importDynamic("chatgpt");
+const api = new ChatGPTAPI({
+  apiKey: process.env.OPENAPI,
+});
 
 export const command = () => {
   return { cmd: ["ai"], handler: handler };
@@ -16,7 +18,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, groupName } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  if (pvx && !groupName?.toUpperCase().includes("PVX")) {
+  if (!groupName?.toUpperCase().includes("PVX")) {
     await reply(
       `❌ COMMAND ONLY FOR PVX GROUPS!\nREASON: There is a limit with the openapi's free api`
     );
@@ -24,14 +26,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   try {
-    if (!isApiSetup) {
-      const { ChatGPTAPI } = await importDynamic("chatgpt");
-      api = new ChatGPTAPI({
-        apiKey: process.env.OPENAPI,
-      });
-      isApiSetup = true;
-    }
-
     if (args.length === 0) {
       await reply(`❌ Query is not given! \nSend ${prefix}ai query`);
       return;

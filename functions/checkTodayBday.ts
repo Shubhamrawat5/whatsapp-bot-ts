@@ -1,10 +1,11 @@
 import { Bot } from "../interface/Bot";
 import { LoggerBot } from "./loggerBot";
 import mongoose from "mongoose";
-const uri = process.env.uri;
 
 //NOTE: GIVE RETURN TYPE IN ALL FUNCTIONS
 const getBdayData = async () => {
+  const uri = process.env.uri;
+
   if (!uri) return;
   await mongoose.connect(uri);
 

@@ -64,7 +64,7 @@ export const command = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
- await reply("❌ Command temporary disabled");
+  await reply("❌ Command temporary disabled");
 
   // switch (command) {
   //   case "startc":

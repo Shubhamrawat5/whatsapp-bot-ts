@@ -47,7 +47,7 @@ const downloadMedia = async (
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { type, reply, args, from } = msgInfoObj;
+  const { reply, args, from } = msgInfoObj;
   const packName = "BOT 🤖";
   const authorName = "pvxcommunity.com";
   let quality: number;
@@ -58,26 +58,29 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const args2 = args[1];
   const isCrop = args1 === "c" || args1 === "crop";
 
+  const imagePath = msg.message?.imageMessage;
   const taggedImagePath =
-    msg?.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage;
-  const taggedVideoPath =
-    msg?.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
+    msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage;
 
-  if (type === "imageMessage" || taggedImagePath) {
+  const videoPath = msg.message?.videoMessage;
+  const taggedVideoPath =
+    msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
+
+  if (imagePath || taggedImagePath) {
     quality = 100;
     mediaType = "image";
 
-    if (msg?.message?.imageMessage) {
-      downloadFilePath = msg.message.imageMessage;
+    if (imagePath) {
+      downloadFilePath = msg.message?.imageMessage;
     } else {
       downloadFilePath = taggedImagePath;
     }
-  } else if (type === "videoMessage" || taggedVideoPath) {
+  } else if (videoPath || taggedVideoPath) {
     quality = 40;
     mediaType = "image";
 
-    if (msg?.message?.videoMessage) {
-      downloadFilePath = msg.message.videoMessage;
+    if (videoPath) {
+      downloadFilePath = msg.message?.videoMessage;
     } else {
       downloadFilePath = taggedVideoPath;
     }

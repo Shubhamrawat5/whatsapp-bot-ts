@@ -1,11 +1,12 @@
 import Parser from "rss-parser";
-const parser = new Parser();
 import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { storeNewsStudy } from "../db/postStudyDB";
 
 export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
+    const parser = new Parser();
+
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
     // "https://zeenews.india.com/rss/india-national-news.xml"

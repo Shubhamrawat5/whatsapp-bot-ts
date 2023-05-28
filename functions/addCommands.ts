@@ -3,7 +3,6 @@ import util from "util";
 import { Bot } from "../interface/Bot";
 import { MsgInfoObj } from "../interface/msgInfoObj";
 import { WAMessage } from "@adiwajshing/baileys";
-const readdir = util.promisify(fs.readdir);
 
 export const addCommands = async () => {
   interface CommandsObj {
@@ -18,6 +17,8 @@ export const addCommands = async () => {
   const commandsMembers: CommandsObj = {};
   const commandsAdmins: CommandsObj = {};
   const commandsOwners: CommandsObj = {};
+
+  const readdir = util.promisify(fs.readdir);
 
   let path = __dirname + "/../commands/public/";
   let filenames = await readdir(path);
