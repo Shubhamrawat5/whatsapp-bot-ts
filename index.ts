@@ -73,10 +73,7 @@ if (store) {
 /* ----------------------------- add local files ---------------------------- */
 import { setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-import {
-  GetDisableCommandData,
-  getDisableCommandData,
-} from "./db/disableCommandDB";
+import { getDisableCommandData } from "./db/disableCommandDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -276,8 +273,6 @@ const startBot = async () => {
           const groupSubject = groupMetadata.subject;
 
           if (msg.action === "add") {
-            // if (groupSubject.toUpperCase().includes("<{PVX}>"))
-            //   await setGroupParticipant(numJid, from, "ADD");
             await memberAddCheck(
               bot,
               from,
@@ -291,8 +286,6 @@ const startBot = async () => {
             console.log(text);
             ++stats.memberJoined;
           } else if (msg.action === "remove") {
-            // if (groupSubject.toUpperCase().includes("<{PVX}>"))
-            //   await setGroupParticipant(numJid, from, "REMOVE");
             const text = `${groupSubject} [REMOVE] ${num_split}`;
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
@@ -378,12 +371,11 @@ const startBot = async () => {
 
         const from = msg.key.remoteJid;
         if (!from) return;
-        const isGroup = from.endsWith("@g.us");
 
         let groupMetadata: GroupMetadata | undefined = undefined;
         groupMetadata = cache.get(from + ":groupMetadata");
 
-        if (isGroup && !groupMetadata) {
+        if (!groupMetadata) {
           groupMetadata = await bot.groupMetadata(from);
           cache.set(from + ":groupMetadata", groupMetadata, 60 * 60);
         }
@@ -419,7 +411,6 @@ const startBot = async () => {
             from !== pvxgroups.pvxtesting
           ) {
             const res = await setCountMember(sender, from, senderName);
-            // console.log(JSON.stringify(res));
             await countRemainder(bot, res, from, senderNumber, sender);
           }
 
@@ -574,15 +565,13 @@ const startBot = async () => {
           senderName,
           groupName,
           groupDesc,
+          groupMembers,
+          groupAdmins,
           isBotGroupAdmins,
           isGroupAdmins,
-          type,
-          myNumber,
           botNumberJid,
           command,
           args,
-          groupMembers,
-          groupAdmins,
           reply,
           milestones,
           allCommandsName,

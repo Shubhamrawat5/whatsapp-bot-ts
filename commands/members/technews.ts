@@ -5,13 +5,11 @@ import { Bot } from "../../interface/Bot";
 import axios from "axios";
 
 const getNews = async () => {
-  const more = String.fromCharCode(8206);
-  const readMore = more.repeat(4001);
   try {
     const url = "https://pvx-api-vercel.vercel.app/api/news";
     const { data } = await axios.get(url);
 
-    let msg = `☆☆💥 Tech News 💥☆☆${readMore}`;
+    let msg = `☆☆💥 Tech News 💥☆☆`;
     const inshorts = data.inshorts;
     let count = 0; //for first 14 news only
     for (let i = 0; i < inshorts.length; ++i) {
@@ -19,7 +17,7 @@ const getNews = async () => {
       if (count === 15) break;
       msg += `\n\n🌐 ${inshorts[i]}`;
     }
-    // msg += `\n\njoin TG@pvxtechnews for daily tech news!`;
+    msg += `\n\njoin t.me/pvxtechnews for daily tech news!`;
     return msg;
   } catch (err) {
     console.log(err);

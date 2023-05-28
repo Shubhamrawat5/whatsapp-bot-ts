@@ -3,7 +3,6 @@ import { GroupParticipant } from "@adiwajshing/baileys";
 export interface MsgInfoObj {
   from: string;
   prefix: string;
-  type: string;
   command: string;
   args: string[];
   milestones: { [key: string]: string[] };
@@ -13,7 +12,6 @@ export interface MsgInfoObj {
 
   sender: string;
   senderName: string;
-  myNumber: string | undefined;
   botNumberJid: string;
 
   groupName: string | undefined;
