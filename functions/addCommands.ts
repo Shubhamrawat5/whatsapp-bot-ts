@@ -1,11 +1,17 @@
 import fs from "fs";
 import util from "util";
+import { Bot } from "../interface/Bot";
+import { MsgInfoObj } from "../interface/msgInfoObj";
+import { WAMessage } from "@adiwajshing/baileys";
 const readdir = util.promisify(fs.readdir);
 
 export const addCommands = async () => {
-  //TODO: CHECK
   interface CommandsObj {
-    [key: string]: Function;
+    [key: string]: (
+      bot: Bot,
+      msg: WAMessage,
+      msgInfoObj: MsgInfoObj
+    ) => Promise<void>;
   }
 
   const commandsPublic: CommandsObj = {};

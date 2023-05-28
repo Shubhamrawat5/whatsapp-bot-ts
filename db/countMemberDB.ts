@@ -306,11 +306,16 @@ export const getUsernames = async (
 //
 // };
 
+export interface SetCountMember {
+  currentGroup: number;
+  allGroup: number;
+}
+
 export const setCountMember = async (
   memberjid: string,
   groupjid: string,
   name: string | undefined | null
-): Promise<any> => {
+): Promise<SetCountMember> => {
   const result = { currentGroup: 0, allGroup: 0 };
   try {
     const res = await pool.query(

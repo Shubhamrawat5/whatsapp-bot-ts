@@ -12,7 +12,7 @@ const getRandom = (ext: string) => {
 const downloadSong = async (randomName: string, query: string) => {
   try {
     const INFO_URL = "https://slider.kz/vk_auth.php?q=";
-    const DOWNLOAD_URL = "https://slider.kz/download/";
+    // const DOWNLOAD_URL = "https://slider.kz/download/";
     let { data } = await axios.get(INFO_URL + query);
 
     if (data["audios"][""].length <= 1) {

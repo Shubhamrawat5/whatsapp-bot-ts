@@ -18,5 +18,5 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;
   });
 
-  reply(message);
+  await reply(message);
 };

@@ -1,4 +1,4 @@
-// require("dotenv").config();
+// import 'dotenv/config'
 
 // const { MongoClient, ServerApiVersion } = require("mongodb");
 

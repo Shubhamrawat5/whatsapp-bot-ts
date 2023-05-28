@@ -4,7 +4,7 @@ import { Bot } from "../interface/Bot";
 
 import { LoggerBot } from "./loggerBot";
 
-require("dotenv").config();
+import "dotenv/config";
 const prefix = "!";
 
 const myNumber = process.env.myNumber;
@@ -17,14 +17,8 @@ export const memberAddCheck = async (
   groupSubject: string,
   pvxgroups: Pvxgroups
 ) => {
-  const {
-    pvxcommunity,
-    pvxprogrammer,
-    pvxstudy,
-    pvxmano,
-    pvxmovies,
-    pvxsticker,
-  } = pvxgroups;
+  const { pvxcommunity, pvxprogrammer, pvxmano, pvxmovies, pvxsticker } =
+    pvxgroups;
   try {
     // other than +91 are blocked from joining when description have written in first line -> only91
     // blockCommandsInDesc.includes("only91")

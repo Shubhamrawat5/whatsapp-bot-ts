@@ -68,6 +68,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     fs.unlinkSync(`./${randomName}`);
   } catch (err) {
     console.log(err);
-    reply((err as Error).toString());
+    await reply((err as Error).toString());
   }
 };

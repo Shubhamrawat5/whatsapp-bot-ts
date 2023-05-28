@@ -1,14 +1,15 @@
+import { SetCountMember } from "../db/countMemberDB";
 import { Bot } from "../interface/Bot";
 
 export const countRemainder = async (
   bot: Bot,
-  res: any,
+  res: SetCountMember,
   from: string,
   senderNumber: string,
   sender: string
 ) => {
   if (res.currentGroup && res.currentGroup % 5000 === 0) {
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       {
         text: `⭐ Hey @${senderNumber}\nYou've completed ${res.currentGroup} messages in this group!`,
@@ -30,7 +31,7 @@ export const countRemainder = async (
     );
   }
   if (res.allGroup && res.allGroup % 5000 === 0) {
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       {
         text: `⭐ Hey @${senderNumber}\nYou've completed ${res.allGroup} messages in all PVX group!`,

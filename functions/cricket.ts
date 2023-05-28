@@ -115,7 +115,7 @@ export const getCricketScore = async (matchID: string) => {
     Royal Challengers Bangalore vs Chennai Super Kings
 
     RCB - 156/6
-    CSK - 19/0 (2.1) CRR:  8.77
+    CSK - 19/0 (2.1) CRR: 8.77
 
     🏏 Ruturaj Gaikwad: 11 (7)
     🏏 Faf du Plessis: 11 (11)

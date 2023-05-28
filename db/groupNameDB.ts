@@ -33,7 +33,7 @@ export const setGroupName = async (
 
     //present
     if (result.rows.length) {
-      const count = result.rows[0].count;
+      // const count = result.rows[0].count;
 
       await pool.query("UPDATE groupname SET gname = $1 WHERE groupjid=$2;", [
         gname,

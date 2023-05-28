@@ -10,7 +10,7 @@ export const command = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
-    reply(`❌ URL is empty! \nSend ${prefix}fb url`);
+    await reply(`❌ URL is empty! \nSend ${prefix}fb url`);
     return;
   }
 
@@ -22,7 +22,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       "https://fantox001-scrappy-api.vercel.app/fbdl?url=" + urlFb
     );
 
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       {
         video: { url: res.data.videoUrl },
@@ -30,7 +30,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
     );
   } catch (err) {
-    reply(
+    await reply(
       `${(
         err as Error
       ).toString()}\n\nNote: only public fb videos can be downloaded!`

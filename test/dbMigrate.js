@@ -1,4 +1,4 @@
-// require("dotenv").config();
+// import 'dotenv/config'
 // const { Pool } = require("pg");
 
 // const proConfigHeroku = {

@@ -8,9 +8,9 @@ import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
-const ffmpeg = require("fluent-ffmpeg");
-ffmpeg.setFfmpegPath(ffmpegPath);
+import ffmpegPath from "@ffmpeg-installer/ffmpeg";
+import ffmpeg from "fluent-ffmpeg";
+ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 export const command = () => {
   const cmd = ["sticker", "s"];

@@ -2,7 +2,7 @@ import axios from "axios";
 import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { storeNewsTech } from "../db/postTechDB";
-require("dotenv").config();
+import "dotenv/config";
 
 const newsapi = process.env.newsapi;
 let countNews = 0;
@@ -39,7 +39,8 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
         }
 
         const index = Math.floor(Math.random() * articles.length);
-        let { title, description, url, source } = articles[index];
+        const { url, source } = articles[index];
+        let { title } = articles[index];
 
         const found = title.lastIndexOf("-");
         if (found != -1) title = title.slice(0, title.lastIndexOf("-") - 1);

@@ -6,7 +6,7 @@ const uri = process.env.uri;
 //NOTE: GIVE RETURN TYPE IN ALL FUNCTIONS
 const getBdayData = async () => {
   if (!uri) return;
-  mongoose.connect(uri);
+  await mongoose.connect(uri);
 
   // Collection schema
   const bday_schema = new mongoose.Schema({

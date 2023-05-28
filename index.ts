@@ -95,7 +95,7 @@ import { MsgInfoObj } from "./interface/msgInfoObj";
 import { getGroupAdmins } from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
 
-require("dotenv").config();
+import "dotenv/config";
 const myNumber = process.env.myNumber;
 const myNumberWithJid = myNumber + "@s.whatsapp.net";
 const pvx = process.env.pvx;
@@ -762,8 +762,8 @@ const startBot = async () => {
   async function getMessage(
     key: WAMessageKey
   ): Promise<WAMessageContent | undefined> {
-    if (store) {
-      const msg = await store.loadMessage(key.remoteJid!, key.id!);
+    if (store && key.remoteJid && key.id) {
+      const msg = await store.loadMessage(key.remoteJid, key.id);
       return msg?.message || undefined;
     }
 
@@ -772,4 +772,5 @@ const startBot = async () => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 startBot();

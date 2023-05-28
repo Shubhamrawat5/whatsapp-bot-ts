@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
-require("dotenv").config();
+import "dotenv/config";
 const pvx = process.env.pvx;
 let api: any;
 let isApiSetup = false;
@@ -43,9 +43,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (res.text.length > 400) {
       res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
     }
-    reply("AI: " + res.text);
+    await reply("AI: " + res.text);
   } catch (err) {
     console.log(err);
-    reply((err as Error).toString());
+    await reply((err as Error).toString());
   }
 };

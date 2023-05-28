@@ -1,5 +1,5 @@
 // let { igApi, getCookie } = require("insta-fetcher");
-// require("dotenv").config();
+// import 'dotenv/config'
 // let ig;
 // let isIgSetup = false;
 
@@ -16,7 +16,7 @@ export const command = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
-    reply(`❌ URL is empty! \nSend ${prefix}insta url`);
+    await reply(`❌ URL is empty! \nSend ${prefix}insta url`);
     return;
   }
 
@@ -30,7 +30,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
 
     if (res.data.videoUrl) {
-      bot.sendMessage(
+      await bot.sendMessage(
         from,
         {
           video: { url: res.data.videoUrl },
@@ -38,12 +38,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
       );
     } else {
-      reply(
+      await reply(
         `❌ There is some problem.\n\nNote: only public insta videos can be downloaded!`
       );
     }
   } catch (err) {
-    reply(
+    await reply(
       `${(
         err as Error
       ).toString()}\n\nNote: only public insta videos can be downloaded!`

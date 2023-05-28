@@ -1,6 +1,6 @@
 export const getIndianNumber = async (body: string) => {
   const indianNumbRegex =
-    /(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})/g;
+    /(?:(?:\+|0{0,2})91(\s*|[\\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})/g;
 
   const result = body.match(indianNumbRegex);
   let number = result ? result[0] : "";

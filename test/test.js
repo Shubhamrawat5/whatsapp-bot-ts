@@ -62,7 +62,7 @@
 // });
 
 // delete auth
-// require("dotenv").config();
+// import 'dotenv/config'
 // const { MongoClient, ServerApiVersion } = require("mongodb");
 // const uri = process.env.uri;
 

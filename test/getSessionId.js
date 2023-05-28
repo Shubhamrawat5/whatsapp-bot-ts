@@ -1,4 +1,4 @@
-// require("dotenv").config();
+// import 'dotenv/config'
 // let { igApi, getCookie } = require("insta-fetcher");
 // const main = async () => {
 //   try {

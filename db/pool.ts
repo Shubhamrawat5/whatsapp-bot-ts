@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 import { Pool } from "pg";
 
 const proConfig = {

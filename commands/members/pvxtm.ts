@@ -26,5 +26,5 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       countGroupMsgTop += `\n${index + 1}) ${member.name} - ${member.count}`;
   });
 
-  reply(countGroupMsgTop);
+  await reply(countGroupMsgTop);
 };

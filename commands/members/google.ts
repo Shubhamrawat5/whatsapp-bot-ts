@@ -34,8 +34,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const response = await google.search(message, options);
     const { title, description, url } = response.results[0];
     const text = `*${title}*\n${description}\n\n${url}`;
-    reply(text);
+    await reply(text);
   } catch (err) {
-    reply((err as Error).toString());
+    await reply((err as Error).toString());
   }
 };

@@ -11,7 +11,8 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { sender, reply, args, milestones, from } = msgInfoObj;
+  const { reply, args, milestones, from } = msgInfoObj;
+  let { sender } = msgInfoObj;
   if (args.length) {
     sender = args.join("") + "@s.whatsapp.net";
   }

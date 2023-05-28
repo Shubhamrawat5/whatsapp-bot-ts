@@ -1,3 +1,4 @@
+// import { AuthenticationState } from "@adiwajshing/baileys";
 import { pool } from "./pool";
 
 const createAuthTable = async () => {

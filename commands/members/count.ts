@@ -10,7 +10,8 @@ export const command = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { sender, args, from } = msgInfoObj;
+  const { args, from } = msgInfoObj;
+  let { sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   if (args[0]) {
