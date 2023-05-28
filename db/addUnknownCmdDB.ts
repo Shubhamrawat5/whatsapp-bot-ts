@@ -15,7 +15,7 @@ export interface GetUnknowCmdlist {
 
 export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
   await createUnknownCmdTable();
-  let result = await pool.query("select * from unknowncmd order by count;");
+  const result = await pool.query("select * from unknowncmd order by count;");
 
   if (result.rowCount) {
     return result.rows;
@@ -26,7 +26,7 @@ export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
 
 export const addUnknownCmd = async (command: string): Promise<boolean> => {
   try {
-    let res = await pool.query(
+    const res = await pool.query(
       "UPDATE unknowncmd SET count = count+1 WHERE command=$1;",
       [command]
     );

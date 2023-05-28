@@ -4,13 +4,13 @@ import { Bot } from "../../interface/Bot";
 import { setGroupLink, setGroupLinkEnabled } from "../../db/grouplinksDB";
 
 export const command = () => {
-  let cmd = ["setlink", "sl"];
+  const cmd = ["setlink", "sl"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  let { prefix, reply, args, from } = msgInfoObj;
+  const { prefix, reply, args, from } = msgInfoObj;
 
   if (args[0]) {
     const enabled = Number(args[0]);
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  let link = "https://chat.whatsapp.com/" + (await bot.groupInviteCode(from));
+  const link = "https://chat.whatsapp.com/" + (await bot.groupInviteCode(from));
   console.log(from, link);
 
   if (!from.endsWith("@g.us")) {

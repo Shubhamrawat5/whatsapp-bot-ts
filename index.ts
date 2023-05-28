@@ -52,7 +52,7 @@ import NodeCache from "node-cache";
 const cache = new NodeCache();
 const msgRetryCounterCache = new NodeCache();
 
-let silentLogs = pino({ level: "silent" }); //to hide the chat logs
+const silentLogs = pino({ level: "silent" }); //to hide the chat logs
 // let debugLogs = pino({ level: "debug" });
 
 const useStore = false;
@@ -73,7 +73,7 @@ if (store) {
 /* ----------------------------- add local files ---------------------------- */
 import { setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-import { getDisableCommandData } from "./db/disableCommandDB";
+// import { getDisableCommandData } from "./db/disableCommandDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -89,9 +89,9 @@ import { forwardSticker } from "./functions/forwardSticker";
 import { countRemainder } from "./functions/countRemainder";
 
 import { pvxgroups } from "./constants/constants";
-import { getGroupData } from "./functions/getGroupData";
+// import { getGroupData } from "./functions/getGroupData";
+// import { GroupData } from "./interface/GroupData";
 import { MsgInfoObj } from "./interface/msgInfoObj";
-import { GroupData } from "./interface/GroupData";
 import { getGroupAdmins } from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
 
@@ -136,7 +136,7 @@ try {
 
 const startBot = async () => {
   console.log(`[STARTING BOT]: ${startCount}`);
-  LoggerTg(`[STARTING BOT]: ${startCount}`);
+  await LoggerTg(`[STARTING BOT]: ${startCount}`);
   try {
     const { state, saveCreds } = await useMultiFileAuthState(
       "./auth_info_multi.json"
@@ -183,11 +183,11 @@ const startBot = async () => {
 
       dateCheckerInterval = setInterval(async () => {
         console.log("SET INTERVAL.");
-        let todayDate = new Date().toLocaleDateString("en-GB", {
+        const todayDate = new Date().toLocaleDateString("en-GB", {
           timeZone: "Asia/kolkata",
         });
 
-        let hour = Number(
+        const hour = Number(
           new Date()
             .toLocaleTimeString("en-GB", {
               timeZone: "Asia/kolkata",
@@ -205,7 +205,7 @@ const startBot = async () => {
 
         if (usedDate !== todayDate) {
           usedDate = todayDate;
-          checkTodayBday(bot, todayDate, pvxgroups.pvxcommunity);
+          await checkTodayBday(bot, todayDate, pvxgroups.pvxcommunity);
         }
       }, 1000 * 60 * 20); //20 min
     }
@@ -225,7 +225,7 @@ const startBot = async () => {
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
         });
-        bot.sendMessage(myNumberWithJid, {
+        await bot.sendMessage(myNumberWithJid, {
           text: `Bot is added to group.`,
         });
       } catch (err) {
@@ -256,13 +256,13 @@ const startBot = async () => {
       async (msg: GroupParticipantUpdate) => {
         console.log("[group-participants.update]");
         try {
-          let from = msg.id;
-          let numJid = msg.participants[0];
+          const from = msg.id;
+          const numJid = msg.participants[0];
 
-          let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
+          const num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
           if (numJid === botNumberJid && msg.action === "remove") {
             //bot is removed
-            bot.sendMessage(myNumberWithJid, {
+            await bot.sendMessage(myNumberWithJid, {
               text: `Bot is removed from group.`,
             });
             return;
@@ -270,7 +270,7 @@ const startBot = async () => {
 
           cache.del(from + ":groupMetadata");
           const groupMetadata = await bot.groupMetadata(from);
-          let groupSubject = groupMetadata.subject;
+          const groupSubject = groupMetadata.subject;
 
           if (msg.action === "add") {
             // if (groupSubject.toUpperCase().includes("<{PVX}>"))
@@ -283,14 +283,14 @@ const startBot = async () => {
               groupSubject,
               pvxgroups
             );
-            const text = `${groupSubject}\n[ADD] ${num_split}`;
+            const text = `${groupSubject} [ADD] ${num_split}`;
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
             ++stats.memberJoined;
           } else if (msg.action === "remove") {
             // if (groupSubject.toUpperCase().includes("<{PVX}>"))
             //   await setGroupParticipant(numJid, from, "REMOVE");
-            const text = `${groupSubject}\n[REMOVE] ${num_split}`;
+            const text = `${groupSubject} [REMOVE] ${num_split}`;
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
             ++stats.memberLeft;
@@ -424,7 +424,7 @@ const startBot = async () => {
 
           //count video
           if (from == pvxgroups.pvxmano && type === "videoMessage") {
-            setCountVideo(sender, from);
+            await setCountVideo(sender, from);
           }
 
           //Forward all stickers
@@ -570,7 +570,7 @@ const startBot = async () => {
               return;
             }
             try {
-              let resultTest = eval(args[0]);
+              const resultTest = eval(args[0]);
               if (typeof resultTest === "object")
                 await reply(JSON.stringify(resultTest));
               else await reply(resultTest.toString());
@@ -580,7 +580,7 @@ const startBot = async () => {
             return;
         }
 
-        let msgInfoObj: MsgInfoObj = {
+        const msgInfoObj: MsgInfoObj = {
           from,
           prefix,
           sender,
@@ -619,7 +619,7 @@ const startBot = async () => {
               await commandsMembers[command](bot, msg, msgInfoObj);
               return;
             }
-            reply(
+            await reply(
               "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
             );
             return;
@@ -628,7 +628,7 @@ const startBot = async () => {
           /* -------------------------- group admins commands ------------------------- */
           if (commandsAdmins[command]) {
             if (!groupMetadata) {
-              reply(
+              await reply(
                 "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
               );
               return;
@@ -638,7 +638,7 @@ const startBot = async () => {
               await commandsAdmins[command](bot, msg, msgInfoObj);
               return;
             }
-            reply("❌ Admin command!");
+            await reply("❌ Admin command!");
             return;
           }
 
@@ -648,7 +648,7 @@ const startBot = async () => {
               await commandsOwners[command](bot, msg, msgInfoObj);
               return;
             }
-            reply("❌ Owner command only!");
+            await reply("❌ Owner command only!");
             return;
           }
         } catch (err) {
@@ -668,7 +668,7 @@ const startBot = async () => {
           message =
             `Did you mean ${prefix}${matches.bestMatch.target}\n\n` + message;
 
-        reply(message);
+        await reply(message);
         if (command) {
           await addUnknownCmd(command);
         }
@@ -679,7 +679,7 @@ const startBot = async () => {
 
     bot.ev.on("connection.update", async (update) => {
       try {
-        LoggerTg(`connection.update: ${JSON.stringify(update)}`);
+        await LoggerTg(`connection.update: ${JSON.stringify(update)}`);
         const { connection, lastDisconnect } = update;
         if (connection === "open") {
           console.log("Connected");
@@ -707,6 +707,8 @@ const startBot = async () => {
           //   }
           // );
         } else if (connection === "close") {
+          console.log("connection update", update);
+
           // reconnect if not logged out
           if (!lastDisconnect) return;
           const shouldReconnect =
@@ -722,24 +724,22 @@ const startBot = async () => {
             ++startCount;
 
             console.log("[CONNECTION-CLOSED]: Restarting bot in 30 seconds!");
-            setTimeout(() => {
-              startBot();
+            setTimeout(async () => {
+              await startBot();
             }, 1000 * 30);
           } else {
-            LoggerTg(
+            await LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`
             );
             await dropAuth();
             console.log(
               "[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!"
             );
-            setTimeout(() => {
-              startBot();
+            setTimeout(async () => {
+              await startBot();
             }, 1000 * 5);
           }
         }
-
-        console.log("connection update", update);
       } catch (err) {
         await LoggerBot(undefined, "connection.update", err, update);
       }

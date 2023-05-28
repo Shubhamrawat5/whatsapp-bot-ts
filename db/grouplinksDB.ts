@@ -14,7 +14,7 @@ export interface GetGroupLink {
 }
 
 export const getGroupLink = async (): Promise<GetGroupLink[]> => {
-  let res = await pool.query(
+  const res = await pool.query(
     "SELECT gl.groupjid,gl.link,gn.gname FROM grouplinks gl LEFT JOIN groupname gn ON gl.groupjid=gn.groupjid;"
   );
   //not updated. time to insert
@@ -32,11 +32,12 @@ const createGroupLinksEnabledTable = async () => {
   );
 };
 
+//0 or 1
 export const setGroupLinkEnabled = async (
-  enabled: string[]
+  enabled: number
 ): Promise<boolean> => {
   try {
-    let res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
+    const res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
       enabled,
     ]);
     //not updated. time to insert
@@ -56,7 +57,7 @@ export const setGroupLink = async (
   link: string
 ): Promise<boolean> => {
   try {
-    let res = await pool.query(
+    const res = await pool.query(
       "UPDATE grouplinks SET link = $1 WHERE groupjid=$2;",
       [link, groupjid]
     );
