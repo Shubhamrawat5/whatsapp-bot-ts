@@ -4,10 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 import ytdl from "ytdl-core";
 import fs from "fs";
-
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
+import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const command = () => {
   const cmd = ["ytv", "yt"];
@@ -35,7 +32,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return;
     }
     const titleYt = infoYt.videoDetails.title;
-    const randomName = getRandom(".mp4");
+    const randomName = getRandomFileName(".mp4");
 
     const stream = ytdl(urlYt, {
       filter: (info) => info.itag == 22 || info.itag == 18,

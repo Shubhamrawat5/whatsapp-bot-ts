@@ -4,10 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 import axios from "axios";
 import fs from "fs";
-
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
+import { getRandomFileName } from "../../functions/getRandomFileName";
 
 const downloadSong = async (randomName: string, query: string) => {
   try {
@@ -79,7 +76,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
-  const randomName = getRandom(".mp3");
+  const randomName = getRandomFileName(".mp3");
   const query = args.join("%20");
   const response: any = await downloadSong(randomName, query);
   if (response && response.info == "NF") {

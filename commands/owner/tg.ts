@@ -6,15 +6,12 @@ import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 import { writeFile } from "fs/promises";
 import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
+import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const command = () => {
   const cmd = ["tg"];
 
   return { cmd, handler };
-};
-
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -36,7 +33,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const buffer = await toBuffer(stream);
 
   // let buffer = await downloadContentFromMessage(encmediatg, "document");
-  const media = getRandom(".zip");
+  const media = getRandomFileName(".zip");
   await writeFile(media, buffer);
   console.log("downloaded");
   // return;

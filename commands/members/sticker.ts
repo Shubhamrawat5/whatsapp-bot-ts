@@ -10,16 +10,13 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
+import { getRandomFileName } from "../../functions/getRandomFileName";
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 export const command = () => {
   const cmd = ["sticker", "s"];
 
   return { cmd, handler };
-};
-
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
 const getQuality = (isCrop: boolean, args1: string, args2: string) => {
@@ -113,7 +110,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     quality: quality,
   });
 
-  const stickerFileName = getRandom(".webp");
+  const stickerFileName = getRandomFileName(".webp");
   await stickerMake.toFile(stickerFileName);
   await bot.sendMessage(
     from,

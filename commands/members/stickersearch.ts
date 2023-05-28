@@ -5,11 +5,7 @@ import { Bot } from "../../interface/Bot";
 const gis = require("g-i-s");
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
-
-//TODO: USE COMMON GET RANDOM FUNC
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
+import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const command = () => {
   return { cmd: ["stickersearch", "ss"], handler: handler };
@@ -54,7 +50,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           quality: 100,
         });
 
-        const stickerFileName = getRandom(".webp");
+        const stickerFileName = getRandomFileName(".webp");
 
         await stickerMake.toFile(stickerFileName);
         await bot.sendMessage(

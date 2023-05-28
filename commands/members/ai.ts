@@ -5,10 +5,8 @@ import { Bot } from "../../interface/Bot";
 const importDynamic = new Function("modulePath", "return import(modulePath)");
 import "dotenv/config";
 
-const { ChatGPTAPI } = importDynamic("chatgpt");
-const api = new ChatGPTAPI({
-  apiKey: process.env.OPENAPI,
-});
+let api: any;
+let isApiSetup = false;
 
 export const command = () => {
   return { cmd: ["ai"], handler: handler };
@@ -26,6 +24,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   try {
+    if (!isApiSetup) {
+      const { ChatGPTAPI } = await importDynamic("chatgpt");
+      api = new ChatGPTAPI({
+        apiKey: process.env.OPENAPI,
+      });
+      isApiSetup = true;
+    }
+
     if (args.length === 0) {
       await reply(`❌ Query is not given! \nSend ${prefix}ai query`);
       return;

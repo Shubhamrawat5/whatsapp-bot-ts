@@ -8,15 +8,12 @@ import { Bot } from "../../interface/Bot";
 
 import fs from "fs";
 import { writeFile } from "fs/promises";
+import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const command = () => {
   const cmd = ["image", "img", "toimg"];
 
   return { cmd, handler };
-};
-
-const getRandom = (ext: string) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -41,7 +38,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const stream = await downloadContentFromMessage(downloadFilePath, "image");
   const buffer = await toBuffer(stream);
 
-  const media = getRandom(".jpeg");
+  const media = getRandomFileName(".jpeg");
   await writeFile(media, buffer);
 
   await bot.sendMessage(
