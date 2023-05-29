@@ -55,7 +55,7 @@ import { Bot } from "../../interface/Bot";
 //   return true;
 // };
 
-export const command = () => {
+export const startc = () => {
   const cmd = ["startc", "stopc"];
 
   return { cmd, handler };

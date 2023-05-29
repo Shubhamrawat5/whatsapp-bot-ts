@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCricketScore } from "../../functions/cricket";
 
-export const command = () => {
+export const score = () => {
   const cmd = ["score"];
 
   return { cmd, handler };

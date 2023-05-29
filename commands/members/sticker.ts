@@ -13,7 +13,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
-export const command = () => {
+export const sticker = () => {
   const cmd = ["sticker", "s"];
 
   return { cmd, handler };

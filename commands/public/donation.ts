@@ -5,7 +5,7 @@ import { Bot } from "../../interface/Bot";
 import fs from "fs";
 import { getDonation } from "../../db/donationDB";
 
-export const command = () => {
+export const donation = () => {
   const cmd = ["donation", "donations", "donate"];
 
   return { cmd, handler };

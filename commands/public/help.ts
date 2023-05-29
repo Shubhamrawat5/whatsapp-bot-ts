@@ -29,7 +29,7 @@ import { Bot } from "../../interface/Bot";
 // 📛 *${prefix}91only*
 // - _To instant ban all numbers other than 91 when joined in group!_
 
-export const command = () => {
+export const help = () => {
   const cmd = ["help", "menu", "list"];
 
   return { cmd, handler };

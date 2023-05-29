@@ -7,7 +7,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 // import { getMessage } from "../../functions/getMessage";
 
-export const command = () => {
+export const text = () => {
   return { cmd: ["text", "tts"], handler: handler };
 };
 

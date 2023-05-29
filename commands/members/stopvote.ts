@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getVotingData, stopVotingData } from "../../db/VotingDB";
 
-export const command = () => {
+export const stopvote = () => {
   const cmd = ["stopvote"];
 
   return { cmd, handler };

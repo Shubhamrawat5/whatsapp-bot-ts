@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
 import { getMilestone } from "../../db/milestoneDB";
 
-export const command = () => {
+export const rank = () => {
   const cmd = ["rank"];
 
   return { cmd, handler };

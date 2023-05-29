@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMilestoneText } from "../../db/milestoneDB";
 
-export const command = () => {
+export const milestone = () => {
   const cmd = ["milestone", "milestones"];
 
   return { cmd, handler };

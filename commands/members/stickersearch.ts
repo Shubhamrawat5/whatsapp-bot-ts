@@ -7,7 +7,7 @@ import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const command = () => {
+export const stickersearch = () => {
   return { cmd: ["stickersearch", "ss"], handler: handler };
 };
 

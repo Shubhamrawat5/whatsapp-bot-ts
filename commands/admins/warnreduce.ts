@@ -7,7 +7,7 @@ import {
   reduceCountWarning,
 } from "../../db/warningDB";
 
-export const command = () => {
+export const warnreduce = () => {
   const cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
 
   return { cmd, handler };

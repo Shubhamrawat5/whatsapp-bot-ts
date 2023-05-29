@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { removeBlacklist } from "../../db/blacklistDB";
 
-export const command = () => {
+export const blacklistremove = () => {
   const cmd = ["blacklistremove", "removeblacklist", "blr"];
 
   return { cmd, handler };

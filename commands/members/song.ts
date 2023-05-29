@@ -63,7 +63,7 @@ const downloadSong = async (randomName: string, query: string) => {
   }
 };
 
-export const command = () => {
+export const song = () => {
   const cmd = ["song"];
 
   return { cmd, handler };

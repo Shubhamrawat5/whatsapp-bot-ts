@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { addDonation } from "../../db/donationDB";
 
-export const command = () => {
+export const donationadd = () => {
   const cmd = ["donationadd", "da"];
 
   return { cmd, handler };

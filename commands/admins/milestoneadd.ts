@@ -7,7 +7,7 @@ import {
   setMilestone,
 } from "../../db/milestoneDB";
 
-export const command = () => {
+export const milestoneadd = () => {
   const cmd = ["milestoneadd", "addmilestone", "ma", "am"];
 
   return { cmd, handler };

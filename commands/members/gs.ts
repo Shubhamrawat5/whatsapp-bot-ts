@@ -5,7 +5,7 @@ import { Bot } from "../../interface/Bot";
 import google from "googlethis";
 import { getMessage } from "../../functions/getMessage";
 
-export const command = () => {
+export const gs = () => {
   return { cmd: ["google", "search", "gs"], handler: handler };
 };
 

@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setGroupLink, setGroupLinkEnabled } from "../../db/grouplinksDB";
 
-export const command = () => {
+export const setlink = () => {
   const cmd = ["setlink", "sl"];
 
   return { cmd, handler };

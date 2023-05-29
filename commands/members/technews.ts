@@ -26,7 +26,7 @@ const getNews = async () => {
   }
 };
 
-export const command = () => {
+export const technews = () => {
   const cmd = ["technews", "tn"];
 
   return { cmd, handler };

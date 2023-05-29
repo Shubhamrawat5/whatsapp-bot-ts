@@ -4,7 +4,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountVideo } from "../../db/countVideoDB";
 
-export const command = () => {
+export const pvxv = () => {
   const cmd = ["pvxv"];
 
   return { cmd, handler };

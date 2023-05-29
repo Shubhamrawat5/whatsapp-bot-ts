@@ -5,7 +5,7 @@ import { Bot } from "../../interface/Bot";
 import { pvxgroups } from "../../constants/constants";
 import { getUsernames } from "../../db/countMemberDB";
 
-export const command = () => {
+export const adminlist = () => {
   const cmd = ["adminlist"];
 
   return { cmd, handler };

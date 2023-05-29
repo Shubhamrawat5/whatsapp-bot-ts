@@ -16,7 +16,7 @@ const getGender = async (name: string) => {
   }
 };
 
-export const command = () => {
+export const gender = () => {
   return { cmd: ["gender"], handler: handler };
 };
 

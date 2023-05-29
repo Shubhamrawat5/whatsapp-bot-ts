@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMilestone, setMilestone } from "../../db/milestoneDB";
 
-export const command = () => {
+export const milestoneremove = () => {
   const cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
 
   return { cmd, handler };

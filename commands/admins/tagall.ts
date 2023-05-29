@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMessage } from "../../functions/getMessage";
 
-export const command = () => {
+export const tagall = () => {
   const cmd = ["tagall", "hiddentagall", "tagallhidden"];
 
   return { cmd, handler };

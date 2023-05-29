@@ -6,7 +6,7 @@ import ytdl from "ytdl-core";
 import fs from "fs";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const command = () => {
+export const ytv = () => {
   const cmd = ["ytv", "yt"];
 
   return { cmd, handler };

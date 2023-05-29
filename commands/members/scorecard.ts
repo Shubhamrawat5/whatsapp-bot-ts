@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 import { getScoreCard } from "../../functions/cricket";
 
-export const command = () => {
+export const scorecard = () => {
   const cmd = ["scorecard", "scoreboard", "sc", "sb"];
 
   return { cmd, handler };

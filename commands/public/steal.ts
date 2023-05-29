@@ -6,7 +6,7 @@ import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 
 import { Exif } from "wa-sticker-formatter";
 
-export const command = () => {
+export const steal = () => {
   const cmd = ["steal"];
 
   return { cmd, handler };

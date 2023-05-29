@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setGroupName } from "../../db/groupNameDB";
 
-export const command = () => {
+export const gname = () => {
   const cmd = ["gname"];
 
   return { cmd, handler };

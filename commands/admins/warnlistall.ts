@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountWarningAllGroup } from "../../db/warningDB";
 
-export const command = () => {
+export const warnlistall = () => {
   const cmd = ["warnlistall", "warninglistall"];
 
   return { cmd, handler };

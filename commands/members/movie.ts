@@ -2,7 +2,7 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const command = () => {
+export const movie = () => {
   return { cmd: ["movie"], handler: handler };
 };
 

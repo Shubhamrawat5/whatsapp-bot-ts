@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 import { getBlacklist } from "../../db/blacklistDB";
 
-export const command = () => {
+export const blacklist = () => {
   const cmd = ["blacklist"];
 
   return { cmd, handler };

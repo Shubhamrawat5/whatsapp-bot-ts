@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountTop10 } from "../../db/countMemberDB";
 
-export const command = () => {
+export const pvxt10 = () => {
   const cmd = ["pvxt10"];
 
   return { cmd, handler };

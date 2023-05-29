@@ -6,7 +6,7 @@ import {
   setDisableCommandData,
 } from "../../db/disableCommandDB";
 
-export const command = () => {
+export const disable = () => {
   const cmd = ["disable"];
 
   return { cmd, handler };

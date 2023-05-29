@@ -9,7 +9,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import axios from "axios";
 import { Bot } from "../../interface/Bot";
 
-export const command = () => {
+export const insta = () => {
   return { cmd: ["insta", "i", "ig"], handler: handler };
 };
 

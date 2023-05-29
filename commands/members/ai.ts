@@ -8,7 +8,7 @@ import "dotenv/config";
 let api: any;
 let isApiSetup = false;
 
-export const command = () => {
+export const ai = () => {
   return { cmd: ["ai"], handler: handler };
 };
 

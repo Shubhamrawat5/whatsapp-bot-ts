@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountWarning, setCountWarning } from "../../db/warningDB";
 
-export const command = () => {
+export const warn = () => {
   const cmd = ["warn", "warning"];
 
   return { cmd, handler };

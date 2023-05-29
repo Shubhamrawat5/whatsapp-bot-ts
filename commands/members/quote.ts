@@ -17,7 +17,7 @@ const getQuote = async () => {
   }
 };
 
-export const command = () => {
+export const quote = () => {
   return { cmd: ["quote"], handler: handler };
 };
 

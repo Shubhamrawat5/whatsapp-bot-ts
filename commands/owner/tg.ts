@@ -8,7 +8,7 @@ import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const command = () => {
+export const tg = () => {
   const cmd = ["tg"];
 
   return { cmd, handler };

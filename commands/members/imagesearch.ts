@@ -4,7 +4,7 @@ import { Bot } from "../../interface/Bot";
 
 const gis = require("g-i-s");
 
-export const command = () => {
+export const imagesearch = () => {
   return { cmd: ["imagesearch", "is"], handler: handler };
 };
 

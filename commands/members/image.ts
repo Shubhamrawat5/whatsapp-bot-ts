@@ -10,7 +10,7 @@ import fs from "fs";
 import { writeFile } from "fs/promises";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const command = () => {
+export const image = () => {
   const cmd = ["image", "img", "toimg"];
 
   return { cmd, handler };

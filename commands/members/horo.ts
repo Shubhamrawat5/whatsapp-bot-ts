@@ -40,7 +40,7 @@ const getHoro = async (name: string): Promise<string> => {
   }
 };
 
-export const command = () => {
+export const horo = () => {
   return { cmd: ["horo", "horoscope"], handler: handler };
 };
 
