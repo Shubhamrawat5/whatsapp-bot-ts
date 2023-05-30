@@ -22,7 +22,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (mentioned.length === 1) {
       const participant = mentioned[0];
       const res = await getCountWarning(participant, from);
-      let warnCount = res[0].count;
+      let warnCount = res.length ? res[0].count : 0;
       const num_split = participant.split("@s.whatsapp.net")[0];
 
       if (warnCount < 3) {
@@ -62,7 +62,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (!participant) return;
     const taggedMessageUser = [participant];
     const res = await getCountWarning(participant, from);
-    let warnCount = res[0].count;
+    let warnCount = res.length ? res[0].count : 0;
     const num_split = participant && participant.split("@s.whatsapp.net")[0];
 
     if (warnCount < 3) {

@@ -107,7 +107,6 @@ export const getRankInAllGroups = async (
     ranks: 0,
     totalUsers: 0,
   };
-  //TODO:FIX
   if (result.rowCount) {
     resultObj.name = result.rows[0].name;
     resultObj.count = result.rows[0].count;

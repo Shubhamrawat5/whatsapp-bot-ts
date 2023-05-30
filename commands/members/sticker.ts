@@ -67,26 +67,19 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     quality = 100;
     mediaType = "image";
 
-    if (imagePath) {
-      downloadFilePath = msg.message?.imageMessage;
-    } else {
-      downloadFilePath = taggedImagePath;
-    }
+    downloadFilePath = imagePath ? imagePath : taggedImagePath;
   } else if (videoPath || taggedVideoPath) {
     quality = 40;
-    mediaType = "image";
+    mediaType = "video";
 
-    if (videoPath) {
-      downloadFilePath = msg.message?.videoMessage;
-    } else {
-      downloadFilePath = taggedVideoPath;
-    }
+    downloadFilePath = videoPath ? videoPath : taggedVideoPath;
   } else {
     await reply("❌ Give a media (image/video) to convert into sticker!");
     return;
   }
 
   if (!downloadFilePath) return;
+  console.log(mediaType, downloadFilePath);
 
   const limit = 2;
   if (

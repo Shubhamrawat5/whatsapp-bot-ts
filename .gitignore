@@ -1,5 +1,5 @@
-auth_info_multi.json/*
-baileys_store_multi.json
+auth_info_multi/*
+baileys_store_multi
 message.txt
 
 # Logs

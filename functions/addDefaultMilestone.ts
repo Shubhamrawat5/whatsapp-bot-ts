@@ -7,7 +7,6 @@ import { getDonation } from "../db/donationDB";
 export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
 
-  //TODO: CHECK _ and key
   interface Milestones {
     [key: string]: string[];
   }

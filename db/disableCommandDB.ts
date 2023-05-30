@@ -6,7 +6,6 @@ const createDisableCommandTable = async () => {
   );
 };
 
-//TODO: check this
 export interface GetDisableCommandData {
   chat_id: string;
   disabled: string[];
@@ -15,7 +14,6 @@ export interface GetDisableCommandData {
 export const getDisableCommandData = async (
   groupjid: string
 ): Promise<GetDisableCommandData[]> => {
-  //TODO: ADD TRY CATCH IN EVERY DB
   await createDisableCommandTable();
 
   //check if today date is present in DB or not
