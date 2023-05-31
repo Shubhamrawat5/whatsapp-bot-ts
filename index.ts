@@ -367,14 +367,17 @@ const startBot = async () => {
 
           const from = msg.key.remoteJid;
           if (!from) return;
+          const isGroup = from.endsWith("@g.us");
 
           let groupMetadata: GroupMetadata | undefined = undefined;
           groupMetadata = cache.get(from + ":groupMetadata");
 
-          if (!groupMetadata) {
+          if (isGroup && !groupMetadata) {
+            console.log("FETCHING GROUP METADATA: ", msg);
+
             groupMetadata = await bot.groupMetadata(from);
             // console.log(groupMetadata);
-            cache.set(from + ":groupMetadata", groupMetadata, 60 * 60);
+            cache.set(from + ":groupMetadata", groupMetadata, 60 * 60 * 24); //24 hours
           }
           let sender = groupMetadata ? msg.key.participant : from;
           if (!sender) return;
@@ -683,7 +686,7 @@ const startBot = async () => {
           for (const group of groups) {
             console.log("SET metadata for: ", group.subject);
 
-            cache.set(group.id + ":groupMetadata", group, 60 * 60 * 6); //6 hours
+            cache.set(group.id + ":groupMetadata", group, 60 * 60 * 24); //24 hours
           }
 
           // bot.sendMessage(
@@ -731,6 +734,13 @@ const startBot = async () => {
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`
             );
             await dropAuth();
+            try {
+              fs.rmSync("./auth_info_multi", { recursive: true, force: true });
+              console.log("Local auth_info_multi file deleted.");
+              // fs.unlinkSync("./auth_info_multi.json");
+            } catch (err) {
+              console.log("Local auth_info_multi file already deleted.");
+            }
             console.log(
               "[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!"
             );
