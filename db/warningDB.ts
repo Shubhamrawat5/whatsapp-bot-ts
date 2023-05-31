@@ -15,14 +15,10 @@ export const getCountWarning = async (
   memberjid: string,
   groupjid: string
 ): Promise<GetCountWarning[]> => {
-  console.log([memberjid, groupjid]);
-
   const result = await pool.query(
     "SELECT count FROM countwarning WHERE memberjid=$1 AND groupjid=$2;",
     [memberjid, groupjid]
   );
-
-  console.log(result);
 
   if (result.rowCount) {
     return result.rows;
