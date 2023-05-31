@@ -98,7 +98,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       fileName: response + ".mp3",
       mimetype: "audio/mpeg",
     },
-    { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
+    { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
   );
   fs.unlinkSync(`./${randomName}`);
 };

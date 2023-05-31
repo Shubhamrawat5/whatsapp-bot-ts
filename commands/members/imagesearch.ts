@@ -47,7 +47,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
             },
             {
               quoted: msg,
-              mediaUploadTimeoutMs: 1000 * 30,
+              mediaUploadTimeoutMs: 1000 * 60,
             }
           );
         }

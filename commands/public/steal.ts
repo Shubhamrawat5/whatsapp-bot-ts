@@ -48,7 +48,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     from,
     { sticker: webpWithExif },
     {
-      mediaUploadTimeoutMs: 1000 * 30,
+      mediaUploadTimeoutMs: 1000 * 60,
     }
   );
 };

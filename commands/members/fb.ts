@@ -27,7 +27,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       {
         video: { url: res.data.videoUrl },
       },
-      { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
+      { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
     );
   } catch (err) {
     await reply(

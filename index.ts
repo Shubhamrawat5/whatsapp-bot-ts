@@ -722,10 +722,10 @@ const startBot = async () => {
             );
             ++startCount;
 
-            console.log("[CONNECTION-CLOSED]: Restarting bot in 15 seconds!");
+            console.log("[CONNECTION-CLOSED]: Restarting bot in 20 seconds!");
             setTimeout(async () => {
               await startBot();
-            }, 1000 * 15);
+            }, 1000 * 20);
           } else {
             await LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`

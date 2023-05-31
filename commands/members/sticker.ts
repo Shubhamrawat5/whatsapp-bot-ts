@@ -79,7 +79,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   if (!downloadFilePath) return;
-  console.log(mediaType, downloadFilePath);
 
   const limit = 2;
   if (
@@ -110,7 +109,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     {
       sticker: fs.readFileSync(stickerFileName),
     },
-    { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
+    { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
   );
   try {
     fs.unlinkSync(stickerFileName);

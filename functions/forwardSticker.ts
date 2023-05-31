@@ -55,7 +55,7 @@ export const forwardSticker = async (
       { sticker: webpWithExif },
       {
         ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 30,
+        mediaUploadTimeoutMs: 1000 * 60,
       }
     );
     await bot.sendMessage(
@@ -63,7 +63,7 @@ export const forwardSticker = async (
       { sticker: webpWithExif },
       {
         ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 30,
+        mediaUploadTimeoutMs: 1000 * 60,
       }
     );
 
