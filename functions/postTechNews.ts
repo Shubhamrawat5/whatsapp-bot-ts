@@ -87,6 +87,13 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
         }
 
         const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
+
+        if (!data[randomWeb]) {
+          //undefined
+          count += 1;
+          continue;
+        }
+
         const index = Math.floor(Math.random() * data[randomWeb].length);
         const news = data[randomWeb][index];
 

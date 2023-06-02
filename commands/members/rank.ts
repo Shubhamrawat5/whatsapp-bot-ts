@@ -37,8 +37,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
+  //TODO: ADD CHECKING IN ALL
   const res2 = await getCountIndividual(sender, from);
-  const countCurGroup = res2[0].count;
+  const countCurGroup = res2.length ? res2[0].count : 0;
 
   //find rank
   let rankName;
