@@ -1,6 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
+import { getMessage } from "../../functions/getMessage";
 
 export const rt = () => {
   const cmd = ["rt", "randomtag"];
@@ -9,20 +10,11 @@ export const rt = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { groupMembers, args, from } = msgInfoObj;
+  const { groupMembers, prefix, command,from } = msgInfoObj;
   if (!groupMembers) return;
 
   const jids = [];
-  let message = "Hey ";
-  if (
-    msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
-  ) {
-    message +=
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
-      "\n\n";
-  } else {
-    message += args.length ? args.join(" ") + "\n\n" : "";
-  }
+  let message = "Hey " + (await getMessage(msg, prefix, command));
 
   const member = groupMembers[Math.floor(Math.random() * groupMembers.length)];
   message += "@" + member.id.split("@")[0] + " ";

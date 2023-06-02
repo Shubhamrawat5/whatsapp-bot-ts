@@ -3,6 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
 import { getMilestone } from "../../db/milestoneDB";
+import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
 export const rank = () => {
   const cmd = ["rank"];
@@ -13,14 +14,11 @@ export const rank = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, milestones, from } = msgInfoObj;
   let { sender } = msgInfoObj;
+
   if (args.length) {
-    sender = args.join("") + "@s.whatsapp.net";
-  }
-  if (msg.message?.extendedTextMessage?.contextInfo) {
-    if (msg.message.extendedTextMessage.contextInfo.participant)
-      sender = msg.message.extendedTextMessage.contextInfo.participant;
-    else if (msg.message.extendedTextMessage.contextInfo.mentionedJid)
-      sender = msg.message.extendedTextMessage.contextInfo.mentionedJid[0];
+    sender = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  } else if (msg.message?.extendedTextMessage) {
+    sender = await getMentionedOrTaggedParticipant(msg);
   }
 
   if (sender.startsWith("+")) {

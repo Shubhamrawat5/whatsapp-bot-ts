@@ -22,31 +22,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  // console.log(msg);
-  /*
-      1) when !ban OR !ban xyz
-         message:{ conversation: '!ban' }
-      2) when !ban tagMember
-          message: Message {
-            extendedTextMessage: ExtendedTextMessage {
-              text: '.ban @91745cccccc',
-              previewType: 0,
-              contextInfo: [ContextInfo],
-              inviteLinkGroupType: 0
-           }
-         }
-
-      3) when !ban tagMessage
-          message: {
-              extendedTextMessage: {
-                text: '.ban',
-                previewType: 'NONE',
-                contextInfo: [Object],
-                inviteLinkGroupType: 'DEFAULT'
-             }
-          }
-  */
-
   const participant = await getMentionedOrTaggedParticipant(msg);
 
   if (groupAdmins.includes(participant)) {

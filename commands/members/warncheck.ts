@@ -13,7 +13,7 @@ export const warncheck = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { sender, from } = msgInfoObj;
 
-  let participant = await getMentionedOrTaggedParticipant(msg);
+  let participant: string;
 
   if (msg.message?.extendedTextMessage) {
     participant = await getMentionedOrTaggedParticipant(msg);

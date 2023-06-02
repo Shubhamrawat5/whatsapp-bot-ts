@@ -1,6 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
+import { getMessage } from "../../functions/getMessage";
 
 export const tagadmins = () => {
   const cmd = ["tagadmin", "tagadmins", "ta"];
@@ -9,18 +10,9 @@ export const tagadmins = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { groupAdmins, args, from } = msgInfoObj;
+  const { groupAdmins, prefix, command, from } = msgInfoObj;
   const jids = [];
-  let message = "ADMINS: ";
-  if (
-    msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
-  ) {
-    message +=
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
-      "\n\n";
-  } else {
-    message += args.length ? args.join(" ") + "\n\n" : "";
-  }
+  let message = "ADMINS: " + (await getMessage(msg, prefix, command)) + "\n\n";
 
   for (const admin of groupAdmins) {
     message += "@" + admin.split("@")[0] + " ";

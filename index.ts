@@ -768,19 +768,19 @@ const startBot = async () => {
     await LoggerBot(undefined, "BOT-ERROR", err, "");
   }
 
-  async function getMessage(
-    key: WAMessageKey
-  ): Promise<WAMessageContent | undefined> {
-    console.log("GET MESSAGE---------------", key);
+  // async function getMessage(
+  //   key: WAMessageKey
+  // ): Promise<WAMessageContent | undefined> {
+  //   console.log("GET MESSAGE---------------", key);
 
-    if (store && key.remoteJid && key.id) {
-      const msg = await store.loadMessage(key.remoteJid, key.id);
-      return msg?.message || undefined;
-    }
+  //   if (store && key.remoteJid && key.id) {
+  //     const msg = await store.loadMessage(key.remoteJid, key.id);
+  //     return msg?.message || undefined;
+  //   }
 
-    // only if store is present
-    return proto.Message.fromObject({});
-  }
+  //   // only if store is present
+  //   return proto.Message.fromObject({});
+  // }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

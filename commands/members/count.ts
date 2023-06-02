@@ -2,6 +2,7 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountIndividualAllGroupWithName } from "../../db/countMemberDB";
+import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
 export const count = () => {
   const cmd = ["count", "total"];
@@ -14,14 +15,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  if (args[0]) {
-    sender = args[0] + "@s.whatsapp.net";
-  }
-  if (msg.message?.extendedTextMessage?.contextInfo) {
-    if (msg.message.extendedTextMessage.contextInfo.participant)
-      sender = msg.message.extendedTextMessage.contextInfo.participant;
-    else if (msg.message.extendedTextMessage.contextInfo.mentionedJid)
-      sender = msg.message.extendedTextMessage.contextInfo.mentionedJid[0];
+  if (args.length) {
+    sender = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  } else if (msg.message?.extendedTextMessage) {
+    sender = await getMentionedOrTaggedParticipant(msg);
   }
 
   const resultCountGroup = await getCountIndividualAllGroupWithName(sender);
