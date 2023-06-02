@@ -21,6 +21,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender = await getMentionedOrTaggedParticipant(msg);
   }
 
+  if (sender.startsWith("+") || sender.startsWith("@")) {
+    sender = sender.slice(1);
+  }
+  if (sender.length === 10 + 15) {
+    sender = "91" + sender;
+  }
+
   const resultCountGroup = await getCountIndividualAllGroupWithName(sender);
 
   const username: string = resultCountGroup.length

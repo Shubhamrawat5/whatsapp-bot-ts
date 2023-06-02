@@ -373,7 +373,7 @@ const startBot = async () => {
           groupMetadata = cache.get(from + ":groupMetadata");
 
           if (isGroup && !groupMetadata) {
-            console.log("FETCHING GROUP METADATA: ", msg);
+            console.log("FETCHING GROUP METADATA: ", from);
 
             groupMetadata = await bot.groupMetadata(from);
             // console.log(groupMetadata);

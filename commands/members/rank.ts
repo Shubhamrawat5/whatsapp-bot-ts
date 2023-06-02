@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender = await getMentionedOrTaggedParticipant(msg);
   }
 
-  if (sender.startsWith("+")) {
+  if (sender.startsWith("+") || sender.startsWith("@")) {
     sender = sender.slice(1);
   }
   if (sender.length === 10 + 15) {
@@ -29,11 +29,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const res = await getRankInAllGroups(sender);
-  const { name, ranks, count, totalUsers } = res[0];
-  if (!name) {
+  if (res.length === 0) {
     await reply(`❌ ERROR: ${sender.split("@")[0]} NOT FOUND in Database!`);
     return;
   }
+
+  const { name, ranks, count, totalUsers } = res[0];
 
   //TODO: ADD CHECKING IN ALL
   const res2 = await getCountIndividual(sender, from);
