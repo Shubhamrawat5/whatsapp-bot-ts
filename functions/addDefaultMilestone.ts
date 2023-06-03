@@ -13,13 +13,7 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   interface Chats {
     [key: string]: GroupMetadata;
   }
-  interface ResultCountGroupTop {
-    memberjid: string;
-  }
-  interface donationRes {
-    number: number;
-    amount: number;
-  }
+
   const milestones: Milestones = {};
 
   console.log("Adding default milestones");
@@ -33,8 +27,8 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
     milestones[member.id] = ["Main Admin of PVX"];
   });
 
-  const resultCountGroupTop: ResultCountGroupTop[] = await getCountTop(100);
-  resultCountGroupTop.forEach((member, index) => {
+  const getCountTopRes = await getCountTop(100);
+  getCountTopRes.forEach((member, index) => {
     const memberjid = member.memberjid;
     const number = index + 1;
     if (number > 50) {
@@ -56,8 +50,8 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
     }
   });
 
-  const donationRes = await getDonation();
-  donationRes.forEach((member, index) => {
+  const getDonationRes = await getDonation();
+  getDonationRes.forEach((member, index) => {
     const memberjid = `${member.number}@s.whatsapp.net`;
     if (index === 0) {
       if (milestones[memberjid])

@@ -18,10 +18,10 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
       return { title: item.title, link: item.link };
     });
 
-    let res = false;
+    let storeNewsStudyRes = false;
     let count = 1;
 
-    while (!res) {
+    while (!storeNewsStudyRes) {
       console.log(`STUDY NEWS FUNCTION ${count} times!`);
       if (count > 10) {
         //10 times, already posted news comes up
@@ -33,8 +33,8 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
 
       if (!title) title = "";
 
-      res = await storeNewsStudy(title);
-      if (res) {
+      storeNewsStudyRes = await storeNewsStudy(title);
+      if (storeNewsStudyRes) {
         console.log("NEW STUDY NEWS!");
         await bot.sendMessage(pvxstudy, { text: `📰 ${title}` });
       } else {

@@ -28,10 +28,10 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
       const data = response.data;
       const articles: Articles[] = data.articles;
 
-      let res = false;
+      let storeNewsTechRes = false;
       let count = 1;
 
-      while (!res) {
+      while (!storeNewsTechRes) {
         console.log(`TECH NEWS FUNCTION: ${count} times!`);
         if (count > 10) {
           //10 times, already posted news comes up
@@ -45,8 +45,9 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
         const found = title.lastIndexOf("-");
         if (found != -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
-        res = source.name != "Sportskeeda" && (await storeNewsTech(title));
-        if (res) {
+        storeNewsTechRes =
+          source.name != "Sportskeeda" && (await storeNewsTech(title));
+        if (storeNewsTechRes) {
           console.log("NEW TECH NEWS!");
 
           let message = `📰 ${title}\n`;

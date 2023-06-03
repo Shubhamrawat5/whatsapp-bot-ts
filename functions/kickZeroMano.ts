@@ -5,10 +5,10 @@ import { getCountVideo } from "../db/countVideoDB";
 
 export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
   try {
-    const resultCountGroupIndi = await getCountVideo(pvxmano);
+    const getCountVideoRes = await getCountVideo(pvxmano);
 
     const memWithMsg = new Set();
-    for (const member of resultCountGroupIndi) {
+    for (const member of getCountVideoRes) {
       memWithMsg.add(member.memberjid);
     }
 

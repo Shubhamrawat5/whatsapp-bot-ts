@@ -21,12 +21,12 @@ export const memberAddCheck = async (
     // blockCommandsInDesc.includes("only91")
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       //if number is blacklisted
-      const blacklistRes = await getBlacklist(num_split);
+      const getBlacklistRes = await getBlacklist(num_split);
       // console.log(blacklistRes);
-      if (blacklistRes.length) {
+      if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
         await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${blacklistRes[0].reason}`,
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${getBlacklistRes[0].reason}`,
         });
         await bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
