@@ -510,7 +510,7 @@ const startBot = async () => {
             resDisabled = cache.get(from + ":resDisabled");
             if (!resDisabled) {
               const res = await getDisableCommandData(from);
-              resDisabled = res[0].disabled;
+              resDisabled = res.length ? res[0].disabled : [];
               cache.set(from + ":resDisabled", resDisabled, 60 * 60);
             }
           }
