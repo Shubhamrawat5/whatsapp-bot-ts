@@ -448,8 +448,10 @@ const startBot = async () => {
             if (
               from === pvxgroups.pvxsticker &&
               body === "" &&
-              msg.message.videoMessage?.fileLength &&
-              Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000
+              (msg.message.imageMessage ||
+                (msg.message.videoMessage?.fileLength &&
+                  Number(msg.message.videoMessage.fileLength) <
+                    2 * 1000 * 1000))
             ) {
               isCmd = true;
               body = "!s";
