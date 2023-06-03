@@ -27,9 +27,6 @@ import makeWASocket, {
   ParticipantAction,
   WAMessage,
   MessageUpsertType,
-  WAMessageKey,
-  WAMessageContent,
-  proto,
   makeInMemoryStore,
   GroupParticipant,
 } from "@adiwajshing/baileys";
@@ -64,7 +61,7 @@ if (store) {
 import { dropAuth } from "./db/dropauthDB";
 import { setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-import { getDisableCommandData } from "./db/disableCommandDB";
+import { getDisableCommand } from "./db/disableCommandDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -100,6 +97,7 @@ const stats = {
   imageMessage: 0,
   videoMessage: 0,
   documentMessage: 0,
+  otherMessage: 0,
   commandExecuted: 0,
   newsPosted: 0,
   stickerForwarded: 0,
@@ -305,10 +303,15 @@ const startBot = async () => {
           if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
 
           //type to extract body text
-          const type: string = msg.message.conversation
+          const type:
+            | "textMessage"
+            | "imageMessage"
+            | "videoMessage"
+            | "stickerMessage"
+            | "documentMessage"
+            | "extendedTextMessage"
+            | "otherMessage" = msg.message.conversation
             ? "textMessage"
-            : msg.message.reactionMessage
-            ? "reactionMessage"
             : msg.message.imageMessage
             ? "imageMessage"
             : msg.message.videoMessage
@@ -317,16 +320,11 @@ const startBot = async () => {
             ? "stickerMessage"
             : msg.message.documentMessage
             ? "documentMessage"
-            : msg.message.audioMessage
-            ? "audioMessage"
-            : msg.message.ephemeralMessage
-            ? "ephemeralMessage"
             : msg.message.extendedTextMessage
             ? "extendedTextMessage"
-            : msg.message.viewOnceMessageV2
-            ? "viewOnceMessageV2"
-            : "other";
+            : "otherMessage";
           //ephemeralMessage are from disappearing chat
+          //reactionMessage, audioMessage
 
           const acceptedType = [
             "textMessage",
@@ -342,10 +340,9 @@ const startBot = async () => {
 
           // console.log("IN", msgs.messages.length);
 
-          //TODO: FIX
-          // ++stats.totalMessages;
-          // if (type === "extendedTextMessage") ++stats["textMessage"];
-          // else ++stats[type];
+          ++stats.totalMessages;
+          if (type === "extendedTextMessage") ++stats["textMessage"];
+          else ++stats[type];
 
           //body will have the text message
           let body = msg.message.conversation
@@ -509,7 +506,7 @@ const startBot = async () => {
           if (groupMetadata && !isGroupAdmins) {
             resDisabled = cache.get(from + ":resDisabled");
             if (!resDisabled) {
-              const res = await getDisableCommandData(from);
+              const res = await getDisableCommand(from);
               resDisabled = res.length ? res[0].disabled : [];
               cache.set(from + ":resDisabled", resDisabled, 60 * 60);
             }
@@ -531,16 +528,17 @@ const startBot = async () => {
           }
 
           switch (command) {
-            //TODO: FIX
-            // case "stats":
-            //   let statsMessage = "📛 PVX BOT STATS 📛\n";
+            case "stats": {
+              let statsMessage = "📛 PVX BOT STATS 📛\n";
 
-            //   Object.keys(stats).forEach((key) => {
-            //     statsMessage += `\n${key}: ${stats[key]}`;
-            //   });
+              let key: keyof typeof stats;
+              for (key in stats) {
+                statsMessage += `\n${key}: ${stats[key]}`;
+              }
 
-            //   await reply(statsMessage);
-            //   return;
+              await reply(statsMessage);
+              return;
+            }
 
             // case "check":
             //   return;

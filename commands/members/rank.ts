@@ -36,7 +36,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const { name, ranks, count, totalUsers } = res[0];
 
-  //TODO: ADD CHECKING IN ALL
   const res2 = await getCountIndividual(sender, from);
   const countCurGroup = res2.length ? res2[0].count : 0;
 
