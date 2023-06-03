@@ -53,7 +53,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   if (response == undefined) {
-    await reply(`_❌ There is some problem`);
+    await reply(`_❌ There is some problem_`);
     return;
   }
 

@@ -13,10 +13,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupName, groupMembers, reply, from } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  const resultCountGroupIndi = await getCountGroupMembers(from);
+  const getCountGroupMembersRes = await getCountGroupMembers(from);
 
   const memWithMsg = new Set();
-  for (const member of resultCountGroupIndi) {
+  for (const member of getCountGroupMembersRes) {
     memWithMsg.add(member.memberjid);
   }
 
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let countGroupMsgTempIndi = "\n";
   let totalGrpCountIndi = 0;
-  for (const member of resultCountGroupIndi) {
+  for (const member of getCountGroupMembersRes) {
     totalGrpCountIndi += member.count;
     countGroupMsgTempIndi += `\n${member.count} - ${member.name}`;
   }

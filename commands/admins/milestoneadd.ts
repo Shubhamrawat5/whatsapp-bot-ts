@@ -46,8 +46,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const milestoneTextRes = await getMilestoneText();
-  if (!sno || sno < 0 || sno > milestoneTextRes.length) {
+  const getMilestoneTextRes = await getMilestoneText();
+  if (!sno || sno < 0 || sno > getMilestoneTextRes.length) {
     await reply(
       `❌ Give correct serial number within the range\nTo know the sno: ${prefix}milestone`
     );
@@ -55,26 +55,28 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const memberjid = `${contact}@s.whatsapp.net`;
-  const achievedText = milestoneTextRes[sno - 1].milestone;
+  const achievedText = getMilestoneTextRes.length
+    ? getMilestoneTextRes[sno - 1].milestone
+    : "";
 
   let achieved: string[];
-  const milestoneRes = await getMilestone(memberjid);
-  if (milestoneRes.length) {
-    if (milestoneRes[0].achieved.includes(achievedText)) {
+  const getMilestoneRes = await getMilestone(memberjid);
+  if (getMilestoneRes.length) {
+    if (getMilestoneRes[0].achieved.includes(achievedText)) {
       await reply(
         `❌ Milestone "${achievedText}" is already added to ${contact}`
       );
       return;
     }
 
-    achieved = milestoneRes[0].achieved;
+    achieved = getMilestoneRes[0].achieved;
     achieved.push(achievedText);
   } else {
     achieved = [achievedText];
   }
 
-  const res = await setMilestone(memberjid, achieved);
-  if (res) await reply(`✔ Milestone added!`);
+  const setMilestoneRes = await setMilestone(memberjid, achieved);
+  if (setMilestoneRes) await reply(`✔ Milestone added!`);
   else await reply(`❌ There is some problem!`);
 };
 

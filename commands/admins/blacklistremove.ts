@@ -33,6 +33,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const blacklistRes = await removeBlacklist(blacklistNumb);
-  await reply(blacklistRes);
+  const removeBlacklistRes = await removeBlacklist(blacklistNumb);
+  await reply(removeBlacklistRes);
 };

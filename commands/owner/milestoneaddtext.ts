@@ -20,8 +20,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const milestoneText = args.join(" ");
 
-  const res = await setMilestoneText(milestoneText);
-  if (res) await reply(`✔ Milestone text added!`);
+  const setMilestoneTextRes = await setMilestoneText(milestoneText);
+  if (setMilestoneTextRes) await reply(`✔ Milestone text added!`);
   else await reply(`❌ There is some problem!`);
 };
 

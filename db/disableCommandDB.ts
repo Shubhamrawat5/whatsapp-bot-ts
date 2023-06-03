@@ -11,7 +11,7 @@ export interface GetDisableCommandData {
   disabled: string[];
 }
 
-export const getDisableCommandData = async (
+export const getDisableCommand = async (
   groupjid: string
 ): Promise<GetDisableCommandData[]> => {
   await createDisableCommandTable();
@@ -28,7 +28,7 @@ export const getDisableCommandData = async (
   }
 };
 
-export const setDisableCommandData = async (
+export const setDisableCommand = async (
   groupjid: string,
   disabled: string[]
 ): Promise<boolean> => {

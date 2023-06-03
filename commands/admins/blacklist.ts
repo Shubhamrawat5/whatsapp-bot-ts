@@ -13,9 +13,9 @@ export const blacklist = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
-  const blacklistRes = await getBlacklist();
+  const getBlacklistRes = await getBlacklist();
   let blacklistMsg = "Blacklisted Numbers\n";
-  blacklistRes.forEach((num) => {
+  getBlacklistRes.forEach((num) => {
     blacklistMsg += `\n${num.number}: ${num.reason}`;
   });
 

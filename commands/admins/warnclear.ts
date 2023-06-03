@@ -20,13 +20,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const participant = await getMentionedOrTaggedParticipant(msg);
 
-  await clearCountWarning(participant, from);
+  const clearCountWarningRes = await clearCountWarning(participant, from);
+  if (clearCountWarningRes) {
+    const num_split = participant && participant.split("@s.whatsapp.net")[0];
+    const warnMsg = `@${num_split} ,Your warnings have been cleared for this group!`;
 
-  const num_split = participant && participant.split("@s.whatsapp.net")[0];
-  const warnMsg = `@${num_split} ,Your warnings have been cleared for this group!`;
-
-  await bot.sendMessage(from, {
-    text: warnMsg,
-    mentions: [participant],
-  });
+    await bot.sendMessage(from, {
+      text: warnMsg,
+      mentions: [participant],
+    });
+  } else {
+    await reply(`❌ There is some problem!`);
+  }
 };

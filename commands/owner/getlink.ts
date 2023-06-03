@@ -12,9 +12,9 @@ export const getlink = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
-  const res = await getGroupLink();
+  const getGroupLinkRes = await getGroupLink();
   let message = "📛 PVX LINKS 📛";
-  res.forEach((group) => {
+  getGroupLinkRes.forEach((group) => {
     message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;
   });
 

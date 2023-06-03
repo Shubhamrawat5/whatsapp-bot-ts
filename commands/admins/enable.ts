@@ -2,8 +2,8 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import {
-  getDisableCommandData,
-  setDisableCommandData,
+  getDisableCommand,
+  setDisableCommand,
 } from "../../db/disableCommandDB";
 
 export const enable = () => {
@@ -28,8 +28,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const res = await getDisableCommandData(from);
-  const disabledCmdArray = res[0].disabled;
+  const getDisableCommandRes = await getDisableCommand(from);
+  const disabledCmdArray = getDisableCommandRes.length
+    ? getDisableCommandRes[0].disabled
+    : [];
 
   if (!disabledCmdArray.includes(cmd)) {
     await reply(`❌ ${prefix}${cmd} is already enabled!`);
@@ -40,7 +42,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return cmd != c;
   });
 
-  await setDisableCommandData(from, resNew);
+  const setDisableCommandRes = await setDisableCommand(from, resNew);
 
-  await reply(`✔️ ${prefix}${cmd} command enabled!`);
+  if (setDisableCommandRes) await reply(`✔️ ${prefix}${cmd} command enabled!`);
+  else await reply(`❌ There is some problem!`);
 };

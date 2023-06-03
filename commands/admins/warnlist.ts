@@ -14,10 +14,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  const warnCount = await getCountWarningAll(from);
+  const getCountWarningAllRes = await getCountWarningAll(from);
   let warnMsg = `*${groupName}*\n_warning status_${readMore}\n`;
 
-  warnCount.forEach((mem) => {
+  getCountWarningAllRes.forEach((mem) => {
     warnMsg += `\n${mem.count} - ${mem.name}`;
   });
 

@@ -21,14 +21,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const participant = await getMentionedOrTaggedParticipant(msg);
 
   if (!participant) return;
-  const res = await getCountWarning(participant, from);
-  let warnCount = res.length ? res[0].count : 0;
+  const getCountWarningRes = await getCountWarning(participant, from);
+  let warnCount = getCountWarningRes.length ? getCountWarningRes[0].count : 0;
   const num_split = participant.split("@s.whatsapp.net")[0];
 
   if (warnCount < 3) {
     //0,1,2
-    const res = await setCountWarning(participant, from);
-    if (res) warnCount += 1;
+    const setCountWarningRes = await setCountWarning(participant, from);
+    if (setCountWarningRes) warnCount += 1;
   }
   const warnMsg = `@${num_split} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 

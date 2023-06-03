@@ -16,11 +16,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // const more = String.fromCharCode(8206);
   // const readMore = more.repeat(4001);
 
-  const donaResult = await getDonation();
-  // console.log(donaResult);
+  const getDonationRes = await getDonation();
+  // console.log(getDonationRes);
   let totalDona = 0;
   let donaMsgTemp = "";
-  donaResult.forEach((dona) => {
+  getDonationRes.forEach((dona) => {
     totalDona += dona.amount;
     donaMsgTemp += `\n❤️ Rs ${dona.amount} - ${dona.name}`;
   });

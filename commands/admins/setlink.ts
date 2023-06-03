@@ -15,9 +15,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (args[0]) {
     const enabled = Number(args[0]);
 
-    const res = await setGroupLinkEnabled(enabled);
+    const setGroupLinkEnabledRes = await setGroupLinkEnabled(enabled);
 
-    if (res) await reply(`✔ Group link enabled updated with value: ${enabled}`);
+    if (setGroupLinkEnabledRes)
+      await reply(`✔ Group link enabled updated with value: ${enabled}`);
     else
       await reply(
         `❌ There is some problem!\nGive only integer value with ${prefix}setlink #0`
@@ -38,7 +39,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const res = await setGroupLink(from, link);
-  if (res) await reply(`✔ Group link updated in DB!`);
+  const setGroupLinkRes = await setGroupLink(from, link);
+  if (setGroupLinkRes) await reply(`✔ Group link updated in DB!`);
   else await reply(`❌ There is some problem!`);
 };

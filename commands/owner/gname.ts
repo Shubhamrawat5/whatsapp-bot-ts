@@ -18,10 +18,20 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return { name: v.subject, id: v.id };
     });
 
+  let countSuccess = 0;
+  let countFail = 0;
+
   // console.log(groups);
   for (const group of groups) {
-    await setGroupName(group.id, group.name);
+    const setGroupNameRes = await setGroupName(group.id, group.name);
+    if (setGroupNameRes) {
+      countSuccess += 1;
+    } else {
+      countFail += 1;
+    }
   }
 
-  await reply(`✔ Group name data inserted!`);
+  await reply(
+    `✔ Group name data inserted!\nSuccess: ${countSuccess}\nFail: ${countFail}`
+  );
 };

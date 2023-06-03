@@ -35,9 +35,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   //get all jids name from DB
-  const res = await getUsernames(memberjidAllArray);
+  const getUsernamesRes = await getUsernames(memberjidAllArray);
 
-  if (res.length != memberjidAllArray.length) {
+  if (getUsernamesRes.length != memberjidAllArray.length) {
     await reply("Some names are not found in DB.");
   }
 
@@ -47,7 +47,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   //create object of { jid: name }
   const memberjidObj: MemberjidToUsername = {};
-  res.forEach((mem) => {
+  getUsernamesRes.forEach((mem) => {
     memberjidObj[mem.memberjid] = mem.name;
   });
 

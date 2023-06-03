@@ -58,28 +58,6 @@ export const getCountIndividual = async (
   }
 };
 
-export interface GetCountIndividualAllGroup {
-  count: number;
-  name: string;
-}
-
-//total: user all group total message count
-export const getCountIndividualAllGroup = async (
-  memberjid: string
-): Promise<GetCountIndividualAllGroup[]> => {
-  await createCountMemberTable();
-  const result = await pool.query(
-    "SELECT cmn.name,sum(cm.count) as count,cm.memberjid FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid GROUP BY cmn.name,cm.memberjid HAVING cm.memberjid=$1;",
-    [memberjid]
-  );
-
-  if (result.rowCount) {
-    return result.rows;
-  } else {
-    return [];
-  }
-};
-
 export interface GetRankInAllGroups {
   name: string;
   count: number;
@@ -118,16 +96,16 @@ export const getRankInAllGroups = async (
   }
 };
 
-export interface GetCountIndividualAllGroupWithName {
+export interface GetCountIndividualAllGroup {
   name: string;
   gname: string;
   count: number;
 }
 
 //count: user all group (with group wise) message count
-export const getCountIndividualAllGroupWithName = async (
+export const getCountIndividualAllGroup = async (
   memberjid: string
-): Promise<GetCountIndividualAllGroupWithName[]> => {
+): Promise<GetCountIndividualAllGroup[]> => {
   await createCountMemberTable();
   const result = await pool.query(
     "SELECT cmn.name,gn.gname,cm.count FROM countmember cm INNER JOIN countmembername cmn ON cmn.memberjid=cm.memberjid INNER JOIN groupname gn ON gn.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY count DESC;",

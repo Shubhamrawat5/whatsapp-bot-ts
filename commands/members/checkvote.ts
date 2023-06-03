@@ -11,15 +11,16 @@ export const checkvote = () => {
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, from } = msgInfoObj;
-  const res = await getVotingData(from);
-  const votingResult = res[0];
+  const getVotingDataRes = await getVotingData(from);
 
-  if (!votingResult.is_started) {
+  if (getVotingDataRes.length === 0 || !getVotingDataRes[0].is_started) {
     await reply(
       `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`
     );
     return;
   }
+
+  const votingResult = getVotingDataRes[0];
 
   let resultVoteMsg = "";
 

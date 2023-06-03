@@ -43,25 +43,25 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const memberjid = `${contact}@s.whatsapp.net`;
-  const milestoneRes = await getMilestone(memberjid);
+  const getMilestoneRes = await getMilestone(memberjid);
 
-  if (milestoneRes.length === 0) {
+  if (getMilestoneRes.length === 0) {
     await reply(`❌ There are 0 custom milestones for ${contact}`);
     return;
   }
-  if (!sno || sno < 0 || sno > milestoneRes[0].achieved.length) {
+  if (!sno || sno < 0 || sno > getMilestoneRes[0].achieved.length) {
     await reply(
       `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
     );
     return;
   }
 
-  const achieved = milestoneRes[0].achieved.filter((milestone, index) => {
+  const achieved = getMilestoneRes[0].achieved.filter((milestone, index) => {
     return index + 1 !== sno;
   });
 
-  const res = await setMilestone(memberjid, achieved);
-  if (res) await reply(`✔ Milestone removed!`);
+  const setMilestoneRes = await setMilestone(memberjid, achieved);
+  if (setMilestoneRes) await reply(`✔ Milestone removed!`);
   else await reply(`❌ There is some problem!`);
 };
 

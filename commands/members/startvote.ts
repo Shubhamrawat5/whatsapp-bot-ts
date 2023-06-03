@@ -17,18 +17,20 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
     return;
   }
-  const res = await getVotingData(from);
-  const votingResult = res[0];
+  const getVotingDataRes = await getVotingData(from);
 
-  if (votingResult.is_started) {
+  if (getVotingDataRes.length && getVotingDataRes[0].is_started) {
     await reply(
       `❌ Voting already going on, Stop by ${prefix}stopvote command`
     );
     return;
   }
+
   const body = msg.message?.conversation;
   if (!body) {
-    await reply(`❌ Body is empty!`);
+    await reply(
+      `❌ Give some values seperated with # to vote on like ${prefix}startvote #title #name1 #name2 #name3`
+    );
     return;
   }
 
@@ -46,7 +48,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const voteListMember = [];
   for (let i = 0; i < voteChoices.length; ++i) voteListMember.push([]);
 
-  await setVotingData(
+  const setVotingDataRes = await setVotingData(
     from,
     true,
     sender,
@@ -57,16 +59,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     []
   );
 
-  //CHECK THIS ONCE, AND USE SAME VARIABLE AS USED IN FUNCTION SIGNATURE
-  const res2 = await getVotingData(from);
-  const votingResult2 = res2[0];
+  if (setVotingDataRes) {
+    let voteMsg = `*Voting started!*\nsend "${prefix}vote number" to vote\n\n*🗣️ ${voteTitle}*`;
 
-  let voteMsg = `*Voting started!*\nsend "${prefix}vote number" to vote\n\n*🗣️ ${voteTitle}*`;
+    voteChoices.forEach((name: string, index: number) => {
+      voteMsg += `\n${index + 1} for [${name.trim()}]`;
+    });
 
-  votingResult2.choices.forEach((name: string, index: number) => {
-    voteMsg += `\n${index + 1} for [${name.trim()}]`;
-  });
-
-  voteMsg += `\n\n_send ${prefix}checkvote or ${prefix}cv to see current status and ${prefix}stopvote to stop voting and see the result._`;
-  await reply(voteMsg);
+    voteMsg += `\n\n_send ${prefix}checkvote or ${prefix}cv to see current status and ${prefix}stopvote to stop voting and see the result._`;
+    await reply(voteMsg);
+  } else {
+    await reply(`❌ There is some problem`);
+    return;
+  }
 };

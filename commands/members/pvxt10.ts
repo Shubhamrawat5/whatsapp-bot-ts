@@ -13,12 +13,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  const resultCountGroupTop10 = await getCountTop10();
+  const getCountTop10Res = await getCountTop10();
   let countGroupMsgTop10 = `*📛 PVX TOP 10 MEMBERS FROM ALL GROUPS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
-  let lastGroupName = resultCountGroupTop10[0].gname;
+  let lastGroupName = getCountTop10Res.length ? getCountTop10Res[0].gname : "";
   let countGroupMsgTempTop10 = `\n\n📛 ${lastGroupName}`;
-  for (const member of resultCountGroupTop10) {
+  for (const member of getCountTop10Res) {
     if (member.gname != lastGroupName) {
       lastGroupName = member.gname;
       countGroupMsgTempTop10 += `\n\n📛 *${lastGroupName}*`;

@@ -12,15 +12,17 @@ export const vote = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, sender, senderName, args, from } = msgInfoObj;
 
-  const res = await getVotingData(from);
-  const votingResult = res[0];
+  const getVotingDataRes = await getVotingData(from);
 
-  if (!votingResult.is_started) {
+  if (getVotingDataRes.length === 0 || !getVotingDataRes[0].is_started) {
     await reply(
       `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`
     );
     return;
   }
+
+  const votingResult = getVotingDataRes[0];
+
   if (votingResult.voted_members.includes(sender)) {
     await reply("❌ You already voted.");
     return;
@@ -45,7 +47,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   votingResult.members_voted_for[voteNumber - 1].push(senderName); // save who voted
   votingResult.voted_members.push(sender); //member voted
 
-  await setVotingData(
+  const setVotingDataRes = await setVotingData(
     from,
     true,
     votingResult.started_by,
@@ -56,5 +58,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     votingResult.voted_members
   );
 
-  await reply(`_✔ Voted for [${votingResult.choices[voteNumber - 1].trim()}]_`);
+  if (setVotingDataRes) {
+    await reply(
+      `_✔ Voted for [${votingResult.choices[voteNumber - 1].trim()}]_`
+    );
+  } else {
+    await reply(`❌ There is some problem`);
+  }
 };

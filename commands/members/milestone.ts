@@ -30,10 +30,10 @@ Send ${prefix}rank to know your rank with milestones.${readMore}
 ⭐ Huge Contribution in PVX funds
 ⭐ Contribution in PVX funds`;
 
-  const res = await getMilestoneText();
-  if (res.length) {
+  const getMilestoneTextRes = await getMilestoneText();
+  if (getMilestoneTextRes.length) {
     message += `\n\n *[CUSTOM MILESTONES]*\nAdmin can give following milestones by ${prefix}milestoneadd #contact #sno\nEg: ${prefix}milestoneadd #919876.... #2`;
-    res.forEach((milestone, index) => {
+    getMilestoneTextRes.forEach((milestone, index) => {
       message += `\n⭐ ${index + 1}. ${milestone.milestone}`;
     });
   }

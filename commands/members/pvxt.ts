@@ -23,12 +23,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  const resultCountGroupTop = await getCountTop(noOfResult);
+  const getCountTopRes = await getCountTop(noOfResult);
   let countGroupMsgTop = `*📛 PVX TOP ${noOfResult} MEMBERS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
   let countGroupMsgTempTop = "\n";
   let totalGrpCountTop = 0;
-  resultCountGroupTop.forEach((member, index) => {
+  getCountTopRes.forEach((member, index) => {
     totalGrpCountTop += Number(member.count);
     countGroupMsgTempTop += `\n${index + 1}) ${member.name} - ${member.count}`;
   });

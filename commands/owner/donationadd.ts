@@ -36,9 +36,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   console.log(`name: ${name}, number: ${number}, amount: ${amount}`);
 
   if (name && number && amount) {
-    const addDonaRes = await addDonation(name, number, amount);
-    if (addDonaRes) await reply("✔️ Added!");
-    else await reply("❌ Error!");
+    const addDonationRes = await addDonation(name, number, amount);
+    if (addDonationRes) await reply("✔️ Added!");
+    else await reply(`❌ There is some problem!`);
   } else
     await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
 };

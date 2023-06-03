@@ -45,8 +45,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const blacklistRes = await addBlacklist(blacklistNumb, reason);
-  await reply(blacklistRes);
+  const addBlacklistRes = await addBlacklist(blacklistNumb, reason);
+  await reply(addBlacklistRes);
 
   const blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
   const chats = await bot.groupFetchAllParticipating();
