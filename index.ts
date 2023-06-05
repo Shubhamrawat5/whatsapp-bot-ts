@@ -59,7 +59,7 @@ if (store) {
 
 /* ----------------------------- add local files ---------------------------- */
 import { dropAuth } from "./db/dropauthDB";
-import { setCountMember } from "./db/countMemberDB";
+import { getUsernames, setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
 import { getDisableCommand } from "./db/disableCommandDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
@@ -279,6 +279,21 @@ const startBot = async () => {
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
             ++stats.memberLeft;
+          } else {
+            //promote, demote
+            if (groupSubject.startsWith("<{PVX}>")) {
+              const getUsernamesRes = await getUsernames([numJid]);
+              const username = getUsernamesRes.length
+                ? getUsernamesRes[0].name
+                : num_split;
+              const action =
+                msg.action === "promote"
+                  ? "Promoted to Admin"
+                  : "Demoted to Member";
+              const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
+              await bot.sendMessage(pvxgroups.pvxadmin, { text });
+              await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
+            }
           }
         } catch (err) {
           await LoggerBot(bot, "group-participants.update", err, msg);
@@ -753,6 +768,8 @@ const startBot = async () => {
         await LoggerBot(undefined, "connection.update", err, update);
       }
     });
+
+    //TODO: MAKE SEPERATE FILES for each event
     // listen for when the auth credentials is updated
     bot.ev.on("creds.update", async () => {
       try {
@@ -767,20 +784,6 @@ const startBot = async () => {
   } catch (err) {
     await LoggerBot(undefined, "BOT-ERROR", err, "");
   }
-
-  // async function getMessage(
-  //   key: WAMessageKey
-  // ): Promise<WAMessageContent | undefined> {
-  //   console.log("GET MESSAGE---------------", key);
-
-  //   if (store && key.remoteJid && key.id) {
-  //     const msg = await store.loadMessage(key.remoteJid, key.id);
-  //     return msg?.message || undefined;
-  //   }
-
-  //   // only if store is present
-  //   return proto.Message.fromObject({});
-  // }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

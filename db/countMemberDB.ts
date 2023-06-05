@@ -206,12 +206,10 @@ export interface GetUsernames {
 export const getUsernames = async (
   memberjidArray: string[]
 ): Promise<GetUsernames[]> => {
-  console.log(memberjidArray);
   const result = await pool.query(
     "SELECT * from countmembername where memberjid = ANY($1::text[])",
     [memberjidArray]
   );
-  // console.log(result.rows);
   if (result.rowCount) {
     return result.rows;
   } else {
