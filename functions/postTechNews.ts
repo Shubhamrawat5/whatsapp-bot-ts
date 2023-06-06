@@ -3,11 +3,12 @@ import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
+import { getTechNews } from "./getTechNews";
 
 const newsapi = process.env.newsapi;
 let countNews = 0;
 
-export const postTechNews = async (bot: Bot, pvxtech: string) => {
+export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
@@ -110,5 +111,14 @@ export const postTechNews = async (bot: Bot, pvxtech: string) => {
     }
   } catch (err) {
     await LoggerBot(bot, "TECH-NEWS", err, undefined);
+  }
+};
+
+export const postTechNewsList = async (bot: Bot, pvxtechonly: string) => {
+  try {
+    const news = await getTechNews();
+    await bot.sendMessage(pvxtechonly, { text: `📰 ${news}` });
+  } catch (err) {
+    await LoggerBot(bot, "TECH-NEWS-LIST", err, undefined);
   }
 };

@@ -67,7 +67,10 @@ import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 
-import { postTechNews } from "./functions/postTechNews";
+import {
+  postTechNewsHeadline,
+  postTechNewsList,
+} from "./functions/postTechNews";
 import { postStudyInfo } from "./functions/postStudyInfo";
 import { checkTodayBday } from "./functions/checkTodayBday";
 import { addCommands } from "./functions/addCommands";
@@ -181,9 +184,13 @@ const startBot = async () => {
             })
             .split(":")[0]
         );
-        //8 to 24 ON
+        if (hour === 25) {
+          //9 PM
+          await postTechNewsList(bot, pvxgroups.pvxtechonly);
+        }
         if (hour >= 8) {
-          await postTechNews(bot, pvxgroups.pvxtech);
+          //8 to 24 ON
+          await postTechNewsHeadline(bot, pvxgroups.pvxtech);
           await postStudyInfo(bot, pvxgroups.pvxstudy);
           ++stats.newsPosted;
         }

@@ -6,6 +6,7 @@ export const pvxgroups: Pvxgroups = {
   pvxstudy: "919557666582-1617595892@g.us",
   pvxmano: "19016677357-1630334490@g.us",
   pvxtech: "919557666582-1551290369@g.us",
+  pvxtechonly: "919557666582-1548337792@g.us",
   pvxsport: "919557666582-1559476348@g.us",
   pvxmovies: "919557666582-1506690003@g.us",
   pvxsticker: "919557666582-1580308963@g.us",
@@ -24,6 +25,7 @@ export interface Pvxgroups {
   pvxstudy: string;
   pvxmano: string;
   pvxtech: string;
+  pvxtechonly: string;
   pvxsport: string;
   pvxmovies: string;
   pvxsticker: string;
