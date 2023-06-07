@@ -17,12 +17,9 @@ export const memberAddCheck = async (
   const { pvxcommunity, pvxprogrammer, pvxmano, pvxmovies, pvxsticker } =
     pvxgroups;
   try {
-    // other than +91 are blocked from joining when description have written in first line -> only91
-    // blockCommandsInDesc.includes("only91")
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       //if number is blacklisted
       const getBlacklistRes = await getBlacklist(num_split);
-      // console.log(blacklistRes);
       if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
         await bot.sendMessage(from, {

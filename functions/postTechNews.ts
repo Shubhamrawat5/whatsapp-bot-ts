@@ -82,11 +82,11 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
       let count = 1;
 
       while (!res) {
-        console.log(`TECH NEWS FUNCTION: ${count} times!`);
         if (count > 10) {
           //10 times, already posted news comes up
           return;
         }
+        console.log(`TECH NEWS FUNCTION: ${count} times!`);
 
         const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
 

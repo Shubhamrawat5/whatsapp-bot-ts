@@ -22,11 +22,11 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
     let count = 1;
 
     while (!storeNewsStudyRes) {
-      console.log(`STUDY NEWS FUNCTION ${count} times!`);
       if (count > 10) {
         //10 times, already posted news comes up
         return;
       }
+      console.log(`STUDY NEWS FUNCTION ${count} times!`);
 
       const index = Math.floor(Math.random() * li.length);
       let { title } = li[index];

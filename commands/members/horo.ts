@@ -21,8 +21,8 @@ const getHoro = async (name: string): Promise<string> => {
 *Lucky Number:* ${data.lucky_number}
 *Lucky Time:* ${data.lucky_time}
 *Color:* ${data.color}
-*Mood:* ${data.mood}
-*Description:* ${data.description}`;
+*Mood:* ${data.mood}`;
+    // *Description:* ${data.description}`;
 
     // let horoText = `Current Date: ${data.current_date}
     // Compatibility: ${data.compatibility}

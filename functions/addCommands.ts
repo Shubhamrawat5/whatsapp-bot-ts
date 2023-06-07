@@ -1,7 +1,3 @@
-import { Bot } from "../interface/Bot";
-import { MsgInfoObj } from "../interface/msgInfoObj";
-import { WAMessage } from "@adiwajshing/baileys";
-
 /* ----------------------------- ADMIN COMMANDS ----------------------------- */
 import { add } from "../commands/admins/add";
 import { adminlist } from "../commands/admins/adminlist";
@@ -89,15 +85,9 @@ import { votecommand } from "../commands/public/votecommand";
 import { pvxv } from "../commands/members/pvxv";
 import { technews } from "../commands/members/technews";
 
-export const addCommands = async () => {
-  interface CommandsObj {
-    [key: string]: (
-      bot: Bot,
-      msg: WAMessage,
-      msgInfoObj: MsgInfoObj
-    ) => Promise<void>;
-  }
+import { CommandsObj } from "../interface/CommandsObj";
 
+export const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
   const commandsMembers: CommandsObj = {};
   const commandsAdmins: CommandsObj = {};
