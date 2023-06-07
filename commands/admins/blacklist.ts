@@ -16,7 +16,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const getBlacklistRes = await getBlacklist();
   let blacklistMsg = "Blacklisted Numbers\n";
   getBlacklistRes.forEach((num) => {
-    blacklistMsg += `\n${num.number}: ${num.reason}`;
+    const num_split = num.admin
+      ? `${num.admin.split("@s.whatsapp.net")[0]}`
+      : "---";
+    blacklistMsg += `\n${num.number}: ${num.reason} (given by ${num_split})`;
   });
 
   await reply(blacklistMsg);

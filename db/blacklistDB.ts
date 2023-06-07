@@ -4,12 +4,13 @@ import { pool } from "./pool";
 //TODO: VERIFY ALL THE NUMBER ARE OF TYPE TEXT IN SCHEMA
 const createBlacklistTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text);"
+    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text, admin text);"
   );
 };
 export interface GetBlacklist {
   number: string;
   reason: string | null;
+  admin: string | null;
 }
 
 export const getBlacklist = async (
@@ -34,12 +35,14 @@ export const getBlacklist = async (
 
 export const addBlacklist = async (
   number: string,
-  reason: string
+  reason: string,
+  admin: string
 ): Promise<string> => {
   try {
-    const res = await pool.query("INSERT INTO blacklist VALUES($1,$2);", [
+    const res = await pool.query("INSERT INTO blacklist VALUES($1,$2,$3);", [
       number,
       reason,
+      admin,
     ]);
 
     if (res.rowCount === 0) return "There is some problem!";

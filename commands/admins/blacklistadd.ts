@@ -10,7 +10,7 @@ export const blacklistadd = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args, sender } = msgInfoObj;
 
   if (args.length < 2) {
     await reply(`❌ Wrong query!\nSend ${prefix}bla number reason`);
@@ -45,7 +45,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const addBlacklistRes = await addBlacklist(blacklistNumb, reason);
+  const addBlacklistRes = await addBlacklist(blacklistNumb, reason, sender);
   await reply(addBlacklistRes);
 
   const blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";

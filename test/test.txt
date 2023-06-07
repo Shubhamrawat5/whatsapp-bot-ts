@@ -35,6 +35,9 @@ set transaction read write;
 ALTER TABLE countmember ADD COLUMN day text;
 COMMIT;
 
+ALTER TABLE blacklist
+RENAME COLUMN by to admin;
+
 //delete row
 begin;
 set transaction read write;
