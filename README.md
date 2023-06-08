@@ -133,7 +133,7 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 | `!donationadd`  |             Add Donation details              | `!da` |
 |  `!countstats`  |      Get stats of number of command used      |       |
 |     `!test`     |      execute code with whatsapp directly      |       |
-|  `!broadcast`   |       Broadcast a message to all groups       | `!bc` |
+|  `!broadcast`   |       Broadcast a message to all groups       |       |
 |    `!tagall`    |           Tag all members in group            |       |
 |    `!gname`     |            Save group names to DB             |       |
 |   `!setlink`    |             Save group link in DB             | `!sl` |

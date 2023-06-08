@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const broadcast = () => {
-  const cmd = ["broadcast", "bc"];
+  const cmd = ["broadcast"];
 
   return { cmd, handler };
 };

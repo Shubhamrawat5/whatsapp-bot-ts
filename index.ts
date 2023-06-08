@@ -67,12 +67,6 @@ import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 
-import {
-  postTechNewsHeadline,
-  postTechNewsList,
-} from "./functions/postTechNews";
-import { postStudyInfo } from "./functions/postStudyInfo";
-import { checkTodayBday } from "./functions/checkTodayBday";
 import { addCommands } from "./functions/addCommands";
 import { memberAddCheck } from "./functions/memberAddCheck";
 import { addDefaultMilestones } from "./functions/addDefaultMilestone";
@@ -85,6 +79,7 @@ import { getGroupAdmins } from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
 
 import "dotenv/config";
+import { pvxFunctions } from "./functions/pvxFunctions";
 const myNumber = process.env.myNumber;
 const myNumberWithJid = myNumber + "@s.whatsapp.net";
 const pvx = process.env.pvx;
@@ -102,7 +97,6 @@ const stats = {
   documentMessage: 0,
   otherMessage: 0,
   commandExecuted: 0,
-  newsPosted: 0,
   stickerForwarded: 0,
   stickerNotForwarded: 0,
   memberJoined: 0,
@@ -166,42 +160,8 @@ const startBot = async () => {
 
     store?.bind(bot.ev);
 
-    if (pvx === "true") {
-      let usedDate = new Date()
-        .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
-        .split(",")[0];
-
-      dateCheckerInterval = setInterval(async () => {
-        console.log("SET INTERVAL.");
-        const todayDate = new Date().toLocaleDateString("en-GB", {
-          timeZone: "Asia/kolkata",
-        });
-
-        const hour = Number(
-          new Date()
-            .toLocaleTimeString("en-GB", {
-              timeZone: "Asia/kolkata",
-            })
-            .split(":")[0]
-        );
-        if (hour === 25) {
-          //9 PM
-          await postTechNewsList(bot, pvxgroups.pvxtechonly);
-        }
-        if (hour >= 8) {
-          //8 to 24 ON
-          await postTechNewsHeadline(bot, pvxgroups.pvxtech);
-          await postStudyInfo(bot, pvxgroups.pvxstudy);
-          ++stats.newsPosted;
-        }
-
-        // if (hour % 12 == 0) kickZeroMano(bot, pvxgroups.pvxmano);
-
-        if (usedDate !== todayDate) {
-          usedDate = todayDate;
-          await checkTodayBday(bot, todayDate, pvxgroups.pvxcommunity);
-        }
-      }, 1000 * 60 * 20); //20 min
+    if (pvx) {
+      dateCheckerInterval = await pvxFunctions(bot);
     }
 
     let botNumberJid = bot.user ? bot.user.id : ""; //'1506xxxxx54:3@s.whatsapp.net'
@@ -412,14 +372,6 @@ const startBot = async () => {
           if (!senderName) senderName = "null";
 
           const groupName: string | undefined = groupMetadata?.subject;
-          const groupDesc: string | undefined = groupMetadata?.desc?.toString();
-          const groupMembers: GroupParticipant[] | undefined =
-            groupMetadata?.participants;
-          const groupAdmins: string[] | undefined =
-            getGroupAdmins(groupMembers);
-          const isBotGroupAdmins: boolean =
-            groupAdmins?.includes(botNumberJid) || false;
-          const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
 
           if (pvx) {
             //Count message
@@ -513,6 +465,15 @@ const startBot = async () => {
             //for latest group desc
             groupMetadata = await bot.groupMetadata(from);
           }
+
+          const groupDesc: string | undefined = groupMetadata?.desc?.toString();
+          const groupMembers: GroupParticipant[] | undefined =
+            groupMetadata?.participants;
+          const groupAdmins: string[] | undefined =
+            getGroupAdmins(groupMembers);
+          const isBotGroupAdmins: boolean =
+            groupAdmins?.includes(botNumberJid) || false;
+          const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
 
           // let groupData: GroupData | undefined = undefined;
           // if (groupMetadata) {

@@ -24,35 +24,31 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       console.log(error);
       await reply(error);
     } else {
-      try {
-        if (results.length === 0) {
-          await reply("❌ No result found!");
-          return;
+      if (results.length === 0) {
+        await reply("❌ No result found!");
+        return;
+      }
+      for (let i = 0; i <= 1; ++i) {
+        //   console.log(JSON.stringify(results, null, "  "));
+        let index = 0;
+        if (results.length > 20) {
+          index = Math.floor(Math.random() * 20);
+        } else if (results.length > 10) {
+          index = Math.floor(Math.random() * 10);
         }
-        for (let i = 0; i <= 1; ++i) {
-          //   console.log(JSON.stringify(results, null, "  "));
-          let index = 0;
-          if (results.length > 20) {
-            index = Math.floor(Math.random() * 20);
-          } else if (results.length > 10) {
-            index = Math.floor(Math.random() * 10);
-          }
-          const img = results[index]["url"];
-          console.log(img);
+        const img = results[index]["url"];
+        console.log(img);
 
-          await bot.sendMessage(
-            from,
-            {
-              image: { url: img },
-            },
-            {
-              quoted: msg,
-              mediaUploadTimeoutMs: 1000 * 60,
-            }
-          );
-        }
-      } catch (err) {
-        await reply("❌ Error in search!");
+        await bot.sendMessage(
+          from,
+          {
+            image: { url: img },
+          },
+          {
+            quoted: msg,
+            mediaUploadTimeoutMs: 1000 * 60,
+          }
+        );
       }
     }
   });

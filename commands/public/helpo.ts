@@ -22,7 +22,6 @@ _Restricted command for owner only!_
 
 📛 *${prefix}broadcast* ✔
   - _Broadcast a message to all groups!_  
-Alias: *${prefix}bc*
 
 📛 *${prefix}gname* ✔
   - _Save all group name in DB!_  

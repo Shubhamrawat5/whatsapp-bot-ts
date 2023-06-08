@@ -12,7 +12,7 @@ export const scorecard = () => {
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupDesc, reply, from } = msgInfoObj;
-  const descErrorMessage = `❌ ERROR
+  const descErrorMessage = `❌ ERROR SCORECARD COMMAND
 - Group description is empty.
 - Put match ID in starting of group description. 
 - Get match ID from cricbuzz today match url.
