@@ -2,14 +2,24 @@ import { Bot } from "../interface/Bot";
 import { LoggerBot } from "./loggerBot";
 import mongoose from "mongoose";
 
+interface Bday {
+  name: string | undefined;
+  username: string | undefined;
+  date: number | undefined;
+  month: number | undefined;
+  year?: number | undefined;
+  numb: number | undefined;
+  place: string | undefined;
+}
+
 const getBdayData = async () => {
   const uri = process.env.uri;
 
   if (!uri) return;
-  await mongoose.connect(uri);
+  const connection = await mongoose.connect(uri);
 
   // Collection schema
-  const bday_schema = new mongoose.Schema({
+  const bday_schema = new connection.Schema({
     name: String,
     username: String,
     date: Number,
@@ -19,19 +29,12 @@ const getBdayData = async () => {
     place: String,
   });
 
-  interface Bday {
-    name: string | undefined;
-    username: string | undefined;
-    date: number | undefined;
-    month: number | undefined;
-    year?: number | undefined;
-    numb: number | undefined;
-    place: string | undefined;
-  }
-
-  const Birthday = mongoose.model("birthdays", bday_schema);
+  const Birthday = connection.model("birthdays", bday_schema);
 
   const data = await Birthday.find().sort({ date: 1 }); //sort by date
+
+  await connection.disconnect();
+  connection.deleteModel("birthdays");
 
   const bday: Bday[] = [];
   data.forEach((document) => {
@@ -53,19 +56,19 @@ const getBdayData = async () => {
 
 export const checkTodayBday = async (
   bot: Bot,
-  todayDate: string,
   pvxcommunity: string
 ): Promise<void> => {
   // const checkTodayBday = async (todayDate) => {
   try {
+    const todayDate = new Date().toLocaleDateString("en-GB", {
+      timeZone: "Asia/kolkata",
+    });
     console.log("CHECKING TODAY BDAY...", todayDate);
     // DB connect
 
     const todayDateArr = todayDate.split("/");
-    let date = todayDateArr[0];
-    date = date.startsWith("0") ? date[1] : date; //05 so take 5
-    let month = todayDateArr[1];
-    month = month.startsWith("0") ? month[1] : month; //05 so take 5
+    const date = Number(todayDateArr[0]);
+    const month = Number(todayDateArr[1]);
     const data = await getBdayData();
     if (!data) {
       //TODO: USE log, error, warn everywhere
@@ -78,12 +81,12 @@ export const checkTodayBday = async (
     const bday: string[] = [];
     const mentions: string[] = [];
 
-    data.forEach((member: any) => {
+    data.forEach((member: Bday) => {
       if (member.month == month && member.date == date) {
         // bday.push(
         //   `${member.name.toUpperCase()} (${member.username.toUpperCase()})`
         // );
-        const number = (member.numb = "91" + member.numb);
+        const number = `91${member.numb}`;
         bday.push(`@${number}`);
         mentions.push(number + "@s.whatsapp.net");
         console.log(`Today is ${member.name} Birthday!`);
