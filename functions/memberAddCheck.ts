@@ -14,8 +14,14 @@ export const memberAddCheck = async (
   myNumber: string | undefined,
   prefix: string
 ) => {
-  const { pvxcommunity, pvxprogrammer, pvxmano, pvxmovies, pvxsticker } =
-    pvxgroups;
+  const {
+    pvxcommunity,
+    pvxprogrammer,
+    pvxmano,
+    pvxmovies,
+    pvxsticker,
+    pvxmemes,
+  } = pvxgroups;
   try {
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       //if number is blacklisted
@@ -65,6 +71,28 @@ export const memberAddCheck = async (
       //     }
       //   );
       // }
+      else if (from === pvxmemes) {
+        await bot.sendMessage(
+          from,
+          {
+            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) No offensive/disrespectful/religious content allowed.\n2) Spamming or Posting personal pictures is strictly prohibited.`,
+            mentions: [numJid],
+          },
+          {
+            quoted: {
+              key: {
+                remoteJid: from,
+                fromMe: false,
+                id: "710B5CF29EE7471fakeid",
+                participant: "0@s.whatsapp.net",
+              },
+              messageTimestamp: 1671784177,
+              pushName: "WhatsApp",
+              message: { conversation: "WELCOME TO PVX MEMES" },
+            },
+          }
+        );
+      }
       //for movies group
       else if (from === pvxmovies) {
         await bot.sendMessage(

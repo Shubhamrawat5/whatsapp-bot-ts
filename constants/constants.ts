@@ -14,6 +14,7 @@ export const pvxgroups: Pvxgroups = {
   pvxstickeronly2: "919557666582-1586018947@g.us",
   pvxdeals: "919557666582-1582555632@g.us",
   pvxstatus: "919557666582-1627834788@g.us",
+  pvxmemes: "919557666582-1551346051@g.us",
   pvxtesting: "919478205112-1598720728@g.us",
 };
 
@@ -33,5 +34,6 @@ export interface Pvxgroups {
   pvxstickeronly2: string;
   pvxdeals: string;
   pvxstatus: string;
+  pvxmemes: string;
   pvxtesting: string;
 }
