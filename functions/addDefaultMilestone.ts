@@ -31,40 +31,30 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   getCountTopRes.forEach((member, index) => {
     const memberjid = member.memberjid;
     const number = index + 1;
+    milestones[memberjid] = milestones[memberjid] || [];
+
     if (number > 50) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 100 active member of PVX");
-      else milestones[memberjid] = ["Top 100 active member of PVX"];
+      milestones[memberjid].push("Top 100 active member of PVX");
     } else if (number > 10) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 50 active member of PVX");
-      else milestones[memberjid] = ["Top 50 active member of PVX"];
+      milestones[memberjid].push("Top 50 active member of PVX");
     } else if (number > 1) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 10 active member of PVX");
-      else milestones[memberjid] = ["Top 10 active member of PVX"];
+      milestones[memberjid].push("Top 10 active member of PVX");
     } else {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Most active member of PVX");
-      else milestones[memberjid] = ["Most active member of PVX"];
+      milestones[memberjid].push("Most active member of PVX");
     }
   });
 
   const getDonationRes = await getDonation();
   getDonationRes.forEach((member, index) => {
     const memberjid = `${member.number}@s.whatsapp.net`;
+    milestones[memberjid] = milestones[memberjid] || [];
+
     if (index === 0) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Highest contribution in PVX funds");
-      else milestones[memberjid] = ["Highest contribution in PVX funds"];
+      milestones[memberjid].push("Highest contribution in PVX funds");
     } else if (member.amount >= 1000) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Huge Contribution in PVX funds");
-      else milestones[memberjid] = ["Huge Contribution in PVX funds"];
+      milestones[memberjid].push("Huge Contribution in PVX funds");
     } else {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Contribution in PVX funds");
-      else milestones[memberjid] = ["Contribution in PVX funds"];
+      milestones[memberjid].push("Contribution in PVX funds");
     }
   });
 
