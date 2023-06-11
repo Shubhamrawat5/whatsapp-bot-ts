@@ -56,7 +56,8 @@ const getBdayData = async () => {
 
 export const checkTodayBday = async (
   bot: Bot,
-  pvxcommunity: string
+  groupjid: string,
+  addMember: boolean
 ): Promise<void> => {
   // const checkTodayBday = async (todayDate) => {
   try {
@@ -94,12 +95,14 @@ export const checkTodayBday = async (
     });
     if (bday.length) {
       const bdayComb = bday.join(" & ");
-      try {
-        await bot.groupParticipantsUpdate(pvxcommunity, mentions, "add");
-      } catch (err) {
-        console.log(err);
+      if (addMember) {
+        try {
+          await bot.groupParticipantsUpdate(groupjid, mentions, "add");
+        } catch (err) {
+          console.log(err);
+        }
       }
-      await bot.sendMessage(pvxcommunity, {
+      await bot.sendMessage(groupjid, {
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
         mentions: mentions,
       });
@@ -109,11 +112,11 @@ export const checkTodayBday = async (
       console.log(mentions);
     } else {
       console.log("NO BIRTHDAY!");
-      await bot.sendMessage(pvxcommunity, {
+      await bot.sendMessage(groupjid, {
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
       });
     }
-    await bot.groupUpdateSubject(pvxcommunity, "<{PVX}> COMMUNITY ❤️");
+    await bot.groupUpdateSubject(groupjid, "<{PVX}> COMMUNITY ❤️");
   } catch (err) {
     await LoggerBot(bot, "TODAY-BDAY", err, undefined);
     console.log(err);

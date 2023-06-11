@@ -36,7 +36,7 @@ export const pvxFunctions = async (bot: Bot) => {
 
     if (usedDate !== todayDate) {
       usedDate = todayDate;
-      await checkTodayBday(bot, pvxgroups.pvxcommunity);
+      await checkTodayBday(bot, pvxgroups.pvxcommunity, true);
     }
   }, 1000 * 60 * 20); //20 min
 };

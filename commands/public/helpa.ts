@@ -45,6 +45,9 @@ Alias: *${prefix}tagallhidden*
 📛 *${prefix}rt*
   - _Tag a random member!_  
 
+📛 *${prefix}bday*
+  - _Check today's birthday!_  
+
 📛 *${prefix}warning*
   - _Give warning to user!_
 Alias: *${prefix}warn*

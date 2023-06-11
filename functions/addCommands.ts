@@ -86,6 +86,7 @@ import { pvxv } from "../commands/members/pvxv";
 import { technews } from "../commands/members/technews";
 
 import { CommandsObj } from "../interface/CommandsObj";
+import { bday } from "../commands/admins/bday";
 
 export const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
@@ -120,6 +121,7 @@ export const addCommands = async () => {
   const adminCommands = [
     add,
     adminlist,
+    bday,
     blacklist,
     blacklistadd,
     blacklistremove,

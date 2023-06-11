@@ -108,6 +108,7 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 |      `!mute`       |                         Mute the group                         |               |
 |     `!unmute`      |                        Unmute the group                        |               |
 |     `!delete`      |                     Delete anyone message                      |     `!d`      |
+|      `!bday`       |                     Check today's birthday                     |               |
 |     `!warning`     |                      Give warning to user                      |    `!warn`    |
 |   `!warninglist`   |                  Check warning of all members                  |  `!warnlist`  |
 |  `!warningreduce`  |                     Reduce warning to user                     | `!warnreduce` |
