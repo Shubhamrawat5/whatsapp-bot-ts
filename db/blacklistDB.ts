@@ -23,7 +23,9 @@ export const getBlacklist = async (
       number,
     ]);
   } else {
-    result = await pool.query("select * from blacklist order by number;");
+    result = await pool.query(
+      "select bl.number,bl.reason,cmn.name from blacklist bl left join countmembername cmn on bl.admin=cmn.memberjid order by number;"
+    );
   }
 
   if (result.rowCount) {

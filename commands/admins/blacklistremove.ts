@@ -10,7 +10,7 @@ export const blacklistremove = () => {
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { prefix, reply, args } = msgInfoObj;
+  const { prefix, reply, args, sender } = msgInfoObj;
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
@@ -33,6 +33,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const removeBlacklistRes = await removeBlacklist(blacklistNumb);
+  const removeBlacklistRes = await removeBlacklist(blacklistNumb, sender);
   await reply(removeBlacklistRes);
 };
