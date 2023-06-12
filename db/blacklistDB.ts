@@ -47,25 +47,39 @@ export const addBlacklist = async (
 
     if (res.rowCount === 0) return "There is some problem!";
     else return "✔️ Added to blacklist!";
-  } catch (err) {
-    //TODO :FIX, in one place it is there
-    // if (err.code == 23505) {
-    //   return "Number already blacklisted!";
-    // }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    if (err.code === "23505") {
+      return "Number is already blacklisted!";
+    }
+    console.log(err);
 
     await createBlacklistTable();
     return (err as Error).toString();
   }
 };
 
-export const removeBlacklist = async (number: string): Promise<string> => {
+export const removeBlacklist = async (
+  number: string,
+  sender: string
+): Promise<string> => {
   try {
-    const res = await pool.query("DELETE FROM blacklist WHERE number=$1;", [
-      number,
-    ]);
+    const result = await pool.query(
+      "select * from blacklist where number=$1;",
+      [number]
+    );
 
-    if (res.rowCount === 0) return "There is some problem!";
-    else return "✔️ Removed from blacklist!";
+    if (result.rowCount) {
+      const { admin } = result.rows[0];
+      if (!admin || admin == sender) {
+        await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
+        return "✔️ Removed from blacklist!";
+      } else {
+        return "Only the admin who added in blacklist can remove!";
+      }
+    } else {
+      return "There is some problem! Check the number";
+    }
   } catch (err) {
     console.log(err);
     await createBlacklistTable();

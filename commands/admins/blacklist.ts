@@ -19,7 +19,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const num_split = num.admin
       ? `${num.admin.split("@s.whatsapp.net")[0]}`
       : "-";
-    blacklistMsg += `\n${index + 1}) ${num.number}: ${
+    blacklistMsg += `\n${index + 1}) ${num.number} : ${
       num.reason
     } (given by ${num_split})`;
   });
