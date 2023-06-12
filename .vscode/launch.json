@@ -5,8 +5,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "npm start",
-      "name": "debugger",
+      "command": "npm run start-prod",
+      "name": "start-prod",
       "request": "launch",
       "type": "node-terminal",
       "skipFiles": [
