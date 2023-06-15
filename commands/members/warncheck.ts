@@ -23,8 +23,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const getCountWarningRes = await getCountWarning(participant, from);
   const warnCount = getCountWarningRes.length ? getCountWarningRes[0].count : 0;
-  const num_split = participant.split("@s.whatsapp.net")[0];
-  const warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
+  const numSplit = participant.split("@s.whatsapp.net")[0];
+  const warnMsg = `@${numSplit} ,Your warning count is ${warnCount} for this group!`;
 
   await bot.sendMessage(from, {
     text: warnMsg,

@@ -20,11 +20,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // !v.announce &&
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
-      return { subject: v.subject, id: v.id, participants: v.participants };
-    });
+    .map((v) => ({
+      subject: v.subject,
+      id: v.id,
+      participants: v.participants,
+    }));
 
-  //get all jids of admin
+  // get all jids of admin
   const memberjidAllArray: string[] = [];
   for (const group of groups) {
     group.participants.forEach(async (mem: GroupParticipant) => {
@@ -34,7 +36,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     });
   }
 
-  //get all jids name from DB
+  // get all jids name from DB
   const getUsernamesRes = await getUsernames(memberjidAllArray);
 
   if (getUsernamesRes.length != memberjidAllArray.length) {
@@ -45,17 +47,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     [key: string]: string;
   }
 
-  //create object of { jid: name }
+  // create object of { jid: name }
   const memberjidObj: MemberjidToUsername = {};
   getUsernamesRes.forEach((mem) => {
     memberjidObj[mem.memberjid] = mem.name;
   });
 
-  //create the message
+  // create the message
   let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberjidAllArray.length}${readMore}`;
 
   const subAdminPanel: string[] = [];
-  //get all admins from sub admin panel
+  // get all admins from sub admin panel
   chats[pvxgroups.pvxsubadmin].participants.forEach((mem: GroupParticipant) => {
     subAdminPanel.push(mem.id);
   });
@@ -71,9 +73,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     let count = 1;
     group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.admin) {
-        const id = mem.id;
+        const { id } = mem;
         const name = memberjidObj[id];
-        //if name present
+        // if name present
         // if (name) {
         //   tempMsg += `\n${count}) ${name}`;
         // } else {

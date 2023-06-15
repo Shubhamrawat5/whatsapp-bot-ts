@@ -1,11 +1,14 @@
-import { WAMessage } from "@adiwajshing/baileys";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import {
+  WAMessage,
+  downloadContentFromMessage,
+  toBuffer,
+} from "@adiwajshing/baileys";
 
-import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
 import { writeFile } from "fs/promises";
 import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
+import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const tg = () => {
@@ -46,14 +49,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // let filestg = fs.readdirSync(dirNametg);
   const stickerCounttg = zipEntries.length;
-  console.log("extracted: files " + stickerCounttg);
+  console.log(`extracted: files ${stickerCounttg}`);
 
   await reply(`✔ Sending all ${stickerCounttg} stickers`);
   let itg = -1;
   const setIntervaltg = setInterval(async () => {
     itg += 1;
 
-    //last file
+    // last file
     if (itg >= stickerCounttg - 1) {
       // stickertg = false;
       clearInterval(setIntervaltg);
@@ -62,7 +65,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     console.log("Sending sticker ", itg);
     if (zipEntries[itg].entryName.endsWith(".webp")) {
       let filepath = `./`;
-      //add slash of not present
+      // add slash of not present
       filepath += zipEntries[itg].entryName.startsWith("/") ? "" : "/";
       filepath += `${zipEntries[itg].entryName}`;
 

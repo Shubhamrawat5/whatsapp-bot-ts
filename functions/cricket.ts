@@ -1,8 +1,8 @@
 import axios from "axios";
 
-//return object {message:"", info:""} =>
-//message having score and info having extra info about game like inning over, game over etc
-//INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
+// return object {message:"", info:""} =>
+// message having score and info having extra info about game like inning over, game over etc
+// INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
 // const getCricketScore = async (matchID) => {
 
 export const getCricketScore = async (matchID: string) => {
@@ -13,49 +13,49 @@ export const getCricketScore = async (matchID: string) => {
 
   const res: Res = { message: "", info: "" };
   try {
-    //TODO: MAKE INTERFACE OF DATA
+    // TODO: MAKE INTERFACE OF DATA
     let { data } = await axios.get(
-      "https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/" +
-        matchID
+      `https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
     );
 
     if (typeof data === "string") {
       console.log(data);
-      res.message = data + "\nCheck the match ID in description!!";
+      res.message = `${data}\nCheck the match ID in description!!`;
       res.info = "ER";
       return res;
     }
 
-    let title = data.title;
+    let { title } = data;
     title = title.slice(0, title.search(","));
     const score = data.current;
-    const runrate = data.runrate;
-    const lastwicket = data.lastwicket;
-    let recentballs = data.recentballs;
+    const { runrate } = data;
+    const { lastwicket } = data;
+    let { recentballs } = data;
     const currentBatsman = data.batsman.slice(0, -1);
-    const bowler = data.bowler;
-    const bowlerover = data.bowlerover;
-    const bowlerruns = data.bowlerruns;
-    const bowlerwickets = data.bowlerwickets;
+    const { bowler } = data;
+    const { bowlerover } = data;
+    const { bowlerruns } = data;
+    const { bowlerwickets } = data;
     if (recentballs === "Data Not Found") recentballs = data.lastwicket;
 
     const d = await axios.get(
-      "https://cric-score.skdev.one/scorecard/" + matchID
+      `https://cric-score.skdev.one/scorecard/${matchID}`
     );
     data = d.data;
 
-    let batsman1 = "out ho gaya",
-      batsman2 = "out ho gaya";
+    let batsman1 = "out ho gaya";
+    let batsman2 = "out ho gaya";
     let currentInning;
     let alt = true;
-    let firstInningRuns, firstInningTeam;
-    const update = data["result"]["update"];
+    let firstInningRuns;
+    let firstInningTeam;
+    const { update } = data.result;
     let message = "";
 
     let isMatchStarted = false;
     if (Object.keys(data.Innings1[2]).length !== 0) isMatchStarted = true;
     if (!isMatchStarted) {
-      //title and update only
+      // title and update only
       message += `*${title}*\n`;
       message += `\n${update}`;
       res.message = message;
@@ -66,7 +66,7 @@ export const getCricketScore = async (matchID: string) => {
       currentInning = "Innings1";
     } else {
       currentInning = "Innings2";
-      firstInningRuns = data.Innings1[2].runs + "/" + data.Innings1[2].wickets;
+      firstInningRuns = `${data.Innings1[2].runs}/${data.Innings1[2].wickets}`;
       firstInningTeam = data.Innings1[2].team
         .match(/(\b\S)?/g)
         .join("")
@@ -76,21 +76,21 @@ export const getCricketScore = async (matchID: string) => {
 
     let isInningOver = false;
 
-    //inning over or not
+    // inning over or not
     if (update === "innings break") {
       res.info = "IO";
       isInningOver = true;
     }
 
-    //find playing 2 batsman
-    data[currentInning][0]["Batsman"].forEach((batsman: any) => {
+    // find playing 2 batsman
+    data[currentInning][0].Batsman.forEach((batsman: any) => {
       if (batsman.dismissal === "batting") {
         if (alt) {
           let batsmanName = batsman.name;
           if (batsmanName.search(/\(/) !== -1) {
             batsmanName = batsmanName.slice(0, batsmanName.search(/\(/) - 1);
           }
-          batsmanName += batsmanName === currentBatsman ? "*" : ""; //add * to playing batmsan
+          batsmanName += batsmanName === currentBatsman ? "*" : ""; // add * to playing batmsan
           batsman1 = `${batsmanName}: ${batsman.runs} (${batsman.balls})`;
           alt = false;
         } else {
@@ -98,14 +98,14 @@ export const getCricketScore = async (matchID: string) => {
           if (batsmanName.search(/\(/) !== -1) {
             batsmanName = batsmanName.slice(0, batsmanName.search(/\(/) - 1);
           }
-          batsmanName += batsmanName === currentBatsman ? "*" : ""; //add * to playing batmsan
+          batsmanName += batsmanName === currentBatsman ? "*" : ""; // add * to playing batmsan
           batsman2 = `${batsmanName}: ${batsman.runs} (${batsman.balls})`;
         }
       }
     });
 
-    //is match over?
-    if (data["result"]["winning_team"] !== "Not Completed") {
+    // is match over?
+    if (data.result.winning_team !== "Not Completed") {
       res.info = "MO";
     }
 
@@ -124,31 +124,31 @@ export const getCricketScore = async (matchID: string) => {
 
     recent balls
     ... 0 1 4 1 1 | 0 6 L1 1 2 0 | 1
-    Last Wicket: example 22 (20) 
+    Last Wicket: example 22 (20)
     chennai super kings need 134 runs
     */
 
-    //title
+    // title
     message += `*${title}*\n`;
 
-    //first inning info
+    // first inning info
     message += firstInningRuns
-      ? `\n${firstInningTeam + " - " + firstInningRuns}`
+      ? `\n${`${firstInningTeam} - ${firstInningRuns}`}`
       : "";
 
-    //current inning info
+    // current inning info
     message += `\n${score} ${runrate}`;
 
-    //bowler and last wicket info | isInningOver (when inning over) - "out of gya" , "data not found" comes!
+    // bowler and last wicket info | isInningOver (when inning over) - "out of gya" , "data not found" comes!
     message +=
       isInningOver || res.info === "MO"
         ? ""
         : `\n\n🏏 ${batsman1} \n🏏 ${batsman2}\n
 ⚾ ${bowler} ${bowlerruns}-${bowlerwickets} (${bowlerover})
-${batsman2 === "out ho gaya" ? "\nLast Wicket: " + lastwicket + "\n" : ""}
+${batsman2 === "out ho gaya" ? `\nLast Wicket: ${lastwicket}\n` : ""}
 _recent balls_ \n${recentballs}`;
 
-    //match update
+    // match update
     message +=
       currentInning === "Innings2" || isInningOver ? `\n\n${update}` : "";
 
@@ -169,12 +169,12 @@ _recent balls_ \n${recentballs}`;
 export const getScoreCard = async (matchID: string) => {
   try {
     const { data } = await axios.get(
-      "https://cric-score.skdev.one/scorecard/" + matchID
+      `https://cric-score.skdev.one/scorecard/${matchID}`
     );
-    let firstInningTeam = "",
-      secondInningTeam = "",
-      firstInningTeamScore = "",
-      secondInningTeamScore = "";
+    let firstInningTeam = "";
+    let secondInningTeam = "";
+    let firstInningTeamScore = "";
+    let secondInningTeamScore = "";
     firstInningTeam = data.Innings1[2].team;
     firstInningTeamScore = data.Innings1[2].score;
     let message = `*${firstInningTeam} 🏏*\nscore: ${firstInningTeamScore}\n`;

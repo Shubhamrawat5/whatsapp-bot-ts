@@ -1,8 +1,8 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import fs from "fs";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import fs from "fs";
 import { getDonation } from "../../db/donationDB";
 
 export const donation = () => {
@@ -32,7 +32,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await bot.sendMessage(
     from,
     {
-      image: fs.readFileSync(__dirname + "/../../assert/donation.jpg"),
+      image: fs.readFileSync(`${__dirname}/../../assert/donation.jpg`),
       caption: donaMsg,
     },
     { quoted: msg }

@@ -1,12 +1,12 @@
 module.exports.command = () => {
-  let cmd = ["block"];
+  const cmd = ["block"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot, msg, msgInfoObj) => {
   const { reply } = msgInfoObj;
-  let text = `*─「 <{PVX}> BOT 」 ─*
+  const text = `*─「 <{PVX}> BOT 」 ─*
 
 _- Give command name (with comma seperated and without spaces) to be blocked in *first line of group description* , like:_
 score,add,quote

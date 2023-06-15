@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create donation table if not there
+// create donation table if not there
 const createDonationTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS donation(name text, number text PRIMARY KEY, amount integer);"
@@ -15,12 +15,13 @@ export interface GetDonation {
 
 export const getDonation = async (): Promise<GetDonation[]> => {
   await createDonationTable();
-  const result = await pool.query("select * from donation ORDER BY amount DESC;");
+  const result = await pool.query(
+    "select * from donation ORDER BY amount DESC;"
+  );
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const addDonation = async (

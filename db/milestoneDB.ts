@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create createCountVideoTable table if not there
+// create createCountVideoTable table if not there
 const createMilestoneTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS milestone(memberjid text PRIMARY KEY, achieved json);"
@@ -23,9 +23,8 @@ export const getMilestone = async (
     );
     if (result.rowCount) {
       return result.rows;
-    } else {
-      return [];
     }
+    return [];
   } catch (err) {
     console.log(err);
     return [];
@@ -43,7 +42,7 @@ export const setMilestone = async (
       [memberjid, achievedJson]
     );
 
-    //not updated. time to insert
+    // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO milestone VALUES($1,$2);", [
         memberjid,
@@ -58,7 +57,7 @@ export const setMilestone = async (
   }
 };
 
-//create createCountVideoTable table if not there
+// create createCountVideoTable table if not there
 const createMilestoneTextTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS milestonetext(sno SERIAL NOT NULL PRIMARY KEY, milestone text);"
@@ -75,9 +74,8 @@ export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
     const result = await pool.query("SELECT * from milestonetext;");
     if (result.rowCount) {
       return result.rows;
-    } else {
-      return [];
     }
+    return [];
   } catch (err) {
     console.log(err);
     return [];

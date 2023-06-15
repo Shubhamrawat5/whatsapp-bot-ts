@@ -9,7 +9,7 @@ export const milestoneaddtext = () => {
   return { cmd, handler };
 };
 
-//TODO: MAKE bot and reply combined, then use reply only
+// TODO: MAKE bot and reply combined, then use reply only
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 

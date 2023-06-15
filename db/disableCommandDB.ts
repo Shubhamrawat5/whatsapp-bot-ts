@@ -16,16 +16,15 @@ export const getDisableCommand = async (
 ): Promise<GetDisableCommandData[]> => {
   await createDisableCommandTable();
 
-  //check if today date is present in DB or not
+  // check if today date is present in DB or not
   const result = await pool.query(
     "select * from disablecommand where chat_id=$1;",
     [groupjid]
   );
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const setDisableCommand = async (
@@ -40,7 +39,7 @@ export const setDisableCommand = async (
       [disabledJson, groupjid]
     );
 
-    //not updated. time to insert
+    // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
         groupjid,

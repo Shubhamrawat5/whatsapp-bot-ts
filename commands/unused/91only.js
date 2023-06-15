@@ -1,12 +1,12 @@
 module.exports.command = () => {
-  let cmd = ["91only"];
+  const cmd = ["91only"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot, msg, msgInfoObj) => {
   const { reply } = msgInfoObj;
-  let text = `*─「 <{PVX}> BOT 」 ─*
+  const text = `*─「 <{PVX}> BOT 」 ─*
   
 _- To instant ban all the numbers other than 91 code, when added to group!_
 

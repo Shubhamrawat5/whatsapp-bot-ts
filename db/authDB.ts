@@ -9,21 +9,21 @@ const createAuthTable = async () => {
 
 export interface FetchAuth {
   cred: any;
-  auth_row_count: number;
+  authRowCount: number;
 }
 
 export const fetchAuth = async (state: any): Promise<FetchAuth> => {
-  let cred: any,
-    auth_row_count = 0;
+  let cred: any;
+  let authRowCount = 0;
   await createAuthTable();
   try {
-    const auth_result = await pool.query("select * from auth;"); //checking auth table
+    const auth_result = await pool.query("select * from auth;"); // checking auth table
 
     console.log("Fetching login data...");
-    auth_row_count = auth_result.rowCount;
+    authRowCount = auth_result.rowCount;
     const data = auth_result.rows[0];
 
-    if (auth_row_count == 0) {
+    if (authRowCount == 0) {
       console.log("No login data found!");
     } else {
       console.log("Login data found!");
@@ -71,7 +71,7 @@ export const fetchAuth = async (state: any): Promise<FetchAuth> => {
     console.log(err);
   }
 
-  return { cred, auth_row_count };
+  return { cred, authRowCount };
 };
 
 export const storeAuth = async (state: any): Promise<boolean> => {
@@ -79,17 +79,17 @@ export const storeAuth = async (state: any): Promise<boolean> => {
     const noiseKey = JSON.stringify(state.creds.noiseKey);
     const signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
     const signedPreKey = JSON.stringify(state.creds.signedPreKey);
-    const registrationId = state.creds.registrationId;
-    const advSecretKey = state.creds.advSecretKey;
-    const nextPreKeyId = state.creds.nextPreKeyId;
-    const firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
-    const serverHasPreKeys = state.creds.serverHasPreKeys;
+    const { registrationId } = state.creds;
+    const { advSecretKey } = state.creds;
+    const { nextPreKeyId } = state.creds;
+    const { firstUnuploadedPreKeyId } = state.creds;
+    const { serverHasPreKeys } = state.creds;
     const account = JSON.stringify(state.creds.account);
     const me = JSON.stringify(state.creds.me);
     const signalIdentities = JSON.stringify(state.creds.signalIdentities);
-    const lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
+    const { lastAccountSyncTimestamp } = state.creds;
     // let lastAccountSyncTimestamp = 0;
-    const myAppStateKeyId = state.creds.myAppStateKeyId; //?
+    const { myAppStateKeyId } = state.creds; // ?
 
     const res = await pool.query(
       "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
@@ -110,7 +110,7 @@ export const storeAuth = async (state: any): Promise<boolean> => {
       ]
     );
 
-    //not updated. time to insert
+    // not updated. time to insert
     if (res.rowCount === 0) {
       console.log("Inserting login data...");
       await pool.query(

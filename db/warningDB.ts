@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create createCountWarningTable table if not there
+// create createCountWarningTable table if not there
 const createCountWarningTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countwarning(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid), check(count BETWEEN 1 and 3));"
@@ -22,9 +22,8 @@ export const getCountWarning = async (
 
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export interface GetCountWarningAllGroup {
@@ -41,9 +40,8 @@ export const getCountWarningAllGroup = async (): Promise<
   );
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 export interface GetCountWarningAll {
   name: string;
@@ -60,9 +58,8 @@ export const getCountWarningAll = async (
   );
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const setCountWarning = async (
@@ -72,13 +69,13 @@ export const setCountWarning = async (
   try {
     if (!groupjid.endsWith("@g.us")) return false;
 
-    //check if groupjid is present in DB or not
+    // check if groupjid is present in DB or not
     const result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
-    //present
+    // present
     if (result.rows.length) {
       await pool.query(
         "UPDATE countwarning SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
@@ -106,13 +103,13 @@ export const reduceCountWarning = async (
   try {
     if (!groupjid.endsWith("@g.us")) return false;
 
-    //check if groupjid is present in DB or not
+    // check if groupjid is present in DB or not
     const result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
-    //present
+    // present
     if (result.rows.length) {
       await pool.query(
         "UPDATE countwarning SET count = count-1 WHERE memberjid=$1 AND groupjid=$2;",
@@ -136,13 +133,13 @@ export const clearCountWarning = async (
   try {
     if (!groupjid.endsWith("@g.us")) return false;
 
-    //check if groupjid is present in DB or not
+    // check if groupjid is present in DB or not
     const result = await pool.query(
       "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
-    //present
+    // present
     if (result.rows.length) {
       await pool.query(
         "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",

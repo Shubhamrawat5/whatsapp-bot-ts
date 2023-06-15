@@ -7,21 +7,19 @@ const checkTaggedMessage = async (msg: WAMessage) => {
     // simple tagged text message
     return msg.message.extendedTextMessage.contextInfo.quotedMessage
       .conversation;
-  } else {
-    // tagged message has url, member mentioned
-    return msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
-      ?.extendedTextMessage?.text;
   }
+  // tagged message has url, member mentioned
+  return msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
+    ?.extendedTextMessage?.text;
 };
 
 const checkNonTaggedMessage = async (msg: WAMessage) => {
   if (msg.message?.extendedTextMessage?.text) {
     // message has url, member mentioned
     return msg.message.extendedTextMessage.text;
-  } else {
-    // simple text message
-    return msg.message?.conversation;
   }
+  // simple text message
+  return msg.message?.conversation;
 };
 
 export const getMessage = async (

@@ -1,8 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-import axios from "axios";
 
 const getHoro = async (name: string): Promise<string> => {
   try {
@@ -41,7 +40,9 @@ const getHoro = async (name: string): Promise<string> => {
 };
 
 export const horo = () => {
-  return { cmd: ["horo", "horoscope"], handler: handler };
+  const cmd = ["horo", "horoscope"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

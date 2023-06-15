@@ -43,9 +43,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  votingResult.count[voteNumber - 1] += 1; //increase vote
+  votingResult.count[voteNumber - 1] += 1; // increase vote
   votingResult.members_voted_for[voteNumber - 1].push(senderName); // save who voted
-  votingResult.voted_members.push(sender); //member voted
+  votingResult.voted_members.push(sender); // member voted
 
   const setVotingDataRes = await setVotingData(
     from,

@@ -1,6 +1,6 @@
 import { WAMessage } from "@adiwajshing/baileys";
 
-//preference to mentioned
+// preference to mentioned
 export const getMentionedOrTaggedParticipant = async (
   msg: WAMessage
 ): Promise<string> => {
@@ -12,10 +12,10 @@ export const getMentionedOrTaggedParticipant = async (
     msg.message?.extendedTextMessage?.contextInfo?.participant;
 
   if (mentionedUsers && mentionedUsers.length) {
-    //when member are mentioned with command
+    // when member are mentioned with command
     participant = mentionedUsers[0];
   } else if (taggedMessageUser && taggedMessageUser.length) {
-    //when message is tagged with command
+    // when message is tagged with command
     participant = taggedMessageUser;
   } else {
     participant = "";

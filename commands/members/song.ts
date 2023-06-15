@@ -1,9 +1,9 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import axios from "axios";
+import fs from "fs";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import axios from "axios";
-import fs from "fs";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
 const downloadSong = async (randomName: string, query: string) => {
@@ -12,21 +12,21 @@ const downloadSong = async (randomName: string, query: string) => {
     // const DOWNLOAD_URL = "https://slider.kz/download/";
     let { data } = await axios.get(INFO_URL + query);
 
-    if (data["audios"][""].length <= 1) {
+    if (data.audios[""].length <= 1) {
       console.log("==[ SONG NOT FOUND! ]==");
       return { info: "NF" };
     }
 
-    //avoid remix,revisited,mix
+    // avoid remix,revisited,mix
     let i = 0;
-    let track = data["audios"][""][i];
+    let track = data.audios[""][i];
     while (/remix|revisited|mix/i.test(track.tit_art)) {
       i += 1;
-      track = data["audios"][""][i];
+      track = data.audios[""][i];
     }
-    //if reach the end then select the first song
+    // if reach the end then select the first song
     if (!track) {
-      track = data["audios"][""][0];
+      track = data.audios[""][0];
     }
 
     // let link = DOWNLOAD_URL + track.id + "/";
@@ -35,13 +35,13 @@ const downloadSong = async (randomName: string, query: string) => {
     // link = link + track.tit_art + ".mp3" + "?extra=";
     // link = link + track.extra;
     let link = track.url;
-    link = encodeURI(link); //to replace unescaped characters from link
+    link = encodeURI(link); // to replace unescaped characters from link
 
     let songName = track.tit_art;
     songName =
       songName =
       songName =
-        songName.replace(/\?|<|>|\*|"|:|\||\/|\\/g, ""); //removing special characters which are not allowed in file name
+        songName.replace(/\?|<|>|\*|"|:|\||\/|\\/g, ""); // removing special characters which are not allowed in file name
     // console.log(link);
     // download(songName, link);
     const res = await axios({
@@ -53,7 +53,7 @@ const downloadSong = async (randomName: string, query: string) => {
     const path = `./${randomName}`;
     const writer = fs.createWriteStream(path);
     data.pipe(writer);
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       writer.on("finish", () => resolve(songName));
       writer.on("error", () => reject);
     });
@@ -95,7 +95,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     from,
     {
       document: fs.readFileSync(`./${randomName}`),
-      fileName: response + ".mp3",
+      fileName: `${response}.mp3`,
       mimetype: "audio/mpeg",
     },
     { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }

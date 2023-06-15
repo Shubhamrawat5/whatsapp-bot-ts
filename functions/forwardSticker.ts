@@ -7,11 +7,11 @@ import { Exif } from "wa-sticker-formatter";
 import { LoggerTg } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 
-//TODO: GLOBAL VARIALBES
+// TODO: GLOBAL VARIALBES
 let countSent = 0;
-let countIn = 0,
-  countErr = 0,
-  sameSticker = 0;
+let countIn = 0;
+let countErr = 0;
+let sameSticker = 0;
 const last20SentStickersSize = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];

@@ -17,9 +17,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // !v.announce &&
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
-      return { subject: v.subject, id: v.id, participants: v.participants };
-    });
+    .map((v) => ({
+      subject: v.subject,
+      id: v.id,
+      participants: v.participants,
+    }));
   // console.log(groups);
 
   let pvxMsg = `*📛 PVX STATS 📛*${readMore}`;
@@ -38,7 +40,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       uniqueMem.add(participant.id);
     }
   }
-  temppvxList = temppvxList.sort((x, y) => y.count - x.count); //sort
+  temppvxList = temppvxList.sort((x, y) => y.count - x.count); // sort
 
   temppvxList.forEach((grp) => {
     temppvxMsg += `\n\n*${grp.subject}*\nMembers: ${grp.count}`;

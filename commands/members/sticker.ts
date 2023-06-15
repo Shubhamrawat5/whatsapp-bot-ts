@@ -6,11 +6,12 @@ import {
 } from "@adiwajshing/baileys";
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 import { getRandomFileName } from "../../functions/getRandomFileName";
+
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 export const sticker = () => {
@@ -22,11 +23,11 @@ export const sticker = () => {
 const getQuality = (isCrop: boolean, args1: string, args2: string) => {
   let quality;
   if (!isCrop && args1 && !isNaN(Number(args1))) {
-    //1st arg check
+    // 1st arg check
     quality = Number(args1);
   }
   if (isCrop && args2 && !isNaN(Number(args2))) {
-    //2nd arg check
+    // 2nd arg check
     quality = Number(args2);
   }
 
@@ -67,12 +68,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     quality = 100;
     mediaType = "image";
 
-    downloadFilePath = imagePath ? imagePath : taggedImagePath;
+    downloadFilePath = imagePath || taggedImagePath;
   } else if (videoPath || taggedVideoPath) {
     quality = 40;
     mediaType = "video";
 
-    downloadFilePath = videoPath ? videoPath : taggedVideoPath;
+    downloadFilePath = videoPath || taggedVideoPath;
   } else {
     await reply("❌ Give a media (image/video) to convert into sticker!");
     return;
@@ -99,7 +100,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     pack: packName, // The pack name
     author: authorName, // The author name
     type: isCrop ? StickerTypes.CROPPED : StickerTypes.FULL,
-    quality: quality,
+    quality,
   });
 
   const stickerFileName = getRandomFileName(".webp");

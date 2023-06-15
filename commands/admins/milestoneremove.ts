@@ -56,9 +56,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const achieved = getMilestoneRes[0].achieved.filter((milestone, index) => {
-    return index + 1 !== sno;
-  });
+  const achieved = getMilestoneRes[0].achieved.filter(
+    (milestone, index) => index + 1 !== sno
+  );
 
   const setMilestoneRes = await setMilestone(memberjid, achieved);
   if (setMilestoneRes) await reply(`✔ Milestone removed!`);

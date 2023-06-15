@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create groupname table if not there
+// create groupname table if not there
 const createGroupNameTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS groupname(groupjid text PRIMARY KEY, gname text);"
@@ -25,13 +25,13 @@ export const setGroupName = async (
     if (!groupjid.endsWith("@g.us")) return false;
     await createGroupNameTable();
 
-    //check if groupjid is present in DB or not
+    // check if groupjid is present in DB or not
     const result = await pool.query(
       "select * from groupname where groupjid=$1;",
       [groupjid]
     );
 
-    //present
+    // present
     if (result.rows.length) {
       // const count = result.rows[0].count;
 

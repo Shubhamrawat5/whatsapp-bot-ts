@@ -18,17 +18,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let num: string;
   if (msg.message?.extendedTextMessage?.contextInfo?.participant) {
-    //member's message is tagged to add
+    // member's message is tagged to add
     num = msg.message.extendedTextMessage.contextInfo.participant;
   } else {
-    //number is given like !add 919557---82
+    // number is given like !add 919557---82
     if (args.length === 0) {
       await reply("❌ Give number to add!");
       return;
     }
-    num = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`; //remove spaces , ( , ) and -
+    num = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`; // remove spaces , ( , ) and -
     if (num.startsWith("+")) {
-      //remove + sign from starting if given
+      // remove + sign from starting if given
       num = num.slice(1);
     }
   }
@@ -38,7 +38,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         status: string;
         jid: string;
       }[]
-    | undefined = undefined;
+    | undefined;
 
   try {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
@@ -52,23 +52,23 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  if (response == undefined) {
+  if (response === undefined) {
     await reply(`_❌ There is some problem_`);
     return;
   }
 
   const status = Number(response[0].status);
-  if (status == 400) {
+  if (status === 400) {
     await reply("_❌ Invalid number, include country code also!_");
-  } else if (status == 403) {
+  } else if (status === 403) {
     await reply("_❌ Number has privacy on adding group!_");
-  } else if (status == 408) {
+  } else if (status === 408) {
     await reply("_❌ Number has left the group recently!_");
-  } else if (status == 409) {
+  } else if (status === 409) {
     await reply("_❌ Number is already in group!_");
-  } else if (status == 500) {
+  } else if (status === 500) {
     await reply("_❌ Group is currently full!_");
-  } else if (status == 200) {
+  } else if (status === 200) {
     await reply("_✔ Number added to group!_");
   }
 };

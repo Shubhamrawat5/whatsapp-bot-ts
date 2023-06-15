@@ -17,15 +17,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  //bot message, anyone can delete
+  // bot message, anyone can delete
   if (
     msg.message.extendedTextMessage.contextInfo?.participant == botNumberJid
   ) {
     // await reply("❌ Tag message of bot to delete.");
 
-    //Message with tagged user, links has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
-    const quotedMessage =
-      msg.message.extendedTextMessage.contextInfo.quotedMessage;
+    // Message with tagged user, links has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
+    const { quotedMessage } = msg.message.extendedTextMessage.contextInfo;
     if (
       quotedMessage?.extendedTextMessage?.text?.includes("Birthday") ||
       quotedMessage?.extendedTextMessage?.text?.includes("Welcome") ||
@@ -46,7 +45,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  //member message, only admin can delete
+  // member message, only admin can delete
   if (!isBotGroupAdmins) {
     await reply("❌ I'm not admin to delete message for everyone.");
     return;

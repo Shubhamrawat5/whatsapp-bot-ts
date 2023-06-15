@@ -1,12 +1,11 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import axios from "axios";
-
 const getGender = async (name: string) => {
   try {
-    const url = "https://api.genderize.io/?name=" + name;
+    const url = `https://api.genderize.io/?name=${name}`;
     const { data } = await axios.get(url);
     const genderText = `${data.name} is ${data.gender} with ${data.probability} probability`;
     return genderText;
@@ -17,7 +16,9 @@ const getGender = async (name: string) => {
 };
 
 export const gender = () => {
-  return { cmd: ["gender"], handler: handler };
+  const cmd = ["gender"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

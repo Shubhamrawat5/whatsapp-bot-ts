@@ -1,7 +1,6 @@
 import { pool } from "./pool";
 
-//create blacklist table if not there
-//TODO: VERIFY ALL THE NUMBER ARE OF TYPE TEXT IN SCHEMA
+// create blacklist table if not there
 const createBlacklistTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text, admin text);"
@@ -30,9 +29,8 @@ export const getBlacklist = async (
 
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const addBlacklist = async (
@@ -48,7 +46,7 @@ export const addBlacklist = async (
     ]);
 
     if (res.rowCount === 0) return "There is some problem!";
-    else return "✔️ Added to blacklist!";
+    return "✔️ Added to blacklist!";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err.code === "23505") {
@@ -76,12 +74,10 @@ export const removeBlacklist = async (
       if (!admin || admin == sender) {
         await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
         return "✔️ Removed from blacklist!";
-      } else {
-        return "Only the admin who added in blacklist can remove!";
       }
-    } else {
-      return "There is some problem! Check the number";
+      return "Only the admin who added in blacklist can remove!";
     }
+    return "There is some problem! Check the number";
   } catch (err) {
     console.log(err);
     await createBlacklistTable();

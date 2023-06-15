@@ -4,7 +4,9 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const fb = () => {
-  return { cmd: ["fb", "facebook"], handler: handler };
+  const cmd = ["fb", "facebook"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -19,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   try {
     const res = await axios.get(
-      "https://fantox001-scrappy-api.vercel.app/fbdl?url=" + urlFb
+      `https://fantox001-scrappy-api.vercel.app/fbdl?url=${urlFb}`
     );
 
     await bot.sendMessage(

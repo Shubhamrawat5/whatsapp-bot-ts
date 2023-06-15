@@ -23,11 +23,11 @@ export const pvxFunctions = async (bot: Bot) => {
         .split(":")[0]
     );
     if (hour === 25) {
-      //9 PM
+      // 9 PM
       await postTechNewsList(bot, pvxgroups.pvxtechonly);
     }
     if (hour >= 8) {
-      //8 to 24 ON
+      // 8 to 24 ON
       await postTechNewsHeadline(bot, pvxgroups.pvxtech);
       await postStudyInfo(bot, pvxgroups.pvxstudy);
     }
@@ -38,5 +38,5 @@ export const pvxFunctions = async (bot: Bot) => {
       usedDate = todayDate;
       await checkTodayBday(bot, pvxgroups.pvxcommunity, true);
     }
-  }, 1000 * 60 * 20); //20 min
+  }, 1000 * 60 * 20); // 20 min
 };

@@ -29,7 +29,7 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
   const getCountTopRes = await getCountTop(100);
   getCountTopRes.forEach((member, index) => {
-    const memberjid = member.memberjid;
+    const { memberjid } = member;
     const number = index + 1;
     milestones[memberjid] = milestones[memberjid] || [];
 

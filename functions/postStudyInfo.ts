@@ -14,16 +14,17 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
       "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
     );
 
-    const li = feed.items.map((item) => {
-      return { title: item.title, link: item.link };
-    });
+    const li = feed.items.map((item) => ({
+      title: item.title,
+      link: item.link,
+    }));
 
     let storeNewsStudyRes = false;
     let count = 1;
 
     while (!storeNewsStudyRes) {
       if (count > 10) {
-        //10 times, already posted news comes up
+        // 10 times, already posted news comes up
         return;
       }
       console.log(`STUDY NEWS FUNCTION ${count} times!`);

@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create blacklist table if not there
+// create blacklist table if not there
 // 25/02/23
 const createUnknownCmdTable = async () => {
   await pool.query(
@@ -19,9 +19,8 @@ export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
 
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const addUnknownCmd = async (command: string): Promise<boolean> => {
@@ -31,7 +30,7 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
       [command]
     );
 
-    //not updated. time to insert
+    // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO unknowncmd VALUES($1,$2);", [command, 1]);
     }

@@ -8,7 +8,9 @@ import { Bot } from "../../interface/Bot";
 // import { getMessage } from "../../functions/getMessage";
 
 export const text = () => {
-  return { cmd: ["text", "tts"], handler: handler };
+  const cmd = ["text", "tts"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

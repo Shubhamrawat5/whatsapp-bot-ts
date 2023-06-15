@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create createCountVideoTable table if not there
+// create createCountVideoTable table if not there
 const createCountVideoTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countvideo(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
@@ -23,9 +23,8 @@ export const getCountVideo = async (
     );
     if (result.rowCount) {
       return result.rows;
-    } else {
-      return [];
     }
+    return [];
   } catch (err) {
     console.log(err);
     return [];
@@ -44,7 +43,7 @@ export const setCountVideo = async (
       [memberjid, groupjid]
     );
 
-    //not updated. time to insert
+    // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
         memberjid,

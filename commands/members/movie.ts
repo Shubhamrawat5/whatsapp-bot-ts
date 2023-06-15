@@ -3,7 +3,9 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 export const movie = () => {
-  return { cmd: ["movie"], handler: handler };
+  const cmd = ["movie"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

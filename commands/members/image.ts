@@ -3,11 +3,11 @@ import {
   downloadContentFromMessage,
   toBuffer,
 } from "@adiwajshing/baileys";
+import fs from "fs";
+import { writeFile } from "fs/promises";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import fs from "fs";
-import { writeFile } from "fs/promises";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const image = () => {

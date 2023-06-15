@@ -35,7 +35,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     blacklistNumb = blacklistNumb.slice(1);
   }
   if (blacklistNumb.length === 10) {
-    blacklistNumb = "91" + blacklistNumb;
+    blacklistNumb = `91${blacklistNumb}`;
   }
 
   if (blacklistNumb.length !== 12) {
@@ -48,13 +48,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const addBlacklistRes = await addBlacklist(blacklistNumb, reason, sender);
   await reply(addBlacklistRes);
 
-  const blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
+  const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
   const chats = await bot.groupFetchAllParticipating();
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
-      return { subject: v.subject, id: v.id, participants: v.participants };
-    });
+    .map((v) => ({
+      subject: v.subject,
+      id: v.id,
+      participants: v.participants,
+    }));
   // console.log(groups);
 
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;

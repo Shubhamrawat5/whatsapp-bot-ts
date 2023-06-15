@@ -27,7 +27,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (!participant) return;
   const res = await getCountWarning(participant, from);
   let warnCount = res.length ? res[0].count : 0;
-  const num_split = participant.split("@s.whatsapp.net")[0];
+  const numSplit = participant.split("@s.whatsapp.net")[0];
 
   if (warnCount === 1) {
     const clearCountWarningRes = await clearCountWarning(participant, from);
@@ -45,7 +45,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   }
 
-  const warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: (${warnCount}/3)`;
+  const warnMsg = `@${numSplit} ,Your warning have been reduced by 1. Warning status: (${warnCount}/3)`;
 
   await bot.sendMessage(from, {
     text: warnMsg,

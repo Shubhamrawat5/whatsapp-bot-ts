@@ -1,6 +1,6 @@
 import { pool } from "./pool";
 
-//create count table if not there
+// create count table if not there
 const createCountTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS count(day DATE PRIMARY KEY, times integer);"
@@ -20,9 +20,8 @@ export const getcount = async (): Promise<GetCount[]> => {
 
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const countToday = async (): Promise<number> => {
@@ -37,23 +36,22 @@ export const countToday = async (): Promise<number> => {
 
   await createCountTable();
 
-  //check if today date is present in DB or not
+  // check if today date is present in DB or not
   const result = await pool.query("select * from count where day=$1;", [
     todayDate,
   ]);
 
-  //present
+  // present
   if (result.rows.length) {
-    const times = result.rows[0].times;
+    const { times } = result.rows[0];
 
     await pool.query("UPDATE count SET times = times+1 WHERE day=$1;", [
       todayDate,
     ]);
 
     return times + 1;
-  } else {
-    await pool.query("INSERT INTO count VALUES($1,$2);", [todayDate, 1]);
-
-    return 1;
   }
+  await pool.query("INSERT INTO count VALUES($1,$2);", [todayDate, 1]);
+
+  return 1;
 };

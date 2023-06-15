@@ -4,13 +4,15 @@
 // let isIgSetup = false;
 
 import { WAMessage } from "@adiwajshing/baileys";
+import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 
-import axios from "axios";
 import { Bot } from "../../interface/Bot";
 
 export const insta = () => {
-  return { cmd: ["insta", "i", "ig"], handler: handler };
+  const cmd = ["insta", "i", "ig"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -26,7 +28,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   try {
     const res = await axios.get(
-      "https://fantox001-scrappy-api.vercel.app/instadl?url=" + urlInsta
+      `https://fantox001-scrappy-api.vercel.app/instadl?url=${urlInsta}`
     );
 
     if (res.data.videoUrl) {

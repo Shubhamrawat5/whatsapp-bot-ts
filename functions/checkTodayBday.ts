@@ -18,14 +18,16 @@ export const checkTodayBday = async (
     const todayArr = today.split("/");
     const todayDate = Number(todayArr[0]);
     const todayMonth = Number(todayArr[1]);
+
+    // let url = "https://pvx-api-vercel.vercel.app/api/bday";
+    // let { data } = await axios.get(url);
+
     const data = await getbday();
-    if (!data) {
-      //TODO: USE log, error, warn everywhere
+    if (data.length === 0) {
+      // TODO: USE log, error, warn everywhere
       console.log("THERE IS SOME PROBLEM WITH BDAY INFO!");
       return;
     }
-    // let url = "https://pvx-api-vercel.vercel.app/api/bday";
-    // let { data } = await axios.get(url);
 
     const bday: string[] = [];
     const mentions: string[] = [];
@@ -37,7 +39,7 @@ export const checkTodayBday = async (
         // );
         const number = `91${member.numb}`;
         bday.push(`@${number}`);
-        mentions.push(number + "@s.whatsapp.net");
+        mentions.push(`${number}@s.whatsapp.net`);
         console.log(`Today is ${member.name} Birthday!`);
       }
     });

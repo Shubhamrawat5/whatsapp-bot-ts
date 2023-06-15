@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const participant = await getMentionedOrTaggedParticipant(msg);
 
   if (groupAdmins.includes(participant)) {
-    //if admin then don't remove
+    // if admin then don't remove
     await reply("❌ Cannot remove admin!");
     return;
   }
@@ -36,7 +36,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     "remove"
   );
 
-  if (response[0].status === "200")
+  if (response[0].status === "200") {
     await reply("_✔ Number removed from group!_");
-  else await reply("_❌ There is some problem!_");
+  } else {
+    await reply("_❌ There is some problem!_");
+  }
 };

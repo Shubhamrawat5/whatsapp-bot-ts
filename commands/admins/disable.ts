@@ -22,7 +22,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let cmd: string = args[0].toLowerCase();
   if (cmd.startsWith("!")) cmd = cmd.slice(1);
 
-  //check if cmd is actually a command or not
+  // check if cmd is actually a command or not
   if (!allCommandsName.includes(cmd)) {
     await reply(`❌ ${prefix}${cmd} is not a command!`);
     return;

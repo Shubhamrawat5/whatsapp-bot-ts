@@ -1,14 +1,16 @@
 import { WAMessage } from "@adiwajshing/baileys";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
-
-const gis = require("g-i-s");
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
+import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interface/Bot";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
+const gis = require("g-i-s");
+
 export const stickersearch = () => {
-  return { cmd: ["stickersearch", "ss"], handler: handler };
+  const cmd = ["stickersearch", "ss"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -38,7 +40,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         } else if (results.length > 10) {
           index = Math.floor(Math.random() * 10);
         }
-        const img = results[index]["url"];
+        const img = results[index].url;
         console.log(img);
 
         const packName = "BOT 🤖";

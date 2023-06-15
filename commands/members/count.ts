@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender = sender.slice(1);
   }
   if (sender.length === 10 + 15) {
-    sender = "91" + sender;
+    sender = `91${sender}`;
   }
 
   const getCountIndividualAllGroupRes = await getCountIndividualAllGroup(

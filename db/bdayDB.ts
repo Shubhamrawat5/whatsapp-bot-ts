@@ -24,9 +24,8 @@ export const getbday = async (): Promise<Getbday[]> => {
 
   if (result.rowCount) {
     return result.rows;
-  } else {
-    return [];
   }
+  return [];
 };
 
 export const addbday = async (

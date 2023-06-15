@@ -1,12 +1,14 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import google from "googlethis";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import google from "googlethis";
 import { getMessage } from "../../functions/getMessage";
 
 export const gs = () => {
-  return { cmd: ["google", "search", "gs"], handler: handler };
+  const cmd = ["google", "search", "gs"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

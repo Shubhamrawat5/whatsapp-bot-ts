@@ -5,16 +5,14 @@ import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
 import { getTechNews } from "./getTechNews";
 
-const newsapi = process.env.newsapi;
+const { newsapi } = process.env;
 let countNews = 0;
 
 export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
-      const url =
-        "https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=" +
-        newsapi;
+      const url = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsapi}`;
 
       interface Articles {
         title: string;
@@ -26,8 +24,8 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
       }
 
       const response = await axios.get(url);
-      const data = response.data;
-      const articles: Articles[] = data.articles;
+      const { data } = response;
+      const { articles } = data;
 
       let storeNewsTechRes = false;
       let count = 1;
@@ -35,7 +33,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
       while (!storeNewsTechRes) {
         console.log(`TECH NEWS FUNCTION: ${count} times!`);
         if (count > 10) {
-          //10 times, already posted news comes up
+          // 10 times, already posted news comes up
           return;
         }
 
@@ -66,7 +64,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
     } else {
       const url = "https://pvx-api-vercel.vercel.app/api/news";
       const { data } = await axios.get(url);
-      delete data["about"];
+      delete data.about;
 
       const newsWeb = [
         "gadgets-ndtv",
@@ -83,15 +81,15 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
 
       while (!res) {
         if (count > 10) {
-          //10 times, already posted news comes up
+          // 10 times, already posted news comes up
           return;
         }
         console.log(`TECH NEWS FUNCTION: ${count} times!`);
 
-        const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
+        const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; // random website
 
         if (!data[randomWeb]) {
-          //undefined
+          // undefined
           count += 1;
           continue;
         }

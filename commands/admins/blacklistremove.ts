@@ -23,7 +23,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     blacklistNumb = blacklistNumb.slice(1);
   }
   if (blacklistNumb.length === 10) {
-    blacklistNumb = "91" + blacklistNumb;
+    blacklistNumb = `91${blacklistNumb}`;
   }
 
   if (blacklistNumb.length !== 12) {

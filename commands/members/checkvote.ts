@@ -40,7 +40,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       votingResult.count[index]
     }*\n`;
 
-    //add voted members username
+    // add voted members username
     votingResult.members_voted_for[index].forEach((mem) => {
       resultVoteMsg += `_${mem},_ `;
     });

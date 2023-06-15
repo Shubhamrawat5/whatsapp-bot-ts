@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender = sender.slice(1);
   }
   if (sender.length === 10 + 15) {
-    sender = "91" + sender;
+    sender = `91${sender}`;
   }
 
   const res = await getRankInAllGroups(sender);
@@ -39,7 +39,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const res2 = await getCountIndividual(sender, from);
   const countCurGroup = res2.length ? res2[0].count : 0;
 
-  //find rank
+  // find rank
   let rankName;
   if (ranks <= 10) {
     rankName = "Prime 🔮";

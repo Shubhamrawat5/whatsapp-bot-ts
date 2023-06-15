@@ -7,16 +7,16 @@ export const getIndianNumber = async (body: string) => {
 
   if (!number) return "";
 
-  //remove spaces
+  // remove spaces
   number = number.replaceAll(" ", "");
 
-  //check if + is there
+  // check if + is there
   if (number.startsWith("+")) number = number.slice(1);
 
-  //check if 91 is there
-  if (number.length === 10) number = "91" + number;
+  // check if 91 is there
+  if (number.length === 10) number = `91${number}`;
 
   console.log("number: ", number);
   if (number.length === 12) return number;
-  else return "";
+  return "";
 };

@@ -1,20 +1,5 @@
 /* --------------------------------- SERVER --------------------------------- */
 import express, { Express, Request, Response } from "express";
-const app: Express = express();
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
-const port = process.env.PORT || 80;
-app.get("/", (req: Request, res: Response) => {
-  // res.send("Bot is running");
-  console.log("Get request to /");
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.listen(port, () => {
-  // console.clear();
-  console.log("\nWeb-server running!\n");
-});
 
 /* ------------------------------ add packages ------------------------------ */
 import makeWASocket, {
@@ -36,26 +21,6 @@ import pino from "pino";
 import fs from "fs";
 import stringSimilarity from "string-similarity";
 import NodeCache from "node-cache";
-const cache = new NodeCache();
-const msgRetryCounterCache = new NodeCache();
-
-const silentLogs = pino({ level: "silent" }); //to hide the chat logs
-// let debugLogs = pino({ level: "debug" });
-
-const useStore = false;
-// the store maintains the data of the WA connection in memory
-// can be written out to a file & read from it
-const store = useStore ? makeInMemoryStore({ logger: silentLogs }) : undefined;
-if (store) {
-  store.readFromFile("./baileys_store_multi");
-  // save every 10s
-  setInterval(() => {
-    store.writeToFile("./baileys_store_multi");
-  }, 10_000);
-}
-
-// start a connection
-// console.log('state : ', state.creds);
 
 /* ----------------------------- add local files ---------------------------- */
 import { dropAuth } from "./db/dropauthDB";
@@ -80,10 +45,9 @@ import { Bot } from "./interface/Bot";
 
 import "dotenv/config";
 import { pvxFunctions } from "./functions/pvxFunctions";
-const myNumber = process.env.myNumber;
-const myNumberWithJid = myNumber + "@s.whatsapp.net";
-const pvx = process.env.pvx;
-const isStickerForward = process.env.isStickerForward;
+
+const { myNumber, pvx, isStickerForward } = process.env;
+const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
 
 const prefix = "!";
 
@@ -110,6 +74,38 @@ let startCount = 1;
 let dateCheckerInterval: NodeJS.Timeout;
 
 let milestones = {};
+
+const app: Express = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
+const port = process.env.PORT || 80;
+app.get("/", (req: Request, res: Response) => {
+  // res.send("Bot is running");
+  console.log("Get request to /");
+  res.sendFile(`${__dirname}/index.html`);
+});
+
+app.listen(port, () => {
+  // console.clear();
+  console.log("\nWeb-server running!\n");
+});
+const cache = new NodeCache();
+const msgRetryCounterCache = new NodeCache();
+
+const silentLogs = pino({ level: "silent" }); // to hide the chat logs
+// let debugLogs = pino({ level: "debug" });
+
+const useStore = false;
+// the store maintains the data of the WA connection in memory
+// can be written out to a file & read from it
+const store = useStore ? makeInMemoryStore({ logger: silentLogs }) : undefined;
+if (store) {
+  store.readFromFile("./baileys_store_multi");
+  setInterval(() => {
+    store.writeToFile("./baileys_store_multi");
+  }, 10_000);
+}
 
 // try {
 //   fs.rmSync("./auth_info_multi", { recursive: true, force: true });
@@ -139,9 +135,9 @@ const startBot = async () => {
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
-    //Fetch login auth
-    const { cred, auth_row_count } = await fetchAuth(state);
-    if (auth_row_count != 0) {
+    // Fetch login auth
+    const { cred, authRowCount } = await fetchAuth(state);
+    if (authRowCount !== 0) {
       state.creds = cred.creds;
     }
 
@@ -164,17 +160,17 @@ const startBot = async () => {
       dateCheckerInterval = await pvxFunctions(bot);
     }
 
-    let botNumberJid = bot.user ? bot.user.id : ""; //'1506xxxxx54:3@s.whatsapp.net'
+    let botNumberJid = bot.user ? bot.user.id : ""; // '1506xxxxx54:3@s.whatsapp.net'
     botNumberJid =
       botNumberJid.slice(0, botNumberJid.search(":")) +
       botNumberJid.slice(botNumberJid.search("@"));
 
     bot.ev.on("groups.upsert", async (msg: GroupMetadata[]) => {
-      //new group added
+      // new group added
       try {
         console.log("[groups.upsert]");
         const from = msg[0].id;
-        cache.del(from + ":groupMetadata");
+        cache.del(`${from}:groupMetadata`);
 
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
@@ -187,13 +183,13 @@ const startBot = async () => {
       }
     });
 
-    //TODO: CHECK PARTIAL
+    // TODO: CHECK PARTIAL
     bot.ev.on("groups.update", async (msg: Partial<GroupMetadata>[]) => {
-      //subject change, etc
+      // subject change, etc
       try {
         console.log("[groups.update]");
         const from = msg[0].id;
-        cache.del(from + ":groupMetadata");
+        cache.del(`${from}:groupMetadata`);
       } catch (err) {
         await LoggerBot(bot, "groups.update", err, msg);
       }
@@ -204,7 +200,8 @@ const startBot = async () => {
       participants: string[];
       action: ParticipantAction;
     }
-    //---------------------------------------group-participants.update-----------------------------------------//
+
+    /* ------------------------ group-participants.update ----------------------- */
     bot.ev.on(
       "group-participants.update",
       async (msg: GroupParticipantUpdate) => {
@@ -213,16 +210,16 @@ const startBot = async () => {
           const from = msg.id;
           const numJid = msg.participants[0];
 
-          const num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
+          const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
           if (numJid === botNumberJid && msg.action === "remove") {
-            //bot is removed
+            // bot is removed
             await bot.sendMessage(myNumberWithJid, {
               text: `Bot is removed from group.`,
             });
             return;
           }
 
-          cache.del(from + ":groupMetadata");
+          cache.del(`${from}:groupMetadata`);
           const groupMetadata = await bot.groupMetadata(from);
           const groupSubject = groupMetadata.subject;
 
@@ -230,37 +227,38 @@ const startBot = async () => {
             await memberAddCheck(
               bot,
               from,
-              num_split,
+              numSplit,
               numJid,
               groupSubject,
               pvxgroups,
               myNumber,
               prefix
             );
-            const text = `${groupSubject} [ADD] ${num_split}`;
+            const text = `${groupSubject} [ADD] ${numSplit}`;
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
-            ++stats.memberJoined;
+            stats.memberJoined += 1;
           } else if (msg.action === "remove") {
-            const text = `${groupSubject} [REMOVE] ${num_split}`;
+            const text = `${groupSubject} [REMOVE] ${numSplit}`;
             await bot.sendMessage(myNumberWithJid, { text });
             console.log(text);
-            ++stats.memberLeft;
-          } else {
-            //promote, demote
-            if (groupSubject.startsWith("<{PVX}>")) {
-              const getUsernamesRes = await getUsernames([numJid]);
-              const username = getUsernamesRes.length
-                ? getUsernamesRes[0].name
-                : num_split;
-              const action =
-                msg.action === "promote"
-                  ? "Promoted to Admin"
-                  : "Demoted to Member";
-              const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
-              await bot.sendMessage(pvxgroups.pvxadmin, { text });
-              await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
-            }
+            stats.memberLeft += 1;
+          } else if (
+            (msg.action === "promote" || msg.action === "demote") &&
+            groupSubject.startsWith("<{PVX}>")
+          ) {
+            // promote, demote
+            const getUsernamesRes = await getUsernames([numJid]);
+            const username = getUsernamesRes.length
+              ? getUsernamesRes[0].name
+              : numSplit;
+            const action =
+              msg.action === "promote"
+                ? "Promoted to Admin"
+                : "Demoted to Member";
+            const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
+            await bot.sendMessage(pvxgroups.pvxadmin, { text });
+            await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
           }
         } catch (err) {
           await LoggerBot(bot, "group-participants.update", err, msg);
@@ -276,37 +274,40 @@ const startBot = async () => {
       // console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
       // console.log(msgs.messages);
       try {
-        //type: append (whatsapp web), notify (app)
-        // console.log("OUT", msgs.messages.length);
+        // type: append (whatsapp web), notify (app)
         if (msgs.type === "append") return;
 
         // const msg: WAMessage = msgs.messages[0];
         msgs.messages.forEach(async (msg: WAMessage) => {
-          if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
+          // when demote, add, remove, etc happen then msg.message is not there
+          if (!msg.message) return;
 
-          //type to extract body text
-          const type:
+          // type to extract body text
+          let type:
             | "textMessage"
             | "imageMessage"
             | "videoMessage"
             | "stickerMessage"
             | "documentMessage"
             | "extendedTextMessage"
-            | "otherMessage" = msg.message.conversation
-            ? "textMessage"
-            : msg.message.imageMessage
-            ? "imageMessage"
-            : msg.message.videoMessage
-            ? "videoMessage"
-            : msg.message.stickerMessage
-            ? "stickerMessage"
-            : msg.message.documentMessage
-            ? "documentMessage"
-            : msg.message.extendedTextMessage
-            ? "extendedTextMessage"
-            : "otherMessage";
-          //ephemeralMessage are from disappearing chat
-          //reactionMessage, audioMessage
+            | "otherMessage";
+
+          if (msg.message.conversation) {
+            type = "textMessage";
+          } else if (msg.message.imageMessage) {
+            type = "imageMessage";
+          } else if (msg.message.videoMessage) {
+            type = "videoMessage";
+          } else if (msg.message.stickerMessage) {
+            type = "stickerMessage";
+          } else if (msg.message.documentMessage) {
+            type = "documentMessage";
+          } else if (msg.message.extendedTextMessage) {
+            type = "extendedTextMessage";
+          } else type = "otherMessage";
+
+          // ephemeralMessage are from disappearing chat
+          // reactionMessage, audioMessage
 
           const acceptedType = [
             "textMessage",
@@ -320,27 +321,29 @@ const startBot = async () => {
             return;
           }
 
-          // console.log("IN", msgs.messages.length);
+          stats.totalMessages += 1;
+          if (type === "extendedTextMessage") stats.textMessage += 1;
+          else stats[type] += 1;
 
-          ++stats.totalMessages;
-          if (type === "extendedTextMessage") ++stats["textMessage"];
-          else ++stats[type];
+          // body will have the text message
+          let body: string;
+          if (msg.message.conversation) {
+            body = msg.message.conversation;
+          } else if (msg.message.reactionMessage?.text) {
+            body = msg.message.reactionMessage.text;
+          } else if (msg.message.imageMessage?.caption) {
+            body = msg.message.imageMessage.caption;
+          } else if (msg.message.videoMessage?.caption) {
+            body = msg.message.videoMessage.caption;
+          } else if (msg.message.documentMessage?.caption) {
+            body = msg.message.documentMessage.caption;
+          } else if (msg.message.extendedTextMessage?.text) {
+            body = msg.message.extendedTextMessage.text;
+          } else {
+            body = "";
+          }
 
-          //body will have the text message
-          let body = msg.message.conversation
-            ? msg.message.conversation
-            : msg.message.reactionMessage?.text
-            ? msg.message.reactionMessage.text
-            : msg.message.imageMessage?.caption
-            ? msg.message.imageMessage.caption
-            : msg.message.videoMessage?.caption
-            ? msg.message.videoMessage.caption
-            : msg.message.documentMessage?.caption
-            ? msg.message.documentMessage.caption
-            : msg.message.extendedTextMessage?.text
-            ? msg.message.extendedTextMessage.text
-            : "";
-          body = body.replace(/\n|\r/g, ""); //remove all \n and \r
+          body = body.replace(/\n|\r/g, ""); // remove all \n and \r
 
           let isCmd = body.startsWith(prefix);
 
@@ -348,25 +351,26 @@ const startBot = async () => {
           if (!from) return;
           const isGroup = from.endsWith("@g.us");
 
-          let groupMetadata: GroupMetadata | undefined = undefined;
-          groupMetadata = cache.get(from + ":groupMetadata");
+          let groupMetadata: GroupMetadata | undefined;
+          groupMetadata = cache.get(`${from}:groupMetadata`);
 
           if (isGroup && !groupMetadata) {
             console.log("FETCHING GROUP METADATA: ", from);
 
             groupMetadata = await bot.groupMetadata(from);
             // console.log(groupMetadata);
-            cache.set(from + ":groupMetadata", groupMetadata, 60 * 60 * 24); //24 hours
+            cache.set(`${from}:groupMetadata`, groupMetadata, 60 * 60 * 24); // 24 hours
           }
           let sender = groupMetadata ? msg.key.participant : from;
           if (!sender) return;
           if (msg.key.fromMe) sender = botNumberJid;
 
-          //remove : from number
-          if (sender.includes(":"))
+          // remove : from number
+          if (sender.includes(":")) {
             sender =
               sender.slice(0, sender.search(":")) +
               sender.slice(sender.search("@"));
+          }
           const senderNumber = sender.split("@")[0];
           let senderName = msg.pushName;
           if (!senderName) senderName = "null";
@@ -374,12 +378,12 @@ const startBot = async () => {
           const groupName: string | undefined = groupMetadata?.subject;
 
           if (pvx) {
-            //Count message
+            // Count message
             if (
               groupName?.toUpperCase().includes("<{PVX}>") &&
               from !== pvxgroups.pvxstickeronly1 &&
-              from != pvxgroups.pvxstickeronly2 &&
-              from != pvxgroups.pvxdeals &&
+              from !== pvxgroups.pvxstickeronly2 &&
+              from !== pvxgroups.pvxdeals &&
               from !== pvxgroups.pvxtesting
             ) {
               if (from === pvxgroups.pvxsticker && msg.message.stickerMessage) {
@@ -387,24 +391,23 @@ const startBot = async () => {
                   "skipping count of sticker message in PVX sticker."
                 );
                 return;
-              } else {
-                const res = await setCountMember(sender, from, senderName);
-                await countRemainder(bot, res, from, senderNumber, sender);
               }
+              const res = await setCountMember(sender, from, senderName);
+              await countRemainder(bot, res, from, senderNumber, sender);
             }
 
-            //count video
-            if (from == pvxgroups.pvxmano && type === "videoMessage") {
+            // count video
+            if (from === pvxgroups.pvxmano && type === "videoMessage") {
               await setCountVideo(sender, from);
             }
 
-            //Forward all stickers
+            // Forward all stickers
             if (
               groupName?.toUpperCase().startsWith("<{PVX}>") &&
               msg.message.stickerMessage &&
               isStickerForward === "true" &&
               from !== pvxgroups.pvxstickeronly1 &&
-              from != pvxgroups.pvxstickeronly2 &&
+              from !== pvxgroups.pvxstickeronly2 &&
               from !== pvxgroups.pvxmano
             ) {
               const res = await forwardSticker(
@@ -413,12 +416,12 @@ const startBot = async () => {
                 pvxgroups.pvxstickeronly1,
                 pvxgroups.pvxstickeronly2
               );
-              if (res) ++stats.stickerForwarded;
-              else ++stats.stickerNotForwarded;
+              if (res) stats.stickerForwarded += 1;
+              else stats.stickerNotForwarded += 1;
               return;
             }
 
-            //auto sticker maker in pvx sticker group [empty caption], less than 2mb
+            // auto sticker maker in pvx sticker group [empty caption], less than 2mb
             if (
               from === pvxgroups.pvxsticker &&
               body === "" &&
@@ -433,18 +436,14 @@ const startBot = async () => {
           }
 
           if (!isCmd) {
-            const messageLog =
-              "[MESSAGE] " +
-              (body ? body.substr(0, 30) : type) +
-              " [FROM] " +
-              senderNumber +
-              " [IN] " +
-              (groupName || from);
+            const messageLog = `[MESSAGE] ${
+              body ? body.substr(0, 30) : type
+            } [FROM] ${senderNumber} [IN] ${groupName || from}`;
             console.log(messageLog);
             return;
           }
 
-          if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
+          if (body[1] === " ") body = body[0] + body.slice(2); // remove space when space btw prefix and commandName like "! help"
           const args = body.slice(1).trim().split(/ +/);
           let command = args.shift()?.toLowerCase();
           if (!command) command = "";
@@ -462,7 +461,7 @@ const startBot = async () => {
           if (
             ["score", "scorecard", "scoreboard", "sc", "sb"].includes(command)
           ) {
-            //for latest group desc
+            // for latest group desc
             groupMetadata = await bot.groupMetadata(from);
           }
 
@@ -486,14 +485,14 @@ const startBot = async () => {
             return true;
           };
 
-          //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
+          // CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
           let resDisabled: string[] | undefined = [];
           if (groupMetadata && !isGroupAdmins) {
-            resDisabled = cache.get(from + ":resDisabled");
+            resDisabled = cache.get(`${from}:resDisabled`);
             if (!resDisabled) {
               const res = await getDisableCommand(from);
               resDisabled = res.length ? res[0].disabled : [];
-              cache.set(from + ":resDisabled", resDisabled, 60 * 60);
+              cache.set(`${from}:resDisabled`, resDisabled, 60 * 60);
             }
           }
           if (resDisabled && resDisabled.includes(command)) {
@@ -501,12 +500,12 @@ const startBot = async () => {
             return;
           }
           if (command === "enable" || command === "disable") {
-            cache.del(from + ":resDisabled");
+            cache.del(`${from}:resDisabled`);
           }
 
           // send every command info to my whatsapp, won't work when i send something for bot
           if (myNumber && myNumberWithJid !== sender) {
-            ++stats.commandExecuted;
+            stats.commandExecuted += 1;
             await bot.sendMessage(myNumberWithJid, {
               text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
             });
@@ -518,15 +517,14 @@ const startBot = async () => {
 
               let key: keyof typeof stats;
               for (key in stats) {
-                statsMessage += `\n${key}: ${stats[key]}`;
+                if (Object.prototype.hasOwnProperty.call(stats, key)) {
+                  statsMessage += `\n${key}: ${stats[key]}`;
+                }
               }
 
               await reply(statsMessage);
               return;
             }
-
-            // case "check":
-            //   return;
 
             case "test":
               if (myNumberWithJid !== sender) {
@@ -542,9 +540,9 @@ const startBot = async () => {
               }
               try {
                 const resultTest = eval(args[0]);
-                if (typeof resultTest === "object")
+                if (typeof resultTest === "object") {
                   await reply(JSON.stringify(resultTest));
-                else await reply(resultTest.toString());
+                } else await reply(resultTest.toString());
               } catch (err) {
                 await reply((err as Error).stack);
               }
@@ -628,10 +626,9 @@ const startBot = async () => {
             command,
             allCommandsName
           );
-          if (matches.bestMatch.rating > 0.5)
-            message =
-              `Did you mean ${prefix}${matches.bestMatch.target}\n\n` + message;
-
+          if (matches.bestMatch.rating > 0.5) {
+            message = `Did you mean ${prefix}${matches.bestMatch.target}\n\n${message}`;
+          }
           await reply(message);
           if (command) {
             await addUnknownCmd(command);
@@ -653,24 +650,21 @@ const startBot = async () => {
           });
           milestones = await addDefaultMilestones(bot, pvxgroups);
 
-          //SET GROUP META DATA
+          // SET GROUP META DATA
           const chats = await bot.groupFetchAllParticipating();
           const groups = Object.values(chats)
             .filter((v) => v.id.endsWith("g.us"))
-            .map((v) => {
-              return {
-                subject: v.subject,
-                desc: v.desc,
-                id: v.id,
-                participants: v.participants,
-              };
-            });
+            .map((v) => ({
+              subject: v.subject,
+              desc: v.desc,
+              id: v.id,
+              participants: v.participants,
+            }));
 
-          for (const group of groups) {
+          groups.forEach((group) => {
             console.log("SET metadata for: ", group.subject);
-
-            cache.set(group.id + ":groupMetadata", group, 60 * 60 * 24); //24 hours
-          }
+            cache.set(`${group.id}:groupMetadata`, group, 60 * 60 * 24); // 24 hours
+          });
 
           // bot.sendMessage(
           //   pvxcommunity,
@@ -706,7 +700,7 @@ const startBot = async () => {
               lastDisconnect.error,
               update
             );
-            ++startCount;
+            startCount += 1;
 
             console.log("[CONNECTION-CLOSED]: Restarting bot in 20 seconds!");
             setTimeout(async () => {
@@ -737,7 +731,7 @@ const startBot = async () => {
       }
     });
 
-    //TODO: MAKE SEPERATE FILES for each event
+    // TODO: MAKE SEPERATE FILES for each event
     // listen for when the auth credentials is updated
     bot.ev.on("creds.update", async () => {
       try {
@@ -747,11 +741,11 @@ const startBot = async () => {
         await LoggerBot(bot, "creds.update", err, undefined);
       }
     });
-
     return bot;
   } catch (err) {
     await LoggerBot(undefined, "BOT-ERROR", err, "");
   }
+  return false;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

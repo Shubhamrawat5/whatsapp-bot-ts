@@ -13,10 +13,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { args, reply } = msgInfoObj;
 
   let noOfResult = 20;
-  //get number from args if available
+  // get number from args if available
   if (args.length) {
     const no = Number(args[0]);
-    //if number is given then
+    // if number is given then
     if (no && no > 0 && no <= 500) {
       noOfResult = no;
     }

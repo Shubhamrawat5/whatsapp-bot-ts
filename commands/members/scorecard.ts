@@ -33,7 +33,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const response = await getScoreCard(matchId);
 
-  //response.info have "MO" only when command is startc
+  // response.info have "MO" only when command is startc
   //   if (!response) {
   //     await reply(`❌ ERROR
   // - Group description starting is "${matchId}"

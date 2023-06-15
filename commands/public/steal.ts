@@ -1,10 +1,11 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import {
+  WAMessage,
+  downloadContentFromMessage,
+  toBuffer,
+} from "@adiwajshing/baileys";
+import { Exif } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-import { downloadContentFromMessage, toBuffer } from "@adiwajshing/baileys";
-
-import { Exif } from "wa-sticker-formatter";
 
 export const steal = () => {
   const cmd = ["steal"];

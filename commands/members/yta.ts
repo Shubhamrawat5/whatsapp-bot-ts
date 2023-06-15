@@ -1,9 +1,9 @@
 import { WAMessage } from "@adiwajshing/baileys";
+import ytdl from "ytdl-core";
+import fs from "fs";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import ytdl from "ytdl-core";
-import fs from "fs";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
 export const yta = () => {
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return;
     }
     const infoYt = await ytdl.getInfo(urlYt);
-    //30 MIN
+    // 30 MIN
     if (Number(infoYt.videoDetails.lengthSeconds) >= 1800) {
       await reply(`❌ Video too big!`);
       return;
@@ -47,13 +47,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
     const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-    console.log("Audio downloaded ! Size: " + fileSizeInMegabytes);
+    console.log(`Audio downloaded ! Size: ${fileSizeInMegabytes}`);
     if (fileSizeInMegabytes <= 40) {
       await bot.sendMessage(
         from,
         {
           document: fs.readFileSync(`./${randomName}`),
-          fileName: titleYt + ".mp3",
+          fileName: `${titleYt}.mp3`,
           mimetype: "audio/mpeg",
         },
         { quoted: msg }

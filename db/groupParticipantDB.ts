@@ -1,7 +1,7 @@
 import { pool } from "./pool";
 
-//create createCountVideoTable table if not there
-//15/03/23
+// create createCountVideoTable table if not there
+// 15/03/23
 const createGroupParticipantTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS groupparticipant(memberjid text , groupjid text, action text, date timestamp);"
@@ -44,7 +44,7 @@ export const setGroupParticipant = async (
     timeZone: "Asia/kolkata",
   });
 
-  const todayNew = localeDate + " " + localeTime;
+  const todayNew = `${localeDate} ${localeTime}`;
   console.log(todayNew);
 
   try {

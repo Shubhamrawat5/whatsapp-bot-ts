@@ -7,7 +7,7 @@ import { LoggerBot } from "./loggerBot";
 export const memberAddCheck = async (
   bot: Bot,
   from: string,
-  num_split: string,
+  numSplit: string,
   numJid: string,
   groupSubject: string,
   pvxgroups: Pvxgroups,
@@ -24,36 +24,35 @@ export const memberAddCheck = async (
   } = pvxgroups;
   try {
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
-      //if number is blacklisted
-      const getBlacklistRes = await getBlacklist(num_split);
+      // if number is blacklisted
+      const getBlacklistRes = await getBlacklist(numSplit);
       if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${getBlacklistRes[0].reason}`,
         });
-        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
+        await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
+          text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
         });
         return;
       }
 
-      if (!num_split.startsWith("91")) {
+      if (!numSplit.startsWith("91")) {
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
         });
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `${num_split} is removed from ${groupSubject}. Not 91!`,
+        await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
+          text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
         });
-        return;
       }
-      //for study group
+      // for study group
       // if (from === pvxstudy) {
       //   await bot.sendMessage(
       //     from,
       //     {
-      //       text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
+      //       text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
       //       mentions: [numJid],
       //     },
       //     {
@@ -75,7 +74,7 @@ export const memberAddCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) No offensive/disrespectful/religious content allowed.\n2) Spamming or Posting personal pictures is strictly prohibited.`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n1) No offensive/disrespectful/religious content allowed.\n2) Spamming or Posting personal pictures is strictly prohibited.`,
             mentions: [numJid],
           },
           {
@@ -93,12 +92,12 @@ export const memberAddCheck = async (
           }
         );
       }
-      //for movies group
+      // for movies group
       else if (from === pvxmovies) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are you currently watching..?`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nWhat are you currently watching..?`,
             mentions: [numJid],
           },
           {
@@ -116,12 +115,12 @@ export const memberAddCheck = async (
           }
         );
       }
-      //for community group
+      // for community group
       else if (from === pvxcommunity) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
             mentions: [numJid],
           },
           {
@@ -139,12 +138,12 @@ export const memberAddCheck = async (
           }
         );
       }
-      //for mano
+      // for mano
       else if (from === pvxmano) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
+            text: `Welcome @${numSplit}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
             mentions: [numJid],
           },
           {
@@ -162,12 +161,12 @@ export const memberAddCheck = async (
           }
         );
       }
-      //for programmer group
+      // for programmer group
       else if (from === pvxprogrammer) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
             mentions: [numJid],
           },
           {
@@ -185,12 +184,12 @@ export const memberAddCheck = async (
           }
         );
       }
-      //for sticker group
+      // for sticker group
       else if (from === pvxsticker) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
             mentions: [numJid],
           },
           {

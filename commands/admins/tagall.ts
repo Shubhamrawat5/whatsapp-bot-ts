@@ -12,19 +12,19 @@ export const tagall = () => {
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupMembers, prefix, command, from } = msgInfoObj;
   if (!groupMembers) return;
-  //if (
+  // if (
   //  groupName.toUpperCase().includes("PVX") &&
   //  ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
-  //) {
+  // ) {
   //  await reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
   //  return;
-  //}
+  // }
 
   const jids = [];
-  let message = "ALL: " + (await getMessage(msg, prefix, command)) + "\n\n";
+  let message = `ALL: ${await getMessage(msg, prefix, command)}\n\n`;
 
   for (const member of groupMembers) {
-    if (command === "tagall") message += "@" + member.id.split("@")[0] + " ";
+    if (command === "tagall") message += `@${member.id.split("@")[0]} `;
     jids.push(member.id);
   }
 

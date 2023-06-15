@@ -14,9 +14,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const chats = await bot.groupFetchAllParticipating();
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-    .map((v) => {
-      return { name: v.subject, id: v.id };
-    });
+    .map((v) => ({ name: v.subject, id: v.id }));
 
   let countSuccess = 0;
   let countFail = 0;

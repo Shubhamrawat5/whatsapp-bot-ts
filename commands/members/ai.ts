@@ -1,15 +1,17 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
+import "dotenv/config";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
-import "dotenv/config";
 
 let api: any;
 let isApiSetup = false;
 
 export const ai = () => {
-  return { cmd: ["ai"], handler: handler };
+  const cmd = ["ai"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -43,7 +45,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (res.text.length > 400) {
       res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
     }
-    await reply("AI: " + res.text);
+    await reply(`AI: ${res.text}`);
   } catch (err) {
     console.log(err);
     await reply((err as Error).toString());

@@ -5,7 +5,9 @@ import { Bot } from "../../interface/Bot";
 const gis = require("g-i-s");
 
 export const imagesearch = () => {
-  return { cmd: ["imagesearch", "is"], handler: handler };
+  const cmd = ["imagesearch", "is"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -36,7 +38,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         } else if (results.length > 10) {
           index = Math.floor(Math.random() * 10);
         }
-        const img = results[index]["url"];
+        const img = results[index].url;
         console.log(img);
 
         await bot.sendMessage(

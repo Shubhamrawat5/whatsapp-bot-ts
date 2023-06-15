@@ -17,16 +17,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
     const setGroupLinkEnabledRes = await setGroupLinkEnabled(enabled);
 
-    if (setGroupLinkEnabledRes)
+    if (setGroupLinkEnabledRes) {
       await reply(`✔ Group link enabled updated with value: ${enabled}`);
-    else
+    } else {
       await reply(
         `❌ There is some problem!\nGive only integer value with ${prefix}setlink #0`
       );
+    }
     return;
   }
 
-  const link = "https://chat.whatsapp.com/" + (await bot.groupInviteCode(from));
+  const link = `https://chat.whatsapp.com/${await bot.groupInviteCode(from)}`;
   console.log(from, link);
 
   if (!from.endsWith("@g.us")) {

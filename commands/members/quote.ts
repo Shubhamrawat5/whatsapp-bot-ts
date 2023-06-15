@@ -7,7 +7,7 @@ const getQuote = async () => {
   try {
     const url = "https://zenquotes.io/api/random";
     const { data } = await axios.get(url);
-    const quote = "💬 " + data[0].q;
+    const quote = `💬 ${data[0].q}`;
     // console.log(quote);
     return quote;
   } catch (err) {
@@ -18,7 +18,9 @@ const getQuote = async () => {
 };
 
 export const quote = () => {
-  return { cmd: ["quote"], handler: handler };
+  const cmd = ["quote"];
+
+  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

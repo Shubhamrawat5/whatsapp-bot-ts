@@ -23,20 +23,20 @@ export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
     });
 
     const randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
-    const num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
+    const numSplit = `${randomMemId.split("@s.whatsapp.net")[0]}`;
 
     console.log(`Removing ${randomMemId} from Mano.`);
     await bot.sendMessage(pvxmano, {
-      text: `Removing  @${num_split}\nReason: 0 videos count! `,
+      text: `Removing  @${numSplit}\nReason: 0 videos count! `,
       mentions: [randomMemId],
     });
     await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
 
     // randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
-    // num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
+    // numSplit = `${randomMemId.split("@s.whatsapp.net")[0]}`;
     // console.log(`Removing ${randomMemId} from Mano.`);
     // await bot.sendMessage(pvxmano, {
-    //   text: `Removing  @${num_split}\nReason: 0 videos count! `,
+    //   text: `Removing  @${numSplit}\nReason: 0 videos count! `,
     //   mentions: [randomMemId],
     // });
     // await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");

@@ -44,7 +44,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const voteListCount = new Array(voteChoices.length).fill(0); //[0,0,0]
+  const voteListCount = new Array(voteChoices.length).fill(0); // [0,0,0]
   const voteListMember = [];
   for (let i = 0; i < voteChoices.length; ++i) voteListMember.push([]);
 
@@ -70,6 +70,5 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(voteMsg);
   } else {
     await reply(`❌ There is some problem`);
-    return;
   }
 };
