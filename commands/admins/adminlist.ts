@@ -28,13 +28,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // get all jids of admin
   const memberjidAllArray: string[] = [];
-  for (const group of groups) {
+  groups.forEach((group) => {
     group.participants.forEach(async (mem: GroupParticipant) => {
       if (mem.admin && !memberjidAllArray.includes(mem.id)) {
         memberjidAllArray.push(mem.id);
       }
     });
-  }
+  });
 
   // get all jids name from DB
   const getUsernamesRes = await getUsernames(memberjidAllArray);
@@ -66,7 +66,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let notInSubPanelMsg = "\n\n[NOT IN SUB ADMIN PANEL]";
 
   let tempMsg = "";
-  for (const group of groups) {
+  groups.forEach((group) => {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
     tempMsg += `\n\n*[${grpName}]*`;
@@ -91,7 +91,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         count += 1;
       }
     });
-  }
+  });
 
   if (Object.keys(notInSubPanel).length) {
     pvxMsg += notInSubPanelMsg;

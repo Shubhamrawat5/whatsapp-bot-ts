@@ -23,7 +23,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   ) {
     // await reply("❌ Tag message of bot to delete.");
 
-    // Message with tagged user, links has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
+    // Message with tagged user, links has (.quotedMessage.extendedTextMessage.text)
+    // non tagged has (.quotedMessage.conversation)
     const { quotedMessage } = msg.message.extendedTextMessage.contextInfo;
     if (
       quotedMessage?.extendedTextMessage?.text?.includes("Birthday") ||

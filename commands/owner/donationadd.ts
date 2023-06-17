@@ -17,7 +17,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  if (args.length == 0) {
+  if (args.length === 0) {
     await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
     return;
   }
@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // let donaList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
   const donaList = body.trim().split("#");
   // [!adddonation, name, number, amount] = 4
-  if (donaList.length != 4) {
+  if (donaList.length !== 4) {
     await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
     return;
   }

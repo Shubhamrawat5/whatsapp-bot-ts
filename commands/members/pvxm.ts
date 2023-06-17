@@ -16,18 +16,18 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const getCountGroupMembersRes = await getCountGroupMembers(from);
 
   const memWithMsg = new Set();
-  for (const member of getCountGroupMembersRes) {
+  getCountGroupMembersRes.forEach((member) => {
     memWithMsg.add(member.memberjid);
-  }
+  });
 
   let countGroupMsgIndi = `*${groupName}*\n_From 24 Nov 2021_${readMore}\n`;
 
   let countGroupMsgTempIndi = "\n";
   let totalGrpCountIndi = 0;
-  for (const member of getCountGroupMembersRes) {
+  getCountGroupMembersRes.forEach((member) => {
     totalGrpCountIndi += member.count;
     countGroupMsgTempIndi += `\n${member.count} - ${member.name}`;
-  }
+  });
 
   groupMembers?.forEach((mem) => {
     if (!memWithMsg.has(mem.id)) {

@@ -18,13 +18,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let lastGroupName = getCountTop10Res.length ? getCountTop10Res[0].gname : "";
   let countGroupMsgTempTop10 = `\n\n📛 ${lastGroupName}`;
-  for (const member of getCountTop10Res) {
-    if (member.gname != lastGroupName) {
+  getCountTop10Res.forEach((member) => {
+    if (member.gname !== lastGroupName) {
       lastGroupName = member.gname;
       countGroupMsgTempTop10 += `\n\n📛 *${lastGroupName}*`;
     }
     countGroupMsgTempTop10 += `\n${member.count} - ${member.name}`;
-  }
+  });
+
   countGroupMsgTop10 += countGroupMsgTempTop10;
 
   await reply(countGroupMsgTop10);

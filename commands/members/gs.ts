@@ -18,8 +18,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const message = await getMessage(msg, prefix, command);
 
     if (!message) {
-      const message = `❌ Query is not given! \nSend ${prefix}google query`;
-      await reply(message);
+      await reply(`❌ Query is not given! \nSend ${prefix}google query`);
       return;
     }
 

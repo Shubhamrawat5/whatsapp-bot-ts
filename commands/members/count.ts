@@ -39,12 +39,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let countGroupMsg = `*📛 ${username} PVX STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;
-  for (const group of getCountIndividualAllGroupRes) {
+  getCountIndividualAllGroupRes.forEach((group) => {
     let grpName = group.gname;
     grpName = grpName.replace("<{PVX}> ", "");
     totalGrpCount += Number(group.count);
     countGroupMsgTemp += `\n${group.count} - ${grpName}`;
-  }
+  });
+
   countGroupMsg += `\n*TotaL Messages: ${totalGrpCount}*`;
   countGroupMsg += countGroupMsgTemp;
 

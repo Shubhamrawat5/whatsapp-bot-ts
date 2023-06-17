@@ -54,7 +54,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
         const stickerFileName = getRandomFileName(".webp");
 
+        // eslint-disable-next-line no-await-in-loop
         await stickerMake.toFile(stickerFileName);
+        // eslint-disable-next-line no-await-in-loop
         await bot.sendMessage(
           from,
           {
@@ -64,7 +66,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         );
         try {
           fs.unlinkSync(stickerFileName);
-        } catch (error) {
+        } catch (err) {
           console.log("Problem with deleting media");
           // reply(error.toString());
         }

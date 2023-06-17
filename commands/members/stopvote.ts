@@ -25,9 +25,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let resultVoteMsg = "";
   if (votingResult.started_by === sender || isGroupAdmins) {
     const stopVotingDataRes = await stopVotingData(from);
-    if (stopVotingDataRes)
+    if (stopVotingDataRes) {
       resultVoteMsg += `*Voting Result:*\n🗣️ ${votingResult.title}`;
-    else {
+    } else {
       await reply(`_❌ There is some problem`);
       return;
     }

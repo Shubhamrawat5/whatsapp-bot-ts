@@ -35,8 +35,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     message += args.length ? args.join(" ") : "";
   }
 
-  console.log(message == "Broadcast:\n");
-  if (message == "Broadcast:\n") {
+  console.log(message === "Broadcast:\n");
+  if (message === "Broadcast:\n") {
     await reply("❌ ERROR: EMPTY MESSAGE!");
     return;
   }

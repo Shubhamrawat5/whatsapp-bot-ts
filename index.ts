@@ -75,6 +75,7 @@ let dateCheckerInterval: NodeJS.Timeout;
 
 let milestones = {};
 
+// TODO: SEPERATE FILE FOR WEB SERVER
 const app: Express = express();
 
 app.use(express.urlencoded({ extended: true }));

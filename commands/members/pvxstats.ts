@@ -28,18 +28,19 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let totalMem = 0;
   const uniqueMem = new Set();
   let temppvxMsg = "";
-  let temppvxList = [];
-  for (const group of groups) {
+  let temppvxList: { subject: string; count: number }[] = [];
+  groups.forEach((group) => {
     totalMem += group.participants.length;
     temppvxList.push({
       subject: group.subject,
       count: group.participants.length,
     });
 
-    for (const participant of group.participants) {
+    group.participants.forEach((participant) => {
       uniqueMem.add(participant.id);
-    }
-  }
+    });
+  });
+
   temppvxList = temppvxList.sort((x, y) => y.count - x.count); // sort
 
   temppvxList.forEach((grp) => {

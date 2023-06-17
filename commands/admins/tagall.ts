@@ -20,13 +20,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   //  return;
   // }
 
-  const jids = [];
+  const jids: string[] = [];
   let message = `ALL: ${await getMessage(msg, prefix, command)}\n\n`;
 
-  for (const member of groupMembers) {
+  groupMembers.forEach((member) => {
     if (command === "tagall") message += `@${member.id.split("@")[0]} `;
     jids.push(member.id);
-  }
+  });
 
   await bot.sendMessage(
     from,

@@ -18,14 +18,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;
-  for (const group of getCountGroupsRes) {
-    let grpName = group.gname;
-    if (!grpName || !grpName.toUpperCase().includes("<{PVX}>")) continue; // not a pvx group
-    // grpName = grpName.split(" ")[1];
-    grpName = grpName.replace("<{PVX}> ", "");
-    totalGrpCount += Number(group.count);
-    countGroupMsgTemp += `\n${group.count} - ${grpName}`;
-  }
+  getCountGroupsRes.forEach((group) => {
+    let grpName = group.gname || "None";
+    if (grpName.toUpperCase().includes("<{PVX}>")) {
+      // grpName = grpName.split(" ")[1];
+      grpName = grpName.replace("<{PVX}> ", "");
+      totalGrpCount += Number(group.count);
+      countGroupMsgTemp += `\n${group.count} - ${grpName}`;
+    }
+  });
+
   countGroupMsg += `\n*Total Messages: ${totalGrpCount}*`;
   countGroupMsg += countGroupMsgTemp;
   await reply(countGroupMsg);

@@ -41,8 +41,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // - Get match ID from cricbuzz today match url.
   // - example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021
   // - so match ID is 37572 !
-  // # If you've put correct match ID in description starting and still facing this error then contact developer by !dev`);
-
+  // # If you've put correct match ID in description starting and still facing this error
+  //  then contact developer by !dev`);
   //     return;
   //   }
   await bot.sendMessage(from, { text: response }, { quoted: msg });

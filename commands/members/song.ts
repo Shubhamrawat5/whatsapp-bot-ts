@@ -38,10 +38,7 @@ const downloadSong = async (randomName: string, query: string) => {
     link = encodeURI(link); // to replace unescaped characters from link
 
     let songName = track.tit_art;
-    songName =
-      songName =
-      songName =
-        songName.replace(/\?|<|>|\*|"|:|\||\/|\\/g, ""); // removing special characters which are not allowed in file name
+    songName = songName.replace(/\?|<|>|\*|"|:|\||\/|\\/g, ""); // removing special characters which are not allowed in file name
     // console.log(link);
     // download(songName, link);
     const res = await axios({
@@ -79,7 +76,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const randomName = getRandomFileName(".mp3");
   const query = args.join("%20");
   const response: any = await downloadSong(randomName, query);
-  if (response && response.info == "NF") {
+  if (response && response.info === "NF") {
     await reply(
       `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
     );

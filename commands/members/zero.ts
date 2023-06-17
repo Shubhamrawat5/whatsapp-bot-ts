@@ -16,9 +16,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const getCountGroupMembersRes = await getCountGroupMembers(from);
 
   const memWithMsg = new Set();
-  for (const member of getCountGroupMembersRes) {
+  getCountGroupMembersRes.forEach((member) => {
     memWithMsg.add(member.memberjid);
-  }
+  });
 
   let zeroMsg = `${groupName}\nMembers with 0 message from 24 NOV:${readMore}\n`;
 
