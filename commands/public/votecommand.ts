@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const votecommand = () => {
-  const cmd = ["votecommand", "vc"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply } = msgInfoObj;
   const text = `_*🗣️ VOTING COMMANDS:*_
@@ -27,3 +21,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(text);
 };
+
+const votecommand = () => {
+  const cmd = ["votecommand", "vc"];
+
+  return { cmd, handler };
+};
+
+export default votecommand;

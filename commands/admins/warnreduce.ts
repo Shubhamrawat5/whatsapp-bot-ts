@@ -8,12 +8,6 @@ import {
 } from "../../db/warningDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const warnreduce = () => {
-  const cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;
 
@@ -52,3 +46,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     mentions: [participant],
   });
 };
+
+const warnreduce = () => {
+  const cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
+
+  return { cmd, handler };
+};
+
+export default warnreduce;

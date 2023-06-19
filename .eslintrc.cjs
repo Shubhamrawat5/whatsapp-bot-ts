@@ -22,5 +22,7 @@ module.exports = {
     "@typescript-eslint/comma-dangle": "off",
     "no-console": "off",
     "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
   },
 };

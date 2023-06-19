@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMessage } from "../../functions/getMessage";
 
-export const tagall = () => {
-  const cmd = ["tagall", "hiddentagall", "tagallhidden"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupMembers, prefix, command, from } = msgInfoObj;
   if (!groupMembers) return;
@@ -34,3 +28,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     { quoted: msg }
   );
 };
+
+const tagall = () => {
+  const cmd = ["tagall", "hiddentagall", "tagallhidden"];
+
+  return { cmd, handler };
+};
+
+export default tagall;

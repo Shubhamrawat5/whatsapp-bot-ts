@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountWarningAllGroup } from "../../db/warningDB";
 
-export const warnlistall = () => {
-  const cmd = ["warnlistall", "warninglistall"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -23,3 +17,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(warnMsg);
 };
+
+const warnlistall = () => {
+  const cmd = ["warnlistall", "warninglistall"];
+
+  return { cmd, handler };
+};
+
+export default warnlistall;

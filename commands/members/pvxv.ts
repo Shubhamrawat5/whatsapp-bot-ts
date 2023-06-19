@@ -4,12 +4,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountVideo } from "../../db/countVideoDB";
 
-export const pvxv = () => {
-  const cmd = ["pvxv"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupMembers, reply, from } = msgInfoObj;
 
@@ -47,3 +41,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(countGroupMsgIndi);
 };
+
+const pvxv = () => {
+  const cmd = ["pvxv"];
+
+  return { cmd, handler };
+};
+
+export default pvxv;

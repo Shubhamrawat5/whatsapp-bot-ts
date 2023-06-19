@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getVotingData, setVotingData } from "../../db/VotingDB";
 
-export const startvote = () => {
-  const cmd = ["startvote"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, sender, args, from } = msgInfoObj;
   if (args.length === 0) {
@@ -72,3 +66,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ There is some problem`);
   }
 };
+
+const startvote = () => {
+  const cmd = ["startvote"];
+
+  return { cmd, handler };
+};
+
+export default startvote;

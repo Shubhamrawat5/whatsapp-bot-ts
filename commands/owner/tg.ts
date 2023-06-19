@@ -11,12 +11,6 @@ import { Bot } from "../../interface/Bot";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const tg = () => {
-  const cmd = ["tg"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;
 
@@ -79,3 +73,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   }, 0);
 };
+
+const tg = () => {
+  const cmd = ["tg"];
+
+  return { cmd, handler };
+};
+
+export default tg;

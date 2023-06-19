@@ -6,12 +6,6 @@ import {
   setDisableCommand,
 } from "../../db/disableCommandDB";
 
-export const disable = () => {
-  const cmd = ["disable"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, allCommandsName, prefix, from } = msgInfoObj;
 
@@ -44,3 +38,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (setDisableCommandRes) await reply(`✔️ ${prefix}${cmd} command disabled!`);
   else await reply(`❌ There is some problem!`);
 };
+
+const disable = () => {
+  const cmd = ["disable"];
+
+  return { cmd, handler };
+};
+
+export default disable;

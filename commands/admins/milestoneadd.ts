@@ -7,12 +7,6 @@ import {
   setMilestone,
 } from "../../db/milestoneDB";
 
-export const milestoneadd = () => {
-  const cmd = ["milestoneadd", "addmilestone", "ma", "am"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
@@ -94,3 +88,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //   if (res) await reply(`✔ Milestone text added!`);
 //   else await reply(`❌ There is some problem!`);
 // };
+
+const milestoneadd = () => {
+  const cmd = ["milestoneadd", "addmilestone", "ma", "am"];
+
+  return { cmd, handler };
+};
+
+export default milestoneadd;

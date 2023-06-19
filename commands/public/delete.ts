@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const deletee = () => {
-  const cmd = ["delete", "d"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
     msgInfoObj;
@@ -19,7 +13,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // bot message, anyone can delete
   if (
-    msg.message.extendedTextMessage.contextInfo?.participant == botNumberJid
+    msg.message.extendedTextMessage.contextInfo?.participant === botNumberJid
   ) {
     // await reply("❌ Tag message of bot to delete.");
 
@@ -66,3 +60,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply("❌ Only admin can delete member's message.");
   }
 };
+
+const deletee = () => {
+  const cmd = ["delete", "d"];
+
+  return { cmd, handler };
+};
+
+export default deletee;

@@ -5,12 +5,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getDonation } from "../../db/donationDB";
 
-export const donation = () => {
-  const cmd = ["donation", "donations", "donate"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { from } = msgInfoObj;
   // const more = String.fromCharCode(8206);
@@ -38,3 +32,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     { quoted: msg }
   );
 };
+
+const donation = () => {
+  const cmd = ["donation", "donations", "donate"];
+
+  return { cmd, handler };
+};
+
+export default donation;

@@ -29,12 +29,6 @@ import { Bot } from "../../interface/Bot";
 // 📛 *${prefix}91only*
 // - _To instant ban all numbers other than 91 when joined in group!_
 
-export const help = () => {
-  const cmd = ["help", "menu", "list"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -179,3 +173,11 @@ send ${prefix}source for sourcecode of BOT
 
   await reply(text);
 };
+
+const help = () => {
+  const cmd = ["help", "menu", "list"];
+
+  return { cmd, handler };
+};
+
+export default help;

@@ -2,9 +2,11 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-// const cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
+// const cricSetIntervalGroups = {};
+// to store every group name with its setInterval value so that it can be stopped
 // const matchIdGroups = {}; //to store every group name with its match ID
-// const cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
+// const cricStartedGroups = {};
+// to store every group name with boolean value to know if cricket score is already started or not
 
 // return false when stopped in middle. return true when run fully
 // const startcHelper = async (isFromSetInterval = false) => {
@@ -55,12 +57,6 @@ import { Bot } from "../../interface/Bot";
 //   return true;
 // };
 
-export const startc = () => {
-  const cmd = ["startc", "stopc"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -97,3 +93,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   //   clearInterval(e);
   // });
 };
+
+const startc = () => {
+  const cmd = ["startc", "stopc"];
+
+  return { cmd, handler };
+};
+
+export default startc;

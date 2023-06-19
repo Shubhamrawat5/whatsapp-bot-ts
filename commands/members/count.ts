@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 import { getCountIndividualAllGroup } from "../../db/countMemberDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const count = () => {
-  const cmd = ["count", "total"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { args, from } = msgInfoObj;
   let { sender } = msgInfoObj;
@@ -57,3 +51,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     { quoted: msg }
   );
 };
+
+const count = () => {
+  const cmd = ["count", "total"];
+
+  return { cmd, handler };
+};
+
+export default count;

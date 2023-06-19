@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getBlacklist } from "../../db/blacklistDB";
 
-export const blacklist = () => {
-  const cmd = ["blacklist"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -26,3 +20,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(blacklistMsg);
 };
+
+const blacklist = () => {
+  const cmd = ["blacklist"];
+
+  return { cmd, handler };
+};
+
+export default blacklist;

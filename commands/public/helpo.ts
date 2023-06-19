@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const helpo = () => {
-  const cmd = ["helpo"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -64,3 +58,11 @@ send ${prefix}source for sourcecode of BOT
 
   await reply(text);
 };
+
+const helpo = () => {
+  const cmd = ["helpo"];
+
+  return { cmd, handler };
+};
+
+export default helpo;

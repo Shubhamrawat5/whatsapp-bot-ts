@@ -6,7 +6,7 @@ import { Bot } from "../../interface/Bot";
 const getHoro = async (name: string): Promise<string> => {
   try {
     // let url = `https://aztro.sameerkumar.website/?sign=${name}&day=today`;
-    const url = `	https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
+    const url = `https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
 
     const { data } = await axios.post(url, null, {
       params: {
@@ -37,12 +37,6 @@ const getHoro = async (name: string): Promise<string> => {
     console.log(err);
     return (err as Error).toString();
   }
-};
-
-export const horo = () => {
-  const cmd = ["horo", "horoscope"];
-
-  return { cmd, handler };
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -81,9 +75,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await reply(text);
 };
 
-// const test = async () => {
-//   let text = await getHoro("aries");
-//   console.log(text);
-// };
+const horo = () => {
+  const cmd = ["horo", "horoscope"];
 
-// test();
+  return { cmd, handler };
+};
+
+export default horo;

@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 import { getCountWarning } from "../../db/warningDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const warncheck = () => {
-  const cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { sender, from } = msgInfoObj;
 
@@ -31,3 +25,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     mentions: [participant],
   });
 };
+
+const warncheck = () => {
+  const cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];
+
+  return { cmd, handler };
+};
+
+export default warncheck;

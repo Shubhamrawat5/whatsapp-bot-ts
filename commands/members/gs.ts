@@ -5,12 +5,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getMessage } from "../../functions/getMessage";
 
-export const gs = () => {
-  const cmd = ["google", "search", "gs"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, command } = msgInfoObj;
 
@@ -40,3 +34,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply((err as Error).toString());
   }
 };
+
+const gs = () => {
+  const cmd = ["google", "search", "gs"];
+
+  return { cmd, handler };
+};
+
+export default gs;

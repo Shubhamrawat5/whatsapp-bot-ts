@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const remove = () => {
-  const cmd = ["remove", "ban", "kick"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
@@ -42,3 +36,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply("_❌ There is some problem!_");
   }
 };
+
+const remove = () => {
+  const cmd = ["remove", "ban", "kick"];
+
+  return { cmd, handler };
+};
+
+export default remove;

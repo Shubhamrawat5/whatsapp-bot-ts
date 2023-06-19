@@ -6,12 +6,6 @@ import {
   setDisableCommand,
 } from "../../db/disableCommandDB";
 
-export const enable = () => {
-  const cmd = ["enable"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, allCommandsName, prefix, from } = msgInfoObj;
 
@@ -38,10 +32,18 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const resNew = disabledCmdArray.filter((c) => cmd != c);
+  const resNew = disabledCmdArray.filter((c) => cmd !== c);
 
   const setDisableCommandRes = await setDisableCommand(from, resNew);
 
   if (setDisableCommandRes) await reply(`✔️ ${prefix}${cmd} command enabled!`);
   else await reply(`❌ There is some problem!`);
 };
+
+const enable = () => {
+  const cmd = ["enable"];
+
+  return { cmd, handler };
+};
+
+export default enable;

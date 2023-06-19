@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getVotingData, stopVotingData } from "../../db/VotingDB";
 
-export const stopvote = () => {
-  const cmd = ["stopvote"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, isGroupAdmins, sender, from } = msgInfoObj;
   const getVotingDataRes = await getVotingData(from);
@@ -55,3 +49,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
   await reply(resultVoteMsg);
 };
+
+const stopvote = () => {
+  const cmd = ["stopvote"];
+
+  return { cmd, handler };
+};
+
+export default stopvote;

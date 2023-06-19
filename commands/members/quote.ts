@@ -17,15 +17,17 @@ const getQuote = async () => {
   }
 };
 
-export const quote = () => {
-  const cmd = ["quote"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const text = await getQuote();
 
   await reply(text);
 };
+
+const quote = () => {
+  const cmd = ["quote"];
+
+  return { cmd, handler };
+};
+
+export default quote;

@@ -6,12 +6,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const ytv = () => {
-  const cmd = ["ytv", "yt"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, from } = msgInfoObj;
 
@@ -32,11 +26,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return;
     }
     const titleYt = infoYt.videoDetails.title;
-    const randomName = getRandomFileName(".mp4");
+    const randomFileName = getRandomFileName(".mp4");
 
     const stream = ytdl(urlYt, {
-      filter: (info) => info.itag == 22 || info.itag == 18,
-    }).pipe(fs.createWriteStream(`./${randomName}`));
+      filter: (info) => info.itag === 22 || info.itag === 18,
+    }).pipe(fs.createWriteStream(`./${randomFileName}`));
     // 22 - 1080p/720p and 18 - 360p
     console.log("Video downloading ->", urlYt);
     // await reply("Downloading.. This may take upto 5 min!");
@@ -45,7 +39,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       stream.on("finish", resolve);
     });
 
-    const stats = fs.statSync(`./${randomName}`);
+    const stats = fs.statSync(`./${randomFileName}`);
     const fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
     const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
@@ -54,7 +48,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       await bot.sendMessage(
         from,
         {
-          video: fs.readFileSync(`./${randomName}`),
+          video: fs.readFileSync(`./${randomFileName}`),
           caption: `${titleYt}`,
         },
         { quoted: msg }
@@ -63,9 +57,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       await reply(`❌ File size bigger than 40mb.`);
     }
 
-    fs.unlinkSync(`./${randomName}`);
+    fs.unlinkSync(`./${randomFileName}`);
   } catch (err) {
     console.log(err);
     await reply((err as Error).toString());
   }
 };
+
+const ytv = () => {
+  const cmd = ["ytv", "yt"];
+
+  return { cmd, handler };
+};
+
+export default ytv;

@@ -10,12 +10,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const image = () => {
-  const cmd = ["image", "img", "toimg"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;
 
@@ -58,3 +52,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     // reply(error.toString());
   }
 };
+
+const image = () => {
+  const cmd = ["image", "img", "toimg"];
+
+  return { cmd, handler };
+};
+
+export default image;

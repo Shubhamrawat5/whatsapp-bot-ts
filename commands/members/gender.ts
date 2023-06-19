@@ -15,12 +15,6 @@ const getGender = async (name: string) => {
   }
 };
 
-export const gender = () => {
-  const cmd = ["gender"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args } = msgInfoObj;
 
@@ -38,3 +32,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const text = await getGender(namePerson);
   await reply(text);
 };
+
+const gender = () => {
+  const cmd = ["gender"];
+
+  return { cmd, handler };
+};
+
+export default gender;

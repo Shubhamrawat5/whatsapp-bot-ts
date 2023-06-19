@@ -6,7 +6,7 @@ import { Bot } from "../../interface/Bot";
 
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-const downloadSong = async (randomName: string, query: string) => {
+const downloadSong = async (randomFileName: string, query: string) => {
   try {
     const INFO_URL = "https://slider.kz/vk_auth.php?q=";
     // const DOWNLOAD_URL = "https://slider.kz/download/";
@@ -47,7 +47,7 @@ const downloadSong = async (randomName: string, query: string) => {
       responseType: "stream",
     });
     data = res.data;
-    const path = `./${randomName}`;
+    const path = `./${randomFileName}`;
     const writer = fs.createWriteStream(path);
     data.pipe(writer);
     return await new Promise((resolve, reject) => {
@@ -60,12 +60,6 @@ const downloadSong = async (randomName: string, query: string) => {
   }
 };
 
-export const song = () => {
-  const cmd = ["song"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, from } = msgInfoObj;
 
@@ -73,9 +67,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
-  const randomName = getRandomFileName(".mp3");
+  const randomFileName = getRandomFileName(".mp3");
   const query = args.join("%20");
-  const response: any = await downloadSong(randomName, query);
+  const response: any = await downloadSong(randomFileName, query);
   if (response && response.info === "NF") {
     await reply(
       `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
@@ -86,16 +80,24 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(response.err);
     return;
   }
-  console.log(`song saved-> ./${randomName}`, response);
+  console.log(`song saved-> ./${randomFileName}`, response);
 
   await bot.sendMessage(
     from,
     {
-      document: fs.readFileSync(`./${randomName}`),
+      document: fs.readFileSync(`./${randomFileName}`),
       fileName: `${response}.mp3`,
       mimetype: "audio/mpeg",
     },
     { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
   );
-  fs.unlinkSync(`./${randomName}`);
+  fs.unlinkSync(`./${randomFileName}`);
 };
+
+const song = () => {
+  const cmd = ["song"];
+
+  return { cmd, handler };
+};
+
+export default song;

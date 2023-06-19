@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setGroupName } from "../../db/groupNameDB";
 
-export const gname = () => {
-  const cmd = ["gname"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const chats = await bot.groupFetchAllParticipating();
@@ -33,3 +27,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     `✔ Group name data inserted!\nSuccess: ${countSuccess}\nFail: ${countFail}`
   );
 };
+
+const gname = () => {
+  const cmd = ["gname"];
+
+  return { cmd, handler };
+};
+
+export default gname;

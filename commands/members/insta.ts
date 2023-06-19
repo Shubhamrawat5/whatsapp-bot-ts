@@ -9,12 +9,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 
 import { Bot } from "../../interface/Bot";
 
-export const insta = () => {
-  const cmd = ["insta", "i", "ig"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
@@ -23,6 +17,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   let urlInsta = args[0];
+  // eslint-disable-next-line prefer-destructuring
   if (urlInsta.includes("?")) urlInsta = urlInsta.split("/?")[0];
   console.log(urlInsta);
 
@@ -52,6 +47,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
   }
 };
+
+const insta = () => {
+  const cmd = ["insta", "i", "ig"];
+
+  return { cmd, handler };
+};
+
+export default insta;
 
 // const handler = async (bot, msg, msgInfoObj) => {
 //   let { prefix, args, reply } = msgInfoObj;

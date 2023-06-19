@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 import { clearCountWarning } from "../../db/warningDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const warnclear = () => {
-  const cmd = ["warnclear", "clearwarn", "warningclear", "clearwarning"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;
 
@@ -33,3 +27,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ There is some problem!`);
   }
 };
+
+const warnclear = () => {
+  const cmd = ["warnclear", "clearwarn", "warningclear", "clearwarning"];
+
+  return { cmd, handler };
+};
+
+export default warnclear;

@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const feedback = () => {
-  const cmd = ["feedback"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -15,3 +9,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(text);
 };
+
+const feedback = () => {
+  const cmd = ["feedback"];
+
+  return { cmd, handler };
+};
+
+export default feedback;

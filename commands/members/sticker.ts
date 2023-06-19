@@ -7,6 +7,7 @@ import {
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ffmpeg from "fluent-ffmpeg";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
@@ -14,19 +15,13 @@ import { getRandomFileName } from "../../functions/getRandomFileName";
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
-export const sticker = () => {
-  const cmd = ["sticker", "s"];
-
-  return { cmd, handler };
-};
-
 const getQuality = (isCrop: boolean, args1: string, args2: string) => {
   let quality;
-  if (!isCrop && args1 && !isNaN(Number(args1))) {
+  if (!isCrop && args1 && !Number.isNaN(Number(args1))) {
     // 1st arg check
     quality = Number(args1);
   }
-  if (isCrop && args2 && !isNaN(Number(args2))) {
+  if (isCrop && args2 && !Number.isNaN(Number(args2))) {
     // 2nd arg check
     quality = Number(args2);
   }
@@ -125,3 +120,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply((err as Error).toString());
   }
 };
+
+const sticker = () => {
+  const cmd = ["sticker", "s"];
+
+  return { cmd, handler };
+};
+
+export default sticker;

@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMilestoneText } from "../../db/milestoneDB";
 
-export const milestone = () => {
-  const cmd = ["milestone", "milestones"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply } = msgInfoObj;
 
@@ -40,3 +34,11 @@ Send ${prefix}rank to know your rank with milestones.${readMore}
 
   await reply(message);
 };
+
+const milestone = () => {
+  const cmd = ["milestone", "milestones"];
+
+  return { cmd, handler };
+};
+
+export default milestone;

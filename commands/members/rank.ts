@@ -5,12 +5,6 @@ import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
 import { getMilestone } from "../../db/milestoneDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const rank = () => {
-  const cmd = ["rank"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, milestones, from } = msgInfoObj;
   let { sender } = msgInfoObj;
@@ -85,3 +79,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     { quoted: msg }
   );
 };
+
+const rank = () => {
+  const cmd = ["rank"];
+
+  return { cmd, handler };
+};
+
+export default rank;

@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMilestone, setMilestone } from "../../db/milestoneDB";
 
-export const milestoneremove = () => {
-  const cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
@@ -79,3 +73,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //   if (res) await reply(`✔ Milestone text added!`);
 //   else await reply(`❌ There is some problem!`);
 // };
+
+const milestoneremove = () => {
+  const cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
+
+  return { cmd, handler };
+};
+
+export default milestoneremove;

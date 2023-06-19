@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountGroupMembers } from "../../db/countMemberDB";
 
-export const zero = () => {
-  const cmd = ["zero"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupName, groupMembers, reply, from } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -30,3 +24,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(zeroMsg);
 };
+
+const zero = () => {
+  const cmd = ["zero"];
+
+  return { cmd, handler };
+};
+
+export default zero;

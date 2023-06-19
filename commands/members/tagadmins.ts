@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMessage } from "../../functions/getMessage";
 
-export const tagadmins = () => {
-  const cmd = ["tagadmin", "tagadmins", "ta"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupAdmins, prefix, command, from } = msgInfoObj;
   const jids: string[] = [];
@@ -25,3 +19,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     { quoted: msg }
   );
 };
+
+const tagadmins = () => {
+  const cmd = ["tagadmin", "tagadmins", "ta"];
+
+  return { cmd, handler };
+};
+
+export default tagadmins;

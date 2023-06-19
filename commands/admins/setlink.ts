@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setGroupLink, setGroupLinkEnabled } from "../../db/grouplinksDB";
 
-export const setlink = () => {
-  const cmd = ["setlink", "sl"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, from } = msgInfoObj;
 
@@ -44,3 +38,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (setGroupLinkRes) await reply(`✔ Group link updated in DB!`);
   else await reply(`❌ There is some problem!`);
 };
+
+const setlink = () => {
+  const cmd = ["setlink", "sl"];
+
+  return { cmd, handler };
+};
+
+export default setlink;

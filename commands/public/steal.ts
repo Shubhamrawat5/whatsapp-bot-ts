@@ -7,12 +7,6 @@ import { Exif } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const steal = () => {
-  const cmd = ["steal"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
 
@@ -53,3 +47,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   );
 };
+
+const steal = () => {
+  const cmd = ["steal"];
+
+  return { cmd, handler };
+};
+
+export default steal;

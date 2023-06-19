@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const add = () => {
-  const cmd = ["add"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { isBotGroupAdmins, reply, args, from } = msgInfoObj;
 
@@ -33,12 +27,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   }
 
-  let response:
-    | {
-        status: string;
-        jid: string;
-      }[]
-    | undefined;
+  interface Response {
+    status: string;
+    jid: string;
+  }
+  let response: Response[] | undefined;
 
   try {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
@@ -72,3 +65,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply("_✔ Number added to group!_");
   }
 };
+
+const add = () => {
+  const cmd = ["add"];
+
+  return { cmd, handler };
+};
+
+export default add;

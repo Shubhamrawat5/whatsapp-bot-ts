@@ -5,12 +5,6 @@ import { Bot } from "../../interface/Bot";
 import { pvxgroups } from "../../constants/constants";
 import { getUsernames } from "../../db/countMemberDB";
 
-export const adminlist = () => {
-  const cmd = ["adminlist"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -39,7 +33,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // get all jids name from DB
   const getUsernamesRes = await getUsernames(memberjidAllArray);
 
-  if (getUsernamesRes.length != memberjidAllArray.length) {
+  if (getUsernamesRes.length !== memberjidAllArray.length) {
     await reply("Some names are not found in DB.");
   }
 
@@ -100,3 +94,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(pvxMsg);
 };
+
+const adminlist = () => {
+  const cmd = ["adminlist"];
+
+  return { cmd, handler };
+};
+
+export default adminlist;

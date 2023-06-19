@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { removeBlacklist } from "../../db/blacklistDB";
 
-export const blacklistremove = () => {
-  const cmd = ["blacklistremove", "removeblacklist", "blr"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, sender } = msgInfoObj;
   let blacklistNumb = args[0];
@@ -36,3 +30,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const removeBlacklistRes = await removeBlacklist(blacklistNumb, sender);
   await reply(removeBlacklistRes);
 };
+
+const blacklistremove = () => {
+  const cmd = ["blacklistremove", "removeblacklist", "blr"];
+
+  return { cmd, handler };
+};
+
+export default blacklistremove;

@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setMilestoneText } from "../../db/milestoneDB";
 
-export const milestoneaddtext = () => {
-  const cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];
-
-  return { cmd, handler };
-};
-
 // TODO: MAKE bot and reply combined, then use reply only
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
@@ -36,7 +30,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //   const number = args[0];
 //   if (number.length !== 12) {
 //     await reply(
-//       `❌ Give correct Indian number with country code\nCommand: !milestoneadd number milestoneText`
+//       `❌ Give correct Indian number with country code
+// Command: !milestoneadd number milestoneText`
 //     );
 //     return;
 //   }
@@ -54,3 +49,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //   if (res) await reply(`✔ Milestone added!`);
 //   else await reply(`❌ There is some problem!`);
 // };
+
+const milestoneaddtext = () => {
+  const cmd = ["milestoneaddtext", "milestonetextadd", "mat", "mta"];
+
+  return { cmd, handler };
+};
+
+export default milestoneaddtext;

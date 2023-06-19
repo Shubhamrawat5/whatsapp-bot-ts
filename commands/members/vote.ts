@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getVotingData, setVotingData } from "../../db/VotingDB";
 
-export const vote = () => {
-  const cmd = ["vote"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, sender, senderName, args, from } = msgInfoObj;
 
@@ -33,7 +27,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const voteNumber = Math.floor(Number(args[0]));
-  if (isNaN(voteNumber)) {
+  if (Number.isNaN(voteNumber)) {
     await reply("❌ Give a number!");
     return;
   }
@@ -66,3 +60,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ There is some problem`);
   }
 };
+
+const vote = () => {
+  const cmd = ["vote"];
+
+  return { cmd, handler };
+};
+
+export default vote;

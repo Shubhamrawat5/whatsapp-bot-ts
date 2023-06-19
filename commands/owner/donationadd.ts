@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { addDonation } from "../../db/donationDB";
 
-export const donationadd = () => {
-  const cmd = ["donationadd", "da"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args } = msgInfoObj;
   const body = msg.message?.conversation;
@@ -43,3 +37,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
   }
 };
+
+const donationadd = () => {
+  const cmd = ["donationadd", "da"];
+
+  return { cmd, handler };
+};
+
+export default donationadd;

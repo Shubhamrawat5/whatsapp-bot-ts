@@ -8,12 +8,6 @@ const importDynamic = new Function("modulePath", "return import(modulePath)");
 let api: any;
 let isApiSetup = false;
 
-export const ai = () => {
-  const cmd = ["ai"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -51,3 +45,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply((err as Error).toString());
   }
 };
+
+const ai = () => {
+  const cmd = ["ai"];
+
+  return { cmd, handler };
+};
+
+export default ai;

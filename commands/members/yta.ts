@@ -6,12 +6,6 @@ import { Bot } from "../../interface/Bot";
 
 import { getRandomFileName } from "../../functions/getRandomFileName";
 
-export const yta = () => {
-  const cmd = ["yta"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, from } = msgInfoObj;
   try {
@@ -31,11 +25,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       return;
     }
     const titleYt = infoYt.videoDetails.title;
-    const randomName = getRandomFileName(".mp3");
+    const randomFileName = getRandomFileName(".mp3");
 
     const stream = ytdl(urlYt, {
-      filter: (info) => info.audioBitrate == 160 || info.audioBitrate == 128,
-    }).pipe(fs.createWriteStream(`./${randomName}`));
+      filter: (info) => info.audioBitrate === 160 || info.audioBitrate === 128,
+    }).pipe(fs.createWriteStream(`./${randomFileName}`));
     console.log("Audio downloading ->", urlYt);
     // await reply("Downloading.. This may take upto 5 min!");
     await new Promise((resolve, reject) => {
@@ -43,7 +37,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       stream.on("finish", resolve);
     });
 
-    const stats = fs.statSync(`./${randomName}`);
+    const stats = fs.statSync(`./${randomFileName}`);
     const fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
     const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
@@ -52,7 +46,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       await bot.sendMessage(
         from,
         {
-          document: fs.readFileSync(`./${randomName}`),
+          document: fs.readFileSync(`./${randomFileName}`),
           fileName: `${titleYt}.mp3`,
           mimetype: "audio/mpeg",
         },
@@ -62,9 +56,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       await reply(`❌ File size bigger than 40mb.`);
     }
 
-    fs.unlinkSync(`./${randomName}`);
+    fs.unlinkSync(`./${randomFileName}`);
   } catch (err) {
     console.log(err);
     await reply((err as Error).toString());
   }
 };
+
+const yta = () => {
+  const cmd = ["yta"];
+
+  return { cmd, handler };
+};
+
+export default yta;

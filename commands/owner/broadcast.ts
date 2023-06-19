@@ -1,15 +1,10 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-
-export const broadcast = () => {
-  const cmd = ["broadcast"];
-
-  return { cmd, handler };
-};
+import { getMessage } from "../../functions/getMessage";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args } = msgInfoObj;
+  const { reply, prefix, command } = msgInfoObj;
   const chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
@@ -19,21 +14,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   //  && v.subject.startsWith("<{PVX}>")
   // console.log(groups);
 
-  let message = "Broadcast:\n";
-  if (msg.message?.extendedTextMessage?.contextInfo?.quotedMessage) {
-    if (
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
-    ) {
-      message +=
-        msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation;
-    } else {
-      message +=
-        msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
-          .extendedTextMessage?.text;
-    }
-  } else {
-    message += args.length ? args.join(" ") : "";
-  }
+  const message = `Broadcast: ${await getMessage(msg, prefix, command)}\n\n`;
 
   console.log(message === "Broadcast:\n");
   if (message === "Broadcast:\n") {
@@ -50,3 +31,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     time += 1000 * 30; // 30 sec
   });
 };
+
+const broadcast = () => {
+  const cmd = ["broadcast"];
+
+  return { cmd, handler };
+};
+
+export default broadcast;

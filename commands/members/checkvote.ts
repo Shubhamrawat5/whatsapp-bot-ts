@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getVotingData } from "../../db/VotingDB";
 
-export const checkvote = () => {
-  const cmd = ["checkvote", "cv"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, from } = msgInfoObj;
   const getVotingDataRes = await getVotingData(from);
@@ -47,3 +41,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
   await reply(resultVoteMsg);
 };
+
+const checkvote = () => {
+  const cmd = ["checkvote", "cv"];
+
+  return { cmd, handler };
+};
+
+export default checkvote;

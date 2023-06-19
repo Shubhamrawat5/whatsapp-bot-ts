@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getGroupLink } from "../../db/grouplinksDB";
 
-export const getlink = () => {
-  const cmd = ["getlink", "gl"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -20,3 +14,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(message);
 };
+
+const getlink = () => {
+  const cmd = ["getlink", "gl"];
+
+  return { cmd, handler };
+};
+
+export default getlink;

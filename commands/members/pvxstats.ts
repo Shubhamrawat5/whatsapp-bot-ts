@@ -2,12 +2,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const pvxstats = () => {
-  const cmd = ["pvxstats"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -52,3 +46,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   await reply(pvxMsg);
 };
+
+const pvxstats = () => {
+  const cmd = ["pvxstats"];
+
+  return { cmd, handler };
+};
+
+export default pvxstats;

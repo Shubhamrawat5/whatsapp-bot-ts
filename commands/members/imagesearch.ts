@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 
 const gis = require("g-i-s");
 
-export const imagesearch = () => {
-  const cmd = ["imagesearch", "is"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, reply, args, from } = msgInfoObj;
 
@@ -21,7 +15,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const name = args.join(" ");
 
-  gis(name, async (error: any, results: any) => {
+  gis(name, async (error: any, results: any[]) => {
     if (error) {
       console.log(error);
       await reply(error);
@@ -41,6 +35,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         const img = results[index].url;
         console.log(img);
 
+        // eslint-disable-next-line no-await-in-loop
         await bot.sendMessage(
           from,
           {
@@ -55,3 +50,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   });
 };
+
+const imagesearch = () => {
+  const cmd = ["imagesearch", "is"];
+
+  return { cmd, handler };
+};
+
+export default imagesearch;

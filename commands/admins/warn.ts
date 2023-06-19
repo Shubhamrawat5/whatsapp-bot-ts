@@ -4,12 +4,6 @@ import { Bot } from "../../interface/Bot";
 import { getCountWarning, setCountWarning } from "../../db/warningDB";
 import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
 
-export const warn = () => {
-  const cmd = ["warn", "warning"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
 
@@ -52,3 +46,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     await reply("_✔ Number removed from group!_");
   }
 };
+
+const warn = () => {
+  const cmd = ["warn", "warning"];
+
+  return { cmd, handler };
+};
+
+export default warn;

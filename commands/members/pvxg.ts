@@ -3,12 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountGroups } from "../../db/countMemberDB";
 
-export const pvxg = () => {
-  const cmd = ["pvxg"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
@@ -32,3 +26,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   countGroupMsg += countGroupMsgTemp;
   await reply(countGroupMsg);
 };
+
+const pvxg = () => {
+  const cmd = ["pvxg"];
+
+  return { cmd, handler };
+};
+
+export default pvxg;

@@ -3,12 +3,6 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-export const fb = () => {
-  const cmd = ["fb", "facebook"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
@@ -39,3 +33,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
   }
 };
+
+const fb = () => {
+  const cmd = ["fb", "facebook"];
+
+  return { cmd, handler };
+};
+
+export default fb;

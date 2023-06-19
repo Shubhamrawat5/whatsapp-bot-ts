@@ -7,12 +7,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 // import { getMessage } from "../../functions/getMessage";
 
-export const text = () => {
-  const cmd = ["text", "tts"];
-
-  return { cmd, handler };
-};
-
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -73,3 +67,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //     console.log("error in deleting file.");
 //   }
 // };
+
+const text = () => {
+  const cmd = ["text", "tts"];
+
+  return { cmd, handler };
+};
+
+export default text;
