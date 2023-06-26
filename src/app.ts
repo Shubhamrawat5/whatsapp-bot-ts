@@ -32,8 +32,8 @@ import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 import { addCommands } from "./functions/addCommands";
 import memberAddCheck from "./functions/memberAddCheck";
 import { addDefaultMilestones } from "./functions/addDefaultMilestone";
-import { forwardSticker } from "./functions/forwardSticker";
-import { countRemainder } from "./functions/countRemainder";
+import forwardSticker from "./functions/forwardSticker";
+import countRemainder from "./functions/countRemainder";
 
 import { prefix, pvxgroups } from "./constants/constants";
 import { MsgInfoObj } from "./interface/msgInfoObj";
@@ -41,7 +41,7 @@ import { getGroupAdmins } from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
 
 import "dotenv/config";
-import { pvxFunctions } from "./functions/pvxFunctions";
+import pvxFunctions from "./functions/pvxFunctions";
 
 const { myNumber, pvx, isStickerForward } = process.env;
 const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
@@ -371,8 +371,18 @@ const startBot = async () => {
                 );
                 return;
               }
-              const res = await setCountMember(sender, from, senderName);
-              await countRemainder(bot, res, from, senderNumber, sender);
+              const setCountMemberRes = await setCountMember(
+                sender,
+                from,
+                senderName
+              );
+              await countRemainder(
+                bot,
+                setCountMemberRes,
+                from,
+                senderNumber,
+                sender
+              );
             }
 
             // count video
@@ -389,13 +399,13 @@ const startBot = async () => {
               from !== pvxgroups.pvxstickeronly2 &&
               from !== pvxgroups.pvxmano
             ) {
-              const res = await forwardSticker(
+              const forwardStickerRes = await forwardSticker(
                 bot,
                 msg.message.stickerMessage,
                 pvxgroups.pvxstickeronly1,
                 pvxgroups.pvxstickeronly2
               );
-              if (res) stats.stickerForwarded += 1;
+              if (forwardStickerRes) stats.stickerForwarded += 1;
               else stats.stickerNotForwarded += 1;
               return;
             }
@@ -469,8 +479,10 @@ const startBot = async () => {
           if (groupMetadata && !isGroupAdmins) {
             resDisabled = cache.get(`${from}:resDisabled`);
             if (!resDisabled) {
-              const res = await getDisableCommand(from);
-              resDisabled = res.length ? res[0].disabled : [];
+              const getDisableCommandRes = await getDisableCommand(from);
+              resDisabled = getDisableCommandRes.length
+                ? getDisableCommandRes[0].disabled
+                : [];
               cache.set(`${from}:resDisabled`, resDisabled, 60 * 60);
             }
           }

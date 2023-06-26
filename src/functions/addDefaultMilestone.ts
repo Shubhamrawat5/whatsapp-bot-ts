@@ -4,7 +4,7 @@ import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/donationDB";
 
-export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
+const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
 
   interface Milestones {
@@ -61,3 +61,5 @@ export const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   console.log("Added default milestones");
   return milestones;
 };
+
+export default addDefaultMilestones;

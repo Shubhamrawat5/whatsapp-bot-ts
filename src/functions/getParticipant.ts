@@ -1,7 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 
 // preference to mentioned
-export const getMentionedOrTaggedParticipant = async (
+const getMentionedOrTaggedParticipant = async (
   msg: WAMessage
 ): Promise<string> => {
   let participant: string;
@@ -22,3 +22,5 @@ export const getMentionedOrTaggedParticipant = async (
   }
   return participant;
 };
+
+export default getMentionedOrTaggedParticipant;

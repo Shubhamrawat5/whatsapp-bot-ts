@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create group links table if not there
 const createGroupLinksTable = async () => {

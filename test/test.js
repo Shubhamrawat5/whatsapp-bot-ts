@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 // const fs = require("fs");
 // const util = require("util");
 
@@ -141,11 +143,11 @@
 // const pool = require("../db/pool");
 // const pvxsticker1 = "919557666582-1580308963@g.us";
 // const pvxsticker2 = "919557666582-1621700558@g.us";
-// const setCountMember = async (memberJid, groupJid, count) => {
+// const setCountMember = async (memberjid, groupjid, count) => {
 //   try {
 //     let res1 = await pool.query(
 //       "UPDATE countmember SET count = count+$3 WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid, count]
+//       [memberjid, groupjid, count]
 //     );
 
 //     console.log(JSON.stringify(res1.rows));
@@ -153,7 +155,7 @@
 //     if (res1.affectedRows) {
 //       await pool.query(
 //         "UPDATE countmember SET count = $3 WHERE memberjid=$1 AND groupjid=$2;",
-//         [memberJid, groupJid, count]
+//         [memberjid, groupjid, count]
 //       );
 //     }
 //   } catch (err) {
@@ -162,10 +164,10 @@
 // };
 
 // //pvxm: current group member stats
-// const getCountGroupMembers = async (groupJid) => {
+// const getCountGroupMembers = async (groupjid) => {
 //   let result = await pool.query(
-//     "SELECT cm.memberJid,cm.count,cmn.name FROM countmember cm INNER JOIN countmembername cmn ON cm.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
-//     [groupJid]
+//     "SELECT cm.memberjid,cm.count,cmn.name FROM countmember cm INNER JOIN countmembername cmn ON cm.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+//     [groupjid]
 //   );
 //   if (result.rowCount) {
 //     console.log(result.rows);

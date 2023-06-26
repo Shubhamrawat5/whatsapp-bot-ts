@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 // import 'dotenv/config'
 // const { Pool } = require("pg");
 

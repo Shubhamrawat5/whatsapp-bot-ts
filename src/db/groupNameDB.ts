@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create groupname table if not there
 const createGroupNameTable = async () => {

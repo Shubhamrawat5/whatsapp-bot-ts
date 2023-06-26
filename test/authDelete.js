@@ -21,7 +21,7 @@
 //   process.exit(1);
 // });
 
-// import { pool } from "./pool";
+// import pool from "./pool";
 
 // const x = pool.query("DROP table auth;");
 // console.log(x);

@@ -1,8 +1,8 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 const createVotingTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS voting(chat_id text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, members_voted_for json, voted_members json);"
+    "CREATE TABLE IF NOT EXISTS voting(chat_id text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, membersVotedFor json, votedMembers json);"
   );
 };
 
@@ -13,8 +13,8 @@ export interface GetVotingData {
   title: string;
   choices: string[];
   count: number[];
-  members_voted_for: string[][];
-  voted_members: string[];
+  membersVotedFor: string[][];
+  votedMembers: string[];
 }
 
 export const getVotingData = async (
@@ -39,20 +39,20 @@ const updateVotingData = async (
   title: string,
   choices: string,
   count: string,
-  members_voted_for: string,
-  voted_members: string
+  membersVotedFor: string,
+  votedMembers: string
 ): Promise<boolean> => {
   try {
     await pool.query(
-      "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE chat_id=$8;",
+      "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, membersVotedFor=$6, votedMembers=$7  WHERE chat_id=$8;",
       [
         is_started,
         started_by,
         title,
         choices,
         count,
-        members_voted_for,
-        voted_members,
+        membersVotedFor,
+        votedMembers,
         groupjid,
       ]
     );
@@ -69,11 +69,11 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     const todayDate = new Date().toLocaleString("en-GB", {
       timeZone: "Asia/kolkata",
     });
-    const new_chat_id = `${groupjid} ${todayDate}`;
+    const groupjidWithDate = `${groupjid} ${todayDate}`;
 
     await pool.query(
       "UPDATE voting SET chat_id=$1, is_started=$2 WHERE chat_id=$3;",
-      [new_chat_id, false, groupjid]
+      [groupjidWithDate, false, groupjid]
     );
     return true;
   } catch (error) {
@@ -90,14 +90,14 @@ export const setVotingData = async (
   title: string,
   choices: string[],
   count: number[],
-  members_voted_for: string[][],
-  voted_members: string[]
+  membersVotedFor: string[][],
+  votedMembers: string[]
 ): Promise<boolean> => {
   try {
     const choicesJson = JSON.stringify(choices);
     const countJson = JSON.stringify(count);
-    const members_voted_forJson = JSON.stringify(members_voted_for);
-    const voted_membersJson = JSON.stringify(voted_members);
+    const membersVotedForJson = JSON.stringify(membersVotedFor);
+    const votedMembersJson = JSON.stringify(votedMembers);
 
     const result = await pool.query("SELECT * FROM voting WHERE chat_id=$1", [
       groupjid,
@@ -111,8 +111,8 @@ export const setVotingData = async (
         title,
         choicesJson,
         countJson,
-        members_voted_forJson,
-        voted_membersJson
+        membersVotedForJson,
+        votedMembersJson
       );
     } else {
       // insert new
@@ -123,8 +123,8 @@ export const setVotingData = async (
         title,
         choicesJson,
         countJson,
-        members_voted_forJson,
-        voted_membersJson,
+        membersVotedForJson,
+        votedMembersJson,
       ]);
     }
     return true;

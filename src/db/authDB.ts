@@ -1,5 +1,5 @@
 // import { AuthenticationState } from "@adiwajshing/baileys";
-import { pool } from "./pool";
+import pool from "./pool";
 
 const createAuthTable = async () => {
   await pool.query(
@@ -17,13 +17,13 @@ export const fetchAuth = async (state: any): Promise<FetchAuth> => {
   let authRowCount = 0;
   await createAuthTable();
   try {
-    const auth_result = await pool.query("select * from auth;"); // checking auth table
+    const authResult = await pool.query("select * from auth;"); // checking auth table
 
     console.log("Fetching login data...");
-    authRowCount = auth_result.rowCount;
-    const data = auth_result.rows[0];
+    authRowCount = authResult.rowCount;
+    const data = authResult.rows[0];
 
-    if (authRowCount == 0) {
+    if (authRowCount === 0) {
       console.log("No login data found!");
     } else {
       console.log("Login data found!");

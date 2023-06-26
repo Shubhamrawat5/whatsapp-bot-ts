@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create createCountVideoTable table if not there
 const createCountVideoTable = async () => {

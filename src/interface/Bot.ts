@@ -35,12 +35,7 @@ export interface Bot {
     jid: string,
     participants: string[],
     action: ParticipantAction
-  ) => Promise<
-    {
-      status: string;
-      jid: string;
-    }[]
-  >;
+  ) => Promise<{ status: string; jid: string }[]>;
   groupSettingUpdate: (
     jid: string,
     setting: "announcement" | "locked" | "not_announcement" | "unlocked"

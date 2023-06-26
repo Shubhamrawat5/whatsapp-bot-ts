@@ -3,7 +3,7 @@ import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
-import { getTechNews } from "./getTechNews";
+import getTechNews from "./getTechNews";
 
 const { newsapi } = process.env;
 let countNews = 0;
@@ -12,7 +12,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
-      const url = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsapi}`;
+      const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsapi}`;
 
       interface Articles {
         title: string;
@@ -23,9 +23,9 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
         };
       }
 
-      const response = await axios.get(url);
+      const response = await axios.get(apiUrl);
       const { data } = response;
-      const { articles } = data;
+      const articles: Articles[] = data.articles;
 
       let storeNewsTechRes = false;
       let count = 1;
@@ -42,10 +42,11 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
         let { title } = articles[index];
 
         const found = title.lastIndexOf("-");
-        if (found != -1) title = title.slice(0, title.lastIndexOf("-") - 1);
+        if (found !== -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
         storeNewsTechRes =
-          source.name != "Sportskeeda" && (await storeNewsTech(title));
+          // eslint-disable-next-line no-await-in-loop
+          source.name !== "Sportskeeda" && (await storeNewsTech(title));
         if (storeNewsTechRes) {
           console.log("NEW TECH NEWS!");
 
@@ -53,6 +54,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
           // if (description) message += `\n_${description}_`;
           if (url) message += `\nSource: ${url}`;
 
+          // eslint-disable-next-line no-await-in-loop
           await bot.sendMessage(pvxtech, {
             text: message,
           });
@@ -76,10 +78,10 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
         "engadget",
       ];
 
-      let res = false;
+      let storeNewsTechRes = false;
       let count = 1;
 
-      while (!res) {
+      while (!storeNewsTechRes) {
         if (count > 10) {
           // 10 times, already posted news comes up
           return;
@@ -88,21 +90,21 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
 
         const randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; // random website
 
-        if (!data[randomWeb]) {
-          // undefined
-          count += 1;
-          continue;
-        }
+        if (data[randomWeb]) {
+          const index = Math.floor(Math.random() * data[randomWeb].length);
+          const news = data[randomWeb][index];
 
-        const index = Math.floor(Math.random() * data[randomWeb].length);
-        const news = data[randomWeb][index];
-
-        res = await storeNewsTech(news);
-        if (res) {
-          console.log("NEW TECH NEWS!");
-          await bot.sendMessage(pvxtech, { text: `📰 ${news}` });
+          // eslint-disable-next-line no-await-in-loop
+          storeNewsTechRes = await storeNewsTech(news);
+          if (storeNewsTechRes) {
+            console.log("NEW TECH NEWS!");
+            // eslint-disable-next-line no-await-in-loop
+            await bot.sendMessage(pvxtech, { text: `📰 ${news}` });
+          } else {
+            console.log("OLD TECH NEWS!");
+            count += 1;
+          }
         } else {
-          console.log("OLD TECH NEWS!");
           count += 1;
         }
       }

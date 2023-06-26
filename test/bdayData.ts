@@ -51,8 +51,8 @@
 //     const { name, username, date, month, year, place, numb } = data;
 //     setTimeout(async () => {
 //       console.log(index + 1);
-//       const res = await addbday(name, username, date, month, year, place, numb);
-//       console.log(res, index + 1);
+//       const addbdayRes = await addbday(name, username, date, month, year, place, numb);
+//       console.log(addbdayRes, index + 1);
 //     }, time);
 //     time += 500;
 //   });

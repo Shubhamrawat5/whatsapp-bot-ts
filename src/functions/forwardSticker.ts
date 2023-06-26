@@ -16,7 +16,7 @@ const last20SentStickersSize = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
-export const forwardSticker = async (
+const forwardSticker = async (
   bot: Bot,
   downloadFilePath: proto.Message.IStickerMessage,
   pvxstickeronly1: string,
@@ -79,3 +79,5 @@ export const forwardSticker = async (
     return false;
   }
 };
+
+export default forwardSticker;

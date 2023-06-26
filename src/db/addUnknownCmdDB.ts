@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create blacklist table if not there
 // 25/02/23

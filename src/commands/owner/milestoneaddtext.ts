@@ -45,8 +45,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 //     achieved.push(achievedText);
 //   }
 
-//   const res = await setMilestone(memberjid, achieved);
-//   if (res) await reply(`✔ Milestone added!`);
+//   const setMilestoneRes = await setMilestone(memberjid, achieved);
+//   if (setMilestoneRes) await reply(`✔ Milestone added!`);
 //   else await reply(`❌ There is some problem!`);
 // };
 

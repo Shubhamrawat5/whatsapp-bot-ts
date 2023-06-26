@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create createCountWarningTable table if not there
 const createCountWarningTable = async () => {

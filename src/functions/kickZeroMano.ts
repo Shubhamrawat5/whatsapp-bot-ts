@@ -3,14 +3,14 @@ import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { getCountVideo } from "../db/countVideoDB";
 
-export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
+const kickZeroMano = async (bot: Bot, pvxmano: string) => {
   try {
     const getCountVideoRes = await getCountVideo(pvxmano);
 
     const memWithMsg = new Set();
-    for (const member of getCountVideoRes) {
+    getCountVideoRes.forEach((member) => {
       memWithMsg.add(member.memberjid);
-    }
+    });
 
     const groupMetadata: GroupMetadata = await bot.groupMetadata(pvxmano);
     const groupMembers = groupMetadata.participants;
@@ -44,3 +44,5 @@ export const kickZeroMano = async (bot: Bot, pvxmano: string) => {
     await LoggerBot(bot, "KICK-MANO", err, undefined);
   }
 };
+
+export default kickZeroMano;

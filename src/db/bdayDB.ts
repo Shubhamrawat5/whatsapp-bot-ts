@@ -1,4 +1,5 @@
-import { pool } from "./pool";
+/* eslint-disable no-param-reassign */
+import pool from "./pool";
 
 const createbdayTable = async () => {
   await pool.query(

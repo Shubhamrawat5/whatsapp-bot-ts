@@ -22,13 +22,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender = `91${sender}`;
   }
 
-  const res = await getRankInAllGroups(sender);
-  if (res.length === 0) {
+  const getRankInAllGroupsRes = await getRankInAllGroups(sender);
+  if (getRankInAllGroupsRes.length === 0) {
     await reply(`❌ ERROR: ${sender.split("@")[0]} NOT FOUND in Database!`);
     return;
   }
 
-  const { name, ranks, count, totalUsers } = res[0];
+  const { name, ranks, count, totalUsers } = getRankInAllGroupsRes[0];
 
   const res2 = await getCountIndividual(sender, from);
   const countCurGroup = res2.length ? res2[0].count : 0;

@@ -1,19 +1,21 @@
+/* eslint-disable max-len */
+
 // const pool = require("../db/pool");
 // const oldNum = "91904577@s.whatsapp.net";
 // const newNum = "91706073@s.whatsapp.net";
-// const setCountMember = async (memberJid, groupJid, count) => {
+// const setCountMember = async (memberjid, groupjid, count) => {
 //   try {
-//     console.log(memberJid, groupJid, count);
+//     console.log(memberjid, groupjid, count);
 //     let res1 = await pool.query(
 //       "UPDATE countmember SET count = count+$3 WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid, count]
+//       [memberjid, groupjid, count]
 //     );
 
 //     //not updated. time to insert
 //     if (res1.affectedRows) {
 //       await pool.query(
 //         "UPDATE countmember SET count = $3 WHERE memberjid=$1 AND groupjid=$2;",
-//         [memberJid, groupJid, count]
+//         [memberjid, groupjid, count]
 //       );
 //     }
 //   } catch (err) {
@@ -22,10 +24,10 @@
 // };
 
 // //count: user all group (with group wise) message count
-// const getCountIndividualAllGroupWithName = async (memberJid) => {
+// const getCountIndividualAllGroupWithName = async (memberjid) => {
 //   let result = await pool.query(
-//     "SELECT cm.memberjid,gn.groupjid,cm.count FROM countmember cm INNER JOIN groupname gn ON gn.groupJid=cm.groupJid WHERE cm.memberJid=$1 ORDER BY count DESC;",
-//     [memberJid]
+//     "SELECT cm.memberjid,gn.groupjid,cm.count FROM countmember cm INNER JOIN groupname gn ON gn.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY count DESC;",
+//     [memberjid]
 //   );
 //   console.log(result.rows);
 //   if (result.rowCount) {

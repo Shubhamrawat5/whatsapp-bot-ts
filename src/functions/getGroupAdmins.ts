@@ -1,12 +1,16 @@
 import { GroupParticipant } from "@adiwajshing/baileys";
 
-export const getGroupAdmins = (
+const getGroupAdmins = (
   participants: GroupParticipant[] | undefined
 ): string[] => {
   if (!participants) return [];
-  const admins = [];
-  for (const memb of participants) {
-    memb.admin ? admins.push(memb.id) : "";
-  }
+  const admins: string[] = [];
+
+  participants.forEach((member) => {
+    if (member.admin) admins.push(member.id);
+  });
+
   return admins;
 };
+
+export default getGroupAdmins;

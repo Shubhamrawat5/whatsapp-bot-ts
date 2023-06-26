@@ -139,7 +139,8 @@ export const getCricketScore = async (matchID: string) => {
     // current inning info
     message += `\n${score} ${runrate}`;
 
-    // bowler and last wicket info | isInningOver (when inning over) - "out of gya" , "data not found" comes!
+    // bowler and last wicket info | isInningOver (when inning over)
+    // - "out of gya" , "data not found" comes!
     message +=
       isInningOver || res.info === "MO"
         ? ""
@@ -185,14 +186,14 @@ export const getScoreCard = async (matchID: string) => {
 
     data.Innings1[0].Batsman.forEach((player: any) => {
       message += `\n${player.runs} (${player.balls}) : ${player.name}`;
-      if (player.dismissal == "batting") message += `*`;
+      if (player.dismissal === "batting") message += `*`;
     });
 
     if (secondInningTeam) {
       message += `\n\n*${secondInningTeam} 🏏*\nscore: ${secondInningTeamScore}\n`;
       data.Innings2[0].Batsman.forEach((player: any) => {
         message += `\n${player.runs} (${player.balls}) : ${player.name}`;
-        if (player.dismissal == "batting") message += `*`;
+        if (player.dismissal === "batting") message += `*`;
       });
     }
     // console.log(message);

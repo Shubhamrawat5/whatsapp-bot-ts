@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create donation table if not there
 const createDonationTable = async () => {

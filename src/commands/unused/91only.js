@@ -1,19 +1,21 @@
-module.exports.command = () => {
-  const cmd = ["91only"];
+/* eslint-disable max-len */
 
-  return { cmd, handler };
-};
+// module.exports.command = () => {
+//   const cmd = ["91only"];
 
-const handler = async (bot, msg, msgInfoObj) => {
-  const { reply } = msgInfoObj;
-  const text = `*─「 <{PVX}> BOT 」 ─*
-  
-_- To instant ban all the numbers other than 91 code, when added to group!_
+//   return { cmd, handler };
+// };
 
-_- Give text "only91" (without quotes) in first line of group description_
+// const handler = async (bot, msg, msgInfoObj) => {
+//   const { reply } = msgInfoObj;
+//   const text = `*─「 <{PVX}> BOT 」 ─*
 
-_- If other commands is also to be added in description, like matchID or blocked commands then insert text "only91" anywhere like (but remember cricket id should always be in starting)_
-82621,score,only91,quote`;
+// _- To instant ban all the numbers other than 91 code, when added to group!_
 
-  await reply(text);
-};
+// _- Give text "only91" (without quotes) in first line of group description_
+
+// _- If other commands is also to be added in description, like matchID or blocked commands then insert text "only91" anywhere like (but remember cricket id should always be in starting)_
+// 82621,score,only91,quote`;
+
+//   await reply(text);
+// };

@@ -9,4 +9,5 @@ const proConfig = {
   max: 4, // max connection limit
 };
 
-export const pool = new Pool(proConfig);
+const pool = new Pool(proConfig);
+export default pool;

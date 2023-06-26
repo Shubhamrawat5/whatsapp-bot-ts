@@ -88,7 +88,7 @@ import technews from "../commands/members/technews";
 import bday from "../commands/admins/bday";
 import { CommandsObj } from "../interface/CommandsObj";
 
-export const addCommands = async () => {
+const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
   const commandsMembers: CommandsObj = {};
   const commandsAdmins: CommandsObj = {};
@@ -113,9 +113,9 @@ export const addCommands = async () => {
   publicCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}
     // console.log(cmdinfo.cmd);
-    for (const cmd of cmdinfo.cmd) {
+    cmdinfo.cmd.forEach((cmd) => {
       commandsPublic[cmd] = cmdinfo.handler;
-    }
+    });
   });
 
   const adminCommands = [
@@ -145,9 +145,9 @@ export const addCommands = async () => {
   adminCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}
     // console.log(cmdinfo.cmd);
-    for (const cmd of cmdinfo.cmd) {
+    cmdinfo.cmd.forEach((cmd) => {
       commandsAdmins[cmd] = cmdinfo.handler;
-    }
+    });
   });
 
   const membersCommands = [
@@ -197,9 +197,9 @@ export const addCommands = async () => {
   membersCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}
     // console.log(cmdinfo.cmd);
-    for (const cmd of cmdinfo.cmd) {
+    cmdinfo.cmd.forEach((cmd) => {
       commandsMembers[cmd] = cmdinfo.handler;
-    }
+    });
   });
 
   const ownerCommands = [
@@ -214,9 +214,9 @@ export const addCommands = async () => {
   ownerCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}
     // console.log(cmdinfo.cmd);
-    for (const cmd of cmdinfo.cmd) {
+    cmdinfo.cmd.forEach((cmd) => {
       commandsOwners[cmd] = cmdinfo.handler;
-    }
+    });
   });
 
   const allCommandsName = [
@@ -236,3 +236,5 @@ export const addCommands = async () => {
     allCommandsName,
   };
 };
+
+export default addCommands;

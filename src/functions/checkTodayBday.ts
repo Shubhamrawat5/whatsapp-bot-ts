@@ -2,7 +2,7 @@ import { getbday } from "../db/bdayDB";
 import { Bot } from "../interface/Bot";
 import { LoggerBot } from "./loggerBot";
 
-export const checkTodayBday = async (
+const checkTodayBday = async (
   bot: Bot,
   groupjid: string,
   addMember: boolean
@@ -62,8 +62,9 @@ export const checkTodayBday = async (
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
       });
     }
-    if (addMember)
+    if (addMember) {
       await bot.groupUpdateSubject(groupjid, "<{PVX}> COMMUNITY ❤️");
+    }
   } catch (err) {
     await LoggerBot(bot, "TODAY-BDAY", err, undefined);
     console.log(err);
@@ -73,3 +74,5 @@ export const checkTodayBday = async (
 //   timeZone: "Asia/kolkata",
 // });
 // checkTodayBday(todayDate);
+
+export default checkTodayBday;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getTechNews = async () => {
+const getTechNews = async () => {
   try {
     const url = "https://pvx-api-vercel.vercel.app/api/news";
     const { data } = await axios.get(url);
@@ -9,7 +9,7 @@ export const getTechNews = async () => {
     const { inshorts } = data;
     let count = 0; // for first 14 news only
     for (let i = 0; i < inshorts.length; ++i) {
-      ++count;
+      count += 1;
       if (count === 15) break;
       msg += `\n\n🌐 ${inshorts[i]}`;
     }
@@ -21,3 +21,5 @@ export const getTechNews = async () => {
     return (err as Error).toString();
   }
 };
+
+export default getTechNews;

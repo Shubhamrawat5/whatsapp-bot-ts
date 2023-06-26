@@ -19,8 +19,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const participant = await getMentionedOrTaggedParticipant(msg);
 
   if (!participant) return;
-  const res = await getCountWarning(participant, from);
-  let warnCount = res.length ? res[0].count : 0;
+  const getCountWarningRes = await getCountWarning(participant, from);
+  let warnCount = getCountWarningRes.length ? getCountWarningRes[0].count : 0;
   const numSplit = participant.split("@s.whatsapp.net")[0];
 
   if (warnCount === 1) {

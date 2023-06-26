@@ -3,7 +3,7 @@ import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { storeNewsStudy } from "../db/postStudyDB";
 
-export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
+const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
     const parser = new Parser();
 
@@ -34,9 +34,11 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
 
       if (!title) title = "";
 
+      // eslint-disable-next-line no-await-in-loop
       storeNewsStudyRes = await storeNewsStudy(title);
       if (storeNewsStudyRes) {
         console.log("NEW STUDY NEWS!");
+        // eslint-disable-next-line no-await-in-loop
         await bot.sendMessage(pvxstudy, { text: `📰 ${title}` });
       } else {
         console.log("OLD STUDY NEWS!");
@@ -47,3 +49,5 @@ export const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
     await LoggerBot(bot, "STUDY-NEWS", err, undefined);
   }
 };
+
+export default postStudyInfo;

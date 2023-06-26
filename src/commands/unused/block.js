@@ -1,18 +1,20 @@
-module.exports.command = () => {
-  const cmd = ["block"];
+/* eslint-disable max-len */
 
-  return { cmd, handler };
-};
+// module.exports.command = () => {
+//   const cmd = ["block"];
 
-const handler = async (bot, msg, msgInfoObj) => {
-  const { reply } = msgInfoObj;
-  const text = `*─「 <{PVX}> BOT 」 ─*
+//   return { cmd, handler };
+// };
 
-_- Give command name (with comma seperated and without spaces) to be blocked in *first line of group description* , like:_
-score,add,quote
+// const handler = async (bot, msg, msgInfoObj) => {
+//   const { reply } = msgInfoObj;
+//   const text = `*─「 <{PVX}> BOT 」 ─*
 
-_- If cricket matchId is also to be added in description, then always give matchId in starting, like:_
-82621,score,add,only91,quote`;
+// _- Give command name (with comma seperated and without spaces) to be blocked in *first line of group description* , like:_
+// score,add,quote
 
-  await reply(text);
-};
+// _- If cricket matchId is also to be added in description, then always give matchId in starting, like:_
+// 82621,score,add,only91,quote`;
+
+//   await reply(text);
+// };

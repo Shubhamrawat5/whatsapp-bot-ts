@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create blacklist table if not there
 const createBlacklistTable = async () => {
@@ -71,7 +71,7 @@ export const removeBlacklist = async (
 
     if (result.rowCount) {
       const { admin } = result.rows[0];
-      if (!admin || admin == sender) {
+      if (!admin || admin === sender) {
         await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
         return "✔️ Removed from blacklist!";
       }

@@ -2,7 +2,7 @@ import { GroupMetadata, GroupParticipant } from "@adiwajshing/baileys";
 import { getGroupAdmins } from "./getGroupAdmins";
 import { GroupData } from "../interface/GroupData";
 
-export const getGroupData = (
+const getGroupData = (
   groupMetadata: GroupMetadata,
   botNumberJid: string,
   sender: string
@@ -26,3 +26,5 @@ export const getGroupData = (
 
   return groupData;
 };
+
+export default getGroupData;

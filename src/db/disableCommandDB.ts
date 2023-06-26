@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 const createDisableCommandTable = async () => {
   await pool.query(

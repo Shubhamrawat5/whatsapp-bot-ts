@@ -1,4 +1,4 @@
-export const getIndianNumber = async (body: string) => {
+const getIndianNumber = async (body: string) => {
   const indianNumbRegex =
     /(?:(?:\+|0{0,2})91(\s*|[\\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})/g;
 
@@ -20,3 +20,5 @@ export const getIndianNumber = async (body: string) => {
   if (number.length === 12) return number;
   return "";
 };
+
+export default getIndianNumber;

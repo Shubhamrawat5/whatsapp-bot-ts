@@ -1,10 +1,10 @@
 import { pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
-import { checkTodayBday } from "./checkTodayBday";
-import { postStudyInfo } from "./postStudyInfo";
+import checkTodayBday from "./checkTodayBday";
+import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
-export const pvxFunctions = async (bot: Bot) => {
+const pvxFunctions = async (bot: Bot) => {
   let usedDate = new Date()
     .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
     .split(",")[0];
@@ -40,3 +40,5 @@ export const pvxFunctions = async (bot: Bot) => {
     }
   }, 1000 * 60 * 20); // 20 min
 };
+
+export default pvxFunctions;

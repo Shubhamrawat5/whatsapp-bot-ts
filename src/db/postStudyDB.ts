@@ -1,4 +1,4 @@
-import { pool } from "./pool";
+import pool from "./pool";
 
 // create count table if not there
 const createStudyTable = async () => {

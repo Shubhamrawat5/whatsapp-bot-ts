@@ -45,31 +45,7 @@ const memberAddCheck = async (
         await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
           text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
         });
-      }
-      // for study group
-      // if (from === pvxstudy) {
-      //   await bot.sendMessage(
-      //     from,
-      //     {
-      //       text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
-      //       mentions: [numJid],
-      //     },
-      //     {
-      //       quoted: {
-      //         key: {
-      //           remoteJid: from,
-      //           fromMe: false,
-      //           id: "710B5CF29EE7471fakeid",
-      //           participant: "0@s.whatsapp.net",
-      //         },
-      //         messageTimestamp: 1671784177,
-      //         pushName: "WhatsApp",
-      //         message: { conversation: "WELCOME TO PVX STUDY" },
-      //       },
-      //     }
-      //   );
-      // }
-      else if (from === pvxmemes) {
+      } else if (from === pvxmemes) {
         await bot.sendMessage(
           from,
           {
@@ -90,9 +66,7 @@ const memberAddCheck = async (
             },
           }
         );
-      }
-      // for movies group
-      else if (from === pvxmovies) {
+      } else if (from === pvxmovies) {
         await bot.sendMessage(
           from,
           {
@@ -113,9 +87,7 @@ const memberAddCheck = async (
             },
           }
         );
-      }
-      // for community group
-      else if (from === pvxcommunity) {
+      } else if (from === pvxcommunity) {
         await bot.sendMessage(
           from,
           {
@@ -136,9 +108,7 @@ const memberAddCheck = async (
             },
           }
         );
-      }
-      // for mano
-      else if (from === pvxmano) {
+      } else if (from === pvxmano) {
         await bot.sendMessage(
           from,
           {
@@ -159,9 +129,7 @@ const memberAddCheck = async (
             },
           }
         );
-      }
-      // for programmer group
-      else if (from === pvxprogrammer) {
+      } else if (from === pvxprogrammer) {
         await bot.sendMessage(
           from,
           {
@@ -182,9 +150,7 @@ const memberAddCheck = async (
             },
           }
         );
-      }
-      // for sticker group
-      else if (from === pvxsticker) {
+      } else if (from === pvxsticker) {
         await bot.sendMessage(
           from,
           {
@@ -213,3 +179,27 @@ const memberAddCheck = async (
 };
 
 export default memberAddCheck;
+
+// for study group
+// if (from === pvxstudy) {
+//   await bot.sendMessage(
+//     from,
+//     {
+//       text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
+//       mentions: [numJid],
+//     },
+//     {
+//       quoted: {
+//         key: {
+//           remoteJid: from,
+//           fromMe: false,
+//           id: "710B5CF29EE7471fakeid",
+//           participant: "0@s.whatsapp.net",
+//         },
+//         messageTimestamp: 1671784177,
+//         pushName: "WhatsApp",
+//         message: { conversation: "WELCOME TO PVX STUDY" },
+//       },
+//     }
+//   );
+// }

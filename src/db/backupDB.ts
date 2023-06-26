@@ -1,4 +1,6 @@
-// import { pool } from "./pool";
+/* eslint-disable max-len */
+
+// import pool from "./pool";
 
 // //create count table if not there
 // const createGroupbackupTable = async () => {
