@@ -29,15 +29,15 @@ import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 
-import { addCommands } from "./functions/addCommands";
+import addCommands from "./functions/addCommands";
 import memberAddCheck from "./functions/memberAddCheck";
-import { addDefaultMilestones } from "./functions/addDefaultMilestone";
+import addDefaultMilestones from "./functions/addDefaultMilestone";
 import forwardSticker from "./functions/forwardSticker";
 import countRemainder from "./functions/countRemainder";
 
 import { prefix, pvxgroups } from "./constants/constants";
 import { MsgInfoObj } from "./interface/msgInfoObj";
-import { getGroupAdmins } from "./functions/getGroupAdmins";
+import getGroupAdmins from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
 
 import "dotenv/config";

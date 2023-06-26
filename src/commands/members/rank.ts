@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
 import { getMilestone } from "../../db/milestoneDB";
-import { getMentionedOrTaggedParticipant } from "../../functions/getParticipant";
+import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, milestones, from } = msgInfoObj;

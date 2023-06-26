@@ -9,7 +9,7 @@ import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { Bot } from "../../interface/Bot";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { getRandomFileName } from "../../functions/getRandomFileName";
+import getRandomFileName from "../../functions/getRandomFileName";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;

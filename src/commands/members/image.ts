@@ -8,7 +8,7 @@ import { writeFile } from "fs/promises";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import { getRandomFileName } from "../../functions/getRandomFileName";
+import getRandomFileName from "../../functions/getRandomFileName";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;

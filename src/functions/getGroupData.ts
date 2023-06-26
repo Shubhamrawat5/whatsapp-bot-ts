@@ -1,5 +1,5 @@
 import { GroupMetadata, GroupParticipant } from "@adiwajshing/baileys";
-import { getGroupAdmins } from "./getGroupAdmins";
+import getGroupAdmins from "./getGroupAdmins";
 import { GroupData } from "../interface/GroupData";
 
 const getGroupData = (

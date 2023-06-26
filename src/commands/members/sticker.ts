@@ -11,7 +11,7 @@ import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getRandomFileName } from "../../functions/getRandomFileName";
+import getRandomFileName from "../../functions/getRandomFileName";
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
