@@ -37,14 +37,13 @@ const checkTodayBday = async (
         // bday.push(
         //   `${member.name.toUpperCase()} (${member.username.toUpperCase()})`
         // );
-        const number = `91${member.numb}`;
-        bday.push(`@${number}`);
-        mentions.push(`${number}@s.whatsapp.net`);
+        bday.push(`@${member.number}`);
+        mentions.push(`${member.number}@s.whatsapp.net`);
         console.log(`Today is ${member.name} Birthday!`);
       }
     });
     if (bday.length) {
-      const bdayComb = bday.join(" & ");
+      const bdayCombine = bday.join(" & ");
       if (addMember) {
         try {
           await bot.groupParticipantsUpdate(groupjid, mentions, "add");
@@ -52,7 +51,7 @@ const checkTodayBday = async (
           console.log(err);
         }
       }
-      const text = `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`;
+      const text = `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayCombine} Birthday 🍰 🎉🎉`;
       await bot.sendMessage(groupjid, { text, mentions });
       console.log(text);
       console.log(mentions);

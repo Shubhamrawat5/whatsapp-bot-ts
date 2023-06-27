@@ -14,14 +14,12 @@ export interface Getbday {
   month: number;
   year: number | null;
   place: string;
-  numb: string;
+  number: string;
 }
 
 export const getbday = async (): Promise<Getbday[]> => {
   await createbdayTable();
   const result = await pool.query("select * from bday;");
-
-  console.log(result);
 
   if (result.rowCount) {
     return result.rows;
