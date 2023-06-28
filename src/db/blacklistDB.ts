@@ -15,15 +15,17 @@ export interface GetBlacklist {
 export const getBlacklist = async (
   number?: string
 ): Promise<GetBlacklist[]> => {
+  // FIX THESE CREATE TABLES
   await createBlacklistTable();
   let result;
   if (number) {
-    result = await pool.query("select * from blacklist where number=$1;", [
-      number,
-    ]);
+    result = await pool.query(
+      "select bl.number,bl.reason,cmn.admin from blacklist bl left join countmembername cmn on bl.admin=cmn.memberjid where number=$1;",
+      [number]
+    );
   } else {
     result = await pool.query(
-      "select bl.number,bl.reason,cmn.name from blacklist bl left join countmembername cmn on bl.admin=cmn.memberjid order by number;"
+      "select bl.number,bl.reason,cmn.admin from blacklist bl left join countmembername cmn on bl.admin=cmn.memberjid order by number;"
     );
   }
 

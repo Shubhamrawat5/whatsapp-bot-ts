@@ -4,7 +4,7 @@ import { Bot } from "../interface/Bot";
 
 import { LoggerBot } from "./loggerBot";
 
-const memberAddCheck = async (
+const addMemberCheck = async (
   bot: Bot,
   from: string,
   numSplit: string,
@@ -27,8 +27,9 @@ const memberAddCheck = async (
       const getBlacklistRes = await getBlacklist(numSplit);
       if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
+        const { reason, admin } = getBlacklistRes[0];
         await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${getBlacklistRes[0].reason}`,
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${admin}`,
         });
         await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
           text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
@@ -174,11 +175,11 @@ const memberAddCheck = async (
       }
     }
   } catch (err) {
-    await LoggerBot(bot, "memberAddCheck", err, undefined);
+    await LoggerBot(bot, "addMemberCheck", err, undefined);
   }
 };
 
-export default memberAddCheck;
+export default addMemberCheck;
 
 // for study group
 // if (from === pvxstudy) {

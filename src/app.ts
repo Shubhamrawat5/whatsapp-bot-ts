@@ -30,7 +30,7 @@ import { addUnknownCmd } from "./db/addUnknownCmdDB";
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 
 import addCommands from "./functions/addCommands";
-import memberAddCheck from "./functions/memberAddCheck";
+import addMemberCheck from "./functions/addMemberCheck";
 import addDefaultMilestones from "./functions/addDefaultMilestone";
 import forwardSticker from "./functions/forwardSticker";
 import countRemainder from "./functions/countRemainder";
@@ -204,7 +204,7 @@ const startBot = async () => {
           const groupSubject = groupMetadata.subject;
 
           if (msg.action === "add") {
-            await memberAddCheck(
+            await addMemberCheck(
               bot,
               from,
               numSplit,
