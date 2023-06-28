@@ -5,14 +5,19 @@ import { Bot } from "../../interface/Bot";
 
 const getQuote = async () => {
   try {
+    interface Quote {
+      q: string;
+      a: string;
+      h: string;
+    }
+
     const url = "https://zenquotes.io/api/random";
-    const { data } = await axios.get(url);
+    const { data } = await axios.get<Quote[]>(url);
     const quote = `💬 ${data[0].q}`;
-    // console.log(quote);
+
     return quote;
   } catch (err) {
     console.log(err);
-    // return "❌ SOME ERROR CAME!";
     return (err as Error).stack;
   }
 };

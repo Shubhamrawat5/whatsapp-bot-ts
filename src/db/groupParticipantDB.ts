@@ -37,6 +37,7 @@ export const setGroupParticipant = async (
   });
   const localeDateList = localeDate.split("/");
   const temp = localeDateList[0];
+  // eslint-disable-next-line prefer-destructuring
   localeDateList[0] = localeDateList[2];
   localeDateList[2] = temp;
   localeDate = localeDateList.join("/");

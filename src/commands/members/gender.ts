@@ -6,9 +6,17 @@ import { prefix } from "../../constants/constants";
 
 const getGender = async (name: string) => {
   try {
+    interface Gender {
+      count: number;
+      name: string;
+      gender: string;
+      probability: number;
+    }
+
     const url = `https://api.genderize.io/?name=${name}`;
-    const { data } = await axios.get(url);
+    const { data } = await axios.get<Gender>(url);
     const genderText = `${data.name} is ${data.gender} with ${data.probability} probability`;
+
     return genderText;
   } catch (err) {
     console.log(err);

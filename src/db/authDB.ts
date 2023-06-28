@@ -1,9 +1,10 @@
 // import { AuthenticationState } from "@adiwajshing/baileys";
+import { AuthenticationState } from "@adiwajshing/baileys";
 import pool from "./pool";
 
 export const createAuthTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, serverHasPreKeys text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
+    "CREATE TABLE IF NOT EXISTS auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
   );
 };
 
@@ -12,7 +13,9 @@ export interface FetchAuth {
   authRowCount: number;
 }
 
-export const fetchAuth = async (state: any): Promise<FetchAuth> => {
+export const fetchAuth = async (
+  state: AuthenticationState
+): Promise<FetchAuth> => {
   let cred: any;
   let authRowCount = 0;
   await createAuthTable();
@@ -36,7 +39,6 @@ export const fetchAuth = async (state: any): Promise<FetchAuth> => {
           advSecretKey: data.advsecretkey,
           nextPreKeyId: Number(data.nextprekeyid),
           firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyid),
-          serverHasPreKeys: Boolean(data.serverhasprekeys),
           account: JSON.parse(data.account),
           me: JSON.parse(data.me),
           signalIdentities: JSON.parse(data.signalidentities),
@@ -74,7 +76,9 @@ export const fetchAuth = async (state: any): Promise<FetchAuth> => {
   return { cred, authRowCount };
 };
 
-export const storeAuth = async (state: any): Promise<boolean> => {
+export const storeAuth = async (
+  state: AuthenticationState
+): Promise<boolean> => {
   try {
     const noiseKey = JSON.stringify(state.creds.noiseKey);
     const signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
@@ -83,7 +87,6 @@ export const storeAuth = async (state: any): Promise<boolean> => {
     const { advSecretKey } = state.creds;
     const { nextPreKeyId } = state.creds;
     const { firstUnuploadedPreKeyId } = state.creds;
-    const { serverHasPreKeys } = state.creds;
     const account = JSON.stringify(state.creds.account);
     const me = JSON.stringify(state.creds.me);
     const signalIdentities = JSON.stringify(state.creds.signalIdentities);
@@ -92,7 +95,7 @@ export const storeAuth = async (state: any): Promise<boolean> => {
     const { myAppStateKeyId } = state.creds; // ?
 
     const res = await pool.query(
-      "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
+      "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, account = $8, me = $9, signalIdentities = $10, lastAccountSyncTimestamp = $11, myAppStateKeyId = $12;",
       [
         noiseKey,
         signedIdentityKey,
@@ -101,7 +104,6 @@ export const storeAuth = async (state: any): Promise<boolean> => {
         advSecretKey,
         nextPreKeyId,
         firstUnuploadedPreKeyId,
-        serverHasPreKeys,
         account,
         me,
         signalIdentities,
@@ -114,7 +116,7 @@ export const storeAuth = async (state: any): Promise<boolean> => {
     if (res.rowCount === 0) {
       console.log("Inserting login data...");
       await pool.query(
-        "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
+        "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);",
         [
           noiseKey,
           signedIdentityKey,
@@ -123,7 +125,6 @@ export const storeAuth = async (state: any): Promise<boolean> => {
           advSecretKey,
           nextPreKeyId,
           firstUnuploadedPreKeyId,
-          serverHasPreKeys,
           account,
           me,
           signalIdentities,

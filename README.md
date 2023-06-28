@@ -15,7 +15,7 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
 ### Download and install git from (https://git-scm.com/downloads)
 
-    git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git
+    git clone https://github.com/Shubhamrawat5/whatsapp-bot-ts
 
 ### Download and install nodejs from (https://nodejs.org/en/download)
 
@@ -166,7 +166,7 @@ Fix linting errors -> `npm run lint-fix`
   > Get match ID from cricbuzz url, Example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021, so match ID is `37572`
 
   <!-- EXAMPLE:
-  
+
   <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> -->
 
 # References:- :rocket:

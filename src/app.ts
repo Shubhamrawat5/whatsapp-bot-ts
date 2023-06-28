@@ -538,6 +538,8 @@ const startBot = async () => {
                 await reply((err as Error).stack);
               }
               return;
+
+            default:
           }
 
           const msgInfoObj: MsgInfoObj = {

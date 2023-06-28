@@ -30,6 +30,7 @@ export const countToday = async (): Promise<number> => {
   });
   const li = todayDate.split("/");
   const temp = li[0];
+  // eslint-disable-next-line prefer-destructuring
   li[0] = li[2];
   li[2] = temp;
   todayDate = li.join("/");

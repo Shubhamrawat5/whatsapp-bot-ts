@@ -14,18 +14,21 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
     if (countNews % 2 === 0) {
       const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsapi}`;
 
-      interface Articles {
-        title: string;
-        description: string;
-        url: string;
-        source: {
-          name: string;
-        };
+      interface News {
+        status: string;
+        totalResults: number;
+        articles: {
+          description: string;
+          url: string;
+          source: {
+            name: string;
+          };
+          title: string;
+        }[];
       }
 
-      const response = await axios.get(apiUrl);
-      const { data } = response;
-      const articles: Articles[] = data.articles;
+      const { data } = await axios.get<News>(apiUrl);
+      const { articles } = data;
 
       let storeNewsTechRes = false;
       let count = 1;
