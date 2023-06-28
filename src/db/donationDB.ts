@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create donation table if not there
-const createDonationTable = async () => {
+export const createDonationTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS donation(name text, number text PRIMARY KEY, amount integer);"
   );

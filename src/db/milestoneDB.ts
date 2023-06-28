@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create createCountVideoTable table if not there
-const createMilestoneTable = async () => {
+export const createMilestoneTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS milestone(memberjid text PRIMARY KEY, achieved json);"
   );
@@ -58,7 +58,7 @@ export const setMilestone = async (
 };
 
 // create createCountVideoTable table if not there
-const createMilestoneTextTable = async () => {
+export const createMilestoneTextTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS milestonetext(sno SERIAL NOT NULL PRIMARY KEY, milestone text);"
   );

@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create createCountVideoTable table if not there
-const createCountVideoTable = async () => {
+export const createCountVideoTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countvideo(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
   );

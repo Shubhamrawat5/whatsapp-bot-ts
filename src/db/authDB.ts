@@ -1,7 +1,7 @@
 // import { AuthenticationState } from "@adiwajshing/baileys";
 import pool from "./pool";
 
-const createAuthTable = async () => {
+export const createAuthTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, serverHasPreKeys text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
   );

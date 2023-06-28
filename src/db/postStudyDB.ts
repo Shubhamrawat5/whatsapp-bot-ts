@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create count table if not there
-const createStudyTable = async () => {
+export const createStudyTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS studynews(news text PRIMARY KEY);"
   );

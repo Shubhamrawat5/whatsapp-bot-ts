@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import pool from "./pool";
 
-const createbdayTable = async () => {
+export const createbdayTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS bday(name text, username text, date integer, month integer, year integer, place text, number text PRIMARY KEY);"
   );

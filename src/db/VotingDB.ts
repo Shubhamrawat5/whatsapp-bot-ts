@@ -1,6 +1,6 @@
 import pool from "./pool";
 
-const createVotingTable = async () => {
+export const createVotingTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS voting(chat_id text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, membersVotedFor json, votedMembers json);"
   );

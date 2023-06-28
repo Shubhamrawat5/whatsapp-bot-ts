@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create group links table if not there
-const createGroupLinksTable = async () => {
+export const createGroupLinksTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS grouplinks(groupjid text PRIMARY KEY, link text);"
   );
@@ -25,7 +25,7 @@ export const getGroupLink = async (): Promise<GetGroupLink[]> => {
 };
 
 // create group links table if not there
-const createGroupLinksEnabledTable = async () => {
+export const createGroupLinksEnabledTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS grouplinksenabled(enabled integer PRIMARY KEY);"
   );

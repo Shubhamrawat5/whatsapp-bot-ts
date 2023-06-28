@@ -10,6 +10,7 @@
     "dev": "ts-node index.ts",
     "start-prod": "npm run build && node index.js",
     "start2": "pm2-runtime start ecosystem.config.js --env production",
+    "db": "ts-node ./src/dbTables.ts",
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix"
   },

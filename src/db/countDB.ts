@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create count table if not there
-const createCountTable = async () => {
+export const createCountTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS count(day DATE PRIMARY KEY, times integer);"
   );

@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create groupname table if not there
-const createGroupNameTable = async () => {
+export const createGroupNameTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS groupname(groupjid text PRIMARY KEY, gname text);"
   );

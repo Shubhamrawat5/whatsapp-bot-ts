@@ -1,14 +1,14 @@
 import pool from "./pool";
 
 // create countmember table if not there
-const createCountMemberTable = async () => {
+export const createCountMemberTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countmember(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
   );
 };
 
 // create countmembername table if not there
-const createCountMemberNameTable = async () => {
+export const createCountMemberNameTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countmembername(memberjid text PRIMARY KEY, name text);"
   );

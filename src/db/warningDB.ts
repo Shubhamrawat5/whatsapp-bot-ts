@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create createCountWarningTable table if not there
-const createCountWarningTable = async () => {
+export const createCountWarningTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countwarning(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid), check(count BETWEEN 1 and 3));"
   );

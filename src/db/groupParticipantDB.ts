@@ -2,7 +2,7 @@ import pool from "./pool";
 
 // create createCountVideoTable table if not there
 // 15/03/23
-const createGroupParticipantTable = async () => {
+export const createGroupParticipantTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS groupparticipant(memberjid text , groupjid text, action text, date timestamp);"
   );

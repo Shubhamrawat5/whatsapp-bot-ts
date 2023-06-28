@@ -1,7 +1,7 @@
 import pool from "./pool";
 
 // create blacklist table if not there
-const createBlacklistTable = async () => {
+export const createBlacklistTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text, admin text);"
   );

@@ -2,7 +2,7 @@ import pool from "./pool";
 
 // create blacklist table if not there
 // 25/02/23
-const createUnknownCmdTable = async () => {
+export const createUnknownCmdTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS unknowncmd(command text PRIMARY KEY, count integer);"
   );

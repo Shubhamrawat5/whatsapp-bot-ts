@@ -1,6 +1,6 @@
 import pool from "./pool";
 
-const createDisableCommandTable = async () => {
+export const createDisableCommandTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS disablecommand(chat_id text PRIMARY KEY, disabled json);"
   );

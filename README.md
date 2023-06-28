@@ -31,9 +31,23 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
    myNumber = 911234567890
 
-4. Run the index file by `node index.js`
+4. Run command in teminal to create DB table `npm run db`
 
-5. It'll ask for QR code scan, scan it and bot will start working.
+5. Run command in terminal to start bot `npm start`
+
+6. It'll ask for QR code scan, scan it and bot will start working.
+
+## Commands
+
+Create all DB tables -> `npm run db`
+
+Run dev environment -> `npm start` or `npm run dev`
+
+Run prod environment -> `npm run start-prod`
+
+Check linting errors -> `npm run lint`
+
+Fix linting errors -> `npm run lint-fix`
 
 # Features:- :rocket:
 
@@ -152,36 +166,10 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
   > Get match ID from cricbuzz url, Example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021, so match ID is `37572`
 
   <!-- EXAMPLE:
-
-  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> --> -->
-
-<!-- # Note:- :rocket: -->
-
-<!-- Since heroku uses:- Dyno sleeping in which if an app has a free web dyno, and that dyno receives no web traffic in a 30-minute period, it will sleep. In addition to the web dyno sleeping, the worker dyno (if present) will also sleep. and if a sleeping web dyno receives web traffic, it will become active again after a short delay (assuming your account has free dyno hours available)
-You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minutes to prevent it from sleeping. -->
+  
+  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> -->
 
 # References:- :rocket:
 
 - Nodejs package - [Baileys](https://github.com/adiwajshing/Baileys)
 - Old non-md wa bot - [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot)
-
-<!-- # Easy way to deploy:- :rocket:
-
-[Heroku is no longer free]
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Shubhamrawat5/whatsapp-bot-md)
-
-Your bot will be deployed on heroku but still you need to install heroku locally to scan QR code
-
-1. Download Heroku CLI from [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
-2. Open terminal
-3. Type command `heroku login` and give access
-4. Type command `heroku logs -a <your-app-name> --tail`
-
-Now you'll see QR code, scan with your device and bot will start working!
-
-- To get owner commands
-
-  Go to heroku daskboard then settings then config vars
-
-  Add KEY as `myNumber` and VALUE as `911234567890` (your number with country code and no + sign) -->
