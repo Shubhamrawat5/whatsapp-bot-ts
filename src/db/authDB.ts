@@ -2,6 +2,7 @@
 import { AuthenticationState } from "@adiwajshing/baileys";
 import pool from "./pool";
 
+// FIX CAMEL CASES
 export const createAuthTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"

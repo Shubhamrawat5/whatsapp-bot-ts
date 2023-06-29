@@ -2,19 +2,19 @@ import pool from "./pool";
 
 export const createVotingTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS voting(chat_id text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, membersVotedFor json, votedMembers json);"
+    "CREATE TABLE IF NOT EXISTS voting(groupjid text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, members_voted_for json, voted_members json);"
   );
 };
 
 export interface GetVotingData {
-  chat_id: string;
+  groupjid: string;
   is_started: boolean;
   started_by: string;
   title: string;
   choices: string[];
   count: number[];
-  membersVotedFor: string[][];
-  votedMembers: string[];
+  members_voted_for: string[][];
+  voted_members: string[];
 }
 
 export const getVotingData = async (
@@ -23,7 +23,7 @@ export const getVotingData = async (
   await createVotingTable();
 
   // check if today date is present in DB or not
-  const result = await pool.query("select * from voting where chat_id=$1;", [
+  const result = await pool.query("select * from voting where groupjid=$1;", [
     groupjid,
   ]);
   if (result.rowCount) {
@@ -39,20 +39,20 @@ const updateVotingData = async (
   title: string,
   choices: string,
   count: string,
-  membersVotedFor: string,
-  votedMembers: string
+  members_voted_for: string,
+  voted_members: string
 ): Promise<boolean> => {
   try {
     await pool.query(
-      "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, membersVotedFor=$6, votedMembers=$7  WHERE chat_id=$8;",
+      "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE groupjid=$8;",
       [
         is_started,
         started_by,
         title,
         choices,
         count,
-        membersVotedFor,
-        votedMembers,
+        members_voted_for,
+        voted_members,
         groupjid,
       ]
     );
@@ -72,7 +72,7 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     const groupjidWithDate = `${groupjid} ${todayDate}`;
 
     await pool.query(
-      "UPDATE voting SET chat_id=$1, is_started=$2 WHERE chat_id=$3;",
+      "UPDATE voting SET groupjid=$1, is_started=$2 WHERE groupjid=$3;",
       [groupjidWithDate, false, groupjid]
     );
     return true;
@@ -90,16 +90,16 @@ export const setVotingData = async (
   title: string,
   choices: string[],
   count: number[],
-  membersVotedFor: string[][],
-  votedMembers: string[]
+  members_voted_for: string[][],
+  voted_members: string[]
 ): Promise<boolean> => {
   try {
     const choicesJson = JSON.stringify(choices);
     const countJson = JSON.stringify(count);
-    const membersVotedForJson = JSON.stringify(membersVotedFor);
-    const votedMembersJson = JSON.stringify(votedMembers);
+    const membersVotedForJson = JSON.stringify(members_voted_for);
+    const votedMembersJson = JSON.stringify(voted_members);
 
-    const result = await pool.query("SELECT * FROM voting WHERE chat_id=$1", [
+    const result = await pool.query("SELECT * FROM voting WHERE groupjid=$1", [
       groupjid,
     ]);
     if (result.rows.length) {

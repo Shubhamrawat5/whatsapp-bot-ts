@@ -18,7 +18,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const votingResult = getVotingDataRes[0];
 
-  if (votingResult.votedMembers.includes(sender)) {
+  if (votingResult.voted_members.includes(sender)) {
     await reply("❌ You already voted.");
     return;
   }
@@ -39,8 +39,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   votingResult.count[voteNumber - 1] += 1; // increase vote
-  votingResult.membersVotedFor[voteNumber - 1].push(senderName); // save who voted
-  votingResult.votedMembers.push(sender); // member voted
+  votingResult.members_voted_for[voteNumber - 1].push(senderName); // save who voted
+  votingResult.voted_members.push(sender); // member voted
 
   const setVotingDataRes = await setVotingData(
     from,
@@ -49,8 +49,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     votingResult.title,
     votingResult.choices,
     votingResult.count,
-    votingResult.membersVotedFor,
-    votingResult.votedMembers
+    votingResult.members_voted_for,
+    votingResult.voted_members
   );
 
   if (setVotingDataRes) {

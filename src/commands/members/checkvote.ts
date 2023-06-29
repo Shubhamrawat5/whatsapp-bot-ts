@@ -25,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
   resultVoteMsg += `\n\n*Voting Current Status:*`;
 
-  const totalVoted = votingResult.votedMembers.length;
+  const totalVoted = votingResult.voted_members.length;
 
   votingResult.choices.forEach((name: string, index: number) => {
     resultVoteMsg += `\n======= ${(
@@ -36,7 +36,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }*\n`;
 
     // add voted members username
-    votingResult.membersVotedFor[index].forEach((mem) => {
+    votingResult.members_voted_for[index].forEach((mem) => {
       resultVoteMsg += `_${mem},_ `;
     });
   });

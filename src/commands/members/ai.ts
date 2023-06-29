@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (!isApiSetup) {
       const { ChatGPTAPI } = await importDynamic("chatgpt");
       api = new ChatGPTAPI({
-        apiKey: process.env.OPENAPI,
+        apiKey: process.env.OPENAI,
       });
       isApiSetup = true;
     }

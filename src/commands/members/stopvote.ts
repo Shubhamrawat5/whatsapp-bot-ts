@@ -33,7 +33,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const totalVoted = votingResult.votedMembers.length;
+  const totalVoted = votingResult.voted_members.length;
 
   votingResult.choices.forEach((name: string, index: number) => {
     resultVoteMsg += `\n======= ${(
@@ -44,7 +44,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }*\n`;
 
     // add voted members username
-    votingResult.membersVotedFor[index].forEach((mem: string) => {
+    votingResult.members_voted_for[index].forEach((mem: string) => {
       resultVoteMsg += `_${mem},_ `;
     });
   });
