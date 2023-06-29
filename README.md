@@ -25,11 +25,13 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
 2. After login, get the database URL from details section. It'll be like: postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
 
-3. Create a local `.env` file with following variables and save the file:
+3. Create a local `.env` file with following 2 variables and save the file:
 
-   DATABASE_URL = postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
+   DATABASE_URL = "postgres://yourfullURL@tiny.db.elephantsql.com/yourURL"
 
-   myNumber = 911234567890
+   OWNER_NUMBER = "911234567890"
+
+   [You can check all the .env variables in .env.sample file]
 
 4. Run command in teminal to create DB table `npm run db`
 

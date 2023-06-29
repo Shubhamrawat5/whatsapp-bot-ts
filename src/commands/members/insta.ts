@@ -61,11 +61,11 @@ export default insta;
 //   let { prefix, args, reply } = msgInfoObj;
 //   try {
 //     if (!isIgSetup) {
-//       // const username = process.env.usernameIG;
-//       // const password = process.env.passwordIG;
+//       // const username = process.env.USERNAME_IG;
+//       // const password = process.env.PASSWORD_IG;
 //       // const session_id = await getCookie(username, password);
 //       // console.log(session_id);
-//       const session_id = process.env.session_id;
+//       const session_id = process.env.SESSION_ID_IG;
 //       console.log(session_id);
 //       ig = new igApi(session_id);
 //       ig.setCookie(session_id);

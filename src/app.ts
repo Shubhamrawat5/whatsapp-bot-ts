@@ -43,7 +43,9 @@ import { Bot } from "./interface/Bot";
 import "dotenv/config";
 import pvxFunctions from "./functions/pvxFunctions";
 
-const { myNumber, pvx, isStickerForward } = process.env;
+const myNumber = process.env.OWNER_NUMBER;
+const pvx = process.env.PVX;
+const isForwardSticker = process.env.FORWARD_STICKER;
 const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
 
 const stats = {
@@ -136,7 +138,7 @@ const startBot = async () => {
 
     store?.bind(bot.ev);
 
-    if (pvx) {
+    if (pvx === "true") {
       dateCheckerInterval = await pvxFunctions(bot);
     }
 
@@ -356,7 +358,7 @@ const startBot = async () => {
 
           const groupName: string | undefined = groupMetadata?.subject;
 
-          if (pvx) {
+          if (pvx === "true") {
             // Count message
             if (
               groupName?.toUpperCase().includes("<{PVX}>") &&
@@ -394,7 +396,7 @@ const startBot = async () => {
             if (
               groupName?.toUpperCase().startsWith("<{PVX}>") &&
               msg.message.stickerMessage &&
-              isStickerForward === "true" &&
+              isForwardSticker === "true" &&
               from !== pvxgroups.pvxstickeronly1 &&
               from !== pvxgroups.pvxstickeronly2 &&
               from !== pvxgroups.pvxmano

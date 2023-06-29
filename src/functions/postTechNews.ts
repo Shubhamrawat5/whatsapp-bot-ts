@@ -5,7 +5,7 @@ import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
 import getTechNews from "./getTechNews";
 
-const { newsapi } = process.env;
+const newsapi = process.env.NEWSAPI;
 let countNews = 0;
 
 export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {

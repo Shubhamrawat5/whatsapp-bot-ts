@@ -3,7 +3,7 @@ import { Bot } from "../interface/Bot";
 
 import "dotenv/config";
 
-const { myNumber } = process.env;
+const myNumber = process.env.OWNER_NUMBER;
 const token = process.env.TG_BOT; // tg bot token here
 const kryptonChatId = 649341653; // my chat id to receive all the updates
 const botTG = token ? new TelegramBot(token, { polling: false }) : null;
