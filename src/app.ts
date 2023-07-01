@@ -653,6 +653,7 @@ const startBot = async () => {
               desc: v.desc,
               id: v.id,
               participants: v.participants,
+              link: v.inviteCode,
             }));
 
           groups.forEach((group) => {

@@ -153,8 +153,9 @@ Fix linting errors -> `npm run lint-fix`
 |  `!broadcast`   |       Broadcast a message to all groups       |       |
 |    `!tagall`    |           Tag all members in group            |       |
 |    `!gname`     |            Save group names to DB             |       |
-|   `!setlink`    |             Save group link in DB             | `!sl` |
-|   `!getlink`    |          Get all group links from DB          | `!sl` |
+| `!websitelink`  |   Enable/disable group link in PVX website    | `!wl` |
+|   `!setgdata`   |       Set all group name & links in DB        |       |
+|   `!getgdata`   |      Get all group name & links from DB       |       |
 |      `!tg`      |            Make TG to WA stickers             |       |
 |     `!stg`      |            Stop TG to WA stickers             |       |
 | `!groupbackup`  |            Take group backup in DB            |       |

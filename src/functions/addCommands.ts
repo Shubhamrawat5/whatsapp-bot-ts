@@ -11,7 +11,7 @@ import milestoneremove from "../commands/admins/milestoneremove";
 import mute from "../commands/admins/mute";
 import remove from "../commands/admins/remove";
 import rt from "../commands/admins/rt";
-import setlink from "../commands/admins/setlink";
+import websitelink from "../commands/admins/websitelink";
 import tagall from "../commands/admins/tagall";
 import unmute from "../commands/admins/unmute";
 import warn from "../commands/admins/warn";
@@ -63,8 +63,8 @@ import zero from "../commands/members/zero";
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
 import donationadd from "../commands/owner/donationadd";
-import getlink from "../commands/owner/getlink";
-import gname from "../commands/owner/gname";
+import getgdata from "../commands/owner/getgdata";
+import setgdata from "../commands/owner/setgdata";
 import milestoneaddtext from "../commands/owner/milestoneaddtext";
 import tg from "../commands/owner/tg";
 
@@ -132,7 +132,7 @@ const addCommands = async () => {
     mute,
     remove,
     rt,
-    setlink,
+    websitelink,
     tagall,
     unmute,
     warn,
@@ -205,8 +205,8 @@ const addCommands = async () => {
   const ownerCommands = [
     broadcast,
     donationadd,
-    getlink,
-    gname,
+    getgdata,
+    setgdata,
     milestoneaddtext,
     tg,
   ];

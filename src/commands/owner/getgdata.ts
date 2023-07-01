@@ -1,12 +1,12 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getGroupLink } from "../../db/grouplinksDB";
+import { getGroupNameLink } from "../../db/groupDataDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
-  const getGroupLinkRes = await getGroupLink();
+  const getGroupLinkRes = await getGroupNameLink();
   let message = "📛 PVX LINKS 📛";
   getGroupLinkRes.forEach((group) => {
     message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;
@@ -15,10 +15,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await reply(message);
 };
 
-const getlink = () => {
-  const cmd = ["getlink", "gl"];
+const getgdata = () => {
+  const cmd = ["getgdata"];
 
   return { cmd, handler };
 };
 
-export default getlink;
+export default getgdata;
