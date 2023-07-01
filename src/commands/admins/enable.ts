@@ -1,7 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getDisableCommand, setDisableCommand } from "../../db/groupsDataDB";
+import { getGroupsData, setDisableCommand } from "../../db/groupsDataDB";
 import { prefix } from "../../constants/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -20,10 +20,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const getDisableCommandRes = await getDisableCommand(from);
-  const disabledCmdArray = getDisableCommandRes.length
-    ? getDisableCommandRes[0].commands_disabled
-    : [];
+  const getDisableCommandRes = await getGroupsData(from);
+  const disabledCmdArray =
+    getDisableCommandRes.length && getDisableCommandRes[0].commands_disabled
+      ? getDisableCommandRes[0].commands_disabled
+      : [];
 
   if (!disabledCmdArray.includes(cmd)) {
     await reply(`❌ ${prefix}${cmd} is already enabled!`);

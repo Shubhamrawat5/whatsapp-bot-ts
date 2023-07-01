@@ -11,13 +11,22 @@ export const createGroupsTable = async () => {
 export interface GetGroupsData {
   groupjid: string;
   gname: string;
-  link: string;
-  commands_disabled: string[];
+  link?: string;
+  commands_disabled?: string[];
 }
 
 // TODO: FIX CAPITAL SMALL OF SELECT AND ALL
-export const getGroupsData = async (): Promise<GetGroupsData[]> => {
-  const res = await pool.query("select * from groups;");
+export const getGroupsData = async (
+  groupjid?: string
+): Promise<GetGroupsData[]> => {
+  let res;
+  if (groupjid) {
+    res = await pool.query("select * from groups where groupjid=$1;", [
+      groupjid,
+    ]);
+  } else {
+    res = await pool.query("select * from groups;");
+  }
   // not updated. time to insert
   if (res.rowCount) {
     return res.rows;
@@ -25,11 +34,13 @@ export const getGroupsData = async (): Promise<GetGroupsData[]> => {
   return [];
 };
 
-export const setGroupNameLink = async (
+export const setGroupsData = async (
   groupjid: string,
   gname: string,
-  link?: string
+  link: string | undefined,
+  disabled: string[]
 ): Promise<boolean> => {
+  const disabledJson = JSON.stringify(disabled);
   try {
     if (!groupjid.endsWith("@g.us")) return false;
     await createGroupsTable();
@@ -45,7 +56,7 @@ export const setGroupNameLink = async (
         groupjid,
         gname,
         link,
-        null,
+        disabledJson,
       ]);
     }
 
@@ -57,23 +68,6 @@ export const setGroupNameLink = async (
   }
 };
 
-export interface GetDisableCommandData {
-  groupjid: string;
-  commands_disabled: string[];
-}
-
-export const getDisableCommand = async (
-  groupjid: string
-): Promise<GetDisableCommandData[]> => {
-  const result = await pool.query("select * from groups where groupjid=$1;", [
-    groupjid,
-  ]);
-  if (result.rowCount) {
-    return result.rows;
-  }
-  return [];
-};
-
 export const setDisableCommand = async (
   groupjid: string,
   gname: string,
@@ -83,7 +77,7 @@ export const setDisableCommand = async (
 
   try {
     const res = await pool.query(
-      "UPDATE groups SET disabled=$1 WHERE groupjid=$2;",
+      "UPDATE groups SET commands_disabled=$1 WHERE groupjid=$2;",
       [disabledJson, groupjid]
     );
 

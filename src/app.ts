@@ -23,7 +23,7 @@ import NodeCache from "node-cache";
 import { dropAuth } from "./db/dropauthDB";
 import { getUsernames, setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-import { getDisableCommand } from "./db/groupsDataDB";
+import { getGroupsData } from "./db/groupsDataDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -481,14 +481,16 @@ const startBot = async () => {
           if (groupMetadata && !isGroupAdmins) {
             resDisabled = cache.get(`${from}:resDisabled`);
             if (!resDisabled) {
-              const getDisableCommandRes = await getDisableCommand(from);
-              resDisabled = getDisableCommandRes.length
-                ? getDisableCommandRes[0].commands_disabled
-                : [];
+              const getDisableCommandRes = await getGroupsData(from);
+              resDisabled =
+                getDisableCommandRes.length &&
+                getDisableCommandRes[0].commands_disabled
+                  ? getDisableCommandRes[0].commands_disabled
+                  : [];
               cache.set(`${from}:resDisabled`, resDisabled, 60 * 60);
             }
           }
-          if (resDisabled && resDisabled.includes(command)) {
+          if (resDisabled.includes(command)) {
             await reply("❌ Command disabled for this group!");
             return;
           }
@@ -653,7 +655,6 @@ const startBot = async () => {
               desc: v.desc,
               id: v.id,
               participants: v.participants,
-              link: v.inviteCode,
             }));
 
           groups.forEach((group) => {

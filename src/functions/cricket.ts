@@ -1,10 +1,68 @@
 import axios from "axios";
 
+// https://github.com/rsumit123/ipl_live
+// `https://cric-score.skdev.one/scorecard/${matchID}`
+
+// https://github.com/mskian/cricket-api-nodejs
+// `https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
+
+interface Batsman {
+  balls: string;
+  dismissal: string;
+  fours: string;
+  name: string;
+  runs: string;
+  sixes: string;
+  sr: string;
+}
+
+interface Bowlers {
+  economy: string;
+  maidens: string;
+  name: string;
+  overs: string;
+  runs: string;
+  wicket: string;
+}
+
+interface MatchInfo {
+  overs: string;
+  runs: number;
+  score: string;
+  team: string;
+  wickets: number;
+}
+
+type Innings = [{ Batsman: Batsman[] }, { Bowlers: Bowlers[] }, MatchInfo];
+
+interface PlayingEleven {
+  [key: string]: string;
+}
+
+interface Result {
+  update: string;
+  winning_margin: string;
+  winning_team: string;
+}
+
+interface TossResult {
+  chose_to: string;
+  update: string;
+  winning_team: string;
+}
+
+interface CricScore {
+  Innings1: Innings;
+  Innings2: Innings;
+  playing_eleven: PlayingEleven;
+  result: Result;
+  toss_result: TossResult;
+}
+
 // return object {message:"", info:""} =>
 // message having score and info having extra info about game like inning over, game over etc
 // INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
 // const getCricketScore = async (matchID) => {
-
 export const getCricketScore = async (matchID: string) => {
   interface Res {
     message: string;
@@ -14,7 +72,7 @@ export const getCricketScore = async (matchID: string) => {
   const res: Res = { message: "", info: "" };
   try {
     // TODO: MAKE INTERFACE OF DATA
-    let { data } = await axios.get(
+    const { data } = await axios.get(
       `https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
     );
 
@@ -38,40 +96,46 @@ export const getCricketScore = async (matchID: string) => {
     const { bowlerwickets } = data;
     if (recentballs === "Data Not Found") recentballs = data.lastwicket;
 
-    const d = await axios.get(
+    const d = await axios.get<CricScore>(
       `https://cric-score.skdev.one/scorecard/${matchID}`
     );
-    data = d.data;
+    const cricScore = d.data;
 
     let batsman1 = "out ho gaya";
     let batsman2 = "out ho gaya";
-    let currentInning;
+    let currentInning: "Innings1" | "Innings2";
     let alt = true;
-    let firstInningRuns;
-    let firstInningTeam;
-    const { update } = data.result;
+    let firstInningRuns: string;
+    let firstInningTeam: string | undefined;
+    const { update } = cricScore.result;
     let message = "";
 
     let isMatchStarted = false;
-    if (Object.keys(data.Innings1[2]).length !== 0) isMatchStarted = true;
+    if (Object.keys(cricScore.Innings1[2]).length !== 0) isMatchStarted = true;
+
+    // check if match started
     if (!isMatchStarted) {
-      // title and update only
       message += `*${title}*\n`;
       message += `\n${update}`;
       res.message = message;
       return res;
     }
 
-    if (Object.keys(data.Innings2[2]).length === 0) {
+    // check if its innings 1 or innings 2
+    if (Object.keys(cricScore.Innings2[2]).length === 0) {
       currentInning = "Innings1";
+      firstInningRuns = "";
     } else {
       currentInning = "Innings2";
-      firstInningRuns = `${data.Innings1[2].runs}/${data.Innings1[2].wickets}`;
-      firstInningTeam = data.Innings1[2].team
+      firstInningRuns = `${cricScore.Innings1[2].runs}/${cricScore.Innings1[2].wickets}`;
+      firstInningTeam = cricScore.Innings1[2].team
         .match(/(\b\S)?/g)
-        .join("")
+        ?.join("")
         .toUpperCase();
-      if (firstInningTeam.length <= 1) firstInningTeam = data.Innings1[2].team;
+
+      if (firstInningTeam && firstInningTeam.length <= 1) {
+        firstInningTeam = cricScore.Innings1[2].team;
+      }
     }
 
     let isInningOver = false;
@@ -83,7 +147,7 @@ export const getCricketScore = async (matchID: string) => {
     }
 
     // find playing 2 batsman
-    data[currentInning][0].Batsman.forEach((batsman: any) => {
+    cricScore[currentInning][0].Batsman.forEach((batsman) => {
       if (batsman.dismissal === "batting") {
         if (alt) {
           let batsmanName = batsman.name;
@@ -105,11 +169,14 @@ export const getCricketScore = async (matchID: string) => {
     });
 
     // is match over?
-    if (data.result.winning_team !== "Not Completed") {
+    if (cricScore.result.winning_team !== "Not Completed") {
       res.info = "MO";
     }
 
-    if (batsman1 === batsman2) batsman1 = batsman2 = "";
+    if (batsman1 === batsman2) {
+      batsman1 = "";
+      batsman2 = "";
+    }
 
     /* MESSAGE :-
     Royal Challengers Bangalore vs Chennai Super Kings
@@ -160,43 +227,49 @@ _recent balls_ \n${recentballs}`;
     res.info = "ER";
   }
 
-  // console.log(res);
+  console.log(res);
+
   return res;
 };
 
-// getCricketScore(66369);
+// getCricketScore("71705");
 
 // const getScoreCard = async (matchID) => {
-export const getScoreCard = async (matchID: string) => {
+export const getScoreCard = async (matchID: string): Promise<string> => {
   try {
-    const { data } = await axios.get(
+    const res = await axios.get<CricScore>(
       `https://cric-score.skdev.one/scorecard/${matchID}`
     );
-    let firstInningTeam = "";
-    let secondInningTeam = "";
-    let firstInningTeamScore = "";
-    let secondInningTeamScore = "";
-    firstInningTeam = data.Innings1[2].team;
-    firstInningTeamScore = data.Innings1[2].score;
-    let message = `*${firstInningTeam} 🏏*\nscore: ${firstInningTeamScore}\n`;
-    if (Object.keys(data.Innings2[2]).length) {
-      secondInningTeam = data.Innings2[2].team;
-      secondInningTeamScore = data.Innings2[2].score;
-    }
 
-    data.Innings1[0].Batsman.forEach((player: any) => {
+    const cricScore = res.data;
+    const firstInningTeam = cricScore.Innings1[2].team;
+    let secondInningTeam = "";
+    const firstInningTeamScore = cricScore.Innings1[2].score;
+    let secondInningTeamScore = "";
+
+    let message = `*${firstInningTeam} 🏏*\nscore: ${firstInningTeamScore}\n`;
+
+    // scores of first innings team
+    cricScore.Innings1[0].Batsman.forEach((player) => {
       message += `\n${player.runs} (${player.balls}) : ${player.name}`;
       if (player.dismissal === "batting") message += `*`;
     });
 
+    // checking if second innings done
+    if (Object.keys(cricScore.Innings2[2]).length) {
+      secondInningTeam = cricScore.Innings2[2].team;
+      secondInningTeamScore = cricScore.Innings2[2].score;
+    }
+
+    // scores of second innings team if done
     if (secondInningTeam) {
       message += `\n\n*${secondInningTeam} 🏏*\nscore: ${secondInningTeamScore}\n`;
-      data.Innings2[0].Batsman.forEach((player: any) => {
+      cricScore.Innings2[0].Batsman.forEach((player) => {
         message += `\n${player.runs} (${player.balls}) : ${player.name}`;
         if (player.dismissal === "batting") message += `*`;
       });
     }
-    // console.log(message);
+
     return message;
   } catch (err) {
     console.log(err);
