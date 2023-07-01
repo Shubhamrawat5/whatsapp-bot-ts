@@ -1,14 +1,11 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import {
-  getDisableCommand,
-  setDisableCommand,
-} from "../../db/disableCommandDB";
+import { getDisableCommand, setDisableCommand } from "../../db/groupsDataDB";
 import { prefix } from "../../constants/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args, allCommandsName, from } = msgInfoObj;
+  const { reply, args, allCommandsName, groupName, from } = msgInfoObj;
 
   if (args.length === 0) {
     await reply("❌ Give command name also by !enable commandName");
@@ -25,7 +22,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const getDisableCommandRes = await getDisableCommand(from);
   const disabledCmdArray = getDisableCommandRes.length
-    ? getDisableCommandRes[0].disabled
+    ? getDisableCommandRes[0].commands_disabled
     : [];
 
   if (!disabledCmdArray.includes(cmd)) {
@@ -35,7 +32,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const resNew = disabledCmdArray.filter((c) => cmd !== c);
 
-  const setDisableCommandRes = await setDisableCommand(from, resNew);
+  const setDisableCommandRes = await setDisableCommand(
+    from,
+    groupName || "",
+    resNew
+  );
 
   if (setDisableCommandRes) await reply(`✔️ ${prefix}${cmd} command enabled!`);
   else await reply(`❌ There is some problem!`);

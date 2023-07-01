@@ -8,10 +8,9 @@ import {
 } from "./db/countMemberDB";
 import { createCountTable } from "./db/countDB";
 import { createCountVideoTable } from "./db/countVideoDB";
-import { createDisableCommandTable } from "./db/disableCommandDB";
 import { createDonationTable } from "./db/donationDB";
 import { createGroupLinksEnabledTable } from "./db/groupLinksEnabled";
-import { createGroupsTable } from "./db/groupDataDB";
+import { createGroupsTable } from "./db/groupsDataDB";
 import { createGroupParticipantTable } from "./db/groupParticipantDB";
 import {
   createMilestoneTable,
@@ -34,7 +33,6 @@ const createDbTables = async () => {
   await createCountMemberNameTable();
   await createCountTable();
   await createCountVideoTable();
-  await createDisableCommandTable();
   await createDonationTable();
   await createGroupLinksEnabledTable();
   await createGroupsTable();

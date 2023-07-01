@@ -1,16 +1,5 @@
 import pool from "./pool";
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-// getGroupLink().then(async (res) => {
-//   console.log(res);
-//   res.forEach(async (group) => {
-//     await pool.query("UPDATE groupname SET link = $1 WHERE groupjid=$2;", [
-//       group.link,
-//       group.groupjid,
-//     ]);
-//   });
-// });
-
 // create group links table if not there
 export const createGroupLinksEnabledTable = async () => {
   await pool.query(

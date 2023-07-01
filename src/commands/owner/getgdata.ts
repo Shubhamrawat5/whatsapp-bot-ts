@@ -1,12 +1,12 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getGroupNameLink } from "../../db/groupDataDB";
+import { getGroupsData } from "../../db/groupsDataDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
-  const getGroupLinkRes = await getGroupNameLink();
+  const getGroupLinkRes = await getGroupsData();
   let message = "📛 PVX LINKS 📛";
   getGroupLinkRes.forEach((group) => {
     message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;

@@ -23,7 +23,7 @@ import NodeCache from "node-cache";
 import { dropAuth } from "./db/dropauthDB";
 import { getUsernames, setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
-import { getDisableCommand } from "./db/disableCommandDB";
+import { getDisableCommand } from "./db/groupsDataDB";
 import { storeAuth, fetchAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
@@ -483,7 +483,7 @@ const startBot = async () => {
             if (!resDisabled) {
               const getDisableCommandRes = await getDisableCommand(from);
               resDisabled = getDisableCommandRes.length
-                ? getDisableCommandRes[0].disabled
+                ? getDisableCommandRes[0].commands_disabled
                 : [];
               cache.set(`${from}:resDisabled`, resDisabled, 60 * 60);
             }
