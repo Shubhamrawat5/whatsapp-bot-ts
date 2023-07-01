@@ -7,10 +7,10 @@ export const createCountMemberTable = async () => {
   );
 };
 
-// create countmembername table if not there
-export const createCountMemberNameTable = async () => {
+// create members table if not there
+export const createMembersTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countmembername(memberjid text PRIMARY KEY, name text);"
+    "CREATE TABLE IF NOT EXISTS members(memberjid text PRIMARY KEY, name text);"
   );
 };
 
@@ -26,7 +26,7 @@ export const getCountGroupMembers = async (
 ): Promise<GetCountGroupMembers[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT cm.memberjid,cm.count,cmn.name FROM countmember cm INNER JOIN countmembername cmn ON cm.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+    "SELECT cm.memberjid,cm.count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
     [groupjid]
   );
   if (result.rowCount) {
@@ -47,7 +47,7 @@ export const getCountIndividual = async (
 ): Promise<GetCountIndividual[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT cmn.name,cm.count FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
+    "SELECT memb.name,cm.count FROM members memb INNER JOIN countmember cm ON memb.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
     [memberjid, groupjid]
   );
   if (result.rowCount) {
@@ -69,7 +69,7 @@ export const getRankInAllGroups = async (
 ): Promise<GetRankInAllGroups[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT cmn.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN countmembername cmn on table1.memberjid = cmn.memberjid where table1.memberjid=$1;",
+    "SELECT memb.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
     [memberjid]
   );
 
@@ -105,7 +105,7 @@ export const getCountIndividualAllGroup = async (
 ): Promise<GetCountIndividualAllGroup[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT cmn.name,grps.gname,cm.count FROM countmember cm INNER JOIN countmembername cmn ON cmn.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY count DESC;",
+    "SELECT memb.name,grps.gname,cm.count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY count DESC;",
     [memberjid]
   );
   if (result.rowCount) {
@@ -126,7 +126,7 @@ export const getCountTop = async (
 ): Promise<GetCountTop[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    `SELECT countmembername.name,countmember.memberjid,sum(countmember.count) as count FROM countmember LEFT JOIN countmembername ON countmember.memberjid=countmembername.memberjid GROUP BY countmember.memberjid,countmembername.name ORDER BY count DESC LIMIT ${noOfResult};`
+    `SELECT members.name,countmember.memberjid,sum(countmember.count) as count FROM countmember LEFT JOIN members ON countmember.memberjid=members.memberjid GROUP BY countmember.memberjid,members.name ORDER BY count DESC LIMIT ${noOfResult};`
   );
   if (result.rowCount) {
     return result.rows;
@@ -144,7 +144,7 @@ export interface GetCountTop5 {
 export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT groups.gname,countmembername.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN countmembername ON rs.memberjid=countmembername.memberjid WHERE Rank <= 5;"
+    "SELECT groups.gname,members.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 5;"
   );
   if (result.rowCount) {
     return result.rows;
@@ -162,7 +162,7 @@ export interface GetCountTop10 {
 export const getCountTop10 = async (): Promise<GetCountTop10[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT groups.gname,countmembername.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN countmembername ON rs.memberjid=countmembername.memberjid WHERE Rank <= 10;"
+    "SELECT groups.gname,members.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 10;"
   );
   if (result.rowCount) {
     return result.rows;
@@ -199,7 +199,7 @@ export const getUsernames = async (
   memberjidArray: string[]
 ): Promise<GetUsernames[]> => {
   const result = await pool.query(
-    "SELECT * from countmembername where memberjid = ANY($1::text[])",
+    "SELECT * from members where memberjid = ANY($1::text[])",
     [memberjidArray]
   );
   if (result.rowCount) {
@@ -246,13 +246,13 @@ export const getUsernames = async (
 //   let resultName;
 //   try {
 //     resultName = await pool.query(
-//       "select * from countmembername WHERE memberjid=$1;",
+//       "select * from members WHERE memberjid=$1;",
 //       [memberjid]
 //     );
 //   } catch (err) {
 //     await createCountMemberNameTable();
 //     resultName = await pool.query(
-//       "select * from countmembername WHERE memberjid=$1;",
+//       "select * from members WHERE memberjid=$1;",
 //       [memberjid]
 //     );
 //   }
@@ -260,11 +260,11 @@ export const getUsernames = async (
 //   //present
 //   if (resultName.rows.length) {
 //     await pool.query(
-//       "UPDATE countmembername SET name = $1 WHERE memberjid=$2;",
+//       "UPDATE members SET name = $1 WHERE memberjid=$2;",
 //       [name, memberjid]
 //     );
 //   } else {
-//     await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
+//     await pool.query("INSERT INTO members VALUES($1,$2);", [
 //       memberjid,
 //       name,
 //     ]);
@@ -305,19 +305,16 @@ export const setCountMember = async (
 
   try {
     const res = await pool.query(
-      "UPDATE countmembername SET name=$1 WHERE memberjid=$2;",
+      "UPDATE members SET name=$1 WHERE memberjid=$2;",
       [name, memberjid]
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
-        memberjid,
-        name,
-      ]);
+      await pool.query("INSERT INTO members VALUES($1,$2);", [memberjid, name]);
     }
   } catch (err) {
     console.log(err);
-    await createCountMemberNameTable();
+    await createMembersTable();
   }
 
   try {

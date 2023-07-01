@@ -18,7 +18,7 @@ export const getMilestone = async (
 ): Promise<GetMilestone[]> => {
   try {
     const result = await pool.query(
-      "SELECT m.memberjid,m.achieved,cmn.name FROM milestone m INNER JOIN countmembername cmn ON m.memberjid=cmn.memberjid WHERE m.memberjid=$1;",
+      "SELECT m.memberjid,m.achieved,memb.name FROM milestone m INNER JOIN members memb ON m.memberjid=memb.memberjid WHERE m.memberjid=$1;",
       [memberjid]
     );
     if (result.rowCount) {
