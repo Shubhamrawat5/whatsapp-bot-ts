@@ -20,11 +20,10 @@ import stringSimilarity from "string-similarity";
 import NodeCache from "node-cache";
 
 /* ----------------------------- add local files ---------------------------- */
-import { dropAuth } from "./db/dropauthDB";
 import { getUsernames, setCountMember } from "./db/countMemberDB";
 import { setCountVideo } from "./db/countVideoDB";
 import { getGroupsData } from "./db/groupsDataDB";
-import { storeAuth, fetchAuth } from "./db/authDB";
+import { storeAuth, fetchAuth, dropAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
