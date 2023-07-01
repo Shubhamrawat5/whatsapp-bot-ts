@@ -28,10 +28,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const { name, ranks, count, totalUsers } = getRankInAllGroupsRes[0];
+  const { name, ranks, message_count, totalUsers } = getRankInAllGroupsRes[0];
 
   const res2 = await getCountIndividual(sender, from);
-  const countCurGroup = res2.length ? res2[0].count : 0;
+  const countCurGroup = res2.length ? res2[0].message_count : 0;
 
   // find rank
   let rankName;
@@ -51,7 +51,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     rankName = "Bronze ⚱️";
   }
 
-  let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`;
+  let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${message_count}\nCurrent group  : ${countCurGroup}`;
 
   const milestoneRes = await getMilestone(sender);
 

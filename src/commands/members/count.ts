@@ -36,8 +36,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   getCountIndividualAllGroupRes.forEach((group) => {
     let grpName = group.gname;
     grpName = grpName.replace("<{PVX}> ", "");
-    totalGrpCount += Number(group.count);
-    countGroupMsgTemp += `\n${group.count} - ${grpName}`;
+    totalGrpCount += Number(group.message_count);
+    countGroupMsgTemp += `\n${group.message_count} - ${grpName}`;
   });
 
   countGroupMsg += `\n*TotaL Messages: ${totalGrpCount}*`;

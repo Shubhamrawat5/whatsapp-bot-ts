@@ -17,7 +17,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       lastGroupName = member.gname;
       countGroupMsgTempTop5 += `\n\n📛 *${lastGroupName}*`;
     }
-    countGroupMsgTempTop5 += `\n${member.count} - ${member.name}`;
+    countGroupMsgTempTop5 += `\n${member.message_count} - ${member.name}`;
   });
 
   countGroupMsgTop5 += countGroupMsgTempTop5;

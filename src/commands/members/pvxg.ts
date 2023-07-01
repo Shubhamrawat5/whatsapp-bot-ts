@@ -17,8 +17,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (grpName.toUpperCase().includes("<{PVX}>")) {
       // grpName = grpName.split(" ")[1];
       grpName = grpName.replace("<{PVX}> ", "");
-      totalGrpCount += Number(group.count);
-      countGroupMsgTemp += `\n${group.count} - ${grpName}`;
+      totalGrpCount += Number(group.message_count);
+      countGroupMsgTemp += `\n${group.message_count} - ${grpName}`;
     }
   });
 

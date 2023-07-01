@@ -3,7 +3,7 @@ import pool from "./pool";
 // create countmember table if not there
 export const createCountMemberTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countmember(memberjid text NOT NULL, groupjid text NOT NULL, count integer NOT NULL DEFAULT 0, warning integer NOT NULL DEFAULT 0, PRIMARY KEY (memberjid, groupjid), check(warning BETWEEN 1 and 3));"
+    "CREATE TABLE IF NOT EXISTS countmember(memberjid text NOT NULL, groupjid text NOT NULL, message_count integer NOT NULL DEFAULT 0, warning integer NOT NULL DEFAULT 0, PRIMARY KEY (memberjid, groupjid), check(warning BETWEEN 1 and 3));"
   );
 };
 
@@ -16,7 +16,7 @@ export const createMembersTable = async () => {
 
 export interface GetCountGroupMembers {
   memberjid: string;
-  count: number;
+  message_count: number;
   name: string;
 }
 
@@ -26,7 +26,7 @@ export const getCountGroupMembers = async (
 ): Promise<GetCountGroupMembers[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT cm.memberjid,cm.count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+    "SELECT cm.memberjid,cm.message_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY message_count DESC;",
     [groupjid]
   );
   if (result.rowCount) {
@@ -36,7 +36,7 @@ export const getCountGroupMembers = async (
 };
 
 export interface GetCountIndividual {
-  count: number;
+  message_count: number;
   name: string;
 }
 
@@ -47,7 +47,7 @@ export const getCountIndividual = async (
 ): Promise<GetCountIndividual[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT memb.name,cm.count FROM members memb INNER JOIN countmember cm ON memb.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
+    "SELECT memb.name,cm.message_count FROM members memb INNER JOIN countmember cm ON memb.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
     [memberjid, groupjid]
   );
   if (result.rowCount) {
@@ -58,7 +58,7 @@ export const getCountIndividual = async (
 
 export interface GetRankInAllGroups {
   name: string;
-  count: number;
+  message_count: number;
   ranks: number;
   totalUsers: number;
 }
@@ -69,7 +69,7 @@ export const getRankInAllGroups = async (
 ): Promise<GetRankInAllGroups[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT memb.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
+    "SELECT memb.name,table1.message_count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(message_count) as message_count,RANK () OVER (ORDER BY sum(message_count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
     [memberjid]
   );
 
@@ -79,15 +79,15 @@ export const getRankInAllGroups = async (
 
   const resultObj: GetRankInAllGroups = {
     name: "",
-    count: 0,
+    message_count: 0,
     ranks: 0,
     totalUsers: 0,
   };
   if (result.rowCount) {
     resultObj.name = result.rows[0].name;
-    resultObj.count = result.rows[0].count;
+    resultObj.message_count = result.rows[0].message_count;
     resultObj.ranks = result.rows[0].ranks;
-    resultObj.totalUsers = result2.rows[0].count;
+    resultObj.totalUsers = result2.rows[0].message_count;
     return [resultObj];
   }
   return [];
@@ -96,7 +96,7 @@ export const getRankInAllGroups = async (
 export interface GetCountIndividualAllGroup {
   name: string;
   gname: string;
-  count: number;
+  message_count: number;
 }
 
 // count: user all group (with group wise) message count
@@ -105,7 +105,7 @@ export const getCountIndividualAllGroup = async (
 ): Promise<GetCountIndividualAllGroup[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT memb.name,grps.gname,cm.count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY count DESC;",
+    "SELECT memb.name,grps.gname,cm.message_count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY message_count DESC;",
     [memberjid]
   );
   if (result.rowCount) {
@@ -117,7 +117,7 @@ export const getCountIndividualAllGroup = async (
 export interface GetCountTop {
   name: string;
   memberjid: string;
-  count: number;
+  message_count: number;
 }
 
 // pvxt: top members stats of all groups
@@ -126,7 +126,7 @@ export const getCountTop = async (
 ): Promise<GetCountTop[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    `SELECT members.name,countmember.memberjid,sum(countmember.count) as count FROM countmember LEFT JOIN members ON countmember.memberjid=members.memberjid GROUP BY countmember.memberjid,members.name ORDER BY count DESC LIMIT ${noOfResult};`
+    `SELECT members.name,countmember.memberjid,sum(countmember.message_count) as message_count FROM countmember LEFT JOIN members ON countmember.memberjid=members.memberjid GROUP BY countmember.memberjid,members.name ORDER BY message_count DESC LIMIT ${noOfResult};`
   );
   if (result.rowCount) {
     return result.rows;
@@ -137,14 +137,14 @@ export const getCountTop = async (
 export interface GetCountTop5 {
   gname: string;
   name: string;
-  count: number;
+  message_count: number;
 }
 
 // pvxt5: top members stats of all groups
 export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
   await createCountMemberTable();
   const result = await pool.query(
-    "SELECT groups.gname,members.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 5;"
+    "SELECT groups.gname,members.name,rs.message_count FROM (SELECT groupjid,memberjid,message_count, Rank() over (Partition BY groupjid ORDER BY message_count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 5;"
   );
   if (result.rowCount) {
     return result.rows;
@@ -154,7 +154,7 @@ export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
 
 export interface GetCountGroups {
   gname: string;
-  count: number;
+  message_count: number;
 }
 
 // pvxg: all groups stats
@@ -164,7 +164,7 @@ export const getCountGroups = async (): Promise<GetCountGroups[]> => {
   //   "SELECT groupjid,SUM(count) as count FROM countmember GROUP BY groupjid ORDER BY count DESC;"
   // );
   const result = await pool.query(
-    "SELECT groups.gname,SUM(countmember.count) as count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY count DESC;"
+    "SELECT groups.gname,SUM(countmember.message_count) as message_count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY message_count DESC;"
   );
   if (result.rowCount) {
     return result.rows;
@@ -203,7 +203,7 @@ export const setCountMember = async (
   const result = { currentGroup: 0, allGroup: 0 };
   try {
     const res = await pool.query(
-      "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
+      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
       [memberjid, groupjid]
     );
 
@@ -214,7 +214,7 @@ export const setCountMember = async (
         [memberjid, groupjid, 1, 0]
       );
     } else {
-      result.currentGroup = res.rows[0].count;
+      result.currentGroup = res.rows[0].message_count;
     }
   } catch (err) {
     console.log(err);
@@ -237,12 +237,12 @@ export const setCountMember = async (
 
   try {
     const res = await pool.query(
-      "SELECT sum(count) as count, memberjid FROM countmember GROUP BY memberjid HAVING memberjid=$1;",
+      "SELECT sum(message_count) as message_count, memberjid FROM countmember GROUP BY memberjid HAVING memberjid=$1;",
       [memberjid]
     );
 
     if (res.rowCount !== 0) {
-      result.allGroup = res.rows[0].count;
+      result.allGroup = res.rows[0].message_count;
     }
   } catch (err) {
     console.log(err);

@@ -23,8 +23,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let countGroupMsgTempTop = "\n";
   let totalGrpCountTop = 0;
   getCountTopRes.forEach((member, index) => {
-    totalGrpCountTop += Number(member.count);
-    countGroupMsgTempTop += `\n${index + 1}) ${member.name} - ${member.count}`;
+    totalGrpCountTop += Number(member.message_count);
+    countGroupMsgTempTop += `\n${index + 1}) ${member.name} - ${
+      member.message_count
+    }`;
   });
   countGroupMsgTop += `\n*Total Messages: ${totalGrpCountTop}*`;
   countGroupMsgTop += countGroupMsgTempTop;
