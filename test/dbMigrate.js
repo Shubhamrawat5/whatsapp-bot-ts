@@ -230,3 +230,24 @@
 // // countwarning(); //YES
 // // groupname(); //YES
 // // check();
+
+// const transfer = async () => {
+//     const result = await pool.query("SELECT * FROM countwarning ");
+//     console.log(result.rows);
+//     let time = 500;
+//     let counting = 1;
+
+//     result.rows.forEach((res) => {
+//       setTimeout(async () => {
+//         console.log(counting);
+//         const { memberjid, groupjid, count } = res;
+//         await pool.query(
+//           "UPDATE countmember SET warning=$1 WHERE memberjid=$2 and groupjid=$3;",
+//           [count, memberjid, groupjid]
+//         );
+//         counting += 1;
+//       }, time);
+//       time += 500;
+//     });
+//   };
+//   transfer();

@@ -37,7 +37,6 @@ import pvxg from "../commands/members/pvxg";
 import pvxm from "../commands/members/pvxm";
 import pvxstats from "../commands/members/pvxstats";
 import pvxt from "../commands/members/pvxt";
-import pvxt10 from "../commands/members/pvxt10";
 import pvxt5 from "../commands/members/pvxt5";
 import pvxtm from "../commands/members/pvxtm";
 import quote from "../commands/members/quote";
@@ -167,7 +166,6 @@ const addCommands = async () => {
     pvxm,
     pvxstats,
     pvxt,
-    pvxt10,
     pvxt5,
     pvxm,
     pvxv,

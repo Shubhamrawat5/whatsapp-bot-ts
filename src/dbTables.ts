@@ -17,7 +17,6 @@ import { createStudyTable } from "./db/postStudyDB";
 import { createTechTable } from "./db/postTechDB";
 import { createVotingAllTable } from "./db/votingAllDB";
 import { createVotingTable } from "./db/VotingDB";
-import { createCountWarningTable } from "./db/warningDB";
 import { createGroupbackupTable } from "./db/backupDB";
 
 const createDbTables = async () => {
@@ -40,7 +39,6 @@ const createDbTables = async () => {
   await createTechTable();
   await createVotingAllTable();
   await createVotingTable();
-  await createCountWarningTable();
   await createGroupbackupTable();
   console.log("Created all DB tables");
 };

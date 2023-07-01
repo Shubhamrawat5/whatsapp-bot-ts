@@ -3,7 +3,7 @@ import pool from "./pool";
 // create countmember table if not there
 export const createCountMemberTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countmember(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
+    "CREATE TABLE IF NOT EXISTS countmember(memberjid text, groupjid text, count integer NOT NULL, warning integer NOT NULL, PRIMARY KEY (memberjid, groupjid), check(count BETWEEN 1 and 3));"
   );
 };
 
@@ -152,24 +152,6 @@ export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
   return [];
 };
 
-export interface GetCountTop10 {
-  gname: string;
-  name: string;
-  count: number;
-}
-
-// pvxt10: top members stats of all groups
-export const getCountTop10 = async (): Promise<GetCountTop10[]> => {
-  await createCountMemberTable();
-  const result = await pool.query(
-    "SELECT groups.gname,members.name,rs.count FROM (SELECT groupjid,memberjid,count, Rank() over (Partition BY groupjid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 10;"
-  );
-  if (result.rowCount) {
-    return result.rows;
-  }
-  return [];
-};
-
 export interface GetCountGroups {
   gname: string;
   count: number;
@@ -208,70 +190,6 @@ export const getUsernames = async (
   return [];
 };
 
-// module.exports.setCountMember = async (memberjid, groupjid, name) => {
-//   if (!groupjid.endsWith("@g.us")) return;
-
-//   //check if groupjid is present in DB or not
-//   let result;
-//   try {
-//     result = await pool.query(
-//       "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberjid, groupjid]
-//     );
-//   } catch (err) {
-//     await createCountMemberTable();
-//     result = await pool.query(
-//       "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberjid, groupjid]
-//     );
-//   }
-
-//   //present
-//   if (result.rows.length) {
-//     let count = result.rows[0].count;
-
-//     await pool.query(
-//       "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberjid, groupjid]
-//     );
-//   } else {
-//     await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
-//       memberjid,
-//       groupjid,
-//       1,
-//     ]);
-//   }
-//
-
-//   let resultName;
-//   try {
-//     resultName = await pool.query(
-//       "select * from members WHERE memberjid=$1;",
-//       [memberjid]
-//     );
-//   } catch (err) {
-//     await createCountMemberNameTable();
-//     resultName = await pool.query(
-//       "select * from members WHERE memberjid=$1;",
-//       [memberjid]
-//     );
-//   }
-
-//   //present
-//   if (resultName.rows.length) {
-//     await pool.query(
-//       "UPDATE members SET name = $1 WHERE memberjid=$2;",
-//       [name, memberjid]
-//     );
-//   } else {
-//     await pool.query("INSERT INTO members VALUES($1,$2);", [
-//       memberjid,
-//       name,
-//     ]);
-//   }
-//
-// };
-
 export interface SetCountMember {
   currentGroup: number;
   allGroup: number;
@@ -292,8 +210,8 @@ export const setCountMember = async (
     // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query(
-        "INSERT INTO countmember VALUES($1,$2,$3) RETURNING *;",
-        [memberjid, groupjid, 1]
+        "INSERT INTO countmember VALUES($1,$2,$3,$4) RETURNING *;",
+        [memberjid, groupjid, 1, 0]
       );
     } else {
       result.currentGroup = res.rows[0].count;
@@ -323,7 +241,6 @@ export const setCountMember = async (
       [memberjid]
     );
 
-    // not updated. time to insert
     if (res.rowCount !== 0) {
       result.allGroup = res.rows[0].count;
     }

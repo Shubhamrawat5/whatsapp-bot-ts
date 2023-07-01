@@ -5,6 +5,7 @@ export const pvxgroups: Pvxgroups = {
   pvxsubadmin: "120363049192218305@g.us",
   pvxstudy: "919557666582-1617595892@g.us",
   pvxmano: "19016677357-1630334490@g.us",
+  pvxfood: "120363039452453480@g.us",
   pvxtech: "919557666582-1551290369@g.us",
   pvxtechonly: "919557666582-1548337792@g.us",
   pvxsport: "919557666582-1559476348@g.us",
@@ -13,8 +14,11 @@ export const pvxgroups: Pvxgroups = {
   pvxstickeronly1: "919557666582-1628610549@g.us",
   pvxstickeronly2: "919557666582-1586018947@g.us",
   pvxdeals: "919557666582-1582555632@g.us",
+  pvxgaming: "17028054150-1608057174@g.us",
   pvxstatus: "919557666582-1627834788@g.us",
   pvxmemes: "919557666582-1551346051@g.us",
+  pvxkrypto: "918329198682-1614096949@g.us",
+  pvxbotcommands: "919675642959-1606755119@g.us",
   pvxtesting: "919478205112-1598720728@g.us",
 };
 
@@ -25,6 +29,7 @@ export interface Pvxgroups {
   pvxsubadmin: string;
   pvxstudy: string;
   pvxmano: string;
+  pvxfood: string;
   pvxtech: string;
   pvxtechonly: string;
   pvxsport: string;
@@ -33,8 +38,11 @@ export interface Pvxgroups {
   pvxstickeronly1: string;
   pvxstickeronly2: string;
   pvxdeals: string;
+  pvxgaming: string;
   pvxstatus: string;
   pvxmemes: string;
+  pvxkrypto: string;
+  pvxbotcommands: string;
   pvxtesting: string;
 }
 

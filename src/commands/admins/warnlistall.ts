@@ -12,7 +12,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let warnMsg = `*ALL PVX GROUPS*\n_warning status_${readMore}\n`;
 
   getCountWarningAllGroupRes.forEach((mem) => {
-    warnMsg += `\n${mem.count} - ${mem.name}`;
+    warnMsg += `\n${mem.warning} - ${mem.name}`;
   });
 
   await reply(warnMsg);
