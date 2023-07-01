@@ -2,7 +2,7 @@ import pool from "./pool";
 
 export const createVotingTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS voting(groupjid text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, members_voted_for json, voted_members json);"
+    "CREATE TABLE IF NOT EXISTS voting(groupjid text PRIMARY KEY, is_started Boolean NOT NULL, started_by text NOT NULL, title text NOT NULL, choices json NOT NULL, count json NOT NULL, members_voted_for json NOT NULL, voted_members json NOT NULL);"
   );
 };
 

@@ -3,14 +3,14 @@ import pool from "./pool";
 // create countmember table if not there
 export const createCountMemberTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countmember(memberjid text, groupjid text, count integer NOT NULL, warning integer NOT NULL, PRIMARY KEY (memberjid, groupjid), check(count BETWEEN 1 and 3));"
+    "CREATE TABLE IF NOT EXISTS countmember(memberjid text NOT NULL, groupjid text NOT NULL, count integer NOT NULL DEFAULT 0, warning integer NOT NULL DEFAULT 0, PRIMARY KEY (memberjid, groupjid), check(warning BETWEEN 1 and 3));"
   );
 };
 
 // create members table if not there
 export const createMembersTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS members(memberjid text PRIMARY KEY, name text);"
+    "CREATE TABLE IF NOT EXISTS members(memberjid text PRIMARY KEY, name text NOT NULL);"
   );
 };
 

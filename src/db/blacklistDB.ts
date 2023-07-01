@@ -3,7 +3,7 @@ import pool from "./pool";
 // create blacklist table if not there
 export const createBlacklistTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text, admin text);"
+    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text NOT NULL, admin text NOT NULL);"
   );
 };
 export interface GetBlacklist {

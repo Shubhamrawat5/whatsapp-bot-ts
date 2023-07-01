@@ -1,12 +1,12 @@
-import pool from "./pool";
+// import pool from "./pool";
 
-// create createCountVideoTable table if not there
-// 15/03/23
-export const createGroupParticipantTable = async () => {
-  await pool.query(
-    "CREATE TABLE IF NOT EXISTS groupparticipant(memberjid text , groupjid text, action text, date timestamp);"
-  );
-};
+// // create createCountVideoTable table if not there
+// // 15/03/23
+// export const createGroupParticipantTable = async () => {
+//   await pool.query(
+//     "CREATE TABLE IF NOT EXISTS groupparticipant(memberjid text , groupjid text, action text, date timestamp);"
+//   );
+// };
 
 // module.exports.getGroupParticipant = async (groupjid) => {
 //   try {
@@ -26,40 +26,40 @@ export const createGroupParticipantTable = async () => {
 //   }
 // };
 
-export const setGroupParticipant = async (
-  memberjid: string,
-  groupjid: string,
-  action: string
-): Promise<boolean> => {
-  const today = new Date();
-  let localeDate = today.toLocaleDateString("en-GB", {
-    timeZone: "Asia/kolkata",
-  });
-  const localeDateList = localeDate.split("/");
-  const temp = localeDateList[0];
-  // eslint-disable-next-line prefer-destructuring
-  localeDateList[0] = localeDateList[2];
-  localeDateList[2] = temp;
-  localeDate = localeDateList.join("/");
+// export const setGroupParticipant = async (
+//   memberjid: string,
+//   groupjid: string,
+//   action: string
+// ): Promise<boolean> => {
+//   const today = new Date();
+//   let localeDate = today.toLocaleDateString("en-GB", {
+//     timeZone: "Asia/kolkata",
+//   });
+//   const localeDateList = localeDate.split("/");
+//   const temp = localeDateList[0];
+//   // eslint-disable-next-line prefer-destructuring
+//   localeDateList[0] = localeDateList[2];
+//   localeDateList[2] = temp;
+//   localeDate = localeDateList.join("/");
 
-  const localeTime = today.toLocaleTimeString("en-GB", {
-    timeZone: "Asia/kolkata",
-  });
+//   const localeTime = today.toLocaleTimeString("en-GB", {
+//     timeZone: "Asia/kolkata",
+//   });
 
-  const todayNew = `${localeDate} ${localeTime}`;
-  console.log(todayNew);
+//   const todayNew = `${localeDate} ${localeTime}`;
+//   console.log(todayNew);
 
-  try {
-    await pool.query("INSERT INTO groupparticipant VALUES($1,$2,$3,$4);", [
-      memberjid,
-      groupjid,
-      action,
-      todayNew,
-    ]);
-    return true;
-  } catch (err) {
-    console.log(err);
-    await createGroupParticipantTable();
-    return false;
-  }
-};
+//   try {
+//     await pool.query("INSERT INTO groupparticipant VALUES($1,$2,$3,$4);", [
+//       memberjid,
+//       groupjid,
+//       action,
+//       todayNew,
+//     ]);
+//     return true;
+//   } catch (err) {
+//     console.log(err);
+//     await createGroupParticipantTable();
+//     return false;
+//   }
+// };

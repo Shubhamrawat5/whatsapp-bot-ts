@@ -5,7 +5,7 @@ import pool from "./pool";
 // FIX CAMEL CASES
 export const createAuthTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
+    "CREATE TABLE IF NOT EXISTS auth(noiseKey text NOT NULL, signedIdentityKey text NOT NULL, signedPreKey text NOT NULL, registrationId text NOT NULL, advSecretKey text NOT NULL, nextPreKeyId text NOT NULL, firstUnuploadedPreKeyId text NOT NULL, account text NOT NULL, me text NOT NULL, signalIdentities text NOT NULL, lastAccountSyncTimestamp text NOT NULL, myAppStateKeyId text NOT NULL);"
   );
 };
 
