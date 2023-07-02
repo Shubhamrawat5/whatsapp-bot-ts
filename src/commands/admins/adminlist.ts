@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 import { pvxgroups } from "../../constants/constants";
-import { getUsernames } from "../../db/countMemberDB";
+import { getUsernames } from "../../db/membersDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;

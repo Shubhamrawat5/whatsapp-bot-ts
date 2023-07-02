@@ -1,6 +1,5 @@
 import pool from "./pool";
 
-// create createCountVideoTable table if not there
 export const createCountVideoTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS countvideo(memberjid text NOT NULL, groupjid text NOT NULL, count integer NOT NULL DEFAULT 0, PRIMARY KEY (memberjid, groupjid));"
@@ -54,7 +53,6 @@ export const setCountVideo = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createCountVideoTable();
     return false;
   }
 };
@@ -68,7 +66,6 @@ export const setCountVideo = async (
 //       [memberjid, groupjid]
 //     );
 //   } catch (err) {
-//     await createCountVideoTable();
 //     result = await pool.query(
 //       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
 //       [memberjid, groupjid]

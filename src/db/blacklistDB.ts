@@ -1,6 +1,5 @@
 import pool from "./pool";
 
-// create blacklist table if not there
 export const createBlacklistTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text NOT NULL, admin text NOT NULL);"
@@ -16,7 +15,6 @@ export const getBlacklist = async (
   number?: string
 ): Promise<GetBlacklist[]> => {
   // FIX THESE CREATE TABLES
-  await createBlacklistTable();
   let result;
   if (number) {
     result = await pool.query(
@@ -56,7 +54,6 @@ export const addBlacklist = async (
     }
     console.log(err);
 
-    await createBlacklistTable();
     return (err as Error).toString();
   }
 };
@@ -82,7 +79,6 @@ export const removeBlacklist = async (
     return "There is some problem! Check the number";
   } catch (err) {
     console.log(err);
-    await createBlacklistTable();
     return (err as Error).toString();
   }
 };

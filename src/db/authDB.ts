@@ -1,8 +1,6 @@
-// import { AuthenticationState } from "@adiwajshing/baileys";
 import { AuthenticationState } from "@adiwajshing/baileys";
 import pool from "./pool";
 
-// FIX CAMEL CASES
 export const createAuthTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS auth(noisekey text NOT NULL, signedidentitykey text NOT NULL, signedprekey text NOT NULL, registrationid text NOT NULL, advsecretkey text NOT NULL, nextprekeyid text NOT NULL, firstunuploadedprekeyid text NOT NULL, account text NOT NULL, me text NOT NULL, signalidentities text NOT NULL, lastaccountsynctimestamp text NOT NULL, myappstatekeyid text NOT NULL);"
@@ -19,7 +17,6 @@ export const fetchAuth = async (
 ): Promise<FetchAuth> => {
   let cred: any;
   let authRowCount = 0;
-  await createAuthTable();
   try {
     const authResult = await pool.query("select * from auth;"); // checking auth table
 
@@ -140,7 +137,6 @@ export const storeAuth = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createAuthTable();
     return false;
   }
 };

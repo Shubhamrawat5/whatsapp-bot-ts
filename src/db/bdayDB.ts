@@ -18,7 +18,6 @@ export interface Getbday {
 }
 
 export const getbday = async (): Promise<Getbday[]> => {
-  await createbdayTable();
   const result = await pool.query("select * from bday;");
 
   if (result.rowCount) {
@@ -53,7 +52,6 @@ export const addbday = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createbdayTable();
     return false;
   }
 };

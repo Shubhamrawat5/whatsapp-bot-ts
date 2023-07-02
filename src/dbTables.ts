@@ -2,9 +2,9 @@ import { createUnknownCmdTable } from "./db/addUnknownCmdDB";
 import { createAuthTable } from "./db/authDB";
 import { createbdayTable } from "./db/bdayDB";
 import { createBlacklistTable } from "./db/blacklistDB";
-import { createCountMemberTable, createMembersTable } from "./db/countMemberDB";
+import { createCountMemberTable } from "./db/countMemberDB";
+import { createMembersTable } from "./db/membersDB";
 import { createCountVideoTable } from "./db/countVideoDB";
-import { createDonationTable } from "./db/donationDB";
 import { createGroupLinksEnabledTable } from "./db/groupLinksEnabled";
 import { createGroupsTable } from "./db/groupsDataDB";
 import {
@@ -24,7 +24,6 @@ const createDbTables = async () => {
   await createCountMemberTable();
   await createMembersTable();
   await createCountVideoTable();
-  await createDonationTable();
   await createGroupLinksEnabledTable();
   await createGroupsTable();
   await createMilestoneTable();

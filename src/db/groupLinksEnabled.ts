@@ -1,6 +1,5 @@
 import pool from "./pool";
 
-// create group links table if not there
 export const createGroupLinksEnabledTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS grouplinksenabled(enabled integer PRIMARY KEY);"
@@ -22,7 +21,6 @@ export const setGroupLinksEnabled = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createGroupLinksEnabledTable();
     return false;
   }
 };

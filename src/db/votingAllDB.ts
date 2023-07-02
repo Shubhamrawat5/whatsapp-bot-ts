@@ -2,7 +2,9 @@
 
 // export const createVotingAllTable = async () => {
 //   await pool.query(
-//     "CREATE TABLE IF NOT EXISTS votingall(groupjid text PRIMARY KEY, is_started Boolean, started_by text, title text, choices json, count json, members_voted_for json, voted_members json);"
+//     "CREATE TABLE IF NOT EXISTS votingall(groupjid text PRIMARY KEY, is_started Boolean,
+// started_by text, title text, choices json, count json,
+// members_voted_for json, voted_members json);"
 //   );
 // };
 // export interface GetVotingAllData {

@@ -2,7 +2,7 @@ import { GroupMetadata } from "@adiwajshing/baileys";
 import { Pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";
-import { getDonation } from "../db/donationDB";
+import { getDonation } from "../db/membersDB";
 
 const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
@@ -51,7 +51,7 @@ const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
     if (index === 0) {
       milestones[memberjid].push("Highest contribution in PVX funds");
-    } else if (member.amount >= 1000) {
+    } else if (member.donation >= 1000) {
       milestones[memberjid].push("Huge Contribution in PVX funds");
     } else {
       milestones[memberjid].push("Contribution in PVX funds");

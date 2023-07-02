@@ -1,7 +1,5 @@
 import pool from "./pool";
 
-// TODO: ADD NOT NULL IN ALL TABLES
-// create groups table if not there
 export const createGroupsTable = async () => {
   await pool.query(
     "CREATE TABLE IF NOT EXISTS groups(groupjid text PRIMARY KEY, gname text NOT NULL, link text, commands_disabled json);"
@@ -43,7 +41,6 @@ export const setGroupsData = async (
   const disabledJson = JSON.stringify(disabled);
   try {
     if (!groupjid.endsWith("@g.us")) return false;
-    await createGroupsTable();
 
     // check if groupjid is present in DB or not
     const res = await pool.query(
@@ -63,7 +60,6 @@ export const setGroupsData = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createGroupsTable();
     return false;
   }
 };
@@ -93,7 +89,6 @@ export const setDisableCommand = async (
     return true;
   } catch (err) {
     console.log(err);
-    await createGroupsTable();
     return false;
   }
 };

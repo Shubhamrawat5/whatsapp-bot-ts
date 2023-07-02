@@ -1,6 +1,5 @@
 import pool from "./pool";
 
-// create blacklist table if not there
 // 25/02/23
 export const createUnknownCmdTable = async () => {
   await pool.query(
@@ -14,7 +13,6 @@ export interface GetUnknowCmdlist {
 }
 
 export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
-  await createUnknownCmdTable();
   const result = await pool.query("select * from unknowncmd order by count;");
 
   if (result.rowCount) {
@@ -37,7 +35,6 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
     return true;
   } catch (err) {
     console.log(err);
-    await createUnknownCmdTable();
     return false;
   }
 };

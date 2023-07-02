@@ -1,6 +1,5 @@
 // import pool from "./pool";
 
-// // create groupbackup table if not there
 // export const createGroupbackupTable = async () => {
 //   await pool.query(
 //     "CREATE TABLE IF NOT EXISTS groupbackup(date text PRIMARY KEY,

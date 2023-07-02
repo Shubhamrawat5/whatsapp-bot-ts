@@ -20,8 +20,6 @@ export interface GetVotingData {
 export const getVotingData = async (
   groupjid: string
 ): Promise<GetVotingData[]> => {
-  await createVotingTable();
-
   // check if today date is present in DB or not
   const result = await pool.query("select * from voting where groupjid=$1;", [
     groupjid,
@@ -59,7 +57,6 @@ const updateVotingData = async (
     return true;
   } catch (error) {
     console.log(error);
-    await createVotingTable();
     return false;
   }
 };
@@ -78,7 +75,6 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.log(error);
-    await createVotingTable();
     return false;
   }
 };
@@ -130,7 +126,6 @@ export const setVotingData = async (
     return true;
   } catch (error) {
     console.log(error);
-    await createVotingTable();
     return false;
   }
 };

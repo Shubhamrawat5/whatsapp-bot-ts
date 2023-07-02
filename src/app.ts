@@ -20,7 +20,8 @@ import stringSimilarity from "string-similarity";
 import NodeCache from "node-cache";
 
 /* ----------------------------- add local files ---------------------------- */
-import { getUsernames, setCountMember } from "./db/countMemberDB";
+import { setCountMember } from "./db/countMemberDB";
+import { getUsernames } from "./db/membersDB";
 import { setCountVideo } from "./db/countVideoDB";
 import { getGroupsData } from "./db/groupsDataDB";
 import { storeAuth, fetchAuth, dropAuth } from "./db/authDB";
