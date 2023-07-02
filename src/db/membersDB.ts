@@ -5,7 +5,7 @@ export const createMembersTable = async () => {
     `CREATE TABLE IF NOT EXISTS members(
         memberjid TEXT PRIMARY KEY, 
         name TEXT NOT NULL, 
-        donation INTEGER,
+        donation INTEGER
     );`
   );
 };

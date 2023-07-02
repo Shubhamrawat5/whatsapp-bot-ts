@@ -6,7 +6,7 @@ export const createGroupsTable = async () => {
       groupjid TEXT PRIMARY KEY, 
       gname TEXT NOT NULL, 
       link TEXT, 
-      commands_disabled JSON,
+      commands_disabled JSON
     );`
   );
 };

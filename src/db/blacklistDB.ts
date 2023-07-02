@@ -5,7 +5,7 @@ export const createBlacklistTable = async () => {
     `CREATE TABLE IF NOT EXISTS blacklist(
       number TEXT PRIMARY KEY, 
       reason TEXT NOT NULL, 
-      admin TEXT NOT NULL,
+      admin TEXT NOT NULL
     );`
   );
 };

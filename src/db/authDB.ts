@@ -15,7 +15,7 @@ export const createAuthTable = async () => {
       me TEXT NOT NULL, 
       signalidentities TEXT NOT NULL, 
       lastaccountsynctimestamp TEXT NOT NULL, 
-      myappstatekeyid TEXT NOT NULL,
+      myappstatekeyid TEXT NOT NULL
     );`
   );
 };

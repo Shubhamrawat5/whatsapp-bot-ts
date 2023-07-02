@@ -6,7 +6,7 @@ export const createCountVideoTable = async () => {
       memberjid TEXT NOT NULL, 
       groupjid TEXT NOT NULL, 
       count INTEGER NOT NULL DEFAULT 0, 
-      PRIMARY KEY (memberjid, groupjid),
+      PRIMARY KEY (memberjid, groupjid)
     );`
   );
 };

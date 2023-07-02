@@ -5,7 +5,7 @@ export const createUnknownCmdTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS unknowncmd(
       command TEXT PRIMARY KEY, 
-      count INTEGER NOT NULL DEFAULT 0,
+      count INTEGER NOT NULL DEFAULT 0
     );`
   );
 };

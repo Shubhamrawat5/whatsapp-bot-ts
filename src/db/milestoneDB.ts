@@ -4,7 +4,7 @@ export const createMilestoneTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS milestone(
       memberjid TEXT PRIMARY KEY, 
-      achieved JSON,
+      achieved JSON
     );`
   );
 };
@@ -63,7 +63,7 @@ export const createMilestoneTextTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS milestonetext(
       sno SERIAL PRIMARY KEY, 
-      milestone TEXT,
+      milestone TEXT
     );`
   );
 };

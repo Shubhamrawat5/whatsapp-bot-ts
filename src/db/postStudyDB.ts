@@ -3,7 +3,7 @@ import pool from "./pool";
 export const createStudyTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS studynews(
-      news TEXT PRIMARY KEY,
+      news TEXT PRIMARY KEY
     );`
   );
 };

@@ -10,7 +10,7 @@ export const createbdayTable = async () => {
       month INTEGER NOT NULL, 
       year INTEGER, 
       place TEXT NOT NULL, 
-      number TEXT PRIMARY KEY,
+      number TEXT PRIMARY KEY
     );`
   );
 };

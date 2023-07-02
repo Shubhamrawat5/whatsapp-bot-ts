@@ -3,14 +3,13 @@ import pool from "./pool";
 export const createGroupLinksEnabledTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS grouplinksenabled(
-      enabled INTEGER PRIMARY KEY,
+      enabled BOOLEAN PRIMARY KEY
     );`
   );
 };
 
-// 0 or 1
 export const setGroupLinksEnabled = async (
-  enabled: number
+  enabled: boolean
 ): Promise<boolean> => {
   try {
     const res = await pool.query("UPDATE grouplinksenabled SET enabled = $1;", [
