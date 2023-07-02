@@ -87,7 +87,7 @@ export const getRankInAllGroups = async (
     resultObj.name = result.rows[0].name;
     resultObj.message_count = result.rows[0].message_count;
     resultObj.ranks = result.rows[0].ranks;
-    resultObj.totalUsers = result2.rows[0].message_count;
+    resultObj.totalUsers = result2.rows[0].count;
     return [resultObj];
   }
   return [];

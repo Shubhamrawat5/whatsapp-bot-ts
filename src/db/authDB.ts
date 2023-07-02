@@ -5,7 +5,7 @@ import pool from "./pool";
 // FIX CAMEL CASES
 export const createAuthTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS auth(noiseKey text NOT NULL, signedIdentityKey text NOT NULL, signedPreKey text NOT NULL, registrationId text NOT NULL, advSecretKey text NOT NULL, nextPreKeyId text NOT NULL, firstUnuploadedPreKeyId text NOT NULL, account text NOT NULL, me text NOT NULL, signalIdentities text NOT NULL, lastAccountSyncTimestamp text NOT NULL, myAppStateKeyId text NOT NULL);"
+    "CREATE TABLE IF NOT EXISTS auth(noisekey text NOT NULL, signedidentitykey text NOT NULL, signedprekey text NOT NULL, registrationid text NOT NULL, advsecretkey text NOT NULL, nextprekeyid text NOT NULL, firstunuploadedprekeyid text NOT NULL, account text NOT NULL, me text NOT NULL, signalidentities text NOT NULL, lastaccountsynctimestamp text NOT NULL, myappstatekeyid text NOT NULL);"
   );
 };
 
@@ -44,7 +44,7 @@ export const fetchAuth = async (
           me: JSON.parse(data.me),
           signalIdentities: JSON.parse(data.signalidentities),
           lastAccountSyncTimestamp: 0, // To allow bot to read the messages
-          // lastAccountSyncTimestamp: Number(data.lastaccountsynctimestampb),
+          // lastAccountSyncTimestamp: Number(data.lastaccountsynctimestamp),
           myAppStateKeyId: data.myappstatekeyid,
         },
         keys: state.keys,
