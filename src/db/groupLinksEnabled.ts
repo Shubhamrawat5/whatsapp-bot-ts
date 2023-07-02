@@ -2,7 +2,9 @@ import pool from "./pool";
 
 export const createGroupLinksEnabledTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS grouplinksenabled(enabled integer PRIMARY KEY);"
+    `CREATE TABLE IF NOT EXISTS grouplinksenabled(
+      enabled INTEGER PRIMARY KEY,
+    );`
   );
 };
 

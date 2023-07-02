@@ -6,7 +6,7 @@ import { createCountMemberTable } from "./db/countMemberDB";
 import { createMembersTable } from "./db/membersDB";
 import { createCountVideoTable } from "./db/countVideoDB";
 import { createGroupLinksEnabledTable } from "./db/groupLinksEnabled";
-import { createGroupsTable } from "./db/groupsDataDB";
+import { createGroupsTable } from "./db/groupsDB";
 import {
   createMilestoneTable,
   createMilestoneTextTable,

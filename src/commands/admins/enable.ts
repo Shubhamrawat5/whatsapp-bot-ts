@@ -1,7 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getGroupsData, setDisableCommand } from "../../db/groupsDataDB";
+import { getGroupsData, setDisableCommand } from "../../db/groupsDB";
 import { prefix } from "../../constants/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

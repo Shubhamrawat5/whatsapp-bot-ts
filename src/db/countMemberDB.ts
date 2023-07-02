@@ -2,7 +2,14 @@ import pool from "./pool";
 
 export const createCountMemberTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countmember(memberjid text NOT NULL, groupjid text NOT NULL, message_count integer NOT NULL DEFAULT 0, warning integer NOT NULL DEFAULT 0, PRIMARY KEY (memberjid, groupjid), check(warning BETWEEN 1 and 3));"
+    `CREATE TABLE IF NOT EXISTS countmember(
+      memberjid TEXT NOT NULL, 
+      groupjid TEXT NOT NULL, 
+      message_count INTEGER NOT NULL DEFAULT 0, 
+      warning INTEGER NOT NULL DEFAULT 0, 
+      PRIMARY KEY (memberjid, groupjid), 
+      CHECK(warning BETWEEN 0 and 3),
+    );`
   );
 };
 

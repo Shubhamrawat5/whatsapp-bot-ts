@@ -3,7 +3,20 @@ import pool from "./pool";
 
 export const createAuthTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS auth(noisekey text NOT NULL, signedidentitykey text NOT NULL, signedprekey text NOT NULL, registrationid text NOT NULL, advsecretkey text NOT NULL, nextprekeyid text NOT NULL, firstunuploadedprekeyid text NOT NULL, account text NOT NULL, me text NOT NULL, signalidentities text NOT NULL, lastaccountsynctimestamp text NOT NULL, myappstatekeyid text NOT NULL);"
+    `CREATE TABLE IF NOT EXISTS auth(
+      noisekey TEXT NOT NULL, 
+      signedidentitykey TEXT NOT NULL,
+      signedprekey TEXT NOT NULL, 
+      registrationid TEXT NOT NULL, 
+      advsecretkey TEXT NOT NULL, 
+      nextprekeyid TEXT NOT NULL, 
+      firstunuploadedprekeyid TEXT NOT NULL, 
+      account TEXT NOT NULL, 
+      me TEXT NOT NULL, 
+      signalidentities TEXT NOT NULL, 
+      lastaccountsynctimestamp TEXT NOT NULL, 
+      myappstatekeyid TEXT NOT NULL,
+    );`
   );
 };
 

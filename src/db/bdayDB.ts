@@ -3,7 +3,15 @@ import pool from "./pool";
 
 export const createbdayTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS bday(name text NOT NULL, username text NOT NULL, date integer NOT NULL, month integer NOT NULL, year integer, place text NOT NULL, number text PRIMARY KEY);"
+    `CREATE TABLE IF NOT EXISTS bday(
+      name TEXT NOT NULL, 
+      username TEXT NOT NULL, 
+      date INTEGER NOT NULL, 
+      month INTEGER NOT NULL, 
+      year INTEGER, 
+      place TEXT NOT NULL, 
+      number TEXT PRIMARY KEY,
+    );`
   );
 };
 

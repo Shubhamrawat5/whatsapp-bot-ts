@@ -2,7 +2,11 @@ import pool from "./pool";
 
 export const createMembersTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS members(memberjid text PRIMARY KEY, name text NOT NULL);"
+    `CREATE TABLE IF NOT EXISTS members(
+        memberjid TEXT PRIMARY KEY, 
+        name TEXT NOT NULL, 
+        donation INTEGER,
+    );`
   );
 };
 
@@ -15,7 +19,7 @@ export const getUsernames = async (
   memberjidArray: string[]
 ): Promise<GetUsernames[]> => {
   const result = await pool.query(
-    "SELECT * from members where memberjid = ANY($1::text[])",
+    "SELECT * from members where memberjid = ANY($1::TEXT[])",
     [memberjidArray]
   );
   if (result.rowCount) {
@@ -26,7 +30,7 @@ export const getUsernames = async (
 
 export interface GetDonation {
   name: string;
-  number: string;
+  memberjid: string;
   donation: number;
 }
 

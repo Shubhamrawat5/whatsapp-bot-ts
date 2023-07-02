@@ -23,7 +23,7 @@ import NodeCache from "node-cache";
 import { setCountMember } from "./db/countMemberDB";
 import { getUsernames } from "./db/membersDB";
 import { setCountVideo } from "./db/countVideoDB";
-import { getGroupsData } from "./db/groupsDataDB";
+import { getGroupsData } from "./db/groupsDB";
 import { storeAuth, fetchAuth, dropAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 

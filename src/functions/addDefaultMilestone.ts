@@ -46,7 +46,7 @@ const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
 
   const getDonationRes = await getDonation();
   getDonationRes.forEach((member, index) => {
-    const memberjid = `${member.number}@s.whatsapp.net`;
+    const { memberjid } = member;
     milestones[memberjid] = milestones[memberjid] || [];
 
     if (index === 0) {

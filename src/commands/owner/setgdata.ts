@@ -1,7 +1,7 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { setGroupsData } from "../../db/groupsDataDB";
+import { setGroupsData } from "../../db/groupsDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from, groupName } = msgInfoObj;

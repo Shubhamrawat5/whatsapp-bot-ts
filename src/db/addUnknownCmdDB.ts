@@ -3,7 +3,10 @@ import pool from "./pool";
 // 25/02/23
 export const createUnknownCmdTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS x (command text PRIMARY KEY, count integer NOT NULL DEFAULT 0);"
+    `CREATE TABLE IF NOT EXISTS unknowncmd(
+      command TEXT PRIMARY KEY, 
+      count INTEGER NOT NULL DEFAULT 0,
+    );`
   );
 };
 

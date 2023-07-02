@@ -2,7 +2,12 @@ import pool from "./pool";
 
 export const createGroupsTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS groups(groupjid text PRIMARY KEY, gname text NOT NULL, link text, commands_disabled json);"
+    `CREATE TABLE IF NOT EXISTS groups(
+      groupjid TEXT PRIMARY KEY, 
+      gname TEXT NOT NULL, 
+      link TEXT, 
+      commands_disabled JSON,
+    );`
   );
 };
 
