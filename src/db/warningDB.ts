@@ -67,7 +67,7 @@ export const setCountWarning = async (
       "UPDATE countmember SET warning = warning+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
-    if (result.rows.length) {
+    if (result.rowCount === 1) {
       return true;
     }
     return false;
@@ -88,7 +88,7 @@ export const reduceCountWarning = async (
       "UPDATE countmember SET warning = warning-1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
-    if (result.rows.length) {
+    if (result.rowCount === 1) {
       return true;
     }
 
@@ -110,7 +110,8 @@ export const clearCountWarning = async (
       "UPDATE countmember SET warning = 0 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
-    if (result.rows.length) {
+
+    if (result.rowCount === 1) {
       return true;
     }
     return false;

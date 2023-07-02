@@ -50,7 +50,7 @@ const updateVotingData = async (
   voted_members: string
 ): Promise<boolean> => {
   try {
-    await pool.query(
+    const res = await pool.query(
       "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE groupjid=$8;",
       [
         is_started,
@@ -63,7 +63,11 @@ const updateVotingData = async (
         groupjid,
       ]
     );
-    return true;
+    if (res.rowCount === 1) {
+      return true;
+    }
+
+    return false;
   } catch (error) {
     console.log(error);
     return false;
@@ -77,11 +81,15 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     });
     const groupjidWithDate = `${groupjid} ${todayDate}`;
 
-    await pool.query(
+    const res = await pool.query(
       "UPDATE voting SET groupjid=$1, is_started=$2 WHERE groupjid=$3;",
       [groupjidWithDate, false, groupjid]
     );
-    return true;
+
+    if (res.rowCount) {
+      return true;
+    }
+    return false;
   } catch (error) {
     console.log(error);
     return false;
