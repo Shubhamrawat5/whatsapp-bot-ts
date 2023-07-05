@@ -4,18 +4,18 @@ table unknowncmd{
 }
 
 table auth{
-    noisekey TEXT NOT NULL,
-    signedidentitykey TEXT NOT NULL, 
-    signedprekey TEXT NOT NULL, 
-    registrationid TEXT NOT NULL, 
-    advsecretkey TEXT NOT NULL, 
-    nextprekeyid TEXT NOT NULL, 
-    firstunuploadedprekeyid TEXT NOT NULL, 
-    account TEXT NOT NULL, 
-    me TEXT NOT NULL, 
-    signalidentities TEXT NOT NULL, 
-    lastaccountsynctimestamp TEXT NOT NULL, 
-    myappstatekeyid TEXT NOT NULL,
+    noisekey TEXT,
+    signedidentitykey TEXT, 
+    signedprekey TEXT, 
+    registrationid TEXT, 
+    advsecretkey TEXT, 
+    nextprekeyid TEXT, 
+    firstunuploadedprekeyid TEXT, 
+    account TEXT, 
+    me TEXT, 
+    signalidentities TEXT, 
+    lastaccountsynctimestamp TEXT, 
+    myappstatekeyid TEXT,
 }
 
 table bday{

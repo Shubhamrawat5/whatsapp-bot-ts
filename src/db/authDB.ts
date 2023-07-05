@@ -4,18 +4,18 @@ import pool from "./pool";
 export const createAuthTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS auth(
-      noisekey TEXT NOT NULL, 
-      signedidentitykey TEXT NOT NULL,
-      signedprekey TEXT NOT NULL, 
-      registrationid TEXT NOT NULL, 
-      advsecretkey TEXT NOT NULL, 
-      nextprekeyid TEXT NOT NULL, 
-      firstunuploadedprekeyid TEXT NOT NULL, 
-      account TEXT NOT NULL, 
-      me TEXT NOT NULL, 
-      signalidentities TEXT NOT NULL, 
-      lastaccountsynctimestamp TEXT NOT NULL, 
-      myappstatekeyid TEXT NOT NULL
+      noisekey TEXT, 
+      signedidentitykey TEXT,
+      signedprekey TEXT, 
+      registrationid TEXT, 
+      advsecretkey TEXT, 
+      nextprekeyid TEXT, 
+      firstunuploadedprekeyid TEXT, 
+      account TEXT, 
+      me TEXT, 
+      signalidentities TEXT, 
+      lastaccountsynctimestamp TEXT, 
+      myappstatekeyid TEXT
     );`
   );
 };
@@ -154,9 +154,9 @@ export const storeAuth = async (
   }
 };
 
-export const dropAuth = async (): Promise<boolean> => {
+export const deleteAuth = async (): Promise<boolean> => {
   try {
-    await pool.query("DROP table auth;");
+    await pool.query("DELETE FROM auth;");
     return true;
   } catch (error) {
     console.log(error);

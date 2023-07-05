@@ -24,7 +24,7 @@ import { setCountMember } from "./db/countMemberDB";
 import { getUsernames } from "./db/membersDB";
 import { setCountVideo } from "./db/countVideoDB";
 import { getGroupsData } from "./db/groupsDB";
-import { storeAuth, fetchAuth, dropAuth } from "./db/authDB";
+import { storeAuth, fetchAuth, deleteAuth } from "./db/authDB";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
@@ -709,7 +709,7 @@ const startBot = async () => {
             await LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`
             );
-            await dropAuth();
+            await deleteAuth();
             try {
               fs.rmSync("./auth_info_multi", { recursive: true, force: true });
               console.log("Local auth_info_multi file deleted.");

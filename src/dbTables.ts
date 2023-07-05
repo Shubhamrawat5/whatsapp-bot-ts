@@ -16,7 +16,7 @@ import { createTechTable } from "./db/postTechDB";
 import { createVotingTable } from "./db/VotingDB";
 
 const createDbTables = async () => {
-  console.log("Creating all DB tables");
+  console.log("- Creating all DB tables");
   await createUnknownCmdTable();
   await createAuthTable();
   await createbdayTable();
@@ -31,7 +31,7 @@ const createDbTables = async () => {
   await createStudyTable();
   await createTechTable();
   await createVotingTable();
-  console.log("Created all DB tables");
+  console.log("✔ Created all DB tables");
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
