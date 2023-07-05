@@ -35,7 +35,7 @@ import addDefaultMilestones from "./functions/addDefaultMilestone";
 import forwardSticker from "./functions/forwardSticker";
 import countRemainder from "./functions/countRemainder";
 
-import { prefix, pvxgroups } from "./constants/constants";
+import { prefix, pvxgroups, pvxgroupsList } from "./constants/constants";
 import { MsgInfoObj } from "./interface/msgInfoObj";
 import getGroupAdmins from "./functions/getGroupAdmins";
 import { Bot } from "./interface/Bot";
@@ -330,6 +330,8 @@ const startBot = async () => {
 
           const from = msg.key.remoteJid;
           if (!from) return;
+          if (pvx === "true" && !pvxgroupsList.includes(from)) return; // only for PVX groups temporary
+
           const isGroup = from.endsWith("@g.us");
 
           let groupMetadata: GroupMetadata | undefined;
@@ -358,10 +360,11 @@ const startBot = async () => {
 
           const groupName: string | undefined = groupMetadata?.subject;
 
+          // Count message
           if (pvx === "true") {
-            // Count message
             if (
               groupName?.toUpperCase().includes("<{PVX}>") &&
+              pvxgroupsList.includes(from) &&
               from !== pvxgroups.pvxstickeronly1 &&
               from !== pvxgroups.pvxstickeronly2 &&
               from !== pvxgroups.pvxdeals &&

@@ -22,6 +22,8 @@ export const pvxgroups: Pvxgroups = {
   pvxtesting: "919478205112-1598720728@g.us",
 };
 
+export const pvxgroupsList = Object.keys(pvxgroups);
+
 export interface Pvxgroups {
   pvxcommunity: string;
   pvxprogrammer: string;
