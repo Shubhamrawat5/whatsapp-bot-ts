@@ -68,17 +68,21 @@ export const removeBlacklist = async (
 ): Promise<string> => {
   try {
     const result = await pool.query(
-      "select * from blacklist where number=$1;",
+      "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
       [number]
     );
 
+    await pool.query("select * from blacklist where number=$1;", [number]);
+
     if (result.rowCount) {
-      const { admin } = result.rows[0];
+      const { admin, adminname } = result.rows[0];
       if (!admin || admin === sender) {
         await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
         return "✔️ Removed from blacklist!";
       }
-      return "Only the admin who added in blacklist can remove!";
+      let message = `Only the admin who added in blacklist can remove!`;
+      if (adminname) message += `\nGiven by ${adminname}`;
+      return message;
     }
     return "There is some problem! Check the number";
   } catch (err) {
