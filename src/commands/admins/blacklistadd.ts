@@ -2,7 +2,8 @@ import { GroupParticipant, WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { addBlacklist } from "../../db/blacklistDB";
-import { prefix } from "../../constants/constants";
+import { prefix, pvxgroups } from "../../constants/constants";
+import { Chats } from "../../functions/addDefaultMilestone";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, sender } = msgInfoObj;
@@ -40,11 +41,24 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
+  const chats: Chats = await bot.groupFetchAllParticipating();
+
+  let isSenderMainAdmin = false;
+  chats[pvxgroups.pvxadmin].participants.forEach((member) => {
+    if (member.id === sender) {
+      isSenderMainAdmin = true;
+    }
+  });
+
+  if (!isSenderMainAdmin) {
+    await reply(`❌ Only MAIN PVX ADMIN can add in blacklist!`);
+    return;
+  }
+
   const addBlacklistRes = await addBlacklist(blacklistNumb, reason, sender);
   await reply(addBlacklistRes);
 
   const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
-  const chats = await bot.groupFetchAllParticipating();
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => ({
@@ -52,7 +66,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       id: v.id,
       participants: v.participants,
     }));
-  // console.log(groups);
 
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 

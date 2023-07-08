@@ -4,15 +4,15 @@ import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/membersDB";
 
+export interface Milestones {
+  [key: string]: string[];
+}
+export interface Chats {
+  [key: string]: GroupMetadata;
+}
+
 const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
-
-  interface Milestones {
-    [key: string]: string[];
-  }
-  interface Chats {
-    [key: string]: GroupMetadata;
-  }
 
   const milestones: Milestones = {};
 

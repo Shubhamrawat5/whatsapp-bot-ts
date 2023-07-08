@@ -13,6 +13,7 @@ export interface GetBlacklist {
   number: string;
   reason: string | null;
   admin: string | null;
+  adminname: string | null;
 }
 
 export const getBlacklist = async (
@@ -22,12 +23,12 @@ export const getBlacklist = async (
   let result;
   if (number) {
     result = await pool.query(
-      "select bl.number,bl.reason,memb.name as admin from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
+      "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
       [number]
     );
   } else {
     result = await pool.query(
-      "select bl.number,bl.reason,memb.name as admin from blacklist bl left join members memb on bl.admin=memb.memberjid order by number;"
+      "select bl.number, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid order by number;"
     );
   }
 
@@ -62,29 +63,16 @@ export const addBlacklist = async (
   }
 };
 
-export const removeBlacklist = async (
-  number: string,
-  sender: string
-): Promise<string> => {
+export const removeBlacklist = async (number: string): Promise<string> => {
   try {
-    const result = await pool.query(
-      "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
-      [number]
-    );
+    const res = await pool.query("DELETE FROM blacklist WHERE number=$1;", [
+      number,
+    ]);
 
-    await pool.query("select * from blacklist where number=$1;", [number]);
-
-    if (result.rowCount) {
-      const { admin, adminname } = result.rows[0];
-      if (!admin || admin === sender) {
-        await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
-        return "✔️ Removed from blacklist!";
-      }
-      let message = `Only the admin who added in blacklist can remove!`;
-      if (adminname) message += `\nGiven by ${adminname}`;
-      return message;
+    if (res.rowCount === 0) {
+      return "There is some problem! Check the number";
     }
-    return "There is some problem! Check the number";
+    return "✔️ Removed from blacklist!";
   } catch (err) {
     console.log(err);
     return (err as Error).toString();

@@ -27,9 +27,9 @@ const addMemberCheck = async (
       const getBlacklistRes = await getBlacklist(numSplit);
       if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
-        const { reason, admin } = getBlacklistRes[0];
+        const { reason, adminname } = getBlacklistRes[0];
         await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${admin}`,
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${adminname}`,
         });
         await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
           text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
