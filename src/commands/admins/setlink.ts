@@ -11,16 +11,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // console.log(groups);
   const setGroupsDataRes = await setGroupsData(from, groupName || "", link, []);
   if (setGroupsDataRes) {
-    await reply(`✔ Group name & link data inserted!`);
+    await reply(`✔ Group name & link data updated!`);
   } else {
     await reply(`❌ There is some problem!`);
   }
 };
 
-const setgdata = () => {
-  const cmd = ["setgdata"];
+const setlink = () => {
+  const cmd = ["setlink", "updatelink"];
 
   return { cmd, handler };
 };
 
-export default setgdata;
+export default setlink;

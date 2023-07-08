@@ -18,10 +18,10 @@ _Restricted command for owner only!_
 📛 *${prefix}broadcast* ✔
   - _Broadcast a message to all groups!_  
 
-📛 *${prefix}setgdata* ✔
+📛 *${prefix}setlink* ✔
   - _Save all group name & links in DB!_  
   
-  📛 *${prefix}setgdata* ✔
+📛 *${prefix}getgdata* ✔
     - Get all group name & links from DB!_  
 
 📛 *${prefix}websitelink #number* ✔

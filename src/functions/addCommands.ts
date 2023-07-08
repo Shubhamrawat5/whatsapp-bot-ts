@@ -19,6 +19,7 @@ import warnclear from "../commands/admins/warnclear";
 import warnlist from "../commands/admins/warnlist";
 import warnlistall from "../commands/admins/warnlistall";
 import warnreduce from "../commands/admins/warnreduce";
+import setlink from "../commands/admins/setlink";
 
 /* ----------------------------- MEMBER COMMANDS ---------------------------- */
 import ai from "../commands/members/ai";
@@ -63,7 +64,6 @@ import zero from "../commands/members/zero";
 import broadcast from "../commands/owner/broadcast";
 import donationadd from "../commands/owner/donationadd";
 import getgdata from "../commands/owner/getgdata";
-import setgdata from "../commands/owner/setgdata";
 import milestoneaddtext from "../commands/owner/milestoneaddtext";
 import tg from "../commands/owner/tg";
 
@@ -204,7 +204,7 @@ const addCommands = async () => {
     broadcast,
     donationadd,
     getgdata,
-    setgdata,
+    setlink,
     milestoneaddtext,
     tg,
   ];

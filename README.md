@@ -154,7 +154,7 @@ Fix linting errors -> `npm run lint-fix`
 |    `!tagall`    |           Tag all members in group            |       |
 |    `!gname`     |            Save group names to DB             |       |
 | `!websitelink`  |   Enable/disable group link in PVX website    | `!wl` |
-|   `!setgdata`   |       Set all group name & links in DB        |       |
+|   `!setlink`    |       Set all group name & links in DB        |       |
 |   `!getgdata`   |      Get all group name & links from DB       |       |
 |      `!tg`      |            Make TG to WA stickers             |       |
 |     `!stg`      |            Stop TG to WA stickers             |       |
