@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export const pvxgroups: Pvxgroups = {
   pvxcommunity: "919557666582-1467533860@g.us",
   pvxprogrammer: "919557666582-1584193120@g.us",
@@ -6,6 +8,7 @@ export const pvxgroups: Pvxgroups = {
   pvxstudy: "919557666582-1617595892@g.us",
   pvxmano: "19016677357-1630334490@g.us",
   pvxfood: "120363039452453480@g.us",
+  pvxanime: "919557666582-1556821647@g.us",
   pvxtech: "919557666582-1551290369@g.us",
   pvxtechonly: "919557666582-1548337792@g.us",
   pvxsport: "919557666582-1559476348@g.us",
@@ -32,6 +35,7 @@ export interface Pvxgroups {
   pvxstudy: string;
   pvxmano: string;
   pvxfood: string;
+  pvxanime: string;
   pvxtech: string;
   pvxtechonly: string;
   pvxsport: string;
@@ -49,3 +53,26 @@ export interface Pvxgroups {
 }
 
 export const prefix = "!";
+
+export const myNumber = process.env.OWNER_NUMBER;
+export const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
+export const pvx = process.env.PVX;
+export const isForwardSticker = process.env.FORWARD_STICKER;
+
+export const useStore = false;
+
+export const stats = {
+  started: "",
+  totalMessages: 0,
+  textMessage: 0,
+  stickerMessage: 0,
+  imageMessage: 0,
+  videoMessage: 0,
+  documentMessage: 0,
+  otherMessage: 0,
+  commandExecuted: 0,
+  stickerForwarded: 0,
+  stickerNotForwarded: 0,
+  memberJoined: 0,
+  memberLeft: 0,
+};
