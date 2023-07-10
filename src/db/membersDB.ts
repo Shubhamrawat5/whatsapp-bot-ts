@@ -47,7 +47,7 @@ export const getDonation = async (): Promise<GetDonation[]> => {
 };
 
 export const setDonation = async (
-  number: number,
+  number: string,
   donation: number
 ): Promise<boolean> => {
   const numberWithJid = `${number}@s.whatsapp.net`;

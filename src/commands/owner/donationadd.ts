@@ -1,43 +1,42 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-// import { addDonation } from "../../db/donationDB";
-// import { prefix } from "../../constants/constants";
+import { prefix } from "../../constants/constants";
+import { setDonation } from "../../db/membersDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply } = msgInfoObj;
-  await reply(`❌ Command temperory removed!`);
-  // const body = msg.message?.conversation;
-  // if (!body) {
-  //   await reply(`❌ Body is empty!`);
-  //   return;
-  // }
+  const { reply, args } = msgInfoObj;
+  const body = msg.message?.conversation;
+  if (!body) {
+    await reply(`❌ Body is empty!`);
+    return;
+  }
 
-  // if (args.length === 0) {
-  //   await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
-  //   return;
-  // }
+  const errorMessage = `❌ Error! Add by ${prefix}adddonation #number #amount`;
+  if (args.length === 0) {
+    await reply(errorMessage);
+    return;
+  }
 
-  // // let donaList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
-  // const donaList = body.trim().split("#");
-  // // [!adddonation, name, number, amount] = 4
-  // if (donaList.length !== 4) {
-  //   await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
-  //   return;
-  // }
-  // const name = donaList[1].trim().toLowerCase();
-  // const number = Number(donaList[2].trim());
-  // const amount = Number(donaList[3].trim());
+  // let donaList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
+  const donationList = body.trim().split("#");
 
-  // console.log(`name: ${name}, number: ${number}, amount: ${amount}`);
+  // [!adddonation, number, amount] = 3
+  if (donationList.length !== 3) {
+    await reply(errorMessage);
+    return;
+  }
+  const number = donationList[1].trim();
+  const amount = Number(donationList[2].trim());
 
-  // if (name && number && amount) {
-  //   const addDonationRes = await addDonation(name, number, amount);
-  //   if (addDonationRes) await reply("✔️ Added!");
-  //   else await reply(`❌ There is some problem!`);
-  // } else {
-  //   await reply(`❌ Error! Add by ${prefix}adddonation #name #number #amount`);
-  // }
+  // console.log(`number: ${number}, amount: ${amount}`);
+  if (number && number.length === 12 && amount && amount > 0) {
+    const addDonationRes = await setDonation(number, amount);
+    if (addDonationRes) await reply("✔️ Added!");
+    else await reply(`❌ There is some problem!`);
+  } else {
+    await reply(errorMessage);
+  }
 };
 
 const donationadd = () => {
