@@ -11,6 +11,7 @@ let startCount = 1;
 
 export type ConnectionUpdate = Partial<ConnectionState>;
 
+// return true for alright, false for to restart bot
 export const connectionUpdate = async (
   update: ConnectionUpdate,
   bot: Bot
@@ -22,7 +23,7 @@ export const connectionUpdate = async (
     // 'open' | 'connecting' | 'close'
     if (connection === "open") {
       console.log("Connected");
-      //   await LoggerTg(`[STARTED BOT]: ${startCount}`);
+      // await LoggerTg(`[STARTED BOT]: ${startCount}`);
       await bot.sendMessage(myNumberWithJid, {
         text: `[BOT STARTED] - ${startCount}`,
       });
@@ -63,25 +64,24 @@ export const connectionUpdate = async (
         startCount += 1;
 
         console.log("[CONNECTION-CLOSED]: Restarting bot in 15 seconds!");
-        return false;
-      }
-    }
+      } else {
+        try {
+          fs.rmSync("./auth_info_multi", { recursive: true, force: true });
+          console.log("Local auth_info_multi file deleted.");
+          // fs.unlinkSync("./auth_info_multi.json");
+        } catch (err) {
+          console.log("Local auth_info_multi file already deleted.");
+        }
 
-    if (connection === "connecting") {
-      await LoggerTg(
-        `[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!`
-      );
-      await deleteAuth();
-      try {
-        fs.rmSync("./auth_info_multi", { recursive: true, force: true });
-        console.log("Local auth_info_multi file deleted.");
-        // fs.unlinkSync("./auth_info_multi.json");
-      } catch (err) {
-        console.log("Local auth_info_multi file already deleted.");
+        await LoggerTg(
+          `[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!`
+        );
+        await deleteAuth();
+
+        console.log(
+          "[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!"
+        );
       }
-      console.log(
-        "[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!"
-      );
       return false;
     }
   } catch (err) {

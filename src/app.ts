@@ -29,6 +29,7 @@ import { messagesUpsert, MessageUpsert } from "./messagesUpsert";
 import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
+import fs from "fs";
 
 stats.started = new Date().toLocaleString("en-GB", {
   timeZone: "Asia/kolkata",
@@ -119,7 +120,6 @@ const startBot = async () => {
       await groupsUpdate(msg, bot);
     });
 
-    /* ------------------------ group-participants.update ----------------------- */
     bot.ev.on(
       "group-participants.update",
       async (msg: GroupParticipantUpdate) => {
@@ -156,8 +156,8 @@ const startBot = async () => {
       }
     });
 
-    // listen for when the auth credentials is updated
     bot.ev.on("creds.update", async () => {
+      // listen for when the auth credentials is updated
       try {
         await saveCreds();
         await storeAuth(state);
