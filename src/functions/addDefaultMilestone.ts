@@ -1,5 +1,5 @@
 import { GroupMetadata } from "@adiwajshing/baileys";
-import { Pvxgroups } from "../constants/constants";
+import { pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/membersDB";
@@ -11,7 +11,7 @@ export interface Chats {
   [key: string]: GroupMetadata;
 }
 
-const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
+export const addDefaultMilestones = async (bot: Bot) => {
   const { pvxsubadmin, pvxadmin } = pvxgroups;
 
   const milestones: Milestones = {};
@@ -61,5 +61,3 @@ const addDefaultMilestones = async (bot: Bot, pvxgroups: Pvxgroups) => {
   console.log("Added default milestones");
   return milestones;
 };
-
-export default addDefaultMilestones;
