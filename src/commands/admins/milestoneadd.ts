@@ -1,13 +1,11 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import {
-  getMilestoneText,
-  getMilestone,
-  setMilestone,
-} from "../../db/milestoneDB";
+import { getMilestoneText } from "../../db/milestoneDB";
 import { prefix } from "../../constants/constants";
+import { getMilestones, setMilestones } from "../../db/membersDB";
 
+// TODO: CHECK THE FUNCTIONALITY
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -17,15 +15,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const milestoneList = body.trim().split("#");
-  if (milestoneList.length !== 3) {
+  const milestonesList = body.trim().split("#");
+  if (milestonesList.length !== 3) {
     await reply(
       `❌ Give correct details\nCommand: ${prefix}milestoneadd #contact #sno`
     );
     return;
   }
-  const contact = milestoneList[1].trim();
-  const sno = Number(milestoneList[2].trim());
+  const contact = milestonesList[1].trim();
+  const sno = Number(milestonesList[2].trim());
 
   if (!contact || !sno) {
     await reply(
@@ -50,27 +48,27 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const memberjid = `${contact}@s.whatsapp.net`;
-  const achievedText = getMilestoneTextRes.length
+  const milestonesText = getMilestoneTextRes.length
     ? getMilestoneTextRes[sno - 1].milestone
     : "";
 
-  let achieved: string[];
-  const getMilestoneRes = await getMilestone(memberjid);
+  let milestones: string[];
+  const getMilestoneRes = await getMilestones(memberjid);
   if (getMilestoneRes.length) {
-    if (getMilestoneRes[0].achieved.includes(achievedText)) {
+    if (getMilestoneRes[0].milestones.includes(milestonesText)) {
       await reply(
-        `❌ Milestone "${achievedText}" is already added to ${contact}`
+        `❌ Milestone "${milestonesText}" is already added to ${contact}`
       );
       return;
     }
 
-    achieved = getMilestoneRes[0].achieved;
-    achieved.push(achievedText);
+    milestones = getMilestoneRes[0].milestones;
+    milestones.push(milestonesText);
   } else {
-    achieved = [achievedText];
+    milestones = [milestonesText];
   }
 
-  const setMilestoneRes = await setMilestone(memberjid, achieved);
+  const setMilestoneRes = await setMilestones(memberjid, milestones);
   if (setMilestoneRes) await reply(`✔ Milestone added!`);
   else await reply(`❌ There is some problem!`);
 };

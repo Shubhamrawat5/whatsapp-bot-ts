@@ -2,7 +2,7 @@ import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
-import { getMilestone } from "../../db/milestoneDB";
+import { getMilestones } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -53,21 +53,21 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${message_count}\nCurrent group  : ${countCurGroup}`;
 
-  const milestoneRes = await getMilestone(sender);
+  const milestoneRes = await getMilestones(sender);
 
   let flag = false;
   if (milestoneRes.length) {
     flag = true;
     message += `\n`;
-    milestoneRes[0].achieved.forEach((achieve: string) => {
-      message += `\n⭐ ${achieve}`;
+    milestoneRes[0].milestones.forEach((milestone: string) => {
+      message += `\n⭐ ${milestone}`;
     });
   }
 
   if (milestones[sender]) {
     if (!flag) message += `\n`;
-    milestones[sender].forEach((achieve) => {
-      message += `\n⭐ ${achieve}`;
+    milestones[sender].forEach((milestone) => {
+      message += `\n⭐ ${milestone}`;
     });
   }
 

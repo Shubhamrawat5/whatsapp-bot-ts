@@ -1,9 +1,10 @@
 import { WAMessage } from "@adiwajshing/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { getMilestone, setMilestone } from "../../db/milestoneDB";
 import { prefix } from "../../constants/constants";
+import { getMilestones, setMilestones } from "../../db/membersDB";
 
+// TODO: CHECK THE FUNCTIONALITY
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
@@ -38,24 +39,24 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const memberjid = `${contact}@s.whatsapp.net`;
-  const getMilestoneRes = await getMilestone(memberjid);
+  const getMilestoneRes = await getMilestones(memberjid);
 
   if (getMilestoneRes.length === 0) {
     await reply(`❌ There are 0 custom milestones for ${contact}`);
     return;
   }
-  if (!sno || sno < 0 || sno > getMilestoneRes[0].achieved.length) {
+  if (!sno || sno < 0 || sno > getMilestoneRes[0].milestones.length) {
     await reply(
       `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
     );
     return;
   }
 
-  const achieved = getMilestoneRes[0].achieved.filter(
+  const milestones = getMilestoneRes[0].milestones.filter(
     (milestone, index) => index + 1 !== sno
   );
 
-  const setMilestoneRes = await setMilestone(memberjid, achieved);
+  const setMilestoneRes = await setMilestones(memberjid, milestones);
   if (setMilestoneRes) await reply(`✔ Milestone removed!`);
   else await reply(`❌ There is some problem!`);
 };

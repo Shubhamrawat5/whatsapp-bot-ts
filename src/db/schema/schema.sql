@@ -65,11 +65,7 @@ table members{
     memberjid TEXT PRIMARY KEY, 
     name TEXT NOT NULL,
     donation INTEGER,
-}
-
-table milestone{
-    memberjid TEXT PRIMARY KEY, 
-    achieved JSON,
+    milestone JSON,
 }
 
 table milestonetext{
