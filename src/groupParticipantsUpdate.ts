@@ -25,55 +25,55 @@ export const groupParticipantsUpdate = async (
   console.log("[group-participants.update]");
   try {
     const from = msg.id;
-    const numJid = msg.participants[0];
+    msg.participants.forEach(async (numJid) => {
+      const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
+      if (numJid === botNumberJid && msg.action === "remove") {
+        // bot is removed
+        await bot.sendMessage(myNumberWithJid, {
+          text: `Bot is removed from group.`,
+        });
+        return;
+      }
 
-    const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
-    if (numJid === botNumberJid && msg.action === "remove") {
-      // bot is removed
-      await bot.sendMessage(myNumberWithJid, {
-        text: `Bot is removed from group.`,
-      });
-      return;
-    }
+      cache.del(`${from}:groupMetadata`);
+      const groupMetadata = await bot.groupMetadata(from);
+      const groupSubject = groupMetadata.subject;
 
-    cache.del(`${from}:groupMetadata`);
-    const groupMetadata = await bot.groupMetadata(from);
-    const groupSubject = groupMetadata.subject;
-
-    if (msg.action === "add") {
-      await addMemberCheck(
-        bot,
-        from,
-        numSplit,
-        numJid,
-        groupSubject,
-        pvxgroups,
-        myNumber
-      );
-      const text = `${groupSubject} [ADD] ${numSplit}`;
-      await bot.sendMessage(myNumberWithJid, { text });
-      console.log(text);
-      stats.memberJoined += 1;
-    } else if (msg.action === "remove") {
-      const text = `${groupSubject} [REMOVE] ${numSplit}`;
-      await bot.sendMessage(myNumberWithJid, { text });
-      console.log(text);
-      stats.memberLeft += 1;
-    } else if (
-      (msg.action === "promote" || msg.action === "demote") &&
-      groupSubject.startsWith("<{PVX}>")
-    ) {
-      // promote, demote
-      const getUsernamesRes = await getUsernames([numJid]);
-      const username = getUsernamesRes.length
-        ? getUsernamesRes[0].name
-        : numSplit;
-      const action =
-        msg.action === "promote" ? "Promoted to Admin" : "Demoted to Member";
-      const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
-      await bot.sendMessage(pvxgroups.pvxadmin, { text });
-      await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
-    }
+      if (msg.action === "add") {
+        await addMemberCheck(
+          bot,
+          from,
+          numSplit,
+          numJid,
+          groupSubject,
+          pvxgroups,
+          myNumber
+        );
+        const text = `${groupSubject} [ADD] ${numSplit}`;
+        await bot.sendMessage(myNumberWithJid, { text });
+        console.log(text);
+        stats.memberJoined += 1;
+      } else if (msg.action === "remove") {
+        const text = `${groupSubject} [REMOVE] ${numSplit}`;
+        await bot.sendMessage(myNumberWithJid, { text });
+        console.log(text);
+        stats.memberLeft += 1;
+      } else if (
+        (msg.action === "promote" || msg.action === "demote") &&
+        groupSubject.startsWith("<{PVX}>")
+      ) {
+        // promote, demote
+        const getUsernamesRes = await getUsernames([numJid]);
+        const username = getUsernamesRes.length
+          ? getUsernamesRes[0].name
+          : numSplit;
+        const action =
+          msg.action === "promote" ? "Promoted to Admin" : "Demoted to Member";
+        const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
+        await bot.sendMessage(pvxgroups.pvxadmin, { text });
+        await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
+      }
+    });
   } catch (err) {
     await LoggerBot(bot, "group-participants.update", err, msg);
   }
