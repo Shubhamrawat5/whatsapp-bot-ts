@@ -131,6 +131,7 @@ const addCommands = async () => {
     mute,
     remove,
     rt,
+    setlink,
     websitelink,
     tagall,
     unmute,
@@ -204,7 +205,6 @@ const addCommands = async () => {
     broadcast,
     donationadd,
     getgdata,
-    setlink,
     milestoneaddtext,
     tg,
   ];
