@@ -109,14 +109,14 @@ const startBot = async () => {
       botNumberJid.slice(0, botNumberJid.search(":")) +
       botNumberJid.slice(botNumberJid.search("@"));
 
-    bot.ev.on("groups.upsert", async (msg: GroupsUpsert) => {
+    bot.ev.on("groups.upsert", async (msgs: GroupsUpsert) => {
       // new group added
-      await groupsUpsert(msg, bot);
+      await groupsUpsert(msgs, bot);
     });
 
-    bot.ev.on("groups.update", async (msg: GroupsUpdate) => {
+    bot.ev.on("groups.update", async (msgs: GroupsUpdate) => {
       // subject change, etc
-      await groupsUpdate(msg, bot);
+      await groupsUpdate(msgs, bot);
     });
 
     bot.ev.on(

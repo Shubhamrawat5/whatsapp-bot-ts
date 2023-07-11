@@ -6,12 +6,14 @@ import { cache } from "./utils/cache";
 // TODO: CHECK PARTIAL
 export type GroupsUpdate = Partial<GroupMetadata>[];
 
-export const groupsUpdate = async (msg: GroupsUpdate, bot: Bot) => {
+export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
   try {
     console.log("[groups.update]");
-    const from = msg[0].id;
-    cache.del(`${from}:groupMetadata`);
+    msgs.forEach((msg) => {
+      const from = msg.id;
+      cache.del(`${from}:groupMetadata`);
+    });
   } catch (err) {
-    await LoggerBot(bot, "groups.update", err, msg);
+    await LoggerBot(bot, "groups.update", err, msgs);
   }
 };
