@@ -1,4 +1,4 @@
-import { ParticipantAction } from "@adiwajshing/baileys";
+import { ParticipantAction } from "@whiskeysockets/baileys";
 import addMemberCheck from "./functions/addMemberCheck";
 import { Bot } from "./interface/Bot";
 import { getUsernames } from "./db/membersDB";

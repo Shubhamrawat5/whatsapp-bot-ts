@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";

@@ -2,7 +2,7 @@ import {
   WAMessage,
   downloadContentFromMessage,
   toBuffer,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import fs from "fs";
 import { writeFile } from "fs/promises";
 import { MsgInfoObj } from "../../interface/msgInfoObj";

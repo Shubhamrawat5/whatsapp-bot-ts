@@ -2,7 +2,7 @@ import {
   WAMessage,
   downloadContentFromMessage,
   toBuffer,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 
 import { writeFile } from "fs/promises";
 import AdmZip from "adm-zip";

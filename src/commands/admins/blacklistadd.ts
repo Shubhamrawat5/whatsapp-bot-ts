@@ -1,4 +1,4 @@
-import { GroupParticipant, WAMessage } from "@adiwajshing/baileys";
+import { GroupParticipant, WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { addBlacklist } from "../../db/blacklistDB";

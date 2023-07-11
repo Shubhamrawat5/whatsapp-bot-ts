@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 
 // preference to mentioned
 const getMentionedOrTaggedParticipant = async (

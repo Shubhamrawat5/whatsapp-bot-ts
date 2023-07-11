@@ -1,4 +1,4 @@
-import { ConnectionState, DisconnectReason } from "@adiwajshing/baileys";
+import { ConnectionState, DisconnectReason } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
 import fs from "fs";
 import { cache } from "./utils/cache";

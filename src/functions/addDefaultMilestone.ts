@@ -1,4 +1,4 @@
-import { GroupMetadata } from "@adiwajshing/baileys";
+import { GroupMetadata } from "@whiskeysockets/baileys";
 import { pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";

@@ -2,7 +2,7 @@ import {
   WAMessage,
   downloadContentFromMessage,
   toBuffer,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";

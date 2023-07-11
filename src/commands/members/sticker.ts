@@ -3,7 +3,7 @@ import {
   WAMessage,
   downloadContentFromMessage,
   toBuffer,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";

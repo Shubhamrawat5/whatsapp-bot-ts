@@ -1,4 +1,4 @@
-import { AuthenticationState } from "@adiwajshing/baileys";
+import { AuthenticationState } from "@whiskeysockets/baileys";
 import pool from "./pool";
 
 export const createAuthTable = async () => {

@@ -5,7 +5,7 @@ import makeWASocket, {
   makeCacheableSignalKeyStore,
   isJidBroadcast,
   makeInMemoryStore,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 
 import pino from "pino";
 
@@ -29,7 +29,6 @@ import { messagesUpsert, MessageUpsert } from "./messagesUpsert";
 import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
-import fs from "fs";
 
 stats.started = new Date().toLocaleString("en-GB", {
   timeZone: "Asia/kolkata",

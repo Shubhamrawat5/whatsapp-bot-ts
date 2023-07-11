@@ -11,7 +11,7 @@
 // 📛 ${prefix}flower text
 // 📛 ${prefix}sand text
 
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { prefix } from "../../constants/constants";

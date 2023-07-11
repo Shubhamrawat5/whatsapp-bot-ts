@@ -1,4 +1,4 @@
-import { GroupMetadata } from "@adiwajshing/baileys";
+import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
 import { myNumberWithJid, prefix } from "./constants/constants";
 import { LoggerBot } from "./functions/loggerBot";

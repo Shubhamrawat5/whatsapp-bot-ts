@@ -5,7 +5,7 @@ import {
   GroupParticipant,
   MessageUpsertType,
   WAMessage,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import {
   isForwardSticker,
   myNumber,

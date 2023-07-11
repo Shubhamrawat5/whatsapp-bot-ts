@@ -1,4 +1,4 @@
-import { GroupMetadata } from "@adiwajshing/baileys";
+import { GroupMetadata } from "@whiskeysockets/baileys";
 import { LoggerBot } from "./loggerBot";
 import { Bot } from "../interface/Bot";
 import { getCountVideo } from "../db/countVideoDB";

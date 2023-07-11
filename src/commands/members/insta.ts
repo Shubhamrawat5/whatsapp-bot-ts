@@ -3,7 +3,7 @@
 // let ig;
 // let isIgSetup = false;
 
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 

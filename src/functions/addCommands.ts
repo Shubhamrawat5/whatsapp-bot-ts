@@ -59,6 +59,8 @@ import warncheck from "../commands/members/warncheck";
 import yta from "../commands/members/yta";
 import ytv from "../commands/members/ytv";
 import zero from "../commands/members/zero";
+import pvxv from "../commands/members/pvxv";
+import technews from "../commands/members/technews";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
@@ -81,8 +83,6 @@ import link from "../commands/public/link";
 import source from "../commands/public/source";
 import steal from "../commands/public/steal";
 import votecommand from "../commands/public/votecommand";
-import pvxv from "../commands/members/pvxv";
-import technews from "../commands/members/technews";
 
 import bday from "../commands/admins/bday";
 import { CommandsObj } from "../interface/CommandsObj";

@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import { prefix } from "../constants/constants";
 
 const checkTaggedMessage = async (msg: WAMessage) => {

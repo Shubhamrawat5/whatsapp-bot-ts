@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import ytdl from "ytdl-core";
 import fs from "fs";
 import { MsgInfoObj } from "../../interface/msgInfoObj";

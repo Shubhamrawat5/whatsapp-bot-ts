@@ -1,4 +1,4 @@
-import { WAMessage } from "@adiwajshing/baileys";
+import { WAMessage } from "@whiskeysockets/baileys";
 import fs from "fs";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interface/msgInfoObj";

@@ -7,7 +7,7 @@ import {
   MiscMessageGenerationOptions,
   ParticipantAction,
   WAProto,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 
 export interface Bot {
   sendMessage: (

@@ -2,7 +2,7 @@ import {
   downloadContentFromMessage,
   proto,
   toBuffer,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
 import { LoggerTg } from "./loggerBot";
 import { Bot } from "../interface/Bot";
