@@ -10,7 +10,7 @@ import makeWASocket, {
 import pino from "pino";
 
 /* ----------------------------- add local files ---------------------------- */
-import { storeAuth, fetchAuth } from "./db/authDB";
+import { setAuth, getAuth } from "./db/authDB";
 import { LoggerBot, LoggerTg } from "./functions/loggerBot";
 import addCommands from "./functions/addCommands";
 import {
@@ -80,7 +80,7 @@ const startBot = async () => {
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
     // Fetch login auth
-    const { cred, authRowCount } = await fetchAuth(state);
+    const { cred, authRowCount } = await getAuth(state);
     if (authRowCount !== 0) {
       state.creds = cred.creds;
     }
@@ -159,7 +159,7 @@ const startBot = async () => {
       // listen for when the auth credentials is updated
       try {
         await saveCreds();
-        await storeAuth(state);
+        await setAuth(state);
       } catch (err) {
         await LoggerBot(bot, "creds.update", err, undefined);
       }

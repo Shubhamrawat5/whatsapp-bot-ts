@@ -12,6 +12,7 @@ let startCount = 1;
 export type ConnectionUpdate = Partial<ConnectionState>;
 
 // return true for alright, false for to restart bot
+// TODO: check to return time at which startBot will start
 export const connectionUpdate = async (
   update: ConnectionUpdate,
   bot: Bot

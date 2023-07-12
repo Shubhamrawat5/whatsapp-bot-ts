@@ -21,12 +21,12 @@ export const getCountVideo = async (
   groupjid: string
 ): Promise<GetCountVideo[]> => {
   try {
-    const result = await pool.query(
+    const res = await pool.query(
       "SELECT cv.memberjid,cv.count,memb.name FROM countvideo cv LEFT JOIN members memb ON cv.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
       [groupjid]
     );
-    if (result.rowCount) {
-      return result.rows;
+    if (res.rowCount) {
+      return res.rows;
     }
     return [];
   } catch (err) {

@@ -48,16 +48,15 @@ export const addbday = async (
   place = place.toLowerCase();
 
   try {
-    await pool.query("INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7);", [
-      name,
-      username,
-      date,
-      month,
-      year,
-      place,
-      numb,
-    ]);
-    return true;
+    const res = await pool.query(
+      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7);",
+      [name, username, date, month, year, place, numb]
+    );
+
+    if (res.rowCount === 1) {
+      return true;
+    }
+    return false;
   } catch (err) {
     console.log(err);
     return false;

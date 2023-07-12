@@ -19,12 +19,12 @@ export interface GetUsernames {
 export const getUsernames = async (
   memberjidArray: string[]
 ): Promise<GetUsernames[]> => {
-  const result = await pool.query(
+  const res = await pool.query(
     "SELECT * from members where memberjid = ANY($1::TEXT[])",
     [memberjidArray]
   );
-  if (result.rowCount) {
-    return result.rows;
+  if (res.rowCount) {
+    return res.rows;
   }
   return [];
 };
@@ -37,15 +37,16 @@ export interface GetDonation {
 }
 
 export const getDonation = async (): Promise<GetDonation[]> => {
-  const result = await pool.query(
+  const res = await pool.query(
     "select * from members where donation>0 ORDER BY donation DESC;"
   );
-  if (result.rowCount) {
-    return result.rows;
+  if (res.rowCount) {
+    return res.rows;
   }
   return [];
 };
 
+// TODO: VERIFY ALL TRY CATCH IN DB
 export const setDonation = async (
   number: string,
   donation: number
@@ -79,12 +80,12 @@ export const getMilestones = async (
   memberjid: string
 ): Promise<GetMilestones[]> => {
   try {
-    const result = await pool.query(
+    const res = await pool.query(
       "SELECT memberjid, name, milestones FROM members memberjid=$1;",
       [memberjid]
     );
-    if (result.rowCount) {
-      return result.rows;
+    if (res.rowCount) {
+      return res.rows;
     }
     return [];
   } catch (err) {
@@ -114,20 +115,3 @@ export const setMilestones = async (
     return false;
   }
 };
-
-// // eslint-disable-next-line @typescript-eslint/no-floating-promises
-// getDonation().then((res) => {
-//   res.forEach(async (r) => {
-//     const jid = `${r.number}@s.whatsapp.net`;
-//     const result = await pool.query(
-//       "SELECT * from members WHERE memberjid=$1;",
-//       [jid]
-//     );
-//     console.log(jid);
-
-//     await pool.query("UPDATE members SET donation=$1 where memberjid=$2;", [
-//       r.amount,
-//       jid,
-//     ]);
-//   });
-// });

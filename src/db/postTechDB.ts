@@ -10,11 +10,14 @@ export const createTechTable = async () => {
 
 export const storeNewsTech = async (news: string): Promise<boolean> => {
   try {
-    await pool.query("INSERT INTO technews VALUES($1);", [news]);
+    const res = await pool.query("INSERT INTO technews VALUES($1);", [news]);
 
-    return true;
+    if (res.rowCount === 1) {
+      return true;
+    }
+    return false;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     return false;
   }
 };

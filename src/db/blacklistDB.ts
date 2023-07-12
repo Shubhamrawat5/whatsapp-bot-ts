@@ -19,22 +19,22 @@ export interface GetBlacklist {
 export const getBlacklist = async (
   number?: string
 ): Promise<GetBlacklist[]> => {
-  // FIX THESE CREATE TABLES
-  let result;
+  let res;
   if (number) {
-    result = await pool.query(
+    res = await pool.query(
       "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
       [number]
     );
   } else {
-    result = await pool.query(
+    res = await pool.query(
       "select bl.number, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid order by number;"
     );
   }
 
-  if (result.rowCount) {
-    return result.rows;
+  if (res.rowCount) {
+    return res.rows;
   }
+
   return [];
 };
 

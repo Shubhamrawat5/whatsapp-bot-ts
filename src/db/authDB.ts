@@ -20,14 +20,12 @@ export const createAuthTable = async () => {
   );
 };
 
-export interface FetchAuth {
+export interface getAuth {
   cred: any;
   authRowCount: number;
 }
 
-export const fetchAuth = async (
-  state: AuthenticationState
-): Promise<FetchAuth> => {
+export const getAuth = async (state: AuthenticationState): Promise<getAuth> => {
   let cred: any;
   let authRowCount = 0;
   try {
@@ -87,9 +85,7 @@ export const fetchAuth = async (
   return { cred, authRowCount };
 };
 
-export const storeAuth = async (
-  state: AuthenticationState
-): Promise<boolean> => {
+export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
   try {
     const noiseKey = JSON.stringify(state.creds.noiseKey);
     const signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);

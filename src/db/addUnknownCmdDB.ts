@@ -16,10 +16,10 @@ export interface GetUnknowCmdlist {
 }
 
 export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
-  const result = await pool.query("select * from unknowncmd order by count;");
+  const res = await pool.query("select * from unknowncmd order by count;");
 
-  if (result.rowCount) {
-    return result.rows;
+  if (res.rowCount) {
+    return res.rows;
   }
   return [];
 };
@@ -34,6 +34,7 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
     // not updated. time to insert
     if (res.rowCount === 0) {
       await pool.query("INSERT INTO unknowncmd VALUES($1,$2);", [command, 1]);
+      // TODO: CHECK RES.ROWCOUNT
     }
     return true;
   } catch (err) {
