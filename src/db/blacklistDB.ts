@@ -65,10 +65,9 @@ export const addBlacklist = async (
 
 export const removeBlacklist = async (number: string): Promise<boolean> => {
   try {
-    const res = await pool.query(
-      "DELETE FROM blacklist WHERE number=$1 ON CONFLICT(number) DO NOTHING;",
-      [number]
-    );
+    const res = await pool.query("DELETE FROM blacklist WHERE number=$1", [
+      number,
+    ]);
 
     if (res.rowCount === 1) {
       return true;
