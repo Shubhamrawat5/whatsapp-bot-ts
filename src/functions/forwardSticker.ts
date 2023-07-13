@@ -4,7 +4,6 @@ import {
   toBuffer,
 } from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
-import { loggerTg } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 
 // TODO: GLOBAL VARIALBES

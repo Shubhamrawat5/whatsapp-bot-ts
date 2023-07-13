@@ -4,7 +4,7 @@ import axios from "axios";
 // `https://cric-score.skdev.one/scorecard/${matchID}`
 
 // https://github.com/mskian/cricket-api-nodejs
-// `https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
+// `https://cricket-api-nodejs-five.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
 
 interface Batsman {
   balls: string;
@@ -59,6 +59,39 @@ interface CricScore {
   toss_result: TossResult;
 }
 
+interface CricketApiNodejs {
+  title: string;
+  update: string;
+  current: string;
+  batsman: string;
+  batsmanrun: string;
+  ballsfaced: string;
+  fours: string;
+  sixes: string;
+  sr: string;
+  batsmantwo: string;
+  batsmantworun: string;
+  batsmantwoballsfaced: string;
+  batsmantwofours: string;
+  batsmantwosixes: string;
+  batsmantwosr: string;
+  bowler: string;
+  bowlerover: string;
+  bowlerruns: string;
+  bowlerwickets: string;
+  bowlermaiden: string;
+  bowlertwo: string;
+  bowletworover: string;
+  bowlertworuns: string;
+  bowlertwowickets: string;
+  bowlertwomaiden: string;
+  partnership: string;
+  recentballs: string;
+  lastwicket: string;
+  runrate: string;
+  commentary: string;
+}
+
 // return object {message:"", info:""} =>
 // message having score and info having extra info about game like inning over, game over etc
 // INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
@@ -71,13 +104,11 @@ export const getCricketScore = async (matchID: string) => {
 
   const res: Res = { message: "", info: "" };
   try {
-    // TODO: MAKE INTERFACE OF DATA
-    const { data } = await axios.get(
-      `https://testing-nine-theta.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
+    const { data } = await axios.get<CricketApiNodejs>(
+      `https://cricket-api-nodejs-five.vercel.app/score?url=https://www.cricbuzz.com/live-cricket-scores/${matchID}`
     );
 
     if (typeof data === "string") {
-      console.log(data);
       res.message = `${data}\nCheck the match ID in description!!`;
       res.info = "ER";
       return res;
@@ -227,12 +258,8 @@ _recent balls_ \n${recentballs}`;
     res.info = "ER";
   }
 
-  console.log(res);
-
   return res;
 };
-
-// getCricketScore("71705");
 
 // const getScoreCard = async (matchID) => {
 export const getScoreCard = async (matchID: string): Promise<string> => {
