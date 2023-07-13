@@ -74,7 +74,7 @@ const forwardSticker = async (
     return true;
   } catch (err) {
     console.log(err as Error);
-    await loggerTg(`ERROR: [FORWARD-STICKER]\n${(err as Error).toString()}`);
+    // await loggerTg(`ERROR: [FORWARD-STICKER]\n${(err as Error).toString()}`);
     countErr += 1;
     return false;
   }
