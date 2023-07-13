@@ -1,6 +1,6 @@
 import { getbday } from "../db/bdayDB";
 import { Bot } from "../interface/Bot";
-import { LoggerBot } from "./loggerBot";
+import { loggerBot } from "../utils/logger";
 
 const checkTodayBday = async (
   bot: Bot,
@@ -65,7 +65,7 @@ const checkTodayBday = async (
       await bot.groupUpdateSubject(groupjid, "<{PVX}> COMMUNITY ❤️");
     }
   } catch (err) {
-    await LoggerBot(bot, "TODAY-BDAY", err, undefined);
+    await loggerBot(bot, "TODAY-BDAY", err, undefined);
     console.log(err);
   }
 };

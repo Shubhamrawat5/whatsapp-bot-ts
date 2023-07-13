@@ -8,7 +8,7 @@ import {
   pvxgroups,
   stats,
 } from "./constants/constants";
-import { LoggerBot } from "./functions/loggerBot";
+import { loggerBot } from "./utils/logger";
 import { cache } from "./utils/cache";
 
 export interface GroupParticipantUpdate {
@@ -75,6 +75,6 @@ export const groupParticipantsUpdate = async (
       }
     });
   } catch (err) {
-    await LoggerBot(bot, "group-participants.update", err, msg);
+    await loggerBot(bot, "group-participants.update", err, msg);
   }
 };

@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createGroupLinksEnabledTable = async () => {
@@ -20,8 +21,9 @@ export const setGroupLinksEnabled = async (
       await pool.query("INSERT INTO grouplinksenabled VALUES($1);", [enabled]);
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setGroupLinksEnabled DB]", error, undefined);
     return false;
   }
 };

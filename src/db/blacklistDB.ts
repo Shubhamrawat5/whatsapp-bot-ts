@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createBlacklistTable = async () => {
@@ -53,13 +54,15 @@ export const addBlacklist = async (
     if (res.rowCount === 0) return "There is some problem!";
     return "✔️ Added to blacklist!";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    if (err.code === "23505") {
+  } catch (error: any) {
+    console.log(error);
+    await loggerBot(undefined, "[addBlacklist DB]", error, undefined);
+    if (error.code === "23505") {
       return "Number is already blacklisted!";
     }
-    console.log(err);
+    console.log(error);
 
-    return (err as Error).toString();
+    return (error as Error).toString();
   }
 };
 
@@ -73,8 +76,9 @@ export const removeBlacklist = async (number: string): Promise<string> => {
       return "There is some problem! Check the number";
     }
     return "✔️ Removed from blacklist!";
-  } catch (err) {
-    console.log(err);
-    return (err as Error).toString();
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[removeBlacklist DB]", error, undefined);
+    return (error as Error).toString();
   }
 };

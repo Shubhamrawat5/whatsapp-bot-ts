@@ -1,5 +1,5 @@
 import Parser from "rss-parser";
-import { LoggerBot } from "./loggerBot";
+import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 import { storeNewsStudy } from "../db/postStudyDB";
 
@@ -46,7 +46,7 @@ const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
       }
     }
   } catch (err) {
-    await LoggerBot(bot, "STUDY-NEWS", err, undefined);
+    await loggerBot(bot, "STUDY-NEWS", err, undefined);
   }
 };
 

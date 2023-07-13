@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createGroupsTable = async () => {
@@ -63,8 +64,9 @@ export const setGroupsData = async (
     }
 
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setGroupsData DB]", error, undefined);
     return false;
   }
 };
@@ -92,8 +94,9 @@ export const setDisableCommand = async (
       ]);
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setDisableCommand DB]", error, undefined);
     return false;
   }
 };

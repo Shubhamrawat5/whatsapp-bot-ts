@@ -1,7 +1,7 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
 import { myNumberWithJid, prefix } from "./constants/constants";
-import { LoggerBot } from "./functions/loggerBot";
+import { loggerBot } from "./utils/logger";
 import { Bot } from "./interface/Bot";
 
 export type GroupsUpsert = GroupMetadata[];
@@ -21,6 +21,6 @@ export const groupsUpsert = async (msgs: GroupsUpsert, bot: Bot) => {
       });
     });
   } catch (err) {
-    await LoggerBot(bot, "groups.upsert", err, msgs);
+    await loggerBot(bot, "groups.upsert", err, msgs);
   }
 };

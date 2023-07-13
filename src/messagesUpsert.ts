@@ -25,7 +25,7 @@ import { Bot } from "./interface/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
 import { getGroupsData } from "./db/groupsDB";
 import { MsgInfoObj } from "./interface/msgInfoObj";
-import { LoggerBot } from "./functions/loggerBot";
+import { loggerBot } from "./utils/logger";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 import { CommandsObj } from "./interface/CommandsObj";
 import { Milestones } from "./functions/addDefaultMilestone";
@@ -400,7 +400,7 @@ export const messagesUpsert = async (
         }
       } catch (err) {
         await reply((err as Error).toString());
-        await LoggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
+        await loggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
         return;
       }
 
@@ -417,6 +417,6 @@ export const messagesUpsert = async (
       }
     });
   } catch (err) {
-    await LoggerBot(bot, "messages.upsert", err, msgs);
+    await loggerBot(bot, "messages.upsert", err, msgs);
   }
 };

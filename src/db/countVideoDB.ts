@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createCountVideoTable = async () => {
@@ -20,19 +21,14 @@ export interface GetCountVideo {
 export const getCountVideo = async (
   groupjid: string
 ): Promise<GetCountVideo[]> => {
-  try {
-    const res = await pool.query(
-      "SELECT cv.memberjid,cv.count,memb.name FROM countvideo cv LEFT JOIN members memb ON cv.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
-      [groupjid]
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
-    return [];
-  } catch (err) {
-    console.log(err);
-    return [];
+  const res = await pool.query(
+    "SELECT cv.memberjid,cv.count,memb.name FROM countvideo cv LEFT JOIN members memb ON cv.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+    [groupjid]
+  );
+  if (res.rowCount) {
+    return res.rows;
   }
+  return [];
 };
 
 export const setCountVideo = async (
@@ -56,8 +52,9 @@ export const setCountVideo = async (
       ]);
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setCountVideo DB]", error, undefined);
     return false;
   }
 };

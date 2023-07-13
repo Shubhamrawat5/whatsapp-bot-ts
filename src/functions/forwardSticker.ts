@@ -4,7 +4,7 @@ import {
   toBuffer,
 } from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
-import { LoggerTg } from "./loggerBot";
+import { loggerTg } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 
 // TODO: GLOBAL VARIALBES
@@ -74,7 +74,7 @@ const forwardSticker = async (
     return true;
   } catch (err) {
     console.log(err as Error);
-    await LoggerTg(`ERROR: [FORWARD-STICKER]\n${(err as Error).toString()}`);
+    await loggerTg(`ERROR: [FORWARD-STICKER]\n${(err as Error).toString()}`);
     countErr += 1;
     return false;
   }

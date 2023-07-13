@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 // 25/02/23
@@ -37,8 +38,9 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
       // TODO: CHECK RES.ROWCOUNT
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[addUnknownCmd DB]", error, undefined);
     return false;
   }
 };

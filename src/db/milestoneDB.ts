@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createMilestoneTextTable = async () => {
@@ -15,16 +16,12 @@ export interface GetMilestoneText {
 }
 
 export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
-  try {
-    const res = await pool.query("SELECT * from milestonetext;");
-    if (res.rowCount) {
-      return res.rows;
-    }
-    return [];
-  } catch (err) {
-    console.log(err);
-    return [];
+  // TRY CATCH FOR ALL GET FROM DB
+  const res = await pool.query("SELECT * from milestonetext;");
+  if (res.rowCount) {
+    return res.rows;
   }
+  return [];
 };
 
 export const setMilestoneText = async (milestone: string): Promise<boolean> => {
@@ -39,9 +36,9 @@ export const setMilestoneText = async (milestone: string): Promise<boolean> => {
     }
 
     return false;
-  } catch (err) {
-    console.log(err);
-    // TODO: SEND ERROR LOGS
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setMilestoneText DB]", error, undefined);
     return false;
   }
 };

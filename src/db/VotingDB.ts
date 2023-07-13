@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createVotingTable = async () => {
@@ -57,6 +58,7 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     return false;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[stopVotingData DB]", error, undefined);
     return false;
   }
 };
@@ -106,6 +108,7 @@ export const setVotingData = async (
     return true;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[setVotingData DB]", error, undefined);
     return false;
   }
 };

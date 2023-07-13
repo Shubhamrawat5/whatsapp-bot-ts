@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export interface GetCountWarning {
@@ -72,6 +73,7 @@ export const setCountWarning = async (
     return false;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[setCountWarning DB]", error, undefined);
     return false;
   }
 };
@@ -94,6 +96,7 @@ export const reduceCountWarning = async (
     return false;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[reduceCountWarning DB]", error, undefined);
     return false;
   }
 };
@@ -116,6 +119,7 @@ export const clearCountWarning = async (
     return false;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[clearCountWarning DB]", error, undefined);
     return false;
   }
 };

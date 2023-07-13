@@ -11,7 +11,7 @@ import pino from "pino";
 
 /* ----------------------------- add local files ---------------------------- */
 import { setAuth, getAuth } from "./db/authDB";
-import { LoggerBot, LoggerTg } from "./functions/loggerBot";
+import { loggerBot, loggerTg } from "./utils/logger";
 import addCommands from "./functions/addCommands";
 import {
   addDefaultMilestones,
@@ -61,7 +61,7 @@ if (store) {
 
 const startBot = async () => {
   console.log(`[STARTING BOT]`);
-  await LoggerTg(`[STARTING BOT]`);
+  await loggerTg(`[STARTING BOT]`);
   try {
     const { state, saveCreds } = await useMultiFileAuthState(
       "./auth_info_multi"
@@ -161,12 +161,12 @@ const startBot = async () => {
         await saveCreds();
         await setAuth(state);
       } catch (err) {
-        await LoggerBot(bot, "creds.update", err, undefined);
+        await loggerBot(bot, "creds.update", err, undefined);
       }
     });
     return bot;
   } catch (err) {
-    await LoggerBot(undefined, "BOT-ERROR", err, "");
+    await loggerBot(undefined, "BOT-ERROR", err, "");
   }
   return false;
 };

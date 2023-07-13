@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createMembersTable = async () => {
@@ -46,7 +47,6 @@ export const getDonation = async (): Promise<GetDonation[]> => {
   return [];
 };
 
-// TODO: VERIFY ALL TRY CATCH IN DB
 export const setDonation = async (
   number: string,
   donation: number
@@ -63,8 +63,9 @@ export const setDonation = async (
       return false;
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setDonation DB]", error, undefined);
     return false;
   }
 };
@@ -79,19 +80,14 @@ export interface GetMilestones {
 export const getMilestones = async (
   memberjid: string
 ): Promise<GetMilestones[]> => {
-  try {
-    const res = await pool.query(
-      "SELECT memberjid, name, milestones FROM members memberjid=$1;",
-      [memberjid]
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
-    return [];
-  } catch (err) {
-    console.log(err);
-    return [];
+  const res = await pool.query(
+    "SELECT memberjid, name, milestones FROM members memberjid=$1;",
+    [memberjid]
+  );
+  if (res.rowCount) {
+    return res.rows;
   }
+  return [];
 };
 
 export const setMilestones = async (
@@ -110,8 +106,9 @@ export const setMilestones = async (
       return false;
     }
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setMilestones DB]", error, undefined);
     return false;
   }
 };

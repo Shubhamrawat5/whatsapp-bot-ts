@@ -1,5 +1,5 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
-import { LoggerBot } from "./loggerBot";
+import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 import { getCountVideo } from "../db/countVideoDB";
 
@@ -41,7 +41,7 @@ const kickZeroMano = async (bot: Bot, pvxmano: string) => {
     // });
     // await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
   } catch (err) {
-    await LoggerBot(bot, "KICK-MANO", err, undefined);
+    await loggerBot(bot, "KICK-MANO", err, undefined);
   }
 };
 

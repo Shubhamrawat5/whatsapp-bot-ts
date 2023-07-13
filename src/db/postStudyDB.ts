@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createStudyTable = async () => {
@@ -16,8 +17,9 @@ export const storeNewsStudy = async (news: string): Promise<boolean> => {
       return true;
     }
     return false;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[storeNewsStudy DB]", error, undefined);
     return false;
   }
 };

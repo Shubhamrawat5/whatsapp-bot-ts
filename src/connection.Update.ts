@@ -4,7 +4,7 @@ import fs from "fs";
 import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interface/Bot";
-import { LoggerBot, LoggerTg } from "./functions/loggerBot";
+import { loggerBot, loggerTg } from "./utils/logger";
 import { myNumberWithJid } from "./constants/constants";
 
 let startCount = 1;
@@ -18,13 +18,13 @@ export const connectionUpdate = async (
   bot: Bot
 ): Promise<boolean> => {
   try {
-    await LoggerTg(`connection.update: ${JSON.stringify(update)}`);
+    // await loggerTg(`connection.update: ${JSON.stringify(update)}`);
     const { connection, lastDisconnect } = update;
 
     // 'open' | 'connecting' | 'close'
     if (connection === "open") {
       console.log("Connected");
-      // await LoggerTg(`[STARTED BOT]: ${startCount}`);
+      // await loggerTg(`[STARTED BOT]: ${startCount}`);
       await bot.sendMessage(myNumberWithJid, {
         text: `[BOT STARTED] - ${startCount}`,
       });
@@ -56,11 +56,14 @@ export const connectionUpdate = async (
         (lastDisconnect?.error as Boom)?.output?.statusCode !==
         DisconnectReason.loggedOut;
       if (shouldReconnect) {
-        await LoggerBot(
-          undefined,
-          "CONNECTION-CLOSED",
-          lastDisconnect?.error,
-          update
+        // await loggerBot(
+        //   undefined,
+        //   "CONNECTION-CLOSED",
+        //   lastDisconnect?.error,
+        //   update
+        // );
+        await loggerTg(
+          `[CONNECTION-CLOSED]: ${lastDisconnect?.error?.toString()}`
         );
         startCount += 1;
 
@@ -74,7 +77,7 @@ export const connectionUpdate = async (
           console.log("Local auth_info_multi file already deleted.");
         }
 
-        await LoggerTg(
+        await loggerTg(
           `[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!`
         );
         await deleteAuth();
@@ -86,7 +89,7 @@ export const connectionUpdate = async (
       return false;
     }
   } catch (err) {
-    await LoggerBot(undefined, "connection.update", err, update);
+    await loggerBot(undefined, "connection.update", err, update);
   }
 
   return true;

@@ -1,5 +1,6 @@
 import { AuthenticationState } from "@whiskeysockets/baileys";
 import pool from "./pool";
+import { loggerBot } from "../utils/logger";
 
 export const createAuthTable = async () => {
   await pool.query(
@@ -20,12 +21,12 @@ export const createAuthTable = async () => {
   );
 };
 
-export interface getAuth {
+export interface GetAuth {
   cred: any;
   authRowCount: number;
 }
 
-export const getAuth = async (state: AuthenticationState): Promise<getAuth> => {
+export const getAuth = async (state: AuthenticationState): Promise<GetAuth> => {
   let cred: any;
   let authRowCount = 0;
   try {
@@ -78,8 +79,9 @@ export const getAuth = async (state: AuthenticationState): Promise<getAuth> => {
         cred.creds.signalIdentities[0].identifierKey
       );
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getAuth DB]", error, undefined);
   }
 
   return { cred, authRowCount };
@@ -144,8 +146,9 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     }
     console.log("Login data updated!");
     return true;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setAuth DB]", error, undefined);
     return false;
   }
 };
@@ -156,6 +159,7 @@ export const deleteAuth = async (): Promise<boolean> => {
     return true;
   } catch (error) {
     console.log(error);
+    await loggerBot(undefined, "[deleteAuth DB]", error, undefined);
     return false;
   }
 };

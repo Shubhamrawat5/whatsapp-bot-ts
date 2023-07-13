@@ -1,5 +1,5 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
-import { LoggerBot } from "./functions/loggerBot";
+import { loggerBot } from "./utils/logger";
 import { Bot } from "./interface/Bot";
 import { cache } from "./utils/cache";
 
@@ -14,6 +14,6 @@ export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
       cache.del(`${from}:groupMetadata`);
     });
   } catch (err) {
-    await LoggerBot(bot, "groups.update", err, msgs);
+    await loggerBot(bot, "groups.update", err, msgs);
   }
 };

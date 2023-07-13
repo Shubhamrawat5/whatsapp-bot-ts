@@ -1,3 +1,4 @@
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createCountMemberTable = async () => {
@@ -173,48 +174,42 @@ export const setCountMember = async (
 ): Promise<SetCountMember> => {
   const result = { currentGroup: 0, allGroup: 0 };
   try {
-    const res = await pool.query(
+    // update count
+    const res1 = await pool.query(
       "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
       [memberjid, groupjid]
     );
 
-    // not updated. time to insert
-    if (res.rowCount === 0) {
+    if (res1.rowCount === 0) {
       await pool.query(
         "INSERT INTO countmember VALUES($1,$2,$3,$4) RETURNING *;",
         [memberjid, groupjid, 1, 0]
       );
     } else {
-      result.currentGroup = res.rows[0].message_count;
+      result.currentGroup = res1.rows[0].message_count;
     }
-  } catch (err) {
-    console.log(err);
-  }
 
-  try {
-    const res = await pool.query(
+    // update username of member
+    const res2 = await pool.query(
       "UPDATE members SET name=$1 WHERE memberjid=$2;",
       [name, memberjid]
     );
-    // not updated. time to insert
-    if (res.rowCount === 0) {
+    if (res2.rowCount === 0) {
       await pool.query("INSERT INTO members VALUES($1,$2);", [memberjid, name]);
     }
-  } catch (err) {
-    console.log(err);
-  }
 
-  try {
-    const res = await pool.query(
+    // get current group and all group message count
+    const res3 = await pool.query(
       "SELECT sum(message_count) as message_count, memberjid FROM countmember GROUP BY memberjid HAVING memberjid=$1;",
       [memberjid]
     );
 
-    if (res.rowCount !== 0) {
-      result.allGroup = res.rows[0].message_count;
+    if (res3.rowCount !== 0) {
+      result.allGroup = res3.rows[0].message_count;
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[setCountMember DB]", error, undefined);
   }
 
   return result;

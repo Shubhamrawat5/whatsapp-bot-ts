@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoggerBot } from "./loggerBot";
+import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
@@ -113,7 +113,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
       }
     }
   } catch (err) {
-    await LoggerBot(bot, "TECH-NEWS", err, undefined);
+    await loggerBot(bot, "TECH-NEWS", err, undefined);
   }
 };
 
@@ -122,6 +122,6 @@ export const postTechNewsList = async (bot: Bot, pvxtechonly: string) => {
     const news = await getTechNews();
     await bot.sendMessage(pvxtechonly, { text: `📰 ${news}` });
   } catch (err) {
-    await LoggerBot(bot, "TECH-NEWS-LIST", err, undefined);
+    await loggerBot(bot, "TECH-NEWS-LIST", err, undefined);
   }
 };

@@ -2,7 +2,7 @@ import { Pvxgroups, prefix } from "../constants/constants";
 import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interface/Bot";
 
-import { LoggerBot } from "./loggerBot";
+import { loggerBot } from "../utils/logger";
 
 const addMemberCheck = async (
   bot: Bot,
@@ -175,7 +175,8 @@ const addMemberCheck = async (
       }
     }
   } catch (err) {
-    await LoggerBot(bot, "addMemberCheck", err, undefined);
+    // TODO: CHECK THIS UNDEFINED PASSING
+    await loggerBot(bot, "addMemberCheck", err, undefined);
   }
 };
 
