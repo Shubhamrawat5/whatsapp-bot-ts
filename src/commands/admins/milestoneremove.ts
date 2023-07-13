@@ -41,24 +41,24 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const memberjid = `${contact}@s.whatsapp.net`;
   const getMilestoneRes = await getMilestones(memberjid);
 
-  if (getMilestoneRes.length === 0) {
-    await reply(`❌ There are 0 custom milestones for ${contact}`);
-    return;
-  }
-  if (!sno || sno < 0 || sno > getMilestoneRes[0].milestones.length) {
-    await reply(
-      `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
+  if (getMilestoneRes.length && getMilestoneRes[0].milestones?.length) {
+    if (!sno || sno < 0 || sno > getMilestoneRes[0].milestones.length) {
+      await reply(
+        `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
+      );
+      return;
+    }
+
+    const milestones = getMilestoneRes[0].milestones.filter(
+      (milestone, index) => index + 1 !== sno
     );
-    return;
+
+    const setMilestoneRes = await setMilestones(memberjid, milestones);
+    if (setMilestoneRes) await reply(`✔ Milestone removed!`);
+    else await reply(`❌ There is some problem!`);
+  } else {
+    await reply(`❌ There are 0 custom milestones for ${contact}`);
   }
-
-  const milestones = getMilestoneRes[0].milestones.filter(
-    (milestone, index) => index + 1 !== sno
-  );
-
-  const setMilestoneRes = await setMilestones(memberjid, milestones);
-  if (setMilestoneRes) await reply(`✔ Milestone removed!`);
-  else await reply(`❌ There is some problem!`);
 };
 
 // const handler = async (bot, msg, msgInfoObj) => {

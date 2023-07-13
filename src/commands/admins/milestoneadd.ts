@@ -54,7 +54,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let milestones: string[];
   const getMilestoneRes = await getMilestones(memberjid);
-  if (getMilestoneRes.length) {
+  if (getMilestoneRes.length && getMilestoneRes[0].milestones?.length) {
     if (getMilestoneRes[0].milestones.includes(milestonesText)) {
       await reply(
         `❌ Milestone "${milestonesText}" is already added to ${contact}`

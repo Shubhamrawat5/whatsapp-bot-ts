@@ -81,7 +81,7 @@ export const setDonation = async (
 export interface GetMilestones {
   memberjid: string;
   name: string;
-  milestones: string[];
+  milestones?: string[];
 }
 
 export const getMilestones = async (
@@ -100,6 +100,10 @@ export const getMilestones = async (
   }
   return [];
 };
+
+getMilestones("918609325386@s.whatsapp.net").then((res) => {
+  console.log(res);
+});
 
 export const setMilestones = async (
   memberjid: string,

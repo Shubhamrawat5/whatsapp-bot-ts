@@ -53,13 +53,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${message_count}\nCurrent group  : ${countCurGroup}`;
 
-  const milestoneRes = await getMilestones(sender);
+  const getMilestoneRes = await getMilestones(sender);
 
   let flag = false;
-  if (milestoneRes.length) {
+  if (getMilestoneRes.length && getMilestoneRes[0].milestones?.length) {
     flag = true;
     message += `\n`;
-    milestoneRes[0].milestones.forEach((milestone: string) => {
+    getMilestoneRes[0].milestones.forEach((milestone: string) => {
       message += `\n⭐ ${milestone}`;
     });
   }
