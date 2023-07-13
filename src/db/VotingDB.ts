@@ -30,12 +30,17 @@ export interface GetVotingData {
 export const getVotingData = async (
   groupjid: string
 ): Promise<GetVotingData[]> => {
-  // check if today date is present in DB or not
-  const res = await pool.query("select * from voting where groupjid=$1;", [
-    groupjid,
-  ]);
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    // check if today date is present in DB or not
+    const res = await pool.query("select * from voting where groupjid=$1;", [
+      groupjid,
+    ]);
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getMilestoneText DB]", error, undefined);
   }
   return [];
 };

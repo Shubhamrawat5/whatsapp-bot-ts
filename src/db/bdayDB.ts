@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createbdayTable = async () => {
@@ -26,10 +27,15 @@ export interface Getbday {
 }
 
 export const getbday = async (): Promise<Getbday[]> => {
-  const result = await pool.query("select * from bday;");
+  try {
+    const result = await pool.query("select * from bday;");
 
-  if (result.rowCount) {
-    return result.rows;
+    if (result.rowCount) {
+      return result.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getbday DB]", error, undefined);
   }
   return [];
 };
@@ -57,8 +63,10 @@ export const addbday = async (
       return true;
     }
     return false;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[addbday DB]", error, undefined);
+  }
     return false;
   }
 };

@@ -9,13 +9,18 @@ export const getCountWarning = async (
   memberjid: string,
   groupjid: string
 ): Promise<GetCountWarning[]> => {
-  const result = await pool.query(
-    "SELECT warning FROM countmember WHERE memberjid=$1 AND groupjid=$2;",
-    [memberjid, groupjid]
-  );
+  try {
+    const result = await pool.query(
+      "SELECT warning FROM countmember WHERE memberjid=$1 AND groupjid=$2;",
+      [memberjid, groupjid]
+    );
 
-  if (result.rowCount) {
-    return result.rows;
+    if (result.rowCount) {
+      return result.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountWarning DB]", error, undefined);
   }
   return [];
 };
@@ -29,11 +34,21 @@ export interface GetCountWarningAllGroup {
 export const getCountWarningAllGroup = async (): Promise<
   GetCountWarningAllGroup[]
 > => {
-  const res = await pool.query(
-    "SELECT countmember.memberjid, sum(countmember.warning) as warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid where warning>0 group by countmember.memberjid,members.name ORDER BY warning DESC;"
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT countmember.memberjid, sum(countmember.warning) as warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid where warning>0 group by countmember.memberjid,members.name ORDER BY warning DESC;"
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(
+      undefined,
+      "[getCountWarningAllGroup DB]",
+      error,
+      undefined
+    );
   }
   return [];
 };
@@ -46,12 +61,17 @@ export interface GetCountWarningAll {
 export const getCountWarningAll = async (
   groupjid: string
 ): Promise<GetCountWarningAll[]> => {
-  const res = await pool.query(
-    "SELECT countmember.memberjid, countmember.warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning>0 ORDER BY warning DESC;",
-    [groupjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT countmember.memberjid, countmember.warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning>0 ORDER BY warning DESC;",
+      [groupjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountWarningAll DB]", error, undefined);
   }
   return [];
 };

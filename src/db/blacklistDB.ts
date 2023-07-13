@@ -20,22 +20,26 @@ export interface GetBlacklist {
 export const getBlacklist = async (
   number?: string
 ): Promise<GetBlacklist[]> => {
-  let res;
-  if (number) {
-    res = await pool.query(
-      "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
-      [number]
-    );
-  } else {
-    res = await pool.query(
-      "select bl.number, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid order by number;"
-    );
-  }
+  try {
+    let res;
+    if (number) {
+      res = await pool.query(
+        "select bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid where number=$1;",
+        [number]
+      );
+    } else {
+      res = await pool.query(
+        "select bl.number, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid order by number;"
+      );
+    }
 
-  if (res.rowCount) {
-    return res.rows;
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getBlacklist DB]", error, undefined);
   }
-
   return [];
 };
 
@@ -55,13 +59,12 @@ export const addBlacklist = async (
     return "✔️ Added to blacklist!";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log(error);
-    await loggerBot(undefined, "[addBlacklist DB]", error, undefined);
     if (error.code === "23505") {
       return "Number is already blacklisted!";
     }
-    console.log(error);
 
+    console.log(error);
+    await loggerBot(undefined, "[addBlacklist DB]", error, undefined);
     return (error as Error).toString();
   }
 };

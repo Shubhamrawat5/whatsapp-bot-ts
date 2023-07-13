@@ -24,12 +24,17 @@ export interface GetCountGroupMembers {
 export const getCountGroupMembers = async (
   groupjid: string
 ): Promise<GetCountGroupMembers[]> => {
-  const res = await pool.query(
-    "SELECT cm.memberjid,cm.message_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY message_count DESC;",
-    [groupjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT cm.memberjid,cm.message_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY message_count DESC;",
+      [groupjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountGroupMembers DB]", error, undefined);
   }
   return [];
 };
@@ -44,12 +49,17 @@ export const getCountIndividual = async (
   memberjid: string,
   groupjid: string
 ): Promise<GetCountIndividual[]> => {
-  const res = await pool.query(
-    "SELECT memb.name,cm.message_count FROM members memb INNER JOIN countmember cm ON memb.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
-    [memberjid, groupjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT memb.name,cm.message_count FROM members memb INNER JOIN countmember cm ON memb.memberjid=cm.memberjid WHERE cm.memberjid=$1 AND cm.groupjid=$2;",
+      [memberjid, groupjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountIndividual DB]", error, undefined);
   }
   return [];
 };
@@ -65,27 +75,32 @@ export interface GetRankInAllGroups {
 export const getRankInAllGroups = async (
   memberjid: string
 ): Promise<GetRankInAllGroups[]> => {
-  const res = await pool.query(
-    "SELECT memb.name,table1.message_count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(message_count) as message_count,RANK () OVER (ORDER BY sum(message_count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
-    [memberjid]
-  );
+  try {
+    const res = await pool.query(
+      "SELECT memb.name,table1.message_count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(message_count) as message_count,RANK () OVER (ORDER BY sum(message_count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
+      [memberjid]
+    );
 
-  const res2 = await pool.query(
-    "select count(*) from (select memberjid,count(*) from countmember GROUP BY memberjid) table1;"
-  );
+    const res2 = await pool.query(
+      "select count(*) from (select memberjid,count(*) from countmember GROUP BY memberjid) table1;"
+    );
 
-  const resultObj: GetRankInAllGroups = {
-    name: "",
-    message_count: 0,
-    ranks: 0,
-    totalUsers: 0,
-  };
-  if (res.rowCount) {
-    resultObj.name = res.rows[0].name;
-    resultObj.message_count = res.rows[0].message_count;
-    resultObj.ranks = res.rows[0].ranks;
-    resultObj.totalUsers = res2.rows[0].count;
-    return [resultObj];
+    const resultObj: GetRankInAllGroups = {
+      name: "",
+      message_count: 0,
+      ranks: 0,
+      totalUsers: 0,
+    };
+    if (res.rowCount) {
+      resultObj.name = res.rows[0].name;
+      resultObj.message_count = res.rows[0].message_count;
+      resultObj.ranks = res.rows[0].ranks;
+      resultObj.totalUsers = res2.rows[0].count;
+      return [resultObj];
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getRankInAllGroups DB]", error, undefined);
   }
   return [];
 };
@@ -100,12 +115,22 @@ export interface GetCountIndividualAllGroup {
 export const getCountIndividualAllGroup = async (
   memberjid: string
 ): Promise<GetCountIndividualAllGroup[]> => {
-  const res = await pool.query(
-    "SELECT memb.name,grps.gname,cm.message_count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY message_count DESC;",
-    [memberjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT memb.name,grps.gname,cm.message_count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY message_count DESC;",
+      [memberjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(
+      undefined,
+      "[getCountIndividualAllGroup DB]",
+      error,
+      undefined
+    );
   }
   return [];
 };
@@ -120,11 +145,16 @@ export interface GetCountTop {
 export const getCountTop = async (
   noOfResult: number
 ): Promise<GetCountTop[]> => {
-  const res = await pool.query(
-    `SELECT members.name,countmember.memberjid,sum(countmember.message_count) as message_count FROM countmember LEFT JOIN members ON countmember.memberjid=members.memberjid GROUP BY countmember.memberjid,members.name ORDER BY message_count DESC LIMIT ${noOfResult};`
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      `SELECT members.name,countmember.memberjid,sum(countmember.message_count) as message_count FROM countmember LEFT JOIN members ON countmember.memberjid=members.memberjid GROUP BY countmember.memberjid,members.name ORDER BY message_count DESC LIMIT ${noOfResult};`
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountTop DB]", error, undefined);
   }
   return [];
 };
@@ -137,11 +167,16 @@ export interface GetCountTop5 {
 
 // pvxt5: top members stats of all groups
 export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
-  const res = await pool.query(
-    "SELECT groups.gname,members.name,rs.message_count FROM (SELECT groupjid,memberjid,message_count, Rank() over (Partition BY groupjid ORDER BY message_count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 5;"
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT groups.gname,members.name,rs.message_count FROM (SELECT groupjid,memberjid,message_count, Rank() over (Partition BY groupjid ORDER BY message_count DESC ) AS Rank FROM countmember) rs INNER JOIN groups on rs.groupjid=groups.groupjid INNER JOIN members ON rs.memberjid=members.memberjid WHERE Rank <= 5;"
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountTop5 DB]", error, undefined);
   }
   return [];
 };
@@ -153,11 +188,16 @@ export interface GetCountGroups {
 
 // pvxg: all groups stats
 export const getCountGroups = async (): Promise<GetCountGroups[]> => {
-  const res = await pool.query(
-    "SELECT groups.gname,SUM(countmember.message_count) as message_count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY message_count DESC;"
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT groups.gname,SUM(countmember.message_count) as message_count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY message_count DESC;"
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountGroups DB]", error, undefined);
   }
   return [];
 };

@@ -20,12 +20,17 @@ export interface GetUsernames {
 export const getUsernames = async (
   memberjidArray: string[]
 ): Promise<GetUsernames[]> => {
-  const res = await pool.query(
-    "SELECT * from members where memberjid = ANY($1::TEXT[])",
-    [memberjidArray]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT * from members where memberjid = ANY($1::TEXT[])",
+      [memberjidArray]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getUsernames DB]", error, undefined);
   }
   return [];
 };
@@ -38,11 +43,16 @@ export interface GetDonation {
 }
 
 export const getDonation = async (): Promise<GetDonation[]> => {
-  const res = await pool.query(
-    "select * from members where donation>0 ORDER BY donation DESC;"
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "select * from members where donation>0 ORDER BY donation DESC;"
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getDonation DB]", error, undefined);
   }
   return [];
 };
@@ -80,12 +90,17 @@ export interface GetMilestones {
 export const getMilestones = async (
   memberjid: string
 ): Promise<GetMilestones[]> => {
-  const res = await pool.query(
-    "SELECT memberjid, name, milestones FROM members memberjid=$1;",
-    [memberjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT memberjid, name, milestones FROM members memberjid=$1;",
+      [memberjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getMilestones DB]", error, undefined);
   }
   return [];
 };

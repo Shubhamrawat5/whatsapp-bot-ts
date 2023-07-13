@@ -16,10 +16,14 @@ export interface GetMilestoneText {
 }
 
 export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
-  // TRY CATCH FOR ALL GET FROM DB
-  const res = await pool.query("SELECT * from milestonetext;");
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query("SELECT * from milestonetext;");
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getMilestoneText DB]", error, undefined);
   }
   return [];
 };

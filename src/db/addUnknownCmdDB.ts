@@ -17,10 +17,15 @@ export interface GetUnknowCmdlist {
 }
 
 export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
-  const res = await pool.query("select * from unknowncmd order by count;");
+  try {
+    const res = await pool.query("select * from unknowncmd order by count;");
 
-  if (res.rowCount) {
-    return res.rows;
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getUnknowCmdlist DB]", error, undefined);
   }
   return [];
 };

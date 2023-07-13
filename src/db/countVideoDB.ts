@@ -21,12 +21,17 @@ export interface GetCountVideo {
 export const getCountVideo = async (
   groupjid: string
 ): Promise<GetCountVideo[]> => {
-  const res = await pool.query(
-    "SELECT cv.memberjid,cv.count,memb.name FROM countvideo cv LEFT JOIN members memb ON cv.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
-    [groupjid]
-  );
-  if (res.rowCount) {
-    return res.rows;
+  try {
+    const res = await pool.query(
+      "SELECT cv.memberjid,cv.count,memb.name FROM countvideo cv LEFT JOIN members memb ON cv.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+      [groupjid]
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    console.log(error);
+    await loggerBot(undefined, "[getCountVideo DB]", error, undefined);
   }
   return [];
 };

@@ -1,13 +1,10 @@
 import "dotenv/config";
 import { Pool } from "pg";
 
-const proConfig = {
+const config = {
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
   max: 4, // max connection limit
 };
 
-const pool = new Pool(proConfig);
+const pool = new Pool(config);
 export default pool;
