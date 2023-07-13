@@ -34,7 +34,6 @@ export const getbday = async (): Promise<Getbday[]> => {
       return result.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getbday DB]", error, undefined);
   }
   return [];
@@ -55,7 +54,7 @@ export const addbday = async (
 
   try {
     const res = await pool.query(
-      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7);",
+      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(number) DO NOTHING;",
       [name, username, date, month, year, place, numb]
     );
 
@@ -64,9 +63,7 @@ export const addbday = async (
     }
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[addbday DB]", error, undefined);
   }
-    return false;
-  }
+  return false;
 };

@@ -29,7 +29,6 @@ export const getUsernames = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getUsernames DB]", error, undefined);
   }
   return [];
@@ -51,7 +50,6 @@ export const getDonation = async (): Promise<GetDonation[]> => {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getDonation DB]", error, undefined);
   }
   return [];
@@ -74,7 +72,6 @@ export const setDonation = async (
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setDonation DB]", error, undefined);
     return false;
   }
@@ -92,14 +89,13 @@ export const getMilestones = async (
 ): Promise<GetMilestones[]> => {
   try {
     const res = await pool.query(
-      "SELECT memberjid, name, milestones FROM members memberjid=$1;",
+      "SELECT memberjid, name, milestones FROM members WHERE memberjid=$1;",
       [memberjid]
     );
     if (res.rowCount) {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getMilestones DB]", error, undefined);
   }
   return [];
@@ -122,7 +118,6 @@ export const setMilestones = async (
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setMilestones DB]", error, undefined);
     return false;
   }

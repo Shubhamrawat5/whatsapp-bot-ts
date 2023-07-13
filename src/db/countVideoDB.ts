@@ -30,7 +30,6 @@ export const getCountVideo = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountVideo DB]", error, undefined);
   }
   return [];
@@ -58,7 +57,6 @@ export const setCountVideo = async (
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setCountVideo DB]", error, undefined);
     return false;
   }

@@ -33,7 +33,6 @@ export const getCountGroupMembers = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountGroupMembers DB]", error, undefined);
   }
   return [];
@@ -58,7 +57,6 @@ export const getCountIndividual = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountIndividual DB]", error, undefined);
   }
   return [];
@@ -99,7 +97,6 @@ export const getRankInAllGroups = async (
       return [resultObj];
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getRankInAllGroups DB]", error, undefined);
   }
   return [];
@@ -124,7 +121,6 @@ export const getCountIndividualAllGroup = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(
       undefined,
       "[getCountIndividualAllGroup DB]",
@@ -153,7 +149,6 @@ export const getCountTop = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountTop DB]", error, undefined);
   }
   return [];
@@ -175,7 +170,6 @@ export const getCountTop5 = async (): Promise<GetCountTop5[]> => {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountTop5 DB]", error, undefined);
   }
   return [];
@@ -196,7 +190,6 @@ export const getCountGroups = async (): Promise<GetCountGroups[]> => {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountGroups DB]", error, undefined);
   }
   return [];
@@ -248,7 +241,6 @@ export const setCountMember = async (
       result.allGroup = res3.rows[0].message_count;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setCountMember DB]", error, undefined);
   }
 

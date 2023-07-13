@@ -22,7 +22,6 @@ export const setGroupLinksEnabled = async (
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setGroupLinksEnabled DB]", error, undefined);
     return false;
   }

@@ -37,7 +37,6 @@ export const getBlacklist = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getBlacklist DB]", error, undefined);
   }
   return [];
@@ -47,41 +46,36 @@ export const addBlacklist = async (
   number: string,
   reason: string,
   admin: string
-): Promise<string> => {
+): Promise<boolean> => {
   try {
-    const res = await pool.query("INSERT INTO blacklist VALUES($1,$2,$3);", [
-      number,
-      reason,
-      admin,
-    ]);
+    const res = await pool.query(
+      "INSERT INTO blacklist VALUES($1,$2,$3) ON CONFLICT(number) DO NOTHING;",
+      [number, reason, admin]
+    );
 
-    if (res.rowCount === 0) return "There is some problem!";
-    return "✔️ Added to blacklist!";
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.code === "23505") {
-      return "Number is already blacklisted!";
+    if (res.rowCount === 1) {
+      return true;
     }
-
-    console.log(error);
+    return false;
+  } catch (error) {
     await loggerBot(undefined, "[addBlacklist DB]", error, undefined);
-    return (error as Error).toString();
+    return false;
   }
 };
 
-export const removeBlacklist = async (number: string): Promise<string> => {
+export const removeBlacklist = async (number: string): Promise<boolean> => {
   try {
-    const res = await pool.query("DELETE FROM blacklist WHERE number=$1;", [
-      number,
-    ]);
+    const res = await pool.query(
+      "DELETE FROM blacklist WHERE number=$1 ON CONFLICT(number) DO NOTHING;",
+      [number]
+    );
 
-    if (res.rowCount === 0) {
-      return "There is some problem! Check the number";
+    if (res.rowCount === 1) {
+      return true;
     }
-    return "✔️ Removed from blacklist!";
+    return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[removeBlacklist DB]", error, undefined);
-    return (error as Error).toString();
+    return false;
   }
 };

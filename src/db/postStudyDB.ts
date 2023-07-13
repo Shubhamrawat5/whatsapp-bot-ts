@@ -11,14 +11,16 @@ export const createStudyTable = async () => {
 
 export const storeNewsStudy = async (news: string): Promise<boolean> => {
   try {
-    const res = await pool.query("INSERT INTO studynews VALUES($1);", [news]);
+    const res = await pool.query(
+      "INSERT INTO studynews VALUES($1) ON CONFLICT(news) DO NOTHING;",
+      [news]
+    );
 
     if (res.rowCount === 1) {
       return true;
     }
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[storeNewsStudy DB]", error, undefined);
     return false;
   }

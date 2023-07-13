@@ -56,7 +56,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const addBlacklistRes = await addBlacklist(blacklistNumb, reason, sender);
-  await reply(addBlacklistRes);
+  if (addBlacklistRes) await reply("✔️ Added to blacklist!");
+  else await reply("❌ Number is already blacklisted!");
 
   const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
   const groups = Object.values(chats)

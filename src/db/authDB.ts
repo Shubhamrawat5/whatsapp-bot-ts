@@ -80,7 +80,6 @@ export const getAuth = async (state: AuthenticationState): Promise<GetAuth> => {
       );
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getAuth DB]", error, undefined);
   }
 
@@ -147,7 +146,6 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     console.log("Login data updated!");
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setAuth DB]", error, undefined);
     return false;
   }
@@ -158,7 +156,6 @@ export const deleteAuth = async (): Promise<boolean> => {
     await pool.query("DELETE FROM auth;");
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[deleteAuth DB]", error, undefined);
     return false;
   }

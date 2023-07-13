@@ -24,7 +24,6 @@ export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getUnknowCmdlist DB]", error, undefined);
   }
   return [];
@@ -44,7 +43,6 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[addUnknownCmd DB]", error, undefined);
     return false;
   }

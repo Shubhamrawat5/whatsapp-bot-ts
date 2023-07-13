@@ -19,7 +19,6 @@ export const getCountWarning = async (
       return result.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountWarning DB]", error, undefined);
   }
   return [];
@@ -42,7 +41,6 @@ export const getCountWarningAllGroup = async (): Promise<
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(
       undefined,
       "[getCountWarningAllGroup DB]",
@@ -70,7 +68,6 @@ export const getCountWarningAll = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getCountWarningAll DB]", error, undefined);
   }
   return [];
@@ -92,7 +89,6 @@ export const setCountWarning = async (
     }
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setCountWarning DB]", error, undefined);
     return false;
   }
@@ -115,7 +111,6 @@ export const reduceCountWarning = async (
 
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[reduceCountWarning DB]", error, undefined);
     return false;
   }
@@ -138,7 +133,6 @@ export const clearCountWarning = async (
     }
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[clearCountWarning DB]", error, undefined);
     return false;
   }

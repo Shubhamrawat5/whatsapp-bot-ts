@@ -37,7 +37,6 @@ export const getGroupsData = async (
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getGroupsData DB]", error, undefined);
   }
   return [];
@@ -70,7 +69,6 @@ export const setGroupsData = async (
 
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setGroupsData DB]", error, undefined);
     return false;
   }
@@ -100,7 +98,6 @@ export const setDisableCommand = async (
     }
     return true;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setDisableCommand DB]", error, undefined);
     return false;
   }

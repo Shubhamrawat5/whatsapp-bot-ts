@@ -39,7 +39,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     // admin exist, check if sender is same as the admin in DB
     if (getBlacklistRes[0].admin === sender) {
       const removeBlacklistRes = await removeBlacklist(blacklistNumb);
-      await reply(removeBlacklistRes);
+      if (removeBlacklistRes) await reply("✔️ Removed from blacklist!");
+      else await reply("❌ Number is not in blacklist");
       return;
     }
     let message = `Only the admin who added in blacklist can remove!`;
@@ -66,7 +67,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const removeBlacklistRes = await removeBlacklist(blacklistNumb);
-  await reply(removeBlacklistRes);
+  if (removeBlacklistRes) await reply("✔️ Removed from blacklist!");
+  else await reply("❌ Number is not in blacklist");
 };
 
 const blacklistremove = () => {

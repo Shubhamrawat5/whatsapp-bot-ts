@@ -4,8 +4,8 @@ import pool from "./pool";
 export const createMilestoneTextTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS milestonetext(
-      sno SERIAL PRIMARY KEY, 
-      milestone TEXT
+      sno SERIAL, 
+      milestone TEXT PRIMARY KEY
     );`
   );
 };
@@ -22,7 +22,6 @@ export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
       return res.rows;
     }
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[getMilestoneText DB]", error, undefined);
   }
   return [];
@@ -31,17 +30,15 @@ export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
 export const setMilestoneText = async (milestone: string): Promise<boolean> => {
   try {
     const res = await pool.query(
-      "INSERT INTO milestonetext(milestone) VALUES($1);",
+      "INSERT INTO milestonetext(milestone) VALUES($1) ON CONFLICT(milestone) DO NOTHING;",
       [milestone]
     );
 
     if (res.rowCount === 1) {
       return true;
     }
-
     return false;
   } catch (error) {
-    console.log(error);
     await loggerBot(undefined, "[setMilestoneText DB]", error, undefined);
     return false;
   }
