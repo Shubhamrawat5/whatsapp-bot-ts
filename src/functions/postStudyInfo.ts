@@ -1,7 +1,7 @@
 import Parser from "rss-parser";
 import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
-import { storeNewsStudy } from "../db/postStudyDB";
+import { storeNews } from "../db/newsDB";
 
 const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
@@ -35,7 +35,7 @@ const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
       if (!title) title = "";
 
       // eslint-disable-next-line no-await-in-loop
-      storeNewsStudyRes = await storeNewsStudy(title);
+      storeNewsStudyRes = await storeNews(title);
       if (storeNewsStudyRes) {
         console.log("NEW STUDY NEWS!");
         // eslint-disable-next-line no-await-in-loop

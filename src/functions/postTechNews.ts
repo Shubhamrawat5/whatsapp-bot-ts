@@ -1,9 +1,9 @@
 import axios from "axios";
 import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
-import { storeNewsTech } from "../db/postTechDB";
 import "dotenv/config";
 import getTechNews from "./getTechNews";
+import { storeNews } from "../db/newsDB";
 
 const newsapi = process.env.NEWSAPI;
 let countNews = 0;
@@ -49,7 +49,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
 
         storeNewsTechRes =
           // eslint-disable-next-line no-await-in-loop
-          source.name !== "Sportskeeda" && (await storeNewsTech(title));
+          source.name !== "Sportskeeda" && (await storeNews(title));
         if (storeNewsTechRes) {
           console.log("NEW TECH NEWS!");
 
@@ -98,7 +98,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
           const news = data[randomWeb][index];
 
           // eslint-disable-next-line no-await-in-loop
-          storeNewsTechRes = await storeNewsTech(news);
+          storeNewsTechRes = await storeNews(news);
           if (storeNewsTechRes) {
             console.log("NEW TECH NEWS!");
             // eslint-disable-next-line no-await-in-loop

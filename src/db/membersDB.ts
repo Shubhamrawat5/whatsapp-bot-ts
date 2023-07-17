@@ -101,10 +101,6 @@ export const getMilestones = async (
   return [];
 };
 
-getMilestones("918609325386@s.whatsapp.net").then((res) => {
-  console.log(res);
-});
-
 export const setMilestones = async (
   memberjid: string,
   milestones: string[]
