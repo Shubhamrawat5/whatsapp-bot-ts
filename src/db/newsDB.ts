@@ -14,7 +14,7 @@ export const storeNews = async (headline: string): Promise<boolean> => {
   try {
     const at = new Date().toISOString().slice(0, 10);
     const res = await pool.query(
-      "INSERT INTO news VALUES($1) ON CONFLICT(news) DO NOTHING;",
+      "INSERT INTO news VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
       [headline, at]
     );
 

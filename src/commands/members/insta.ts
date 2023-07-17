@@ -45,6 +45,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     console.log(directUrls);
 
     // async-await ERRORS are not catched inside forEach loop
+    // TODO: STILL THROWING AND CRASHING
     directUrls.map(async (directUrl) => {
       if (directUrl.includes(".mp4")) {
         await bot.sendMessage(
