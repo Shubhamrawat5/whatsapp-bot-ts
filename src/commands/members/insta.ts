@@ -5,6 +5,7 @@
 
 import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
+import cheerio from "cheerio";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 
 import { Bot } from "../../interface/Bot";
@@ -23,23 +24,67 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   console.log(urlInsta);
 
   try {
-    const res = await axios.get(
-      `https://fantox001-scrappy-api.vercel.app/instadl?url=${urlInsta}`
-    );
+    // const res = await axios.get(
+    //   `https://fantox001-scrappy-api.vercel.app/instadl?url=${urlInsta}`
+    // );
 
-    if (res.data.videoUrl) {
-      await bot.sendMessage(
-        from,
-        {
-          video: { url: res.data.videoUrl },
-        },
-        { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
-      );
-    } else {
-      await reply(
-        `❌ There is some problem.\n\nNote: only public insta videos can be downloaded!`
-      );
-    }
+    // if (res.data.videoUrl) {
+    //   await bot.sendMessage(
+    //     from,
+    //     {
+    //       video: { url: res.data.videoUrl },
+    //     },
+    //     { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+    //   );
+    // } else {
+    //   await reply(
+    //     `❌ There is some problem.\n\nNote: only public insta videos can be downloaded!`
+    //   );
+    // }
+    const form = {
+      url: "https://www.instagram.com/reels/CutlzC7AsBv/",
+      submit: "",
+    };
+    //   const { data } = await axios.post(`https://downloadgram.org/`, {
+    //     data: form,
+    //   });
+
+    const { data } = await axios(`https://downloadgram.org/`, {
+      method: "POST",
+      data: form,
+    });
+    const $ = cheerio.load(data);
+
+    console.log(data);
+
+    console.log($("#downloadhere > a"));
+
+    const directUrls: string[] = [];
+
+    $("#downloadhere > a").each((a, b) => {
+      const url = $(b).attr("href");
+      if (url) directUrls.push(url);
+    });
+
+    directUrls.forEach(async (directUrl) => {
+      if (directUrl.includes(".mp4")) {
+        await bot.sendMessage(
+          from,
+          {
+            video: { url: directUrl },
+          },
+          { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+        );
+      } else if (directUrl.includes(".jpg")) {
+        await bot.sendMessage(
+          from,
+          {
+            image: { url: directUrl },
+          },
+          { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+        );
+      }
+    });
   } catch (err) {
     await reply(
       `${(
