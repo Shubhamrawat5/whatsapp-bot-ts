@@ -148,10 +148,10 @@ const startBot = async () => {
         milestones = await addDefaultMilestones(bot);
       }
 
-      if (!res) {
+      if (res !== 0) {
         setTimeout(async () => {
           await startBot();
-        }, 1000 * 15);
+        }, 1000 * res);
       }
     });
 

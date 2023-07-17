@@ -42,22 +42,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     //   );
     // }
     const form = {
-      url: "https://www.instagram.com/reels/CutlzC7AsBv/",
+      url: urlInsta,
       submit: "",
     };
-    //   const { data } = await axios.post(`https://downloadgram.org/`, {
-    //     data: form,
-    //   });
 
     const { data } = await axios(`https://downloadgram.org/`, {
       method: "POST",
       data: form,
     });
     const $ = cheerio.load(data);
-
-    console.log(data);
-
-    console.log($("#downloadhere > a"));
 
     const directUrls: string[] = [];
 

@@ -11,12 +11,11 @@ let startCount = 1;
 
 export type ConnectionUpdate = Partial<ConnectionState>;
 
-// return true for alright, false for to restart bot
-// TODO: check to return time at which startBot will start
+// return a number (time in second), if 0 then do not restart bot else restart with return time
 export const connectionUpdate = async (
   update: ConnectionUpdate,
   bot: Bot
-): Promise<boolean> => {
+): Promise<number> => {
   try {
     // await loggerTg(`connection.update: ${JSON.stringify(update)}`);
     const { connection, lastDisconnect } = update;
@@ -45,7 +44,7 @@ export const connectionUpdate = async (
         cache.set(`${group.id}:groupMetadata`, group, 60 * 60 * 24); // 24 hours
       });
 
-      return true;
+      return 0;
     }
 
     if (connection === "close") {
@@ -67,32 +66,31 @@ export const connectionUpdate = async (
         );
         startCount += 1;
 
-        console.log("[CONNECTION-CLOSED]: Restarting bot in 15 seconds!");
-      } else {
-        try {
-          fs.rmSync("./auth_info_multi", { recursive: true, force: true });
-          console.log("Local auth_info_multi file deleted.");
-          // fs.unlinkSync("./auth_info_multi.json");
-        } catch (err) {
-          console.log("Local auth_info_multi file already deleted.");
-        }
-
-        await loggerTg(
-          `[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!`
-        );
-        await deleteAuth();
-
-        console.log(
-          "[CONNECTION-CLOSED]: You are logged out\nRestarting in 15 sec to scan new QR code!"
-        );
+        console.log("Restarting Bot in 20 sec!");
+        return 20;
       }
-      return false;
+
+      // LOGOUT
+      await loggerTg(
+        `[CONNECTION-CLOSED]: You are logged out\nRestarting in 10 sec to scan new QR code!`
+      );
+      await deleteAuth();
+
+      try {
+        fs.rmSync("./auth_info_multi", { recursive: true, force: true });
+        // fs.unlinkSync("./auth_info_multi");
+        console.log("Local auth_info_multi file deleted.");
+      } catch (err) {
+        console.log("Local auth_info_multi file already deleted.");
+      }
+
+      return 10;
     }
   } catch (err) {
     await loggerBot(undefined, "connection.update", err, update);
   }
 
-  return true;
+  return 0;
 };
 
 // bot.sendMessage(
