@@ -24,23 +24,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   console.log(urlInsta);
 
   try {
-    // const res = await axios.get(
-    //   `https://fantox001-scrappy-api.vercel.app/instadl?url=${urlInsta}`
-    // );
-
-    // if (res.data.videoUrl) {
-    //   await bot.sendMessage(
-    //     from,
-    //     {
-    //       video: { url: res.data.videoUrl },
-    //     },
-    //     { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
-    //   );
-    // } else {
-    //   await reply(
-    //     `❌ There is some problem.\n\nNote: only public insta videos can be downloaded!`
-    //   );
-    // }
     const form = {
       url: urlInsta,
       submit: "",
@@ -59,7 +42,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       if (url) directUrls.push(url);
     });
 
-    directUrls.forEach(async (directUrl) => {
+    console.log(directUrls);
+
+    // async-await ERRORS are not catched inside forEach loop
+    directUrls.map(async (directUrl) => {
       if (directUrl.includes(".mp4")) {
         await bot.sendMessage(
           from,
