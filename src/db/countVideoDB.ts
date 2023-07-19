@@ -30,7 +30,7 @@ export const getCountVideo = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountVideo DB]", error, undefined);
+    await loggerBot(undefined, "[getCountVideo DB]", error, { groupjid });
   }
   return [];
 };
@@ -57,7 +57,10 @@ export const setCountVideo = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setCountVideo DB]", error, undefined);
+    await loggerBot(undefined, "[setCountVideo DB]", error, {
+      memberjid,
+      groupjid,
+    });
     return false;
   }
 };

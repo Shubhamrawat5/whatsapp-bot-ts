@@ -22,7 +22,7 @@ export const setGroupLinksEnabled = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setGroupLinksEnabled DB]", error, undefined);
+    await loggerBot(undefined, "[setGroupLinksEnabled DB]", error, { enabled });
     return false;
   }
 };

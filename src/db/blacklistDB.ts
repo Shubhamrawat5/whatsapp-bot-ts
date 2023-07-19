@@ -37,7 +37,7 @@ export const getBlacklist = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getBlacklist DB]", error, undefined);
+    await loggerBot(undefined, "[getBlacklist DB]", error, { number });
   }
   return [];
 };
@@ -58,7 +58,11 @@ export const addBlacklist = async (
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[addBlacklist DB]", error, undefined);
+    await loggerBot(undefined, "[addBlacklist DB]", error, {
+      number,
+      reason,
+      admin,
+    });
     return false;
   }
 };
@@ -74,7 +78,7 @@ export const removeBlacklist = async (number: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[removeBlacklist DB]", error, undefined);
+    await loggerBot(undefined, "[removeBlacklist DB]", error, { number });
     return false;
   }
 };

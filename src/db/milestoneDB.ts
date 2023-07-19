@@ -39,7 +39,7 @@ export const setMilestoneText = async (milestone: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[setMilestoneText DB]", error, undefined);
+    await loggerBot(undefined, "[setMilestoneText DB]", error, { milestone });
     return false;
   }
 };

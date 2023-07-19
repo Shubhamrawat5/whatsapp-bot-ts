@@ -23,7 +23,7 @@ export const storeNews = async (headline: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[storeNews DB]", error, undefined);
+    await loggerBot(undefined, "[storeNews DB]", error, { headline });
     return false;
   }
 };

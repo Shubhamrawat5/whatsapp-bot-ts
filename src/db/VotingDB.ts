@@ -39,7 +39,7 @@ export const getVotingData = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getMilestoneText DB]", error, undefined);
+    await loggerBot(undefined, "[getMilestoneText DB]", error, { groupjid });
   }
   return [];
 };
@@ -61,7 +61,7 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[stopVotingData DB]", error, undefined);
+    await loggerBot(undefined, "[stopVotingData DB]", error, { groupjid });
     return false;
   }
 };
@@ -110,7 +110,16 @@ export const setVotingData = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setVotingData DB]", error, undefined);
+    await loggerBot(undefined, "[setVotingData DB]", error, {
+      groupjid,
+      is_started,
+      started_by,
+      title,
+      choices,
+      count,
+      members_voted_for,
+      voted_members,
+    });
     return false;
   }
 };

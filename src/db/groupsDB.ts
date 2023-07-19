@@ -37,7 +37,7 @@ export const getGroupsData = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getGroupsData DB]", error, undefined);
+    await loggerBot(undefined, "[getGroupsData DB]", error, { groupjid });
   }
   return [];
 };
@@ -69,7 +69,12 @@ export const setGroupsData = async (
 
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setGroupsData DB]", error, undefined);
+    await loggerBot(undefined, "[setGroupsData DB]", error, {
+      groupjid,
+      gname,
+      link,
+      disabled,
+    });
     return false;
   }
 };
@@ -98,7 +103,11 @@ export const setDisableCommand = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setDisableCommand DB]", error, undefined);
+    await loggerBot(undefined, "[setDisableCommand DB]", error, {
+      groupjid,
+      gname,
+      disabled,
+    });
     return false;
   }
 };

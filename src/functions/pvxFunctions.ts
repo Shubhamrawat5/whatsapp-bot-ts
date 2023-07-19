@@ -38,7 +38,7 @@ const pvxFunctions = async (bot: Bot) => {
       usedDate = todayDate;
       await checkTodayBday(bot, pvxgroups.pvxcommunity, true);
     }
-  }, 1000 * 60 * 20); // 20 min
+  }, 1000 * 60 * 30); // 30 min
 };
 
 export default pvxFunctions;

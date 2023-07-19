@@ -29,7 +29,7 @@ export const getUsernames = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getUsernames DB]", error, undefined);
+    await loggerBot(undefined, "[getUsernames DB]", error, { memberjidArray });
   }
   return [];
 };
@@ -72,7 +72,10 @@ export const setDonation = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setDonation DB]", error, undefined);
+    await loggerBot(undefined, "[setDonation DB]", error, {
+      number,
+      donation,
+    });
     return false;
   }
 };
@@ -96,7 +99,7 @@ export const getMilestones = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getMilestones DB]", error, undefined);
+    await loggerBot(undefined, "[getMilestones DB]", error, { memberjid });
   }
   return [];
 };
@@ -118,7 +121,10 @@ export const setMilestones = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setMilestones DB]", error, undefined);
+    await loggerBot(undefined, "[setMilestones DB]", error, {
+      memberjid,
+      milestones,
+    });
     return false;
   }
 };

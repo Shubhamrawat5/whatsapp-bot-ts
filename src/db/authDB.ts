@@ -80,7 +80,7 @@ export const getAuth = async (state: AuthenticationState): Promise<GetAuth> => {
       );
     }
   } catch (error) {
-    await loggerBot(undefined, "[getAuth DB]", error, undefined);
+    await loggerBot(undefined, "[getAuth DB]", error, { state });
   }
 
   return { cred, authRowCount };
@@ -146,7 +146,7 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     console.log("Login data updated!");
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setAuth DB]", error, undefined);
+    await loggerBot(undefined, "[setAuth DB]", error, { state });
     return false;
   }
 };

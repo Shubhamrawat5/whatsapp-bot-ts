@@ -63,7 +63,15 @@ export const addbday = async (
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[addbday DB]", error, undefined);
+    await loggerBot(undefined, "[addbday DB]", error, {
+      name,
+      username,
+      date,
+      month,
+      year,
+      place,
+      numb,
+    });
   }
   return false;
 };

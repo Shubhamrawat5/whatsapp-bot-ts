@@ -43,7 +43,7 @@ export const addUnknownCmd = async (command: string): Promise<boolean> => {
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[addUnknownCmd DB]", error, undefined);
+    await loggerBot(undefined, "[addUnknownCmd DB]", error, { command });
     return false;
   }
 };

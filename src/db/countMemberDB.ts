@@ -33,7 +33,9 @@ export const getCountGroupMembers = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountGroupMembers DB]", error, undefined);
+    await loggerBot(undefined, "[getCountGroupMembers DB]", error, {
+      groupjid,
+    });
   }
   return [];
 };
@@ -57,7 +59,10 @@ export const getCountIndividual = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountIndividual DB]", error, undefined);
+    await loggerBot(undefined, "[getCountIndividual DB]", error, {
+      memberjid,
+      groupjid,
+    });
   }
   return [];
 };
@@ -97,7 +102,7 @@ export const getRankInAllGroups = async (
       return [resultObj];
     }
   } catch (error) {
-    await loggerBot(undefined, "[getRankInAllGroups DB]", error, undefined);
+    await loggerBot(undefined, "[getRankInAllGroups DB]", error, { memberjid });
   }
   return [];
 };
@@ -121,12 +126,9 @@ export const getCountIndividualAllGroup = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(
-      undefined,
-      "[getCountIndividualAllGroup DB]",
-      error,
-      undefined
-    );
+    await loggerBot(undefined, "[getCountIndividualAllGroup DB]", error, {
+      memberjid,
+    });
   }
   return [];
 };
@@ -149,7 +151,7 @@ export const getCountTop = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountTop DB]", error, undefined);
+    await loggerBot(undefined, "[getCountTop DB]", error, { noOfResult });
   }
   return [];
 };
@@ -241,7 +243,11 @@ export const setCountMember = async (
       result.allGroup = res3.rows[0].message_count;
     }
   } catch (error) {
-    await loggerBot(undefined, "[setCountMember DB]", error, undefined);
+    await loggerBot(undefined, "[setCountMember DB]", error, {
+      memberjid,
+      groupjid,
+      name,
+    });
   }
 
   return result;

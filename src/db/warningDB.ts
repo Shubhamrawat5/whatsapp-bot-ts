@@ -19,7 +19,10 @@ export const getCountWarning = async (
       return result.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountWarning DB]", error, undefined);
+    await loggerBot(undefined, "[getCountWarning DB]", error, {
+      memberjid,
+      groupjid,
+    });
   }
   return [];
 };
@@ -68,7 +71,7 @@ export const getCountWarningAll = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getCountWarningAll DB]", error, undefined);
+    await loggerBot(undefined, "[getCountWarningAll DB]", error, { groupjid });
   }
   return [];
 };
@@ -89,7 +92,10 @@ export const setCountWarning = async (
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[setCountWarning DB]", error, undefined);
+    await loggerBot(undefined, "[setCountWarning DB]", error, {
+      memberjid,
+      groupjid,
+    });
     return false;
   }
 };
@@ -111,7 +117,10 @@ export const reduceCountWarning = async (
 
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[reduceCountWarning DB]", error, undefined);
+    await loggerBot(undefined, "[reduceCountWarning DB]", error, {
+      memberjid,
+      groupjid,
+    });
     return false;
   }
 };
@@ -133,7 +142,10 @@ export const clearCountWarning = async (
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[clearCountWarning DB]", error, undefined);
+    await loggerBot(undefined, "[clearCountWarning DB]", error, {
+      memberjid,
+      groupjid,
+    });
     return false;
   }
 };
