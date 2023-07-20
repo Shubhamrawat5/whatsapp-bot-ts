@@ -27,3 +27,22 @@ export const storeNews = async (headline: string): Promise<boolean> => {
     return false;
   }
 };
+
+export const deleteOldNews = async (): Promise<boolean> => {
+  const days = 2;
+  const today = new Date();
+  const oldDate = new Date(today.setDate(today.getDate() - days));
+  const at = oldDate.toISOString().slice(0, 10);
+
+  try {
+    const res = await pool.query("DELETE FROM news WHERE at < $1", [at]);
+
+    if (res.rowCount === 1) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    await loggerBot(undefined, "[storeNews DB]", error, undefined);
+    return false;
+  }
+};

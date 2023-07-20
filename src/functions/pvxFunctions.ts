@@ -1,4 +1,5 @@
 import { pvxgroups } from "../constants/constants";
+import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interface/Bot";
 import checkTodayBday from "./checkTodayBday";
 import postStudyInfo from "./postStudyInfo";
@@ -33,10 +34,11 @@ const pvxFunctions = async (bot: Bot) => {
     }
 
     // if (hour % 12 == 0) kickZeroMano(bot, pvxgroups.pvxmano);
-
+    // TODO: STORE IN DB
     if (usedDate !== todayDate) {
       usedDate = todayDate;
       await checkTodayBday(bot, pvxgroups.pvxcommunity, true);
+      await deleteOldNews();
     }
   }, 1000 * 60 * 30); // 30 min
 };
