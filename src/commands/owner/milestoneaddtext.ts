@@ -3,7 +3,6 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { setMilestoneText } from "../../db/milestoneDB";
 
-// TODO: MAKE bot and reply combined, then use reply only
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 

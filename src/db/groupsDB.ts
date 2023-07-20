@@ -26,11 +26,11 @@ export const getGroupsData = async (
   try {
     let res;
     if (groupjid) {
-      res = await pool.query("select * from groups where groupjid=$1;", [
+      res = await pool.query("SELECT * FROM groups WHERE groupjid=$1;", [
         groupjid,
       ]);
     } else {
-      res = await pool.query("select * from groups;");
+      res = await pool.query("SELECT * FROM groups;");
     }
     // not updated. time to insert
     if (res.rowCount) {
@@ -59,12 +59,14 @@ export const setGroupsData = async (
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
+      const res2 = await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
         groupjid,
         gname,
         link,
         disabledJson,
       ]);
+      if (res2.rowCount === 1) return true;
+      return false;
     }
 
     return true;
@@ -94,12 +96,14 @@ export const setDisableCommand = async (
 
     // not updated. time to insert
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
+      const res2 = await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
         groupjid,
         gname,
         null,
         disabledJson,
       ]);
+      if (res2.rowCount === 1) return true;
+      return false;
     }
     return true;
   } catch (error) {

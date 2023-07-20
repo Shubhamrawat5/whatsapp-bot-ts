@@ -18,7 +18,12 @@ export const setGroupLinksEnabled = async (
     ]);
     // not updated. time to insert
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO grouplinksenabled VALUES($1);", [enabled]);
+      const res2 = await pool.query(
+        "INSERT INTO grouplinksenabled VALUES($1);",
+        [enabled]
+      );
+      if (res2.rowCount === 1) return true;
+      return false;
     }
     return true;
   } catch (error) {

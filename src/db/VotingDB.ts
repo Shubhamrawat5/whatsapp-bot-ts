@@ -32,7 +32,7 @@ export const getVotingData = async (
 ): Promise<GetVotingData[]> => {
   try {
     // check if today date is present in DB or not
-    const res = await pool.query("select * from voting where groupjid=$1;", [
+    const res = await pool.query("SELECT * FROM voting WHERE groupjid=$1;", [
       groupjid,
     ]);
     if (res.rowCount) {
@@ -97,16 +97,21 @@ export const setVotingData = async (
     );
     if (res.rowCount === 0) {
       // insert new
-      await pool.query("INSERT INTO voting VALUES($1,$2,$3,$4,$5,$6,$7,$8);", [
-        groupjid,
-        is_started,
-        started_by,
-        title,
-        choicesJson,
-        countJson,
-        membersVotedForJson,
-        votedMembersJson,
-      ]);
+      const res2 = await pool.query(
+        "INSERT INTO voting VALUES($1,$2,$3,$4,$5,$6,$7,$8);",
+        [
+          groupjid,
+          is_started,
+          started_by,
+          title,
+          choicesJson,
+          countJson,
+          membersVotedForJson,
+          votedMembersJson,
+        ]
+      );
+      if (res2.rowCount === 1) return true;
+      return false;
     }
     return true;
   } catch (error) {

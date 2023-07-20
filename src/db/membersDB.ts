@@ -22,7 +22,7 @@ export const getUsernames = async (
 ): Promise<GetUsernames[]> => {
   try {
     const res = await pool.query(
-      "SELECT * from members where memberjid = ANY($1::TEXT[])",
+      "SELECT * FROM members WHERE memberjid = ANY($1::TEXT[])",
       [memberjidArray]
     );
     if (res.rowCount) {
@@ -44,7 +44,7 @@ export interface GetDonation {
 export const getDonation = async (): Promise<GetDonation[]> => {
   try {
     const res = await pool.query(
-      "select * from members where donation>0 ORDER BY donation DESC;"
+      "SELECT * FROM members WHERE donation>0 ORDER BY donation DESC;"
     );
     if (res.rowCount) {
       return res.rows;

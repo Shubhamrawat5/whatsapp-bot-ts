@@ -30,11 +30,11 @@ export const getAuth = async (state: AuthenticationState): Promise<GetAuth> => {
   let cred: any;
   let authRowCount = 0;
   try {
-    const authResult = await pool.query("select * from auth;"); // checking auth table
+    const res = await pool.query("SELECT * FROM auth;"); // checking auth table
 
     console.log("Fetching login data...");
-    authRowCount = authResult.rowCount;
-    const data = authResult.rows[0];
+    authRowCount = res.rowCount;
+    const data = res.rows[0];
 
     if (authRowCount === 0) {
       console.log("No login data found!");
@@ -123,7 +123,7 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     // not updated. time to insert
     if (res.rowCount === 0) {
       console.log("Inserting login data...");
-      await pool.query(
+      const res2 = await pool.query(
         "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);",
         [
           noiseKey,
@@ -140,8 +140,11 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
           myAppStateKeyId,
         ]
       );
-      console.log("New login data inserted!");
-      return true;
+      if (res2.rowCount === 1) {
+        console.log("New login data inserted!");
+        return true;
+      }
+      return false;
     }
     console.log("Login data updated!");
     return true;
@@ -153,8 +156,9 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
 
 export const deleteAuth = async (): Promise<boolean> => {
   try {
-    await pool.query("DELETE FROM auth;");
-    return true;
+    const res = await pool.query("DELETE FROM auth;");
+    if (res.rowCount === 1) return true;
+    return false;
   } catch (error) {
     await loggerBot(undefined, "[deleteAuth DB]", error, undefined);
     return false;

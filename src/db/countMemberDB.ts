@@ -80,12 +80,12 @@ export const getRankInAllGroups = async (
 ): Promise<GetRankInAllGroups[]> => {
   try {
     const res = await pool.query(
-      "SELECT memb.name,table1.message_count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(message_count) as message_count,RANK () OVER (ORDER BY sum(message_count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid where table1.memberjid=$1;",
+      "SELECT memb.name,table1.message_count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(message_count) as message_count,RANK () OVER (ORDER BY sum(message_count) DESC) ranks FROM countmember GROUP BY memberjid ) table1 INNER JOIN members memb on table1.memberjid = memb.memberjid WHERE table1.memberjid=$1;",
       [memberjid]
     );
 
     const res2 = await pool.query(
-      "select count(*) from (select memberjid,count(*) from countmember GROUP BY memberjid) table1;"
+      "SELECT count(*) from (SELECT memberjid,count(*) from countmember GROUP BY memberjid) table1;"
     );
 
     const resultObj: GetRankInAllGroups = {
@@ -207,7 +207,7 @@ export const setCountMember = async (
   groupjid: string,
   name: string | undefined | null
 ): Promise<SetCountMember> => {
-  const result = { currentGroup: 0, allGroup: 0 };
+  const result = { currentGroup: 1, allGroup: 1 };
   try {
     // update count
     const res1 = await pool.query(

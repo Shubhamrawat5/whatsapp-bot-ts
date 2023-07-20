@@ -23,7 +23,7 @@
 // ): Promise<GetVotingAllData[]> => {
 //   // check if today date is present in DB or not
 //   const result = await pool.query(
-//     "select * from votingall where groupjid=$1;",
+//     "SELECT * FROM votingall WHERE groupjid=$1;",
 //     [groupjid]
 //   );
 //   if (result.rowCount) {

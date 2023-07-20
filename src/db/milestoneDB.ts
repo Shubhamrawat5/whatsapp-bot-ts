@@ -17,7 +17,7 @@ export interface GetMilestoneText {
 
 export const getMilestoneText = async (): Promise<GetMilestoneText[]> => {
   try {
-    const res = await pool.query("SELECT * from milestonetext;");
+    const res = await pool.query("SELECT * FROM milestonetext;");
     if (res.rowCount) {
       return res.rows;
     }

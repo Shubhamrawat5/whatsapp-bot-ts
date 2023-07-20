@@ -37,7 +37,7 @@ export const deleteOldNews = async (): Promise<boolean> => {
   try {
     const res = await pool.query("DELETE FROM news WHERE at < $1", [at]);
 
-    if (res.rowCount === 1) {
+    if (res.rowCount > 0) {
       return true;
     }
     return false;

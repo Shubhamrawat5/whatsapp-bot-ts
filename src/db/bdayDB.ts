@@ -28,10 +28,10 @@ export interface Getbday {
 
 export const getbday = async (): Promise<Getbday[]> => {
   try {
-    const result = await pool.query("select * from bday;");
+    const res = await pool.query("SELECT * FROM bday;");
 
-    if (result.rowCount) {
-      return result.rows;
+    if (res.rowCount) {
+      return res.rows;
     }
   } catch (error) {
     await loggerBot(undefined, "[getbday DB]", error, undefined);

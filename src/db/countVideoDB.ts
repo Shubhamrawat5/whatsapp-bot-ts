@@ -49,11 +49,12 @@ export const setCountVideo = async (
 
     // not updated. time to insert
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
-        memberjid,
-        groupjid,
-        1,
-      ]);
+      const res2 = await pool.query(
+        "INSERT INTO countvideo VALUES($1,$2,$3);",
+        [memberjid, groupjid, 1]
+      );
+      if (res2.rowCount === 1) return true;
+      return false;
     }
     return true;
   } catch (error) {
@@ -70,12 +71,12 @@ export const setCountVideo = async (
 //   let result;
 //   try {
 //     result = await pool.query(
-//       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+//       "SELECT * FROM countvideo WHERE memberjid=$1 AND groupjid=$2;",
 //       [memberjid, groupjid]
 //     );
 //   } catch (err) {
 //     result = await pool.query(
-//       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+//       "SELECT * FROM countvideo WHERE memberjid=$1 AND groupjid=$2;",
 //       [memberjid, groupjid]
 //     );
 //   }

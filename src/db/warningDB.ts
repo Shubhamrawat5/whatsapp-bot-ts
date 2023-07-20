@@ -38,7 +38,7 @@ export const getCountWarningAllGroup = async (): Promise<
 > => {
   try {
     const res = await pool.query(
-      "SELECT countmember.memberjid, sum(countmember.warning) as warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid where warning>0 group by countmember.memberjid,members.name ORDER BY warning DESC;"
+      "SELECT countmember.memberjid, sum(countmember.warning) as warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning>0 GROUP BY countmember.memberjid,members.name ORDER BY warning DESC;"
     );
     if (res.rowCount) {
       return res.rows;
