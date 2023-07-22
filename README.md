@@ -1,6 +1,6 @@
 ## New Multi Device Whatsapp Bot
 
-Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
+Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-ts/
 
 <img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300">
 

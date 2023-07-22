@@ -16,7 +16,7 @@ _Do not spam in the grp._
 _Do not send any inappropriate content in the grp._
 
 ✔ Rule 03 -
-_Be Active. You should've sent atleast 100 messages in a month. [Your messages are being counted daily by the bot]_
+_Do not promote hate speech in the group. Any discussion pertaining to hatred for religion, community, race, etc is sticktly prohibited._
 
 ✔ Rule 04 -
 _Do not swear on someone else's parents  just because they roasted you badly._
