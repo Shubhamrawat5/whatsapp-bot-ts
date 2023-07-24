@@ -124,7 +124,16 @@ export const messagesUpsert = async (
 
       const from = msg.key.remoteJid;
       if (!from) return;
-      if (pvx === "true" && !pvxgroupsList.includes(from)) return; // only for PVX groups temporary
+      let sender = msg.key.participant || from;
+
+      // only for PVX groups temporary
+      if (
+        pvx === "true" &&
+        !pvxgroupsList.includes(from) &&
+        sender !== myNumberWithJid
+      ) {
+        return;
+      }
 
       const isGroup = from.endsWith("@g.us");
 
@@ -138,7 +147,7 @@ export const messagesUpsert = async (
         // console.log(groupMetadata);
         cache.set(`${from}:groupMetadata`, groupMetadata, 60 * 60 * 24); // 24 hours
       }
-      let sender = groupMetadata ? msg.key.participant : from;
+
       if (!sender) return;
       if (msg.key.fromMe) sender = botNumberJid;
 
