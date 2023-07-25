@@ -1,10 +1,11 @@
 import { GroupParticipant } from "@whiskeysockets/baileys";
+import { Milestones } from "../functions/addDefaultMilestone";
 
 export interface MsgInfoObj {
   from: string;
   command: string;
   args: string[];
-  milestones: { [key: string]: string[] };
+  milestones: Milestones;
   allCommandsName: string[];
 
   reply: (text: string | undefined) => Promise<boolean>;

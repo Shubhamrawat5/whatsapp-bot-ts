@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { addBlacklist } from "../../db/blacklistDB";
 import { prefix, pvxgroups } from "../../constants/constants";
-import { Chats } from "../../functions/addDefaultMilestone";
+import { Chats } from "../../interface/Chats";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, sender } = msgInfoObj;
@@ -44,7 +44,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const chats: Chats = await bot.groupFetchAllParticipating();
 
   let isSenderMainAdmin = false;
-  chats[pvxgroups.pvxadmin].participants.forEach((member) => {
+  chats[pvxgroups.pvxadmin]?.participants.forEach((member) => {
     if (member.id === sender) {
       isSenderMainAdmin = true;
     }

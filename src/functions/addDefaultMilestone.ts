@@ -1,14 +1,11 @@
-import { GroupMetadata } from "@whiskeysockets/baileys";
 import { pvxgroups } from "../constants/constants";
 import { Bot } from "../interface/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/membersDB";
+import { Chats } from "../interface/Chats";
 
 export interface Milestones {
   [key: string]: string[];
-}
-export interface Chats {
-  [key: string]: GroupMetadata;
 }
 
 export const addDefaultMilestones = async (bot: Bot) => {
@@ -20,10 +17,10 @@ export const addDefaultMilestones = async (bot: Bot) => {
 
   const chats: Chats = await bot.groupFetchAllParticipating();
 
-  chats[pvxsubadmin].participants.forEach((member) => {
+  chats[pvxsubadmin]?.participants.forEach((member) => {
     milestones[member.id] = ["Sub-Admin of PVX"];
   });
-  chats[pvxadmin].participants.forEach((member) => {
+  chats[pvxadmin]?.participants.forEach((member) => {
     milestones[member.id] = ["Main Admin of PVX"];
   });
 

@@ -52,9 +52,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const subAdminPanel: string[] = [];
   // get all admins from sub admin panel
-  chats[pvxgroups.pvxsubadmin].participants.forEach((mem: GroupParticipant) => {
-    subAdminPanel.push(mem.id);
-  });
+  chats[pvxgroups.pvxsubadmin]?.participants.forEach(
+    (mem: GroupParticipant) => {
+      subAdminPanel.push(mem.id);
+    }
+  );
 
   const notInSubPanel: MemberjidToUsername = {};
   let notInSubPanelMsg = "\n\n[NOT IN SUB ADMIN PANEL]";
