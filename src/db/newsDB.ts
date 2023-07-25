@@ -28,8 +28,7 @@ export const storeNews = async (headline: string): Promise<boolean> => {
   }
 };
 
-export const deleteOldNews = async (): Promise<boolean> => {
-  const days = 2;
+export const deleteOldNews = async (days: number): Promise<boolean> => {
   const today = new Date();
   const oldDate = new Date(today.setDate(today.getDate() - days));
   const at = oldDate.toISOString().slice(0, 10);

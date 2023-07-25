@@ -32,25 +32,21 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const stream = await downloadContentFromMessage(downloadFilePath, "image");
   const buffer = await toBuffer(stream);
 
-  const media = getRandomFileName(".jpeg");
-  await writeFile(media, buffer);
+  const randomFileName = getRandomFileName(".jpeg");
+  await writeFile(randomFileName, buffer);
 
   await bot.sendMessage(
     from,
     {
-      image: fs.readFileSync(media),
+      image: fs.readFileSync(randomFileName),
     },
     {
       quoted: msg,
       mediaUploadTimeoutMs: 1000 * 60,
     }
   );
-  try {
-    fs.unlinkSync(media);
-  } catch (error) {
-    console.log("Problem with deleting media");
-    // reply(error.toString());
-  }
+
+  fs.unlinkSync(randomFileName);
 };
 
 const image = () => {

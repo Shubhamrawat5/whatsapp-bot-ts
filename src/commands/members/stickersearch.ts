@@ -59,12 +59,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           },
           { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
         );
-        try {
-          fs.unlinkSync(stickerFileName);
-        } catch (err) {
-          console.log("Problem with deleting media");
-          // reply(error.toString());
-        }
+        fs.unlinkSync(stickerFileName);
       }
     }
   });
