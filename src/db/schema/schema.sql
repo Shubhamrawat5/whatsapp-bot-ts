@@ -45,8 +45,9 @@ table countvideo{
     PRIMARY KEY (memberjid, groupjid)
 }
 
-table grouplinksenabled{
-    enabled BOOLEAN PRIMARY KEY
+table meta{
+    variable text PRIMARY KEY,
+    value BOOLEAN 
 }
 
 table groups{

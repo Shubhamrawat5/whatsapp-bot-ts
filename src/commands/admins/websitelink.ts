@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { setGroupLinksEnabled } from "../../db/groupLinksEnabled";
+import { setMetaValues } from "../../db/metaDB";
 import { prefix } from "../../constants/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -14,12 +14,17 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const enabled = Number(args[0]);
-  if (enabled === 0 || enabled === 1) {
-    const setGroupLinkEnabledRes = await setGroupLinksEnabled(enabled === 1);
+  const isEnabled = Number(args[0]);
+  if (isEnabled === 0 || isEnabled === 1) {
+    const setGroupLinkEnabledRes = await setMetaValues(
+      "groups_link_enabled",
+      isEnabled === 1
+    );
 
     if (setGroupLinkEnabledRes) {
-      await reply(`✔ Group link enabled updated with value: ${enabled === 1}`);
+      await reply(
+        `✔ Group link isEnabled updated with value: ${isEnabled === 1}`
+      );
     } else {
       await reply(errorMessage);
     }
