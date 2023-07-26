@@ -19,7 +19,6 @@ export interface GetGroupsData {
   commands_disabled?: string[];
 }
 
-// TODO: FIX CAPITAL SMALL OF SELECT AND ALL
 export const getGroupsData = async (
   groupjid?: string
 ): Promise<GetGroupsData[]> => {

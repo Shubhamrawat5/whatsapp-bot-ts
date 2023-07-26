@@ -1,4 +1,4 @@
-import { pvxgroups } from "../constants/constants";
+import { myNumberWithJid, pvxgroups } from "../constants/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interface/Bot";
 import checkTodayBday from "./checkTodayBday";
@@ -28,8 +28,23 @@ const pvxFunctions = async (bot: Bot) => {
     // TODO: STORE IN DB
     if (usedDate !== todayDate) {
       usedDate = todayDate;
-      await checkTodayBday(bot, pvxgroups.pvxcommunity, true);
-      await deleteOldNews(2);
+      const checkTodayBdayRes = await checkTodayBday(
+        bot,
+        pvxgroups.pvxcommunity,
+        true
+      );
+      if (!checkTodayBdayRes) {
+        await bot.sendMessage(myNumberWithJid, {
+          text: "❌ THERE IS SOME PROBLEM WITH BDAY INFO!",
+        });
+      }
+
+      const deleteOldNewsRes = await deleteOldNews(2);
+      if (!deleteOldNewsRes) {
+        await bot.sendMessage(myNumberWithJid, {
+          text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",
+        });
+      }
     }
   }, 1000 * 60 * 30); // 30 min
 };

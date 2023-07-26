@@ -7,7 +7,7 @@ const checkTodayBday = async (
   bot: Bot,
   groupjid: string,
   addMember: boolean
-): Promise<void> => {
+): Promise<boolean> => {
   try {
     const today = getCurrentIndianDate();
     console.log("CHECKING TODAY BDAY...", today);
@@ -24,7 +24,7 @@ const checkTodayBday = async (
     if (data.length === 0) {
       // TODO: USE log, error, warn everywhere
       console.log("THERE IS SOME PROBLEM WITH BDAY INFO!");
-      return;
+      return false;
     }
 
     const bday: string[] = [];
@@ -62,9 +62,11 @@ const checkTodayBday = async (
     if (addMember) {
       await bot.groupUpdateSubject(groupjid, "<{PVX}> COMMUNITY ❤️");
     }
+    return true;
   } catch (err) {
     await loggerBot(bot, "TODAY-BDAY", err, undefined);
     console.log(err);
+    return false;
   }
 };
 

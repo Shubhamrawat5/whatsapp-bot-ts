@@ -54,6 +54,7 @@ export interface Pvxgroups {
 
 export const prefix = "!";
 
+// TODO: handle case when env variables are not there
 export const myNumber = process.env.OWNER_NUMBER;
 export const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
 export const pvx = process.env.PVX;
