@@ -10,9 +10,11 @@ export const createNewsTable = async () => {
   );
 };
 
-export const storeNews = async (headline: string): Promise<boolean> => {
+export const storeNews = async (
+  headline: string,
+  at: string
+): Promise<boolean> => {
   try {
-    const at = new Date().toISOString().slice(0, 10);
     const res = await pool.query(
       "INSERT INTO news VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
       [headline, at]
@@ -31,6 +33,7 @@ export const storeNews = async (headline: string): Promise<boolean> => {
 export const deleteOldNews = async (days: number): Promise<boolean> => {
   const today = new Date();
   const oldDate = new Date(today.setDate(today.getDate() - days));
+  // TODO: make it in IST time
   const at = oldDate.toISOString().slice(0, 10);
 
   try {

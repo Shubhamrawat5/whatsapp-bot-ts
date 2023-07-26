@@ -2,6 +2,7 @@ import Parser from "rss-parser";
 import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
 import { storeNews } from "../db/newsDB";
+import { getCurrentIndianDateDbFormat } from "./getDateTime";
 
 const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
   try {
@@ -34,8 +35,9 @@ const postStudyInfo = async (bot: Bot, pvxstudy: string) => {
 
       if (!title) title = "";
 
+      const at = getCurrentIndianDateDbFormat();
       // eslint-disable-next-line no-await-in-loop
-      storeNewsStudyRes = await storeNews(title);
+      storeNewsStudyRes = await storeNews(title, at);
       if (storeNewsStudyRes) {
         console.log("NEW STUDY NEWS!");
         // eslint-disable-next-line no-await-in-loop

@@ -2,27 +2,18 @@ import { pvxgroups } from "../constants/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interface/Bot";
 import checkTodayBday from "./checkTodayBday";
+import { getCurrentIndianTime, getCurrentIndianDate } from "./getDateTime";
 import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
 const pvxFunctions = async (bot: Bot) => {
-  let usedDate = new Date()
-    .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
-    .split(",")[0];
+  let usedDate = getCurrentIndianDate();
 
   return setInterval(async () => {
     console.log("SET INTERVAL.");
-    const todayDate = new Date().toLocaleDateString("en-GB", {
-      timeZone: "Asia/kolkata",
-    });
+    const todayDate = getCurrentIndianDate();
 
-    const hour = Number(
-      new Date()
-        .toLocaleTimeString("en-GB", {
-          timeZone: "Asia/kolkata",
-        })
-        .split(":")[0]
-    );
+    const hour = Number(getCurrentIndianTime().split(":")[0]);
     if (hour === 25) {
       // 9 PM
       await postTechNewsList(bot, pvxgroups.pvxtechonly);

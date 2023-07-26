@@ -65,8 +65,8 @@ table members{
 }
 
 table milestonetext{
-    sno SERIAL PRIMARY KEY, 
-    milestone TEXT
+    sno SERIAL, 
+    milestone TEXT PRIMARY KEY
 }
 
 table news{

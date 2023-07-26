@@ -1,3 +1,4 @@
+import { getCurrentIndianDate } from "../functions/getDateTime";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -46,9 +47,7 @@ export const getVotingData = async (
 
 export const stopVotingData = async (groupjid: string): Promise<boolean> => {
   try {
-    const todayDate = new Date().toLocaleString("en-GB", {
-      timeZone: "Asia/kolkata",
-    });
+    const todayDate = getCurrentIndianDate();
     const groupjidWithDate = `${groupjid} ${todayDate}`;
 
     const res = await pool.query(

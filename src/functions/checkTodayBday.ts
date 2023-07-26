@@ -1,17 +1,15 @@
 import { getbday } from "../db/bdayDB";
 import { Bot } from "../interface/Bot";
 import { loggerBot } from "../utils/logger";
+import { getCurrentIndianDate } from "./getDateTime";
 
 const checkTodayBday = async (
   bot: Bot,
   groupjid: string,
   addMember: boolean
 ): Promise<void> => {
-  // const checkTodayBday = async (todayDate) => {
   try {
-    const today = new Date().toLocaleDateString("en-GB", {
-      timeZone: "Asia/kolkata",
-    });
+    const today = getCurrentIndianDate();
     console.log("CHECKING TODAY BDAY...", today);
     // DB connect
 
@@ -69,9 +67,5 @@ const checkTodayBday = async (
     console.log(err);
   }
 };
-// let todayDate = new Date().toLocaleDateString("en-GB", {
-//   timeZone: "Asia/kolkata",
-// });
-// checkTodayBday(todayDate);
 
 export default checkTodayBday;
