@@ -5,7 +5,7 @@ import { getUsernames } from "./db/membersDB";
 import { pvxgroups, stats } from "./utils/constants";
 import { loggerBot } from "./utils/logger";
 import { cache } from "./utils/cache";
-import { myNumberWithJid, pvx } from "./utils/config";
+import { ownerNumberWithJid, pvxFunctionsEnabled } from "./utils/config";
 
 export interface GroupParticipantUpdate {
   id: string;
@@ -25,8 +25,8 @@ export const groupParticipantsUpdate = async (
       const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
       if (numJid === botNumberJid && msg.action === "remove") {
         // bot is removed
-        if (myNumberWithJid) {
-          await bot.sendMessage(myNumberWithJid, {
+        if (ownerNumberWithJid) {
+          await bot.sendMessage(ownerNumberWithJid, {
             text: `Bot is removed from group.`,
           });
         }
@@ -38,35 +38,27 @@ export const groupParticipantsUpdate = async (
       const groupSubject = groupMetadata.subject;
 
       if (msg.action === "add") {
-        await addMemberCheck(
-          bot,
-          from,
-          numSplit,
-          numJid,
-          groupSubject,
-          pvxgroups,
-          myNumberWithJid
-        );
+        await addMemberCheck(bot, from, numSplit, numJid, groupSubject);
 
         const text = `${groupSubject} [ADD] ${numSplit}`;
-        if (myNumberWithJid) {
-          await bot.sendMessage(myNumberWithJid, { text });
+        if (ownerNumberWithJid) {
+          await bot.sendMessage(ownerNumberWithJid, { text });
         }
 
         console.log(text);
         stats.memberJoined += 1;
       } else if (msg.action === "remove") {
         const text = `${groupSubject} [REMOVE] ${numSplit}`;
-        if (myNumberWithJid) {
-          await bot.sendMessage(myNumberWithJid, { text });
+        if (ownerNumberWithJid) {
+          await bot.sendMessage(ownerNumberWithJid, { text });
         }
 
         console.log(text);
         stats.memberLeft += 1;
       } else if (
         (msg.action === "promote" || msg.action === "demote") &&
-        groupSubject.startsWith("<{PVX}>") &&
-        pvx === "true"
+        pvxFunctionsEnabled === "true" &&
+        groupSubject.startsWith("<{PVX}>")
       ) {
         // promote, demote
         const getUsernamesRes = await getUsernames([numJid]);

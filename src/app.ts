@@ -30,7 +30,7 @@ import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
 import { getCurrentIndianDate } from "./functions/getDateTime";
-import { pvx } from "./utils/config";
+import { pvxFunctionsEnabled } from "./utils/config";
 
 stats.started = getCurrentIndianDate();
 
@@ -100,7 +100,7 @@ const startBot = async () => {
 
     store?.bind(bot.ev);
 
-    if (pvx === "true") {
+    if (pvxFunctionsEnabled === "true") {
       dateCheckerInterval = await pvxFunctions(bot);
     }
 

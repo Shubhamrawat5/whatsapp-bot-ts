@@ -20,7 +20,11 @@ import { loggerBot } from "./utils/logger";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
 import { Milestones } from "./functions/addDefaultMilestone";
-import { isForwardSticker, myNumberWithJid, pvx } from "./utils/config";
+import {
+  forwardStickerEnabled,
+  ownerNumberWithJid,
+  pvxFunctionsEnabled,
+} from "./utils/config";
 
 export interface MessageUpsert {
   messages: WAMessage[];
@@ -120,9 +124,9 @@ export const messagesUpsert = async (
 
       // only for PVX groups temporary
       if (
-        pvx === "true" &&
+        pvxFunctionsEnabled === "true" &&
         !pvxgroupsList.includes(from) &&
-        sender !== myNumberWithJid
+        sender !== ownerNumberWithJid
       ) {
         return;
       }
@@ -156,7 +160,7 @@ export const messagesUpsert = async (
       const groupName: string | undefined = groupMetadata?.subject;
 
       // Count message
-      if (pvx === "true") {
+      if (pvxFunctionsEnabled === "true") {
         if (
           groupName?.toUpperCase().includes("<{PVX}>") &&
           pvxgroupsList.includes(from) &&
@@ -192,7 +196,7 @@ export const messagesUpsert = async (
         if (
           groupName?.toUpperCase().startsWith("<{PVX}>") &&
           msg.message.stickerMessage &&
-          isForwardSticker === "true" &&
+          forwardStickerEnabled === "true" &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
           from !== pvxgroups.pvxmano
@@ -291,9 +295,9 @@ export const messagesUpsert = async (
       }
 
       // send every command info to my whatsapp, won't work when i send something for bot
-      if (myNumberWithJid !== sender && myNumberWithJid) {
+      if (ownerNumberWithJid !== sender && ownerNumberWithJid) {
         stats.commandExecuted += 1;
-        await bot.sendMessage(myNumberWithJid, {
+        await bot.sendMessage(ownerNumberWithJid, {
           text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
         });
       }
@@ -314,7 +318,7 @@ export const messagesUpsert = async (
         }
 
         case "test":
-          if (myNumberWithJid !== sender) {
+          if (ownerNumberWithJid !== sender) {
             await reply(`❌ Command only for owner for bot testing purpose!`);
             return;
           }
@@ -392,7 +396,7 @@ export const messagesUpsert = async (
 
         /* ----------------------------- owner commands ----------------------------- */
         if (commandsOwners[command]) {
-          if (myNumberWithJid === sender) {
+          if (ownerNumberWithJid === sender) {
             await commandsOwners[command](bot, msg, msgInfoObj);
             return;
           }

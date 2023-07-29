@@ -3,7 +3,7 @@ import { cache } from "./utils/cache";
 import { prefix } from "./utils/constants";
 import { loggerBot } from "./utils/logger";
 import { Bot } from "./interfaces/Bot";
-import { myNumberWithJid } from "./utils/config";
+import { ownerNumberWithJid } from "./utils/config";
 
 export type GroupsUpsert = GroupMetadata[];
 
@@ -18,8 +18,8 @@ export const groupsUpsert = async (msgs: GroupsUpsert, bot: Bot) => {
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
       });
 
-      if (myNumberWithJid) {
-        await bot.sendMessage(myNumberWithJid, {
+      if (ownerNumberWithJid) {
+        await bot.sendMessage(ownerNumberWithJid, {
           text: `Bot is added to new group.`,
         });
       }

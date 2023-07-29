@@ -4,7 +4,7 @@ import { Bot } from "../interfaces/Bot";
 import getTechNews from "./getTechNews";
 import { storeNews } from "../db/newsDB";
 import { getCurrentIndianDateDbFormat } from "./getDateTime";
-import { newsApi } from "../utils/config";
+import { newsApiKey } from "../utils/config";
 
 let countNews = 0;
 
@@ -12,7 +12,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
-      const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsApi}`;
+      const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsApiKey}`;
 
       interface News {
         status: string;

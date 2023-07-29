@@ -5,7 +5,7 @@ import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interfaces/Bot";
 import { loggerBot, loggerTg } from "./utils/logger";
-import { myNumberWithJid } from "./utils/config";
+import { ownerNumberWithJid } from "./utils/config";
 
 let startCount = 1;
 
@@ -25,8 +25,8 @@ export const connectionUpdate = async (
       console.log("Connected");
       // await loggerTg(`[STARTED BOT]: ${startCount}`);
 
-      if (myNumberWithJid) {
-        await bot.sendMessage(myNumberWithJid, {
+      if (ownerNumberWithJid) {
+        await bot.sendMessage(ownerNumberWithJid, {
           text: `[BOT STARTED] - ${startCount}`,
         });
       }

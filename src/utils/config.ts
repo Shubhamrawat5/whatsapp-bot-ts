@@ -1,14 +1,13 @@
 import "dotenv/config";
 
-// TODO: IMPROVE NAMING
-export const myNumber = process.env.OWNER_NUMBER;
-export const pvx = process.env.PVX;
-export const isForwardSticker = process.env.FORWARD_STICKER;
-export const openAiKey = process.env.OPENAI;
+export const ownerNumber = process.env.OWNER_NUMBER;
+export const pvxFunctionsEnabled = process.env.PVX_FUNCTIONS_ENABLED;
+export const forwardStickerEnabled = process.env.FORWARD_STICKER_ENABLED;
+export const openAiKey = process.env.OPENAI_KEY;
 export const databaseUrl = process.env.DATABASE_URL;
-export const newsApi = process.env.NEWSAPI;
-export const TgBotToken = process.env.TG_BOT; // tg bot token here
+export const newsApiKey = process.env.NEWSAPI_KEY;
+export const TgBotToken = process.env.TG_BOT_TOKEN; // tg bot token here
 
-export const myNumberWithJid = myNumber
-  ? `${myNumber}@s.whatsapp.net`
+export const ownerNumberWithJid = ownerNumber
+  ? `${ownerNumber}@s.whatsapp.net`
   : undefined;

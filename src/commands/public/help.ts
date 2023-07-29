@@ -1,34 +1,7 @@
-// 📛 ${prefix}wall text
-// 📛 ${prefix}matrix text
-// 📛 ${prefix}flame text
-// 📛 ${prefix}fire text
-// 📛 ${prefix}city text
-// 📛 ${prefix}3d text
-// 📛 ${prefix}logo text
-// 📛 ${prefix}light text
-// 📛 ${prefix}ff text
-// 📛 ${prefix}neon text
-// 📛 ${prefix}flower text
-// 📛 ${prefix}sand text
-
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
-
-// 📛 *${prefix}fb url* ❌
-//   - _Facebook videos downloader!_
-// 📛 *${prefix}slist* ❌
-//   - Get list of stickers command!_
-
-// 📛 *${prefix}count*
-//   - _Know your message count in current group!_
-
-// 📛 *${prefix}total*
-//   - _Know your message count in all PVX groups!_
-
-// 📛 *${prefix}91only*
-// - _To instant ban all numbers other than 91 when joined in group!_
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;

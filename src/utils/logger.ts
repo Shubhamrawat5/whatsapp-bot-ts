@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import { Bot } from "../interfaces/Bot";
 
-import { TgBotToken, myNumberWithJid } from "./config";
+import { TgBotToken, ownerNumberWithJid } from "./config";
 
 const kryptonChatId = 649341653; // my chat id to receive all the updates
 const botTG = TgBotToken
@@ -20,8 +20,8 @@ export const loggerBot = async (
   console.log(err);
   const loggerMsg = `ERROR [${eventType}]:\n${errMsg}\nmsg: ${msg}`;
   if (botTG) await botTG.sendMessage(kryptonChatId, loggerMsg);
-  if (botWA && myNumberWithJid) {
-    await botWA.sendMessage(myNumberWithJid, {
+  if (botWA && ownerNumberWithJid) {
+    await botWA.sendMessage(ownerNumberWithJid, {
       text: loggerMsg,
     });
   }

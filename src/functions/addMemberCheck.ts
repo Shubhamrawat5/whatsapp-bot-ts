@@ -1,17 +1,16 @@
-import { Pvxgroups, prefix } from "../utils/constants";
+import { prefix, pvxgroups } from "../utils/constants";
 import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interfaces/Bot";
 
 import { loggerBot } from "../utils/logger";
+import { ownerNumberWithJid } from "../utils/config";
 
 const addMemberCheck = async (
   bot: Bot,
   from: string,
   numSplit: string,
   numJid: string,
-  groupSubject: string,
-  pvxgroups: Pvxgroups,
-  myNumberWithJid: string | undefined
+  groupSubject: string
 ) => {
   const {
     pvxcommunity,
@@ -31,8 +30,8 @@ const addMemberCheck = async (
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${adminname}`,
         });
-        if (myNumberWithJid) {
-          await bot.sendMessage(myNumberWithJid, {
+        if (ownerNumberWithJid) {
+          await bot.sendMessage(ownerNumberWithJid, {
             text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
           });
         }
@@ -45,8 +44,8 @@ const addMemberCheck = async (
         });
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-        if (myNumberWithJid) {
-          await bot.sendMessage(myNumberWithJid, {
+        if (ownerNumberWithJid) {
+          await bot.sendMessage(ownerNumberWithJid, {
             text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
           });
         }
