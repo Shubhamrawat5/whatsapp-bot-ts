@@ -1,5 +1,5 @@
 import { SetCountMember } from "../db/countMemberDB";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 
 const countRemainder = async (
   bot: Bot,

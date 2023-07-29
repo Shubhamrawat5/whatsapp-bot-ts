@@ -6,9 +6,9 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import cheerio from "cheerio";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 
-import { Bot } from "../../interface/Bot";
+import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

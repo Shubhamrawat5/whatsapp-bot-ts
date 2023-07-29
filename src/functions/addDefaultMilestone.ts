@@ -1,8 +1,8 @@
 import { pvxgroups } from "../utils/constants";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/membersDB";
-import { Chats } from "../interface/Chats";
+import { Chats } from "../interfaces/Chats";
 
 export interface Milestones {
   [key: string]: string[];

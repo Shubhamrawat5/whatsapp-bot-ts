@@ -2,7 +2,7 @@ import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
 import { prefix } from "./utils/constants";
 import { loggerBot } from "./utils/logger";
-import { Bot } from "./interface/Bot";
+import { Bot } from "./interfaces/Bot";
 import { myNumberWithJid } from "./utils/config";
 
 export type GroupsUpsert = GroupMetadata[];

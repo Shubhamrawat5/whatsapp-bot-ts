@@ -1,9 +1,9 @@
 import { GroupParticipant, WAMessage } from "@whiskeysockets/baileys";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 import { addBlacklist } from "../../db/blacklistDB";
 import { prefix, pvxgroups } from "../../utils/constants";
-import { Chats } from "../../interface/Chats";
+import { Chats } from "../../interfaces/Chats";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, sender } = msgInfoObj;

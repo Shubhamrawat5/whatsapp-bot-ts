@@ -4,7 +4,7 @@ import {
   toBuffer,
 } from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 
 // TODO: GLOBAL VARIALBES
 let countSent = 0;

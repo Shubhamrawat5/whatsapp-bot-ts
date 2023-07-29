@@ -4,8 +4,8 @@ import {
   toBuffer,
 } from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;

@@ -1,6 +1,6 @@
 import { Pvxgroups, prefix } from "../utils/constants";
 import { getBlacklist } from "../db/blacklistDB";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 
 import { loggerBot } from "../utils/logger";
 

@@ -1,7 +1,7 @@
 import { myNumberWithJid } from "../utils/config";
 import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 import checkTodayBday from "./checkTodayBday";
 import { getCurrentIndianTime, getCurrentIndianDate } from "./getDateTime";
 import postStudyInfo from "./postStudyInfo";

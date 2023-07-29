@@ -3,7 +3,7 @@ import { Boom } from "@hapi/boom";
 import fs from "fs";
 import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
-import { Bot } from "./interface/Bot";
+import { Bot } from "./interfaces/Bot";
 import { loggerBot, loggerTg } from "./utils/logger";
 import { myNumberWithJid } from "./utils/config";
 

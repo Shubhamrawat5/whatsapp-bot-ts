@@ -85,7 +85,7 @@ import steal from "../commands/public/steal";
 import votecommand from "../commands/public/votecommand";
 
 import bday from "../commands/admins/bday";
-import { CommandsObj } from "../interface/CommandsObj";
+import { CommandsObj } from "../interfaces/CommandsObj";
 
 const addCommands = async () => {
   const commandsPublic: CommandsObj = {};

@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import google from "googlethis";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 
 import getMessage from "../../functions/getMessage";
 import { prefix } from "../../utils/constants";

@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { pvxgroups } from "../../utils/constants";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 import { getCountVideo } from "../../db/countVideoDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

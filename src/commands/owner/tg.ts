@@ -7,8 +7,8 @@ import {
 import { writeFile } from "fs/promises";
 import AdmZip from "adm-zip";
 import { Sticker, StickerTypes } from "wa-sticker-formatter";
-import { Bot } from "../../interface/Bot";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import getRandomFileName from "../../functions/getRandomFileName";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

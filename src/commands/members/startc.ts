@@ -1,6 +1,6 @@
 import { WAMessage } from "@whiskeysockets/baileys";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 
 // const cricSetIntervalGroups = {};
 // to store every group name with its setInterval value so that it can be stopped

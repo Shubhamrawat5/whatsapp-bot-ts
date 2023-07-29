@@ -1,6 +1,6 @@
 import axios from "axios";
 import { loggerBot } from "../utils/logger";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 import getTechNews from "./getTechNews";
 import { storeNews } from "../db/newsDB";
 import { getCurrentIndianDateDbFormat } from "./getDateTime";

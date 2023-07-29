@@ -12,8 +12,8 @@
 // 📛 ${prefix}sand text
 
 import { WAMessage } from "@whiskeysockets/baileys";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 
 // 📛 *${prefix}fb url* ❌

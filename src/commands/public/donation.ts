@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import fs from "fs";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 
 import { getDonation } from "../../db/membersDB";
 
@@ -26,7 +26,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await bot.sendMessage(
     from,
     {
-      image: fs.readFileSync(`${__dirname}/../../../assert/donation.jpg`),
+      image: fs.readFileSync(`${__dirname}/../../../asset/donation.jpg`),
       caption: donaMsg,
     },
     { quoted: msg }

@@ -1,5 +1,5 @@
 import { getbday } from "../db/bdayDB";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 import { loggerBot } from "../utils/logger";
 import { getCurrentIndianDate } from "./getDateTime";
 

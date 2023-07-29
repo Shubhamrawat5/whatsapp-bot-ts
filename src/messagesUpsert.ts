@@ -12,13 +12,13 @@ import { setCountMember } from "./db/countMemberDB";
 import countRemainder from "./functions/countRemainder";
 import { setCountVideo } from "./db/countVideoDB";
 import forwardSticker from "./functions/forwardSticker";
-import { Bot } from "./interface/Bot";
+import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
 import { getGroupsData } from "./db/groupsDB";
-import { MsgInfoObj } from "./interface/msgInfoObj";
+import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot } from "./utils/logger";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
-import { CommandsObj } from "./interface/CommandsObj";
+import { CommandsObj } from "./interfaces/CommandsObj";
 import { Milestones } from "./functions/addDefaultMilestone";
 import { isForwardSticker, myNumberWithJid, pvx } from "./utils/config";
 

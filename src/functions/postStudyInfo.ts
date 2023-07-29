@@ -1,6 +1,6 @@
 import Parser from "rss-parser";
 import { loggerBot } from "../utils/logger";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 import { storeNews } from "../db/newsDB";
 import { getCurrentIndianDateDbFormat } from "./getDateTime";
 

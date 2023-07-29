@@ -1,5 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
-import { Bot } from "../interface/Bot";
+import { Bot } from "../interfaces/Bot";
 
 import { TgBotToken, myNumberWithJid } from "./config";
 

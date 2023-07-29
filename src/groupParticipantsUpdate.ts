@@ -1,6 +1,6 @@
 import { ParticipantAction } from "@whiskeysockets/baileys";
 import addMemberCheck from "./functions/addMemberCheck";
-import { Bot } from "./interface/Bot";
+import { Bot } from "./interfaces/Bot";
 import { getUsernames } from "./db/membersDB";
 import { pvxgroups, stats } from "./utils/constants";
 import { loggerBot } from "./utils/logger";

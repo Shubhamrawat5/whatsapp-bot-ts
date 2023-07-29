@@ -5,8 +5,8 @@ import {
 } from "@whiskeysockets/baileys";
 import fs from "fs";
 import { writeFile } from "fs/promises";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 
 import getRandomFileName from "../../functions/getRandomFileName";
 

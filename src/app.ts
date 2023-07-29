@@ -18,7 +18,7 @@ import {
   Milestones,
 } from "./functions/addDefaultMilestone";
 import { stats, useStore } from "./utils/constants";
-import { Bot } from "./interface/Bot";
+import { Bot } from "./interfaces/Bot";
 import pvxFunctions from "./functions/pvxFunctions";
 import {
   groupParticipantsUpdate,

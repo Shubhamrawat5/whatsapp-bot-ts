@@ -9,8 +9,8 @@ import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ffmpeg from "fluent-ffmpeg";
-import { MsgInfoObj } from "../../interface/msgInfoObj";
-import { Bot } from "../../interface/Bot";
+import { MsgInfoObj } from "../../interfaces/msgInfoObj";
+import { Bot } from "../../interfaces/Bot";
 import getRandomFileName from "../../functions/getRandomFileName";
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);

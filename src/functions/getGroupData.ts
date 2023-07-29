@@ -1,6 +1,6 @@
 import { GroupMetadata, GroupParticipant } from "@whiskeysockets/baileys";
 import getGroupAdmins from "./getGroupAdmins";
-import { GroupData } from "../interface/GroupData";
+import { GroupData } from "../interfaces/GroupData";
 
 const getGroupData = (
   groupMetadata: GroupMetadata,
