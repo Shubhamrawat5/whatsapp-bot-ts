@@ -2,7 +2,7 @@ import { WAMessage, GroupParticipant } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
-import { pvxgroups } from "../../constants/constants";
+import { pvxgroups } from "../../utils/constants";
 import { getUsernames } from "../../db/membersDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 export const pvxgroups: Pvxgroups = {
   pvxcommunity: "919557666582-1467533860@g.us",
   pvxprogrammer: "919557666582-1584193120@g.us",
@@ -53,13 +51,6 @@ export interface Pvxgroups {
 }
 
 export const prefix = "!";
-
-// TODO: handle case when env variables are not there
-export const myNumber = process.env.OWNER_NUMBER;
-export const myNumberWithJid = `${myNumber}@s.whatsapp.net`;
-export const pvx = process.env.PVX;
-export const isForwardSticker = process.env.FORWARD_STICKER;
-
 export const useStore = false;
 
 export const stats = {

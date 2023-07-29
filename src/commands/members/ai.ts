@@ -1,8 +1,8 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import "dotenv/config";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
+import { openAiKey } from "../../utils/config";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
 
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     if (!isApiSetup) {
       const { ChatGPTAPI } = await importDynamic("chatgpt");
       api = new ChatGPTAPI({
-        apiKey: process.env.OPENAI,
+        apiKey: openAiKey,
       });
       isApiSetup = true;
     }

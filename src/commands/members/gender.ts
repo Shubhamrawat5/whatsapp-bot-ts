@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
 
 const getGender = async (name: string) => {
   try {

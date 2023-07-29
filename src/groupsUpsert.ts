@@ -1,8 +1,9 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
-import { myNumberWithJid, prefix } from "./constants/constants";
+import { prefix } from "./utils/constants";
 import { loggerBot } from "./utils/logger";
 import { Bot } from "./interface/Bot";
+import { myNumberWithJid } from "./utils/config";
 
 export type GroupsUpsert = GroupMetadata[];
 
@@ -16,9 +17,12 @@ export const groupsUpsert = async (msgs: GroupsUpsert, bot: Bot) => {
       await bot.sendMessage(from, {
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
       });
-      await bot.sendMessage(myNumberWithJid, {
-        text: `Bot is added to group.`,
-      });
+
+      if (myNumberWithJid) {
+        await bot.sendMessage(myNumberWithJid, {
+          text: `Bot is added to new group.`,
+        });
+      }
     });
   } catch (err) {
     await loggerBot(bot, "groups.upsert", err, msgs);

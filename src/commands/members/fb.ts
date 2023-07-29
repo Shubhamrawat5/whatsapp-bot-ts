@@ -2,7 +2,7 @@ import axios from "axios";
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { args, reply, from } = msgInfoObj;

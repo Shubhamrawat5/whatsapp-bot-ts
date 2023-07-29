@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getMilestoneText } from "../../db/milestoneDB";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
 import { getMilestones, setMilestones } from "../../db/membersDB";
 
 // TODO: CHECK THE FUNCTIONALITY

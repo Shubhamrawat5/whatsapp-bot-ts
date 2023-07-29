@@ -1,19 +1,18 @@
 import axios from "axios";
 import { loggerBot } from "../utils/logger";
 import { Bot } from "../interface/Bot";
-import "dotenv/config";
 import getTechNews from "./getTechNews";
 import { storeNews } from "../db/newsDB";
 import { getCurrentIndianDateDbFormat } from "./getDateTime";
+import { newsApi } from "../utils/config";
 
-const newsapi = process.env.NEWSAPI;
 let countNews = 0;
 
 export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {
-      const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsapi}`;
+      const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=${newsApi}`;
 
       interface News {
         status: string;

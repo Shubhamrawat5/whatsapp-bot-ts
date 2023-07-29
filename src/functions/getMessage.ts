@@ -1,5 +1,5 @@
 import { WAMessage } from "@whiskeysockets/baileys";
-import { prefix } from "../constants/constants";
+import { prefix } from "../utils/constants";
 
 const checkTaggedMessage = async (msg: WAMessage) => {
   if (

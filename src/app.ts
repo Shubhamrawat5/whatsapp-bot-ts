@@ -17,7 +17,7 @@ import {
   addDefaultMilestones,
   Milestones,
 } from "./functions/addDefaultMilestone";
-import { pvx, stats, useStore } from "./constants/constants";
+import { stats, useStore } from "./utils/constants";
 import { Bot } from "./interface/Bot";
 import pvxFunctions from "./functions/pvxFunctions";
 import {
@@ -30,6 +30,7 @@ import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
 import { getCurrentIndianDate } from "./functions/getDateTime";
+import { pvx } from "./utils/config";
 
 stats.started = getCurrentIndianDate();
 

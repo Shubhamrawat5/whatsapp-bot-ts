@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getBlacklist, removeBlacklist } from "../../db/blacklistDB";
-import { prefix, pvxgroups } from "../../constants/constants";
+import { prefix, pvxgroups } from "../../utils/constants";
 import { Chats } from "../../interface/Chats";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

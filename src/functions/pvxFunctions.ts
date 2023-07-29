@@ -1,4 +1,5 @@
-import { myNumberWithJid, pvxgroups } from "../constants/constants";
+import { myNumberWithJid } from "../utils/config";
+import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interface/Bot";
 import checkTodayBday from "./checkTodayBday";
@@ -33,14 +34,14 @@ const pvxFunctions = async (bot: Bot) => {
         pvxgroups.pvxcommunity,
         true
       );
-      if (!checkTodayBdayRes) {
+      if (!checkTodayBdayRes && myNumberWithJid) {
         await bot.sendMessage(myNumberWithJid, {
           text: "❌ THERE IS SOME PROBLEM WITH BDAY INFO!",
         });
       }
 
       const deleteOldNewsRes = await deleteOldNews(2);
-      if (!deleteOldNewsRes) {
+      if (!deleteOldNewsRes && myNumberWithJid) {
         await bot.sendMessage(myNumberWithJid, {
           text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",
         });

@@ -14,7 +14,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
 
 // 📛 *${prefix}fb url* ❌
 //   - _Facebook videos downloader!_

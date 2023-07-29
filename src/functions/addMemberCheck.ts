@@ -1,4 +1,4 @@
-import { Pvxgroups, prefix } from "../constants/constants";
+import { Pvxgroups, prefix } from "../utils/constants";
 import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interface/Bot";
 
@@ -11,7 +11,7 @@ const addMemberCheck = async (
   numJid: string,
   groupSubject: string,
   pvxgroups: Pvxgroups,
-  myNumber: string | undefined
+  myNumberWithJid: string | undefined
 ) => {
   const {
     pvxcommunity,
@@ -31,9 +31,11 @@ const addMemberCheck = async (
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${adminname}`,
         });
-        await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
-          text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
-        });
+        if (myNumberWithJid) {
+          await bot.sendMessage(myNumberWithJid, {
+            text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
+          });
+        }
         return;
       }
 
@@ -43,9 +45,11 @@ const addMemberCheck = async (
         });
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-        await bot.sendMessage(`${myNumber}@s.whatsapp.net`, {
-          text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
-        });
+        if (myNumberWithJid) {
+          await bot.sendMessage(myNumberWithJid, {
+            text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
+          });
+        }
       } else if (from === pvxmemes) {
         await bot.sendMessage(
           from,

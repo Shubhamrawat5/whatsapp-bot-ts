@@ -5,7 +5,7 @@ import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interface/Bot";
 import { loggerBot, loggerTg } from "./utils/logger";
-import { myNumberWithJid } from "./constants/constants";
+import { myNumberWithJid } from "./utils/config";
 
 let startCount = 1;
 
@@ -24,9 +24,12 @@ export const connectionUpdate = async (
     if (connection === "open") {
       console.log("Connected");
       // await loggerTg(`[STARTED BOT]: ${startCount}`);
-      await bot.sendMessage(myNumberWithJid, {
-        text: `[BOT STARTED] - ${startCount}`,
-      });
+
+      if (myNumberWithJid) {
+        await bot.sendMessage(myNumberWithJid, {
+          text: `[BOT STARTED] - ${startCount}`,
+        });
+      }
 
       // SET GROUP META DATA
       const chats = await bot.groupFetchAllParticipating();

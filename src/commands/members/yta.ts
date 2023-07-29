@@ -5,7 +5,7 @@ import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 
 import getRandomFileName from "../../functions/getRandomFileName";
-import { prefix } from "../../constants/constants";
+import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;

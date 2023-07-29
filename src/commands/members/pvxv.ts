@@ -1,5 +1,5 @@
 import { WAMessage } from "@whiskeysockets/baileys";
-import { pvxgroups } from "../../constants/constants";
+import { pvxgroups } from "../../utils/constants";
 import { MsgInfoObj } from "../../interface/msgInfoObj";
 import { Bot } from "../../interface/Bot";
 import { getCountVideo } from "../../db/countVideoDB";

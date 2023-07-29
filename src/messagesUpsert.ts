@@ -6,16 +6,7 @@ import {
   MessageUpsertType,
   WAMessage,
 } from "@whiskeysockets/baileys";
-import {
-  isForwardSticker,
-  myNumber,
-  myNumberWithJid,
-  prefix,
-  pvx,
-  pvxgroups,
-  pvxgroupsList,
-  stats,
-} from "./constants/constants";
+import { prefix, pvxgroups, pvxgroupsList, stats } from "./utils/constants";
 import { cache } from "./utils/cache";
 import { setCountMember } from "./db/countMemberDB";
 import countRemainder from "./functions/countRemainder";
@@ -29,6 +20,7 @@ import { loggerBot } from "./utils/logger";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 import { CommandsObj } from "./interface/CommandsObj";
 import { Milestones } from "./functions/addDefaultMilestone";
+import { isForwardSticker, myNumberWithJid, pvx } from "./utils/config";
 
 export interface MessageUpsert {
   messages: WAMessage[];
@@ -299,7 +291,7 @@ export const messagesUpsert = async (
       }
 
       // send every command info to my whatsapp, won't work when i send something for bot
-      if (myNumber && myNumberWithJid !== sender) {
+      if (myNumberWithJid !== sender && myNumberWithJid) {
         stats.commandExecuted += 1;
         await bot.sendMessage(myNumberWithJid, {
           text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,

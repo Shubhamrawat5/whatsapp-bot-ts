@@ -1,8 +1,8 @@
-import "dotenv/config";
 import { Pool } from "pg";
+import { databaseUrl } from "../utils/config";
 
 const config = {
-  connectionString: process.env.DATABASE_URL,
+  connectionString: databaseUrl,
   max: 4, // max connection limit
 };
 
