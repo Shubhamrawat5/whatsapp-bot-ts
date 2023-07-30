@@ -115,7 +115,7 @@ const startBot = async () => {
     });
 
     bot.ev.on("groups.update", async (msgs: GroupsUpdate) => {
-      // subject change, etc
+      // subject change, admin only chat, admin can edit subject, etc
       await groupsUpdate(msgs, bot);
     });
 

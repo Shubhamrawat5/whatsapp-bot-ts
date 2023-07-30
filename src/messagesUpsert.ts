@@ -140,7 +140,6 @@ export const messagesUpsert = async (
         console.log("FETCHING GROUP METADATA: ", from);
 
         groupMetadata = await bot.groupMetadata(from);
-        // console.log(groupMetadata);
         cache.set(`${from}:groupMetadata`, groupMetadata, 60 * 60 * 24); // 24 hours
       }
 
