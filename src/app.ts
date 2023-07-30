@@ -80,9 +80,9 @@ const startBot = async () => {
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
     // Fetch login auth
-    const { cred, authRowCount } = await getAuth(state);
-    if (authRowCount !== 0) {
-      state.creds = cred.creds;
+    const creds = await getAuth(state);
+    if (creds) {
+      state.creds = creds;
     }
 
     const bot: Bot = makeWASocket({

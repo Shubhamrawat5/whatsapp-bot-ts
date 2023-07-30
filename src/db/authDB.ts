@@ -1,4 +1,8 @@
-import { AuthenticationState } from "@whiskeysockets/baileys";
+import {
+  AuthenticationCreds,
+  AuthenticationState,
+  SignalCreds,
+} from "@whiskeysockets/baileys";
 import pool from "./pool";
 import { loggerBot } from "../utils/logger";
 
@@ -21,70 +25,86 @@ export const createAuthTable = async () => {
   );
 };
 
-export interface GetAuth {
-  cred: any;
-  authRowCount: number;
-}
+export const getAuth = async (
+  state: AuthenticationState
+): Promise<AuthenticationCreds | undefined> => {
+  let creds: AuthenticationCreds | undefined;
 
-export const getAuth = async (state: AuthenticationState): Promise<GetAuth> => {
-  let cred: any;
-  let authRowCount = 0;
   try {
-    const res = await pool.query("SELECT * FROM auth;"); // checking auth table
+    const res = await pool.query("SELECT * FROM auth;");
 
     console.log("Fetching login data...");
-    authRowCount = res.rowCount;
     const data = res.rows[0];
 
-    if (authRowCount === 0) {
+    if (res.rowCount === 0) {
       console.log("No login data found!");
+      creds = undefined;
     } else {
       console.log("Login data found!");
-      cred = {
-        creds: {
-          noiseKey: JSON.parse(data.noisekey),
-          signedIdentityKey: JSON.parse(data.signedidentitykey),
-          signedPreKey: JSON.parse(data.signedprekey),
-          registrationId: Number(data.registrationid),
-          advSecretKey: data.advsecretkey,
-          nextPreKeyId: Number(data.nextprekeyid),
-          firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyid),
-          account: JSON.parse(data.account),
-          me: JSON.parse(data.me),
-          signalIdentities: JSON.parse(data.signalidentities),
-          lastAccountSyncTimestamp: 0, // To allow bot to read the messages
-          // lastAccountSyncTimestamp: Number(data.lastaccountsynctimestamp),
-          myAppStateKeyId: data.myappstatekeyid,
+
+      const noiseKey = JSON.parse(data.noisekey);
+      const signedIdentityKey = JSON.parse(data.signedidentitykey);
+      const signedPreKey = JSON.parse(data.signedprekey);
+      const signalIdentities = JSON.parse(data.signalidentities);
+
+      const signalCreds: SignalCreds = {
+        signedIdentityKey: {
+          private: Buffer.from(signedIdentityKey.private),
+          public: Buffer.from(signedIdentityKey.public),
         },
-        keys: state.keys,
+        signedPreKey: {
+          keyPair: {
+            private: Buffer.from(signedPreKey.keyPair.private),
+            public: Buffer.from(signedPreKey.keyPair.public),
+          },
+          signature: Buffer.from(signedPreKey.signature),
+          keyId: signedPreKey.keyId,
+        },
+        registrationId: Number(data.registrationid),
       };
-      cred.creds.noiseKey.private = Buffer.from(cred.creds.noiseKey.private);
-      cred.creds.noiseKey.public = Buffer.from(cred.creds.noiseKey.public);
-      cred.creds.signedIdentityKey.private = Buffer.from(
-        cred.creds.signedIdentityKey.private
-      );
-      cred.creds.signedIdentityKey.public = Buffer.from(
-        cred.creds.signedIdentityKey.public
-      );
-      cred.creds.signedPreKey.keyPair.private = Buffer.from(
-        cred.creds.signedPreKey.keyPair.private
-      );
-      cred.creds.signedPreKey.keyPair.public = Buffer.from(
-        cred.creds.signedPreKey.keyPair.public
-      );
-      cred.creds.signedPreKey.signature = Buffer.from(
-        cred.creds.signedPreKey.signature
-      );
-      cred.creds.signalIdentities[0].identifierKey = Buffer.from(
-        cred.creds.signalIdentities[0].identifierKey
-      );
+
+      creds = {
+        ...state.creds,
+        ...signalCreds,
+        noiseKey: {
+          private: Buffer.from(noiseKey.private),
+          public: Buffer.from(noiseKey.public),
+        },
+        advSecretKey: data.advsecretkey,
+        me: JSON.parse(data.me),
+        account: JSON.parse(data.account),
+        signalIdentities: [
+          {
+            identifier: signalIdentities[0].identifier,
+            identifierKey: Buffer.from(signalIdentities[0].identifierKey),
+          },
+        ],
+        myAppStateKeyId: data.myappstatekeyid,
+        firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyid),
+        nextPreKeyId: Number(data.nextprekeyid),
+        lastAccountSyncTimestamp: Number(data.lastAccountSyncTimestamp),
+      };
     }
   } catch (error) {
-    await loggerBot(undefined, "[getAuth DB]", error, { state });
+    await loggerBot(undefined, "[getAuth DB]", error, undefined);
   }
 
-  return { cred, authRowCount };
+  return creds;
 };
+
+// [EXTRA CREDS VARIABLES]
+// pairingEphemeralKeyPair ?? not found
+// pairingCode ?? not found
+// processedHistoryMessages
+// accountSyncCounter
+// accountSettings
+// deviceId:
+// phoneId
+// identityId:
+// registered:
+// backupToken
+// registration
+// platform
 
 export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
   try {
@@ -99,8 +119,7 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     const me = JSON.stringify(state.creds.me);
     const signalIdentities = JSON.stringify(state.creds.signalIdentities);
     const { lastAccountSyncTimestamp } = state.creds;
-    // let lastAccountSyncTimestamp = 0;
-    const { myAppStateKeyId } = state.creds; // ?
+    const { myAppStateKeyId } = state.creds;
 
     const res = await pool.query(
       "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, account = $8, me = $9, signalIdentities = $10, lastAccountSyncTimestamp = $11, myAppStateKeyId = $12;",
