@@ -30,14 +30,9 @@ export const storeNews = async (
   }
 };
 
-export const deleteOldNews = async (days: number): Promise<boolean> => {
-  const today = new Date();
-  const oldDate = new Date(today.setDate(today.getDate() - days));
-  // TODO: make it in IST time
-  const at = oldDate.toISOString().slice(0, 10);
-
+export const deleteOldNews = async (atOld: string): Promise<boolean> => {
   try {
-    const res = await pool.query("DELETE FROM news WHERE at < $1", [at]);
+    const res = await pool.query("DELETE FROM news WHERE at < $1", [atOld]);
 
     if (res.rowCount > 0) {
       return true;

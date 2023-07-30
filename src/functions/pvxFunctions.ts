@@ -3,7 +3,11 @@ import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interfaces/Bot";
 import checkTodayBday from "./checkTodayBday";
-import { getCurrentIndianTime, getCurrentIndianDate } from "./getDateTime";
+import {
+  getCurrentIndianTime,
+  getCurrentIndianDate,
+  getOldIndianDateDbFormat,
+} from "./getDateTime";
 import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
@@ -40,7 +44,10 @@ const pvxFunctions = async (bot: Bot) => {
         });
       }
 
-      const deleteOldNewsRes = await deleteOldNews(2);
+      const days = 2;
+      const atOld = getOldIndianDateDbFormat(days);
+
+      const deleteOldNewsRes = await deleteOldNews(atOld);
       if (!deleteOldNewsRes && ownerNumberWithJid) {
         await bot.sendMessage(ownerNumberWithJid, {
           text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",

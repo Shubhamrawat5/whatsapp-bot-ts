@@ -8,6 +8,12 @@ import { prefix } from "../../utils/constants";
 
 const gis = require("g-i-s");
 
+interface Result {
+  url: string;
+  width: number;
+  height: number;
+}
+
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
 
@@ -19,7 +25,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const name = args.join(" ");
 
-  gis(name, async (error: any, results: any[]) => {
+  gis(name, async (error: any, results: Result[]) => {
     if (error) {
       console.log(error);
       await reply(error);

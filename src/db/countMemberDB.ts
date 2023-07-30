@@ -69,7 +69,7 @@ export const getCountIndividual = async (
 
 export interface GetRankInAllGroups {
   name: string;
-  message_count: number;
+  messageCount: number;
   ranks: number;
   totalUsers: number;
 }
@@ -90,13 +90,13 @@ export const getRankInAllGroups = async (
 
     const resultObj: GetRankInAllGroups = {
       name: "",
-      message_count: 0,
+      messageCount: 0,
       ranks: 0,
       totalUsers: 0,
     };
     if (res.rowCount) {
       resultObj.name = res.rows[0].name;
-      resultObj.message_count = res.rows[0].message_count;
+      resultObj.messageCount = res.rows[0].message_count;
       resultObj.ranks = res.rows[0].ranks;
       resultObj.totalUsers = res2.rows[0].count;
       return [resultObj];

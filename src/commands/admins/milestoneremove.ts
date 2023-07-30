@@ -4,7 +4,6 @@ import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 import { getMilestones, setMilestones } from "../../db/membersDB";
 
-// TODO: CHECK THE FUNCTIONALITY
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
 
