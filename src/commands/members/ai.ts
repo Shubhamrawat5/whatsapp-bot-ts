@@ -1,12 +1,12 @@
+import { ChatGPTAPI as ChatGptApiInterface } from "chatgpt";
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 import { openAiKey } from "../../utils/config";
 
-const importDynamic = new Function("modulePath", "return import(modulePath)");
-
-let api: any;
+// CHECK GLOBAL VARIABLE
+let chatgpt: ChatGptApiInterface;
 let isApiSetup = false;
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -20,10 +20,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   //   return;
   // }
 
+  if (!openAiKey) {
+    await reply(`❌ openapi key is not set!`);
+    return;
+  }
+
   try {
     if (!isApiSetup) {
-      const { ChatGPTAPI } = await importDynamic("chatgpt");
-      api = new ChatGPTAPI({
+      const { ChatGPTAPI } = await import("chatgpt");
+
+      chatgpt = new ChatGPTAPI({
         apiKey: openAiKey,
       });
       isApiSetup = true;
@@ -35,7 +41,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
 
     const query = args.join(" ");
-    const res = await api.sendMessage(query);
+    const res = await chatgpt.sendMessage(query);
 
     if (res.text.length > 400) {
       res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
