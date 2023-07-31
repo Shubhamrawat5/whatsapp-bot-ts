@@ -1,52 +1,47 @@
-import { ChatGPTAPI as ChatGptApiInterface } from "chatgpt";
+import { Configuration, OpenAIApi } from "openai";
+
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 import { openAiKey } from "../../utils/config";
 
-// CHECK GLOBAL VARIABLE
-let chatgpt: ChatGptApiInterface;
-let isApiSetup = false;
+const configuration = new Configuration({
+  apiKey: openAiKey,
+});
+const openai = new OpenAIApi(configuration);
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
-  // if (!groupName?.toUpperCase().includes("PVX")) {
-  //   await reply(
-  //     `❌ COMMAND ONLY FOR PVX GROUPS!\nREASON: There is a limit with the openapi's free api`
-  //   );
-  //   return;
-  // }
 
   if (!openAiKey) {
-    await reply(`❌ openapi key is not set!`);
+    await reply(
+      `❌ openai key is not set!\nGet key from https://platform.openai.com/account`
+    );
     return;
   }
 
   try {
-    if (!isApiSetup) {
-      const { ChatGPTAPI } = await import("chatgpt");
-
-      chatgpt = new ChatGPTAPI({
-        apiKey: openAiKey,
-      });
-      isApiSetup = true;
-    }
-
     if (args.length === 0) {
       await reply(`❌ Query is not given! \nSend ${prefix}ai query`);
       return;
     }
 
     const query = args.join(" ");
-    const res = await chatgpt.sendMessage(query);
 
-    if (res.text.length > 400) {
-      res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
+    const chatCompletion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: query }],
+    });
+    let response =
+      chatCompletion.data.choices[0].message?.content || "❌ NO RESPONSE!";
+
+    if (response.length > 400) {
+      response = response.slice(0, 100) + readMore + response.slice(100);
     }
-    await reply(`AI: ${res.text}`);
+    await reply(`AI: ${response}`);
   } catch (err) {
     console.log(err);
     await reply((err as Error).toString());
