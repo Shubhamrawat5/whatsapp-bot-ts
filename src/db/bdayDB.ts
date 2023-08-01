@@ -5,13 +5,13 @@ import pool from "./pool";
 export const createbdayTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS bday(
+      number TEXT PRIMARY KEY,
       name TEXT NOT NULL, 
       username TEXT NOT NULL, 
       date INTEGER NOT NULL, 
       month INTEGER NOT NULL, 
       year INTEGER, 
-      place TEXT NOT NULL, 
-      number TEXT PRIMARY KEY
+      place TEXT NOT NULL
     );`
   );
 };

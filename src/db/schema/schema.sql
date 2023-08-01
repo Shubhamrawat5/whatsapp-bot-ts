@@ -14,13 +14,13 @@ table auth{
 }
 
 table bday{
+    number TEXT PRIMARY KEY
     name TEXT NOT NULL,
     username TEXT NOT NULL, 
     date INTEGER NOT NULL, 
     month INTEGER NOT NULL, 
     year INTEGER, 
     place TEXT NOT NULL, 
-    number TEXT PRIMARY KEY
 }
 
 table blacklist{
@@ -47,7 +47,8 @@ table countvideo{
 
 table meta{
     variable text PRIMARY KEY,
-    value BOOLEAN 
+    value boolean NOT NULL,
+    last_updated Date NOT NULL
 }
 
 table groups{

@@ -48,7 +48,6 @@ export const messagesUpsert = async (
     // type: append (whatsapp web), notify (app)
     if (msgs.type === "append") return;
 
-    // const msg: WAMessage = msgs.messages[0];
     msgs.messages.forEach(async (msg: WAMessage) => {
       // when demote, add, remove, etc happen then msg.message is not there
       if (!msg.message) return;
@@ -63,56 +62,36 @@ export const messagesUpsert = async (
         | "extendedTextMessage"
         | "otherMessage";
 
+      let body = "";
+
       if (msg.message.conversation) {
         type = "textMessage";
+        body = msg.message.conversation;
       } else if (msg.message.imageMessage) {
         type = "imageMessage";
+        body = msg.message.imageMessage.caption || "";
       } else if (msg.message.videoMessage) {
         type = "videoMessage";
+        body = msg.message.videoMessage.caption || "";
       } else if (msg.message.stickerMessage) {
         type = "stickerMessage";
       } else if (msg.message.documentMessage) {
         type = "documentMessage";
+        body = msg.message.documentMessage.caption || "";
       } else if (msg.message.extendedTextMessage) {
         type = "extendedTextMessage";
-      } else type = "otherMessage";
+        body = msg.message.extendedTextMessage.text || "";
+      } else {
+        type = "otherMessage";
+        return;
+      }
 
       // ephemeralMessage are from disappearing chat
       // reactionMessage, audioMessage
 
-      const acceptedType = [
-        "textMessage",
-        "imageMessage",
-        "videoMessage",
-        "stickerMessage",
-        "documentMessage",
-        "extendedTextMessage",
-      ];
-      if (!acceptedType.includes(type)) {
-        return;
-      }
-
       stats.totalMessages += 1;
       if (type === "extendedTextMessage") stats.textMessage += 1;
       else stats[type] += 1;
-
-      // body will have the text message
-      let body: string;
-      if (msg.message.conversation) {
-        body = msg.message.conversation;
-      } else if (msg.message.reactionMessage?.text) {
-        body = msg.message.reactionMessage.text;
-      } else if (msg.message.imageMessage?.caption) {
-        body = msg.message.imageMessage.caption;
-      } else if (msg.message.videoMessage?.caption) {
-        body = msg.message.videoMessage.caption;
-      } else if (msg.message.documentMessage?.caption) {
-        body = msg.message.documentMessage.caption;
-      } else if (msg.message.extendedTextMessage?.text) {
-        body = msg.message.extendedTextMessage.text;
-      } else {
-        body = "";
-      }
 
       body = body.replace(/\n|\r/g, ""); // remove all \n and \r
 
@@ -328,10 +307,12 @@ export const messagesUpsert = async (
           }
           try {
             // eslint-disable-next-line no-eval
-            const resultTest = eval(args[0]);
-            if (typeof resultTest === "object") {
-              await reply(JSON.stringify(resultTest));
-            } else await reply(resultTest.toString());
+            const result = eval(args[0]);
+            if (typeof result === "object") {
+              await reply(JSON.stringify(result));
+            } else {
+              await reply(result.toString());
+            }
           } catch (err) {
             await reply((err as Error).stack);
           }
@@ -379,18 +360,17 @@ export const messagesUpsert = async (
 
         /* -------------------------- group admins commands ------------------------- */
         if (commandsAdmins[command]) {
-          if (!groupMetadata) {
-            await reply(
-              "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
-            );
+          if (groupMetadata) {
+            if (isGroupAdmins) {
+              await commandsAdmins[command](bot, msg, msgInfoObj);
+              return;
+            }
+            await reply("❌ Admin command!");
             return;
           }
-
-          if (isGroupAdmins) {
-            await commandsAdmins[command](bot, msg, msgInfoObj);
-            return;
-          }
-          await reply("❌ Admin command!");
+          await reply(
+            "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+          );
           return;
         }
 
