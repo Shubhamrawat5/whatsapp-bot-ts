@@ -35,37 +35,42 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         return;
       }
       for (let i = 0; i <= 1; ++i) {
-        let index = 0;
-        if (results.length > 20) {
-          index = Math.floor(Math.random() * 20);
-        } else if (results.length > 10) {
-          index = Math.floor(Math.random() * 10);
+        try {
+          let index = 0;
+          if (results.length > 20) {
+            index = Math.floor(Math.random() * 20);
+          } else if (results.length > 10) {
+            index = Math.floor(Math.random() * 10);
+          }
+          const img = results[index].url;
+          console.log(img);
+
+          const packName = "BOT 🤖";
+          const authorName = "pvxcommunity.com";
+          const stickerMake = new Sticker(img, {
+            pack: packName,
+            author: authorName,
+            type: StickerTypes.FULL,
+            quality: 100,
+          });
+
+          const stickerFileName = getRandomFileName(".webp");
+
+          // eslint-disable-next-line no-await-in-loop
+          await stickerMake.toFile(stickerFileName);
+          // eslint-disable-next-line no-await-in-loop
+          await bot.sendMessage(
+            from,
+            {
+              sticker: fs.readFileSync(stickerFileName),
+            },
+            { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+          );
+          fs.unlinkSync(stickerFileName);
+        } catch (err) {
+          // eslint-disable-next-line no-await-in-loop
+          await reply((err as Error).toString());
         }
-        const img = results[index].url;
-        console.log(img);
-
-        const packName = "BOT 🤖";
-        const authorName = "pvxcommunity.com";
-        const stickerMake = new Sticker(img, {
-          pack: packName,
-          author: authorName,
-          type: StickerTypes.FULL,
-          quality: 100,
-        });
-
-        const stickerFileName = getRandomFileName(".webp");
-
-        // eslint-disable-next-line no-await-in-loop
-        await stickerMake.toFile(stickerFileName);
-        // eslint-disable-next-line no-await-in-loop
-        await bot.sendMessage(
-          from,
-          {
-            sticker: fs.readFileSync(stickerFileName),
-          },
-          { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
-        );
-        fs.unlinkSync(stickerFileName);
       }
     }
   });

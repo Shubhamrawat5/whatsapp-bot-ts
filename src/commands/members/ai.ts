@@ -18,7 +18,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (!openAiKey) {
     await reply(
-      `❌ openai key is not set!\nGet key from https://platform.openai.com/account`
+      `❌ openai key is not set!\nGet key from https://platform.openai.com/account/api-keys`
     );
     return;
   }

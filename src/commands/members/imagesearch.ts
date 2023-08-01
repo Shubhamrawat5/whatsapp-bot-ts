@@ -32,27 +32,32 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         return;
       }
       for (let i = 0; i <= 1; ++i) {
-        //   console.log(JSON.stringify(results, null, "  "));
-        let index = 0;
-        if (results.length > 20) {
-          index = Math.floor(Math.random() * 20);
-        } else if (results.length > 10) {
-          index = Math.floor(Math.random() * 10);
-        }
-        const img = results[index].url;
-        console.log(img);
-
-        // eslint-disable-next-line no-await-in-loop
-        await bot.sendMessage(
-          from,
-          {
-            image: { url: img },
-          },
-          {
-            quoted: msg,
-            mediaUploadTimeoutMs: 1000 * 60,
+        try {
+          //   console.log(JSON.stringify(results, null, "  "));
+          let index = 0;
+          if (results.length > 20) {
+            index = Math.floor(Math.random() * 20);
+          } else if (results.length > 10) {
+            index = Math.floor(Math.random() * 10);
           }
-        );
+          const img = results[index].url;
+          console.log(img);
+
+          // eslint-disable-next-line no-await-in-loop
+          await bot.sendMessage(
+            from,
+            {
+              image: { url: img },
+            },
+            {
+              quoted: msg,
+              mediaUploadTimeoutMs: 1000 * 60,
+            }
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-await-in-loop
+          await reply((err as Error).toString());
+        }
       }
     }
   });
