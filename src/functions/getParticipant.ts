@@ -13,7 +13,7 @@ const getMentionedOrTaggedParticipant = async (
 
   if (mentionedUsers && mentionedUsers.length) {
     // when member are mentioned with command
-    participant = mentionedUsers[0];
+    [participant] = mentionedUsers;
   } else if (taggedMessageUser && taggedMessageUser.length) {
     // when message is tagged with command
     participant = taggedMessageUser;

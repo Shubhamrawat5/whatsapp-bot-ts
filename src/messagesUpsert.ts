@@ -327,6 +327,7 @@ export const messagesUpsert = async (
             return;
           }
           try {
+            // eslint-disable-next-line no-eval
             const resultTest = eval(args[0]);
             if (typeof resultTest === "object") {
               await reply(JSON.stringify(resultTest));

@@ -44,7 +44,8 @@
 // ): Promise<boolean> => {
 //   try {
 //     await pool.query(
-//       "UPDATE votingall SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE groupjid=$8;",
+//       "UPDATE votingall SET is_started=$1, started_by=$2, title=$3,
+// choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE groupjid=$8;",
 //       [
 //         is_started,
 //         started_by,

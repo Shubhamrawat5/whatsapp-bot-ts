@@ -29,7 +29,7 @@ const setCountMember = async (
 };
 
 // count: user all group (with group wise) message count
-const getCountIndividualAllGroupWithName = async () => {
+const getCountIndividualAllGroupWithName = async (): Promise<void> => {
   const result = await pool.query(
     "SELECT * FROM countmember WHERE memberjid=$1;",
     [oldNum]
@@ -46,8 +46,6 @@ const getCountIndividualAllGroupWithName = async () => {
         await setCountMember(newNum, res.groupjid, res.message_count);
       }, time);
     });
-  } else {
-    return [];
   }
 };
 

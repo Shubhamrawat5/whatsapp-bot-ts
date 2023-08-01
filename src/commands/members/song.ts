@@ -27,7 +27,7 @@ const downloadSong = async (randomFileName: string, query: string) => {
     }
     // if reach the end then select the first song
     if (!track) {
-      track = data.audios[""][0];
+      [track] = data.audios[""];
     }
 
     // let link = DOWNLOAD_URL + track.id + "/";

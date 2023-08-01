@@ -6,6 +6,7 @@ import { Bot } from "../../interfaces/Bot";
 import getRandomFileName from "../../functions/getRandomFileName";
 import { prefix } from "../../utils/constants";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const gis = require("g-i-s");
 
 interface Result {
