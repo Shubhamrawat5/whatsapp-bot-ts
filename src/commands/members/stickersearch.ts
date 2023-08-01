@@ -34,7 +34,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         await reply("❌ No result found!");
         return;
       }
-      for (let i = 0; i <= 1; ++i) {
+      for (let i = 0; i < 2; ++i) {
         try {
           let index = 0;
           if (results.length > 20) {

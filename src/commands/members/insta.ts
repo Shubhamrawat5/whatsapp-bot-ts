@@ -44,10 +44,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
     console.log(directUrls);
 
-    // async-await ERRORS are not catched inside forEach loop
-    // TODO: STILL THROWING AND CRASHING
-    directUrls.map(async (directUrl) => {
+    // async-await ERRORS are not caught inside forEach loop
+    for (let i = 0; i < directUrls.length; i++) {
+      const directUrl = directUrls[i];
       if (directUrl.includes(".mp4")) {
+        // eslint-disable-next-line no-await-in-loop
         await bot.sendMessage(
           from,
           {
@@ -56,6 +57,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
         );
       } else if (directUrl.includes(".jpg")) {
+        // eslint-disable-next-line no-await-in-loop
         await bot.sendMessage(
           from,
           {
@@ -64,7 +66,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
         );
       }
-    });
+    }
   } catch (err) {
     await reply(
       `${(

@@ -31,7 +31,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
         await reply("❌ No result found!");
         return;
       }
-      for (let i = 0; i <= 1; ++i) {
+      for (let i = 0; i < 2; ++i) {
         try {
           //   console.log(JSON.stringify(results, null, "  "));
           let index = 0;
