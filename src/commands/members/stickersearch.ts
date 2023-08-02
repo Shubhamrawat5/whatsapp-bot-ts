@@ -69,8 +69,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           );
           fs.unlinkSync(stickerFileName);
         } catch (err) {
-          // eslint-disable-next-line no-await-in-loop
-          await reply((err as Error).toString());
+          if (err instanceof Error) {
+            // eslint-disable-next-line no-await-in-loop
+            await reply(err.toString());
+          }
         }
       }
     }

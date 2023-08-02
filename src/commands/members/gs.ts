@@ -32,7 +32,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     const text = `*${title}*\n${description}\n\n${url}`;
     await reply(text);
   } catch (err) {
-    await reply((err as Error).toString());
+    if (err instanceof Error) {
+      await reply(err.toString());
+    }
   }
 };
 

@@ -68,11 +68,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       }
     }
   } catch (err) {
-    await reply(
-      `${(
-        err as Error
-      ).toString()}\n\nNote: only public insta videos can be downloaded!`
-    );
+    if (err instanceof Error) {
+      await reply(err.toString());
+    }
+    // \n\nNote: only public insta videos can be downloaded!
   }
 };
 

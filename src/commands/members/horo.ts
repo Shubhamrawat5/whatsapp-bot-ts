@@ -36,7 +36,11 @@ const getHoro = async (name: string): Promise<string> => {
     return horoText;
   } catch (err) {
     console.log(err);
-    return (err as Error).toString();
+    if (err instanceof Error) {
+      return err.toString();
+    }
+
+    return "❌ UNKNOWN ERROR !!";
   }
 };
 

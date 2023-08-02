@@ -254,7 +254,9 @@ _recent balls_ \n${recentballs}`;
     res.message = message;
   } catch (err) {
     console.log(err);
-    res.message = (err as Error).toString();
+    if (err instanceof Error) {
+      res.message = err.toString();
+    }
     res.info = "ER";
   }
 
@@ -300,7 +302,10 @@ export const getScoreCard = async (matchID: string): Promise<string> => {
     return message;
   } catch (err) {
     console.log(err);
-    return (err as Error).toString();
+    if (err instanceof Error) {
+      return err.toString();
+    }
+    return "❌ UNKNOWN ERROR !!";
   }
 };
 

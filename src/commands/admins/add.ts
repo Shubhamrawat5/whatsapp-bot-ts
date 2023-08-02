@@ -37,11 +37,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     response = await bot.groupParticipantsUpdate(from, [num], "add");
   } catch (err) {
     console.log(err);
-    await reply(
-      `_❌ Check the number, include country code also!_\nError: ${(
-        err as Error
-      ).toString()}`
-    );
+    if (err instanceof Error) {
+      await reply(
+        `_❌ Check the number, include country code also!_\nError: ${err.toString()}`
+      );
+    }
     return;
   }
 

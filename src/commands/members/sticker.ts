@@ -117,7 +117,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       // reply(error.toString());
     }
   } catch (err) {
-    await reply((err as Error).toString());
+    if (err instanceof Error) {
+      await reply(err.toString());
+    }
   }
 };
 

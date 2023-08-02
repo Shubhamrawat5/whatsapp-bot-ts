@@ -57,7 +57,9 @@ const downloadSong = async (randomFileName: string, query: string) => {
     });
   } catch (err) {
     console.log(err);
-    return { info: "ERR", err: (err as Error).stack };
+    if (err instanceof Error) {
+      return { info: "ERR", err: err.stack };
+    }
   }
 };
 

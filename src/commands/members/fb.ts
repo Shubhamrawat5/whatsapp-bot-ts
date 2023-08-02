@@ -27,11 +27,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
     );
   } catch (err) {
-    await reply(
-      `${(
-        err as Error
-      ).toString()}\n\nNote: only public fb videos can be downloaded!`
-    );
+    if (err instanceof Error) {
+      await reply(err.toString());
+    }
   }
 };
 

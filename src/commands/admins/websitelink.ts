@@ -23,7 +23,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
     if (setGroupLinkEnabledRes) {
       await reply(
-        `✔ Group link isEnabled updated with value: ${isEnabled === 1}`
+        `✔ Groups Link Enabled updated with value: ${isEnabled === 1}`
       );
     } else {
       await reply(errorMessage);

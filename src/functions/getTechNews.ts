@@ -17,8 +17,10 @@ const getTechNews = async () => {
     return msg;
   } catch (err) {
     console.log(err);
-    // return "❌ SOME ERROR CAME!";
-    return (err as Error).toString();
+    if (err instanceof Error) {
+      err.toString();
+    }
+    return "❌ UNKNOWN ERROR !!";
   }
 };
 

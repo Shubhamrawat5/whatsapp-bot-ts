@@ -48,7 +48,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 };
 
 const warnreduce = () => {
-  const cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
+  const cmd = [
+    "warnreduce",
+    "reducewarn",
+    "warningreduce",
+    "reducewarning",
+    "unwarn",
+  ];
 
   return { cmd, handler };
 };

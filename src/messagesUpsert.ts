@@ -314,7 +314,9 @@ export const messagesUpsert = async (
               await reply(result.toString());
             }
           } catch (err) {
-            await reply((err as Error).stack);
+            if (err instanceof Error) {
+              await reply(err.stack);
+            }
           }
           return;
 
@@ -384,7 +386,9 @@ export const messagesUpsert = async (
           return;
         }
       } catch (err) {
-        await reply((err as Error).toString());
+        if (err instanceof Error) {
+          await reply(err.toString());
+        }
         await loggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
         return;
       }

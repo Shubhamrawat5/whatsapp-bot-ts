@@ -56,8 +56,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
             }
           );
         } catch (err) {
-          // eslint-disable-next-line no-await-in-loop
-          await reply((err as Error).toString());
+          if (err instanceof Error) {
+            // eslint-disable-next-line no-await-in-loop
+            await reply(err.toString());
+          }
         }
       }
     }
