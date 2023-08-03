@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
+  const { botNumberJid, reply, isSenderGroupAdmin, isBotGroupAdmin, from } =
     msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
@@ -41,12 +41,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   // member message, only admin can delete
-  if (!isBotGroupAdmins) {
+  if (!isBotGroupAdmin) {
     await reply("❌ I'm not admin to delete message for everyone.");
     return;
   }
 
-  if (isGroupAdmins) {
+  if (isSenderGroupAdmin) {
     const options = {
       remoteJid: from,
       fromMe: false,

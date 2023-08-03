@@ -19,7 +19,7 @@ import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot } from "./utils/logger";
 import { addUnknownCmd } from "./db/addUnknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
-import { Milestones } from "./functions/addDefaultMilestone";
+import { MilestonesDefault } from "./functions/addDefaultMilestone";
 import {
   forwardStickerEnabled,
   ownerNumberWithJid,
@@ -40,7 +40,7 @@ export const messagesUpsert = async (
   commandsAdmins: CommandsObj,
   commandsOwners: CommandsObj,
   allCommandsName: string[],
-  milestones: Milestones
+  milestonesDefault: MilestonesDefault
 ) => {
   // console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
   // console.log(msgs.messages);
@@ -235,9 +235,10 @@ export const messagesUpsert = async (
       const groupMembers: GroupParticipant[] | undefined =
         groupMetadata?.participants;
       const groupAdmins: string[] | undefined = getGroupAdmins(groupMembers);
-      const isBotGroupAdmins: boolean =
+      const isBotGroupAdmin: boolean =
         groupAdmins?.includes(botNumberJid) || false;
-      const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
+      const isSenderGroupAdmin: boolean =
+        groupAdmins?.includes(sender) || false;
 
       // let groupData: GroupData | undefined = undefined;
       // if (groupMetadata) {
@@ -252,7 +253,7 @@ export const messagesUpsert = async (
 
       // CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
       let resDisabled: string[] | undefined = [];
-      if (groupMetadata && !isGroupAdmins) {
+      if (groupMetadata && !isSenderGroupAdmin) {
         resDisabled = cache.get(`${from}:resDisabled`);
         if (!resDisabled) {
           const getDisableCommandRes = await getGroupsData(from);
@@ -331,13 +332,13 @@ export const messagesUpsert = async (
         groupDesc,
         groupMembers,
         groupAdmins,
-        isBotGroupAdmins,
-        isGroupAdmins,
+        isBotGroupAdmin,
+        isSenderGroupAdmin,
         botNumberJid,
         command,
         args,
         reply,
-        milestones,
+        milestonesDefault,
         allCommandsName,
       };
 
@@ -363,7 +364,7 @@ export const messagesUpsert = async (
         /* -------------------------- group admins commands ------------------------- */
         if (commandsAdmins[command]) {
           if (groupMetadata) {
-            if (isGroupAdmins) {
+            if (isSenderGroupAdmin) {
               await commandsAdmins[command](bot, msg, msgInfoObj);
               return;
             }

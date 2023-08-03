@@ -15,7 +15,7 @@ import { loggerBot, loggerTg } from "./utils/logger";
 import addCommands from "./functions/addCommands";
 import {
   addDefaultMilestones,
-  Milestones,
+  MilestonesDefault,
 } from "./functions/addDefaultMilestone";
 import { stats, useStore } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
@@ -36,7 +36,7 @@ stats.started = getCurrentIndianDate();
 
 let dateCheckerInterval: NodeJS.Timeout;
 
-let milestones: Milestones = {};
+let milestonesDefault: MilestonesDefault = {};
 
 const silentLogs = pino({ level: "silent" }); // to hide the chat logs
 // let debugLogs = pino({ level: "debug" });
@@ -138,14 +138,14 @@ const startBot = async () => {
         commandsAdmins,
         commandsOwners,
         allCommandsName,
-        milestones
+        milestonesDefault
       );
     });
 
     bot.ev.on("connection.update", async (update: ConnectionUpdate) => {
       const res = await connectionUpdate(update, bot);
       if (update.connection === "open") {
-        milestones = await addDefaultMilestones(bot);
+        milestonesDefault = await addDefaultMilestones(bot);
       }
 
       if (res !== 0) {

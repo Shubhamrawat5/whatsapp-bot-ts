@@ -3,9 +3,9 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { isBotGroupAdmins, reply, args, from } = msgInfoObj;
+  const { isBotGroupAdmin, reply, args, from } = msgInfoObj;
 
-  if (!isBotGroupAdmins) {
+  if (!isBotGroupAdmin) {
     await reply("❌ I'm not Admin here!");
     return;
   }

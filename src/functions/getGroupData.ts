@@ -12,16 +12,15 @@ const getGroupData = (
     : "";
   const groupMembers: GroupParticipant[] = groupMetadata.participants;
   const groupAdmins: string[] = getGroupAdmins(groupMembers);
-  const isBotGroupAdmins: boolean =
-    groupAdmins?.includes(botNumberJid) || false;
-  const isGroupAdmins: boolean = groupAdmins?.includes(sender) || false;
+  const isBotGroupAdmin: boolean = groupAdmins?.includes(botNumberJid) || false;
+  const isSenderGroupAdmin: boolean = groupAdmins?.includes(sender) || false;
 
   const groupData: GroupData = {
     groupDesc,
     groupMembers,
     groupAdmins,
-    isBotGroupAdmins,
-    isGroupAdmins,
+    isBotGroupAdmin,
+    isSenderGroupAdmin,
   };
 
   return groupData;

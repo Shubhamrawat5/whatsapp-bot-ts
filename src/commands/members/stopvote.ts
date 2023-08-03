@@ -5,7 +5,7 @@ import { getVotingData, stopVotingData } from "../../db/VotingDB";
 import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, isGroupAdmins, sender, from } = msgInfoObj;
+  const { reply, isSenderGroupAdmin, sender, from } = msgInfoObj;
   const getVotingDataRes = await getVotingData(from);
 
   if (getVotingDataRes.length === 0 || !getVotingDataRes[0].is_started) {
@@ -18,7 +18,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const votingResult = getVotingDataRes[0];
 
   let resultVoteMsg = "";
-  if (votingResult.started_by === sender || isGroupAdmins) {
+  if (votingResult.started_by === sender || isSenderGroupAdmin) {
     const stopVotingDataRes = await stopVotingData(from);
     if (stopVotingDataRes) {
       resultVoteMsg += `*Voting Result:*\n🗣️ ${votingResult.title}`;

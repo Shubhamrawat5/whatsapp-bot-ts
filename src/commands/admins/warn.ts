@@ -5,7 +5,7 @@ import { getCountWarning, setCountWarning } from "../../db/warningDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { groupAdmins, isBotGroupAdmins, reply, from } = msgInfoObj;
+  const { groupAdmins, isBotGroupAdmin, reply, from } = msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
     await reply("❌ Tag or mention someone!");
@@ -32,7 +32,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
   if (warnCount >= 3) {
     // on 3rd warning
-    if (!isBotGroupAdmins) {
+    if (!isBotGroupAdmin) {
       await reply("❌ I'm not Admin here!");
 
       return;

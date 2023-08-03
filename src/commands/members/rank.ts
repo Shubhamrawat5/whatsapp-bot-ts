@@ -6,7 +6,7 @@ import { getMilestones } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args, milestones, from } = msgInfoObj;
+  const { reply, args, milestonesDefault, from } = msgInfoObj;
   let { sender } = msgInfoObj;
 
   if (args.length) {
@@ -64,9 +64,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     });
   }
 
-  if (milestones[sender]) {
+  if (milestonesDefault[sender]) {
     if (!flag) message += `\n`;
-    milestones[sender].forEach((milestone) => {
+    milestonesDefault[sender].forEach((milestone) => {
       message += `\n⭐ ${milestone}`;
     });
   }

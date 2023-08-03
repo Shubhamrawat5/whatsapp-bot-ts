@@ -9,6 +9,7 @@ const getHoro = async (name: string): Promise<string> => {
     // let url = `https://aztro.sameerkumar.website/?sign=${name}&day=today`;
     const url = `https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
 
+    // TODO: USE INTERFACE FOR ALL AXIOS REQUEST
     const { data } = await axios.post(url, null, {
       params: {
         sign: name,

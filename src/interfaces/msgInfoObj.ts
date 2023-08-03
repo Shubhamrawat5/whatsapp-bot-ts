@@ -1,11 +1,11 @@
 import { GroupParticipant } from "@whiskeysockets/baileys";
-import { Milestones } from "../functions/addDefaultMilestone";
+import { MilestonesDefault } from "../functions/addDefaultMilestone";
 
 export interface MsgInfoObj {
   from: string;
   command: string;
   args: string[];
-  milestones: Milestones;
+  milestonesDefault: MilestonesDefault;
   allCommandsName: string[];
 
   reply: (text: string | undefined) => Promise<boolean>;
@@ -16,8 +16,8 @@ export interface MsgInfoObj {
 
   groupName: string | undefined;
   groupDesc: string | undefined;
-  isBotGroupAdmins: boolean;
-  isGroupAdmins: boolean;
+  isBotGroupAdmin: boolean;
+  isSenderGroupAdmin: boolean;
   groupMembers: GroupParticipant[] | undefined;
   groupAdmins: string[];
 }
