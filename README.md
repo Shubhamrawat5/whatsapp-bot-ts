@@ -123,6 +123,8 @@ Fix linting errors -> `npm run lint-fix`
 |      `!kick`       |                     kick member from group                     |    `!ban`     |
 |      `!mute`       |                         Mute the group                         |               |
 |     `!unmute`      |                        Unmute the group                        |               |
+|     `!promote`     |                        Promote to admin                        |               |
+|     `!demote`      |                       Demote from admin                        |               |
 |     `!delete`      |                     Delete anyone message                      |     `!d`      |
 |      `!bday`       |                     Check today's birthday                     |               |
 |     `!warning`     |                      Give warning to user                      |    `!warn`    |

@@ -6,6 +6,8 @@ import blacklistadd from "../commands/admins/blacklistadd";
 import blacklistremove from "../commands/admins/blacklistremove";
 import disable from "../commands/admins/disable";
 import enable from "../commands/admins/enable";
+import promote from "../commands/admins/promote";
+import demote from "../commands/admins/demote";
 import milestoneadd from "../commands/admins/milestoneadd";
 import milestoneremove from "../commands/admins/milestoneremove";
 import mute from "../commands/admins/mute";
@@ -126,6 +128,8 @@ const addCommands = async () => {
     blacklistremove,
     disable,
     enable,
+    promote,
+    demote,
     milestoneadd,
     milestoneremove,
     mute,

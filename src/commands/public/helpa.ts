@@ -37,6 +37,12 @@ Alias: *${prefix}tagallhidden*
 📛 *${prefix}enable <command>*
   - _Enable command for current group!_
 
+📛 *${prefix}promote <mention>*
+  - _Promote to admin!_
+
+📛 *${prefix}demote <mention>*
+  - _Demote from admin!_
+
 📛 *${prefix}rt*
   - _Tag a random member!_  
 
