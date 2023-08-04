@@ -10,6 +10,7 @@
     "dev": "ts-node index.ts",
     "start-prod": "npm run build && node dist/index.js",
     "db": "ts-node ./src/utils/dbTables.ts",
+    "db-migrate": "npx prisma migrate dev",
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix"
   },
@@ -27,6 +28,7 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@hapi/boom": "^10.0.1",
+    "@prisma/client": "^5.1.1",
     "@whiskeysockets/baileys": "^6.4.0",
     "adm-zip": "^0.5.9",
     "axios": "^0.27.2",
@@ -61,6 +63,7 @@
     "eslint": "^8.43.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "prisma": "^5.1.1",
     "rimraf": "^5.0.1",
     "typescript": "^5.0.4"
   }

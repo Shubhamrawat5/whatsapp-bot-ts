@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_TEMP")
+}
+
+model auth {
+  id                       Int    @id @default(autoincrement())
+  noisekey                 String
+  signedidentitykey        String
+  signedprekey             String
+  registrationid           String
+  advsecretkey             String
+  nextprekeyid             String
+  firstunuploadedprekeyid  String
+  account                  String
+  me                       String
+  signalidentities         String
+  lastaccountsynctimestamp String
+  myappstatekeyid          String
+}
+
+model bday {
+  number   String @id
+  name     String
+  username String
+  date     Int
+  month    Int
+  year     Int?
+  place    String
+}
+
+model blacklist {
+  number String @id
+  reason String
+  admin  String
+}
+
+model countmember {
+  memberjid     String
+  groupjid      String
+  message_count Int    @default(0)
+  warning       Int    @default(0)
+  // CHECK(warning BETWEEN 0 and 3)
+
+  @@id([memberjid, groupjid])
+}
+
+model countvideo {
+  memberjid String
+  groupjid  String
+  count     Int    @default(0)
+
+  @@id([memberjid, groupjid])
+}
+
+model meta {
+  variable     String   @id
+  value        Boolean
+  last_updated DateTime @updatedAt
+}
+
+model groups {
+  groupjid          String   @id
+  gname             String
+  link              String?  @unique
+  commands_disabled String[]
+}
+
+model members {
+  memberjid String   @id
+  name      String
+  donation  Int?
+  milestone String[]
+}
+
+model milestoneString {
+  sno       Int    @default(autoincrement())
+  milestone String @id
+}
+
+model news {
+  headline String   @id
+  at       DateTime @updatedAt
+}
+
+model voting {
+  groupjid          String   @id
+  is_started        Boolean
+  started_by        String
+  title             String
+  choices           String[]
+  count             Int[]
+  members_voted_for String[]
+  voted_members     String[]
+}
+
+model unknowncmd {
+  command String @id
+  count   Int    @default(0)
+}
