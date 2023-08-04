@@ -36,7 +36,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       messages: [{ role: "user", content: query }],
     });
     let response =
-      chatCompletion.data.choices[0].message?.content || "❌ NO RESPONSE!";
+      chatCompletion.data.choices[0].message?.content ?? "❌ NO RESPONSE!";
 
     if (response.length > 400) {
       response = response.slice(0, 100) + readMore + response.slice(100);

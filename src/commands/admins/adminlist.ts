@@ -8,6 +8,8 @@ import { getUsernames } from "../../db/membersDB";
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
+
+  // TODO: make common function to add readmore
   const readMore = more.repeat(4001);
   const chats = await bot.groupFetchAllParticipating();
   // console.log(chats);

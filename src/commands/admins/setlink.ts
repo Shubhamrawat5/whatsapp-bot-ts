@@ -9,7 +9,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const link = `https://chat.whatsapp.com/${await bot.groupInviteCode(from)}`;
 
   // console.log(groups);
-  const setGroupsDataRes = await setGroupsData(from, groupName || "", link, []);
+  const setGroupsDataRes = await setGroupsData(
+    from,
+    groupName ?? "Not Found",
+    link,
+    []
+  );
   if (setGroupsDataRes) {
     await reply(`✔ Group name & link data updated!`);
   } else {

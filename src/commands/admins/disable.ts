@@ -34,7 +34,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const setDisableCommandRes = await setDisableCommand(
     from,
-    groupName || "",
+    groupName ?? "Not Found",
     disabledCmdArray
   );
 

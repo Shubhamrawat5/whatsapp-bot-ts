@@ -69,18 +69,18 @@ export const messagesUpsert = async (
         body = msg.message.conversation;
       } else if (msg.message.imageMessage) {
         type = "imageMessage";
-        body = msg.message.imageMessage.caption || "";
+        body = msg.message.imageMessage.caption ?? "";
       } else if (msg.message.videoMessage) {
         type = "videoMessage";
-        body = msg.message.videoMessage.caption || "";
+        body = msg.message.videoMessage.caption ?? "";
       } else if (msg.message.stickerMessage) {
         type = "stickerMessage";
       } else if (msg.message.documentMessage) {
         type = "documentMessage";
-        body = msg.message.documentMessage.caption || "";
+        body = msg.message.documentMessage.caption ?? "";
       } else if (msg.message.extendedTextMessage) {
         type = "extendedTextMessage";
-        body = msg.message.extendedTextMessage.text || "";
+        body = msg.message.extendedTextMessage.text ?? "";
       } else {
         type = "otherMessage";
         return;
@@ -99,7 +99,7 @@ export const messagesUpsert = async (
 
       const from = msg.key.remoteJid;
       if (!from) return;
-      let sender = msg.key.participant || from;
+      let sender = msg.key.participant ?? from;
 
       // only for PVX groups temporary
       if (
@@ -206,7 +206,7 @@ export const messagesUpsert = async (
       if (!isCmd) {
         const messageLog = `[MESSAGE] ${
           body ? body.substr(0, 30) : type
-        } [FROM] ${senderNumber} [IN] ${groupName || from}`;
+        } [FROM] ${senderNumber} [IN] ${groupName ?? from}`;
         console.log(messageLog);
         return;
       }
@@ -223,7 +223,7 @@ export const messagesUpsert = async (
         "[FROM]",
         senderNumber,
         "[IN]",
-        groupName || from
+        groupName ?? from
       );
 
       if (["score", "scorecard", "scoreboard", "sc", "sb"].includes(command)) {

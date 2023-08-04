@@ -92,6 +92,7 @@ export const getAuth = async (
   return creds;
 };
 
+// TODO: SAVE THESE IN DB
 // [EXTRA CREDS VARIABLES]
 // pairingEphemeralKeyPair ?? not found
 // pairingCode ?? not found

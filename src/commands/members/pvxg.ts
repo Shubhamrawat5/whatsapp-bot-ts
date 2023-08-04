@@ -13,7 +13,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;
   getCountGroupsRes.forEach((group) => {
-    let grpName = group.gname || "None";
+    let grpName = group.gname ?? "Not Found";
     if (grpName.toUpperCase().includes("<{PVX}>")) {
       // grpName = grpName.split(" ")[1];
       grpName = grpName.replace("<{PVX}> ", "");

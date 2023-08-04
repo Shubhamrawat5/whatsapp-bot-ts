@@ -8,6 +8,18 @@ const countRemainder = async (
   senderNumber: string,
   sender: string
 ) => {
+  const quotedCustomMessage = {
+    key: {
+      remoteJid: from,
+      fromMe: false,
+      id: "710B5CF29EE7471fakeid",
+      participant: "0@s.whatsapp.net",
+    },
+    messageTimestamp: 1671784177,
+    pushName: "WhatsApp",
+    message: { conversation: "MESSAGE COUNT" },
+  };
+
   if (
     SetCountMemberRes.currentGroup &&
     SetCountMemberRes.currentGroup % 5000 === 0
@@ -19,17 +31,7 @@ const countRemainder = async (
         mentions: [sender],
       },
       {
-        quoted: {
-          key: {
-            remoteJid: from,
-            fromMe: false,
-            id: "710B5CF29EE7471fakeid",
-            participant: "0@s.whatsapp.net",
-          },
-          messageTimestamp: 1671784177,
-          pushName: "WhatsApp",
-          message: { conversation: "MESSAGE COUNT" },
-        },
+        quoted: quotedCustomMessage,
       }
     );
   }
@@ -41,17 +43,7 @@ const countRemainder = async (
         mentions: [sender],
       },
       {
-        quoted: {
-          key: {
-            remoteJid: from,
-            fromMe: false,
-            id: "710B5CF29EE7471fakeid",
-            participant: "0@s.whatsapp.net",
-          },
-          messageTimestamp: 1671784177,
-          pushName: "WhatsApp",
-          message: { conversation: "MESSAGE COUNT" },
-        },
+        quoted: quotedCustomMessage,
       }
     );
   }
