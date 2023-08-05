@@ -8,6 +8,7 @@ export const createCountMemberTable = async () => {
       groupjid TEXT NOT NULL, 
       message_count INTEGER NOT NULL DEFAULT 0, 
       warning_count INTEGER NOT NULL DEFAULT 0, 
+      video_count INTEGER NOT NULL DEFAULT 0, 
       PRIMARY KEY (memberjid, groupjid), 
       CHECK(warning_count BETWEEN 0 and 3)
     );`
@@ -45,7 +46,7 @@ export interface GetCountIndividual {
   name: string;
 }
 
-// count: user current group total messsage count
+// rank count: user current group total messsage count
 export const getCountIndividual = async (
   memberjid: string,
   groupjid: string
@@ -217,8 +218,8 @@ export const setCountMember = async (
 
     if (res1.rowCount === 0) {
       await pool.query(
-        "INSERT INTO countmember VALUES($1,$2,$3,$4) RETURNING *;",
-        [memberjid, groupjid, 1, 0]
+        "INSERT INTO countmember VALUES($1,$2,$3,$4,$5) RETURNING *;",
+        [memberjid, groupjid, 1, 0, 0]
       );
     } else {
       result.currentGroup = res1.rows[0].message_count;
@@ -251,4 +252,59 @@ export const setCountMember = async (
   }
 
   return result;
+};
+
+export interface GetCountVideo {
+  memberjid: string;
+  video_count: number;
+  name: string;
+}
+
+export const getCountVideo = async (
+  groupjid: string
+): Promise<GetCountVideo[]> => {
+  try {
+    const res = await pool.query(
+      "SELECT cm.memberjid,cm.video_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY video_count DESC;",
+      [groupjid]
+    );
+
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    await loggerBot(undefined, "[getCountVideo DB]", error, { groupjid });
+  }
+  return [];
+};
+
+export const setCountVideo = async (
+  memberjid: string,
+  groupjid: string
+): Promise<boolean> => {
+  if (!groupjid.endsWith("@g.us")) return false;
+
+  try {
+    const res = await pool.query(
+      "UPDATE countmember SET video_count = video_count+1 WHERE memberjid=$1 AND groupjid=$2;",
+      [memberjid, groupjid]
+    );
+
+    // not updated. time to insert
+    if (res.rowCount === 0) {
+      const res2 = await pool.query(
+        "INSERT INTO countmember VALUES($1,$2,$3,$4,$5);",
+        [memberjid, groupjid, 1, 0, 1]
+      );
+      if (res2.rowCount === 1) return true;
+      return false;
+    }
+    return true;
+  } catch (error) {
+    await loggerBot(undefined, "[setCountVideo DB]", error, {
+      memberjid,
+      groupjid,
+    });
+    return false;
+  }
 };

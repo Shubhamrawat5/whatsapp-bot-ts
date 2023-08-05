@@ -45,17 +45,9 @@ CREATE TABLE "countmember" (
     "groupjid" TEXT NOT NULL,
     "message_count" INTEGER NOT NULL DEFAULT 0,
     "warning_count" INTEGER NOT NULL DEFAULT 0,
+    "video_count" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "countmember_pkey" PRIMARY KEY ("memberjid","groupjid")
-);
-
--- CreateTable
-CREATE TABLE "countvideo" (
-    "memberjid" TEXT NOT NULL,
-    "groupjid" TEXT NOT NULL,
-    "count" INTEGER NOT NULL DEFAULT 0,
-
-    CONSTRAINT "countvideo_pkey" PRIMARY KEY ("memberjid","groupjid")
 );
 
 -- CreateTable

@@ -47,15 +47,8 @@ model countmember {
   groupjid      String
   message_count Int    @default(0)
   warning_count Int    @default(0)
+  video_count   Int    @default(0)
   // CHECK(warning BETWEEN 0 and 3)
-
-  @@id([memberjid, groupjid])
-}
-
-model countvideo {
-  memberjid String
-  groupjid  String
-  count     Int    @default(0)
 
   @@id([memberjid, groupjid])
 }

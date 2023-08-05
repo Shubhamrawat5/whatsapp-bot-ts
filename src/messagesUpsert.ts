@@ -8,9 +8,8 @@ import {
 } from "@whiskeysockets/baileys";
 import { prefix, pvxgroups, pvxgroupsList, stats } from "./utils/constants";
 import { cache } from "./utils/cache";
-import { setCountMember } from "./db/countMemberDB";
+import { setCountMember, setCountVideo } from "./db/countMemberDB";
 import countRemainder from "./functions/countRemainder";
-import { setCountVideo } from "./db/countVideoDB";
 import forwardSticker from "./functions/forwardSticker";
 import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";

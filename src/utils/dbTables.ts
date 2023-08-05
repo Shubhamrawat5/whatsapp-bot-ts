@@ -4,7 +4,6 @@ import { createbdayTable } from "../db/bdayDB";
 import { createBlacklistTable } from "../db/blacklistDB";
 import { createCountMemberTable } from "../db/countMemberDB";
 import { createMembersTable } from "../db/membersDB";
-import { createCountVideoTable } from "../db/countVideoDB";
 import { createMetaTable } from "../db/metaDB";
 import { createGroupsTable } from "../db/groupsDB";
 import { createMilestoneTextTable } from "../db/milestoneDB";
@@ -19,7 +18,6 @@ const createDbTables = async () => {
   await createBlacklistTable();
   await createCountMemberTable();
   await createMembersTable();
-  await createCountVideoTable();
   await createMetaTable();
   await createGroupsTable();
   await createMilestoneTextTable();

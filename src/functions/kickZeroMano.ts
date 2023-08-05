@@ -1,7 +1,7 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import { loggerBot } from "../utils/logger";
 import { Bot } from "../interfaces/Bot";
-import { getCountVideo } from "../db/countVideoDB";
+import { getCountVideo } from "../db/countMemberDB";
 
 const kickZeroMano = async (bot: Bot, pvxmano: string) => {
   try {

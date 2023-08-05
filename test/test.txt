@@ -30,6 +30,8 @@ select memberjid,groupjid,count(*) from countmember group by memberjid,groupjid 
 //delete duplicate with every column same
 delete from countwarning a using countwarning b where a=b and a.ctid < b.ctid;
 
+ALTER table countmember ADD COLUMN video_count INTEGER NOT NULL DEFAULT 0; 
+
 begin;
 set transaction read write;
 ALTER TABLE countmember ADD COLUMN day text;

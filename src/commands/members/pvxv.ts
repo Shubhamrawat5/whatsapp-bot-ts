@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { pvxgroups } from "../../utils/constants";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getCountVideo } from "../../db/countVideoDB";
+import { getCountVideo } from "../../db/countMemberDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { groupMembers, reply, from } = msgInfoObj;
@@ -25,8 +25,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let countGroupMsgTempIndi = "\n";
   let totalGrpCountIndi = 0;
   getCountVideoRes.forEach((member) => {
-    totalGrpCountIndi += member.count;
-    countGroupMsgTempIndi += `\n${member.count} - ${member.name}`;
+    totalGrpCountIndi += member.video_count;
+    countGroupMsgTempIndi += `\n${member.video_count} - ${member.name}`;
   });
 
   groupMembers?.forEach((member) => {
