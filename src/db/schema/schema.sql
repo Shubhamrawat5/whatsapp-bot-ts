@@ -24,7 +24,7 @@ table bday{
 }
 
 table blacklist{
-    number TEXT PRIMARY KEY, 
+    memberjid TEXT PRIMARY KEY, 
     reason TEXT NOT NULL, 
     admin TEXT NOT NULL
 }

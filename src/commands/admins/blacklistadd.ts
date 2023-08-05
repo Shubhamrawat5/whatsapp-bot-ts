@@ -40,6 +40,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     );
     return;
   }
+  const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
 
   const chats: Chats = await bot.groupFetchAllParticipating();
 
@@ -55,11 +56,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const addBlacklistRes = await addBlacklist(blacklistNumb, reason, sender);
+  const addBlacklistRes = await addBlacklist(
+    blacklistNumbWithJid,
+    reason,
+    sender
+  );
   if (addBlacklistRes) await reply("✔️ Added to blacklist!");
   else await reply("❌ Number is already blacklisted!");
 
-  const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
     .map((v) => ({

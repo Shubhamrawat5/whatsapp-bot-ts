@@ -10,7 +10,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const getBlacklistRes = await getBlacklist();
   let blacklistMsg = "Blacklisted Numbers\n";
   getBlacklistRes.forEach((blacklist, index) => {
-    blacklistMsg += `\n${index + 1}) ${blacklist.number}`;
+    const number = blacklist.memberjid.split("@")[0];
+    blacklistMsg += `\n${index + 1}) ${number}`;
     if (blacklist.reason) {
       blacklistMsg += ` : ${blacklist.reason}`;
     }

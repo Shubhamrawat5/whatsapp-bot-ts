@@ -37,9 +37,9 @@ model bday {
 }
 
 model blacklist {
-  number String @id
-  reason String
-  admin  String
+  memberjid String @id
+  reason    String
+  admin     String
 }
 
 model countmember {
@@ -60,12 +60,6 @@ model countvideo {
   @@id([memberjid, groupjid])
 }
 
-model meta {
-  variable     String   @id
-  value        Boolean
-  last_updated DateTime @updatedAt
-}
-
 model groups {
   groupjid          String   @id
   gname             String
@@ -80,7 +74,13 @@ model members {
   milestone String[]
 }
 
-model milestoneString {
+model meta {
+  variable     String   @id
+  value        Boolean
+  last_updated DateTime @updatedAt
+}
+
+model milestone {
   sno       Int    @default(autoincrement())
   milestone String @id
 }

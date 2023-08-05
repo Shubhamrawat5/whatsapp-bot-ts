@@ -29,7 +29,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const getBlacklistRes = await getBlacklist(blacklistNumb);
+  const blacklistNumbWithJid = `${blacklistNumb}@s.whatsapp.net`;
+  const getBlacklistRes = await getBlacklist(blacklistNumbWithJid);
   if (getBlacklistRes.length === 0) {
     await reply(`❌ Number is not blacklisted`);
     return;
@@ -38,7 +39,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (getBlacklistRes[0].admin) {
     // admin exist, check if sender is same as the admin in DB
     if (getBlacklistRes[0].admin === sender) {
-      const removeBlacklistRes = await removeBlacklist(blacklistNumb);
+      const removeBlacklistRes = await removeBlacklist(blacklistNumbWithJid);
       if (removeBlacklistRes) await reply("✔️ Removed from blacklist!");
       else await reply("❌ Number is not in blacklist");
       return;
@@ -66,7 +67,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const removeBlacklistRes = await removeBlacklist(blacklistNumb);
+  const removeBlacklistRes = await removeBlacklist(blacklistNumbWithJid);
   if (removeBlacklistRes) await reply("✔️ Removed from blacklist!");
   else await reply("❌ Number is not in blacklist");
 };

@@ -4,32 +4,32 @@ import pool from "./pool";
 export const createBlacklistTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS blacklist(
-      number TEXT PRIMARY KEY, 
+      memberjid TEXT PRIMARY KEY, 
       reason TEXT NOT NULL, 
       admin TEXT NOT NULL
     );`
   );
 };
 export interface GetBlacklist {
-  number: string;
+  memberjid: string;
   reason: string | null;
   admin: string | null;
   adminname: string | null;
 }
 
 export const getBlacklist = async (
-  number?: string
+  memberjid?: string
 ): Promise<GetBlacklist[]> => {
   try {
     let res;
-    if (number) {
+    if (memberjid) {
       res = await pool.query(
-        "SELECT bl.number, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid WHERE number=$1;",
-        [number]
+        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid WHERE memberjid=$1;",
+        [memberjid]
       );
     } else {
       res = await pool.query(
-        "SELECT bl.number, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid ORDER BY number;"
+        "SELECT bl.memberjid, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid ORDER BY memberjid;"
       );
     }
 
@@ -37,20 +37,20 @@ export const getBlacklist = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getBlacklist DB]", error, { number });
+    await loggerBot(undefined, "[getBlacklist DB]", error, { memberjid });
   }
   return [];
 };
 
 export const addBlacklist = async (
-  number: string,
+  memberjid: string,
   reason: string,
   admin: string
 ): Promise<boolean> => {
   try {
     const res = await pool.query(
-      "INSERT INTO blacklist VALUES($1,$2,$3) ON CONFLICT(number) DO NOTHING;",
-      [number, reason, admin]
+      "INSERT INTO blacklist VALUES($1,$2,$3) ON CONFLICT(memberjid) DO NOTHING;",
+      [memberjid, reason, admin]
     );
 
     if (res.rowCount === 1) {
@@ -59,7 +59,7 @@ export const addBlacklist = async (
     return false;
   } catch (error) {
     await loggerBot(undefined, "[addBlacklist DB]", error, {
-      number,
+      memberjid,
       reason,
       admin,
     });
@@ -67,10 +67,10 @@ export const addBlacklist = async (
   }
 };
 
-export const removeBlacklist = async (number: string): Promise<boolean> => {
+export const removeBlacklist = async (memberjid: string): Promise<boolean> => {
   try {
-    const res = await pool.query("DELETE FROM blacklist WHERE number=$1", [
-      number,
+    const res = await pool.query("DELETE FROM blacklist WHERE memberjid=$1", [
+      memberjid,
     ]);
 
     if (res.rowCount === 1) {
@@ -78,7 +78,7 @@ export const removeBlacklist = async (number: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[removeBlacklist DB]", error, { number });
+    await loggerBot(undefined, "[removeBlacklist DB]", error, { memberjid });
     return false;
   }
 };
