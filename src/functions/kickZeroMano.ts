@@ -16,9 +16,9 @@ const kickZeroMano = async (bot: Bot, pvxmano: string) => {
     const groupMembers = groupMetadata.participants;
 
     const zeroMano: string[] = [];
-    groupMembers.forEach((mem) => {
-      if (!memWithMsg.has(mem.id)) {
-        zeroMano.push(mem.id);
+    groupMembers.forEach((member) => {
+      if (!memWithMsg.has(member.id)) {
+        zeroMano.push(member.id);
       }
     });
 

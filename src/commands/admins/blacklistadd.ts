@@ -75,8 +75,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 
   groups.forEach((group) => {
-    group.participants.forEach(async (mem: GroupParticipant) => {
-      if (mem.id === blacklistNumbWithJid) {
+    group.participants.forEach(async (member: GroupParticipant) => {
+      if (member.id === blacklistNumbWithJid) {
         pvxMsg += `\n*${group.subject}*`;
       }
     });

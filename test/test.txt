@@ -38,6 +38,8 @@ COMMIT;
 ALTER TABLE blacklist
 RENAME COLUMN by to admin;
 
+UPDATE blacklist SET memberjid = memberjid || '@s.whatsapp.net';
+
 //delete row
 begin;
 set transaction read write;

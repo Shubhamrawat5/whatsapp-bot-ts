@@ -33,7 +33,7 @@ table countmember{
     memberjid TEXT NOT NULL, 
     groupjid TEXT NOT NULL, 
     message_count INTEGER NOT NULL DEFAULT 0, 
-    warning INTEGER NOT NULL DEFAULT 0, 
+    warning_count INTEGER NOT NULL DEFAULT 0, 
     PRIMARY KEY (memberjid, groupjid), 
     CHECK(warning BETWEEN 0 and 3)
 }

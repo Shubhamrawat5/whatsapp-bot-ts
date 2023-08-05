@@ -16,9 +16,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let zeroMsg = `${groupName}\nMembers with 0 message from 24 NOV:${readMore}\n`;
 
-  groupMembers?.forEach((mem) => {
-    if (!memWithMsg.has(mem.id)) {
-      zeroMsg += `\n${mem.id.split("@")[0]}`;
+  groupMembers?.forEach((member) => {
+    if (!memWithMsg.has(member.id)) {
+      zeroMsg += `\n${member.id.split("@")[0]}`;
     }
   });
 

@@ -11,19 +11,19 @@ datasource db {
 }
 
 model auth {
-  id                       Int    @id @default(autoincrement())
-  noisekey                 String
-  signedidentitykey        String
-  signedprekey             String
-  registrationid           String
-  advsecretkey             String
-  nextprekeyid             String
-  firstunuploadedprekeyid  String
-  account                  String
-  me                       String
-  signalidentities         String
-  lastaccountsynctimestamp String
-  myappstatekeyid          String
+  id                       Int     @id @default(autoincrement())
+  noisekey                 String?
+  signedidentitykey        String?
+  signedprekey             String?
+  registrationid           String?
+  advsecretkey             String?
+  nextprekeyid             String?
+  firstunuploadedprekeyid  String?
+  account                  String?
+  me                       String?
+  signalidentities         String?
+  lastaccountsynctimestamp String?
+  myappstatekeyid          String?
 }
 
 model bday {
@@ -46,7 +46,7 @@ model countmember {
   memberjid     String
   groupjid      String
   message_count Int    @default(0)
-  warning       Int    @default(0)
+  warning_count Int    @default(0)
   // CHECK(warning BETWEEN 0 and 3)
 
   @@id([memberjid, groupjid])

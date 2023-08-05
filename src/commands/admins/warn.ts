@@ -16,7 +16,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (!participant) return;
   const getCountWarningRes = await getCountWarning(participant, from);
-  let warnCount = getCountWarningRes.length ? getCountWarningRes[0].warning : 0;
+  let warnCount = getCountWarningRes.length
+    ? getCountWarningRes[0].warning_count
+    : 0;
   const numSplit = participant.split("@s.whatsapp.net")[0];
 
   if (warnCount < 3) {

@@ -11,8 +11,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const getCountWarningAllGroupRes = await getCountWarningAllGroup();
   let warnMsg = `*ALL PVX GROUPS*\n_warning status_${readMore}\n`;
 
-  getCountWarningAllGroupRes.forEach((mem) => {
-    warnMsg += `\n${mem.warning} - ${mem.name}`;
+  getCountWarningAllGroupRes.forEach((member) => {
+    warnMsg += `\n${member.warning_count} - ${member.name}`;
   });
 
   await reply(warnMsg);

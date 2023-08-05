@@ -29,9 +29,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     countGroupMsgTempIndi += `\n${member.count} - ${member.name}`;
   });
 
-  groupMembers?.forEach((mem) => {
-    if (!memWithMsg.has(mem.id)) {
-      const username = mem.id.split("@")[0];
+  groupMembers?.forEach((member) => {
+    if (!memWithMsg.has(member.id)) {
+      const username = member.id.split("@")[0];
       countGroupMsgTempIndi += `\n${0} - ${username}`;
     }
   });

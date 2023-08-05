@@ -2,7 +2,7 @@ import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export interface GetCountWarning {
-  warning: number;
+  warning_count: number;
 }
 
 export const getCountWarning = async (
@@ -11,7 +11,7 @@ export const getCountWarning = async (
 ): Promise<GetCountWarning[]> => {
   try {
     const result = await pool.query(
-      "SELECT warning FROM countmember WHERE memberjid=$1 AND groupjid=$2;",
+      "SELECT warning_count FROM countmember WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
@@ -30,7 +30,7 @@ export const getCountWarning = async (
 export interface GetCountWarningAllGroup {
   memberjid: string;
   name: string;
-  warning: number;
+  warning_count: number;
 }
 
 export const getCountWarningAllGroup = async (): Promise<
@@ -38,7 +38,7 @@ export const getCountWarningAllGroup = async (): Promise<
 > => {
   try {
     const res = await pool.query(
-      "SELECT countmember.memberjid, sum(countmember.warning) as warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning>0 GROUP BY countmember.memberjid,members.name ORDER BY warning DESC;"
+      "SELECT countmember.memberjid, sum(countmember.warning_count) as warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning_count>0 GROUP BY countmember.memberjid,members.name ORDER BY warning_count DESC;"
     );
     if (res.rowCount) {
       return res.rows;
@@ -56,7 +56,7 @@ export const getCountWarningAllGroup = async (): Promise<
 export interface GetCountWarningAll {
   name: string;
   memberjid: string;
-  warning: number;
+  warning_count: number;
 }
 
 export const getCountWarningAll = async (
@@ -64,7 +64,7 @@ export const getCountWarningAll = async (
 ): Promise<GetCountWarningAll[]> => {
   try {
     const res = await pool.query(
-      "SELECT countmember.memberjid, countmember.warning, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning>0 ORDER BY warning DESC;",
+      "SELECT countmember.memberjid, countmember.warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
       [groupjid]
     );
     if (res.rowCount) {
@@ -84,7 +84,7 @@ export const setCountWarning = async (
     if (!groupjid.endsWith("@g.us")) return false;
 
     const res = await pool.query(
-      "UPDATE countmember SET warning = warning+1 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE countmember SET warning_count = warning_count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
     if (res.rowCount === 1) {
@@ -108,7 +108,7 @@ export const reduceCountWarning = async (
     if (!groupjid.endsWith("@g.us")) return false;
 
     const res = await pool.query(
-      "UPDATE countmember SET warning = warning-1 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE countmember SET warning_count = warning_count-1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
     if (res.rowCount === 1) {
@@ -133,7 +133,7 @@ export const clearCountWarning = async (
     if (!groupjid.endsWith("@g.us")) return false;
 
     const res = await pool.query(
-      "UPDATE countmember SET warning = 0 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE countmember SET warning_count = 0 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 

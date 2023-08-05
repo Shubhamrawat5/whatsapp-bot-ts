@@ -25,9 +25,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // get all jids of admin
   const memberjidAllArray: string[] = [];
   groups.forEach((group) => {
-    group.participants.forEach(async (mem: GroupParticipant) => {
-      if (mem.admin && !memberjidAllArray.includes(mem.id)) {
-        memberjidAllArray.push(mem.id);
+    group.participants.forEach(async (member: GroupParticipant) => {
+      if (member.admin && !memberjidAllArray.includes(member.id)) {
+        memberjidAllArray.push(member.id);
       }
     });
   });
@@ -45,8 +45,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // create object of { jid: name }
   const memberjidObj: MemberjidToUsername = {};
-  getUsernamesRes.forEach((mem) => {
-    memberjidObj[mem.memberjid] = mem.name;
+  getUsernamesRes.forEach((member) => {
+    memberjidObj[member.memberjid] = member.name;
   });
 
   // create the message
@@ -55,8 +55,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const subAdminPanel: string[] = [];
   // get all admins from sub admin panel
   chats[pvxgroups.pvxsubadmin]?.participants.forEach(
-    (mem: GroupParticipant) => {
-      subAdminPanel.push(mem.id);
+    (member: GroupParticipant) => {
+      subAdminPanel.push(member.id);
     }
   );
 
@@ -69,9 +69,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     grpName = grpName.replace("<{PVX}> ", "");
     tempMsg += `\n\n*[${grpName}]*`;
     let count = 1;
-    group.participants.forEach(async (mem: GroupParticipant) => {
-      if (mem.admin) {
-        const { id } = mem;
+    group.participants.forEach(async (member: GroupParticipant) => {
+      if (member.admin) {
+        const { id } = member;
         const name = memberjidObj[id];
         // if name present
         // if (name) {

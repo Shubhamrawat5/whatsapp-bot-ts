@@ -1,18 +1,18 @@
 -- CreateTable
 CREATE TABLE "auth" (
     "id" SERIAL NOT NULL,
-    "noisekey" TEXT NOT NULL,
-    "signedidentitykey" TEXT NOT NULL,
-    "signedprekey" TEXT NOT NULL,
-    "registrationid" TEXT NOT NULL,
-    "advsecretkey" TEXT NOT NULL,
-    "nextprekeyid" TEXT NOT NULL,
-    "firstunuploadedprekeyid" TEXT NOT NULL,
-    "account" TEXT NOT NULL,
-    "me" TEXT NOT NULL,
-    "signalidentities" TEXT NOT NULL,
-    "lastaccountsynctimestamp" TEXT NOT NULL,
-    "myappstatekeyid" TEXT NOT NULL,
+    "noisekey" TEXT,
+    "signedidentitykey" TEXT,
+    "signedprekey" TEXT,
+    "registrationid" TEXT,
+    "advsecretkey" TEXT,
+    "nextprekeyid" TEXT,
+    "firstunuploadedprekeyid" TEXT,
+    "account" TEXT,
+    "me" TEXT,
+    "signalidentities" TEXT,
+    "lastaccountsynctimestamp" TEXT,
+    "myappstatekeyid" TEXT,
 
     CONSTRAINT "auth_pkey" PRIMARY KEY ("id")
 );
@@ -32,11 +32,11 @@ CREATE TABLE "bday" (
 
 -- CreateTable
 CREATE TABLE "blacklist" (
-    "number" TEXT NOT NULL,
+    "memberjid" TEXT NOT NULL,
     "reason" TEXT NOT NULL,
     "admin" TEXT NOT NULL,
 
-    CONSTRAINT "blacklist_pkey" PRIMARY KEY ("number")
+    CONSTRAINT "blacklist_pkey" PRIMARY KEY ("memberjid")
 );
 
 -- CreateTable
@@ -44,7 +44,7 @@ CREATE TABLE "countmember" (
     "memberjid" TEXT NOT NULL,
     "groupjid" TEXT NOT NULL,
     "message_count" INTEGER NOT NULL DEFAULT 0,
-    "warning" INTEGER NOT NULL DEFAULT 0,
+    "warning_count" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "countmember_pkey" PRIMARY KEY ("memberjid","groupjid")
 );
@@ -56,15 +56,6 @@ CREATE TABLE "countvideo" (
     "count" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "countvideo_pkey" PRIMARY KEY ("memberjid","groupjid")
-);
-
--- CreateTable
-CREATE TABLE "meta" (
-    "variable" TEXT NOT NULL,
-    "value" BOOLEAN NOT NULL,
-    "last_updated" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "meta_pkey" PRIMARY KEY ("variable")
 );
 
 -- CreateTable
@@ -88,11 +79,20 @@ CREATE TABLE "members" (
 );
 
 -- CreateTable
-CREATE TABLE "milestoneString" (
+CREATE TABLE "meta" (
+    "variable" TEXT NOT NULL,
+    "value" BOOLEAN NOT NULL,
+    "last_updated" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "meta_pkey" PRIMARY KEY ("variable")
+);
+
+-- CreateTable
+CREATE TABLE "milestone" (
     "sno" SERIAL NOT NULL,
     "milestone" TEXT NOT NULL,
 
-    CONSTRAINT "milestoneString_pkey" PRIMARY KEY ("milestone")
+    CONSTRAINT "milestone_pkey" PRIMARY KEY ("milestone")
 );
 
 -- CreateTable
