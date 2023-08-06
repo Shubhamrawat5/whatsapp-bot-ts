@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import startBot from "./src/app";
+import startBot from "./bot";
 
 const server = async () => {
   const app: Express = express();
@@ -17,6 +17,7 @@ const server = async () => {
     console.log("\nWeb-server running!\n");
   });
 
+  // TODO: CONNECT TO DB FIRST
   await startBot();
 };
 

@@ -119,3 +119,29 @@ chrome://inspect
 
 alter table countwarning add check(count BETWEEN 1 and 3);
 
+
+
+const main = async () => {
+  const res = await pool.query(
+    "SELECT * FROM blacklist WHERE memberjid NOT IN (SELECT memberjid FROM members);"
+  );
+
+  let time = 500;
+  console.log(res.rows);
+  res.rows.forEach((member, index) => {
+    time += 500;
+    const { memberjid } = member;
+    const number = memberjid.split("@")[0];
+    setTimeout(async () => {
+      console.log(number, index + 1);
+      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
+        memberjid,
+        number,
+        0,
+        [],
+      ]);
+    }, time);
+  });
+};
+
+main();

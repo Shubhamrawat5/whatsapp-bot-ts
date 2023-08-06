@@ -4,7 +4,7 @@ import pool from "./pool";
 export const createMilestoneTextTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS milestonetext(
-      sno SERIAL, 
+      sno SERIAL NOT NULL, 
       milestone TEXT PRIMARY KEY
     );`
   );

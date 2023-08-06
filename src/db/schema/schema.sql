@@ -55,12 +55,12 @@ table groups{
 table members{
     memberjid TEXT PRIMARY KEY, 
     name TEXT NOT NULL,
-    donation INTEGER,
+    donation INTEGER NOT NULL DEFAULT 0,
     milestone JSON
 }
 
 table milestonetext{
-    sno SERIAL, 
+    sno SERIAL NOT NULL, 
     milestone TEXT PRIMARY KEY
 }
 

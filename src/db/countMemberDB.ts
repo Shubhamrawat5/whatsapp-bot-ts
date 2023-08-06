@@ -231,7 +231,12 @@ export const setCountMember = async (
       [name, memberjid]
     );
     if (res2.rowCount === 0) {
-      await pool.query("INSERT INTO members VALUES($1,$2);", [memberjid, name]);
+      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
+        memberjid,
+        name,
+        0,
+        [],
+      ]);
     }
 
     // get current group and all group message count

@@ -6,7 +6,7 @@ export const createMembersTable = async () => {
     `CREATE TABLE IF NOT EXISTS members(
         memberjid TEXT PRIMARY KEY, 
         name TEXT NOT NULL, 
-        donation INTEGER,
+        donation INTEGER DEFAULT 0,
         milestones JSON
     );`
   );
@@ -56,18 +56,23 @@ export const getDonation = async (): Promise<GetDonation[]> => {
 };
 
 export const setDonation = async (
-  number: string,
-  donation: number
+  memberjid: string,
+  donation: number,
+  number: string
 ): Promise<boolean> => {
-  const numberWithJid = `${number}@s.whatsapp.net`;
   try {
     const res = await pool.query(
       "UPDATE members SET donation=$2 WHERE memberjid=$1;",
-      [numberWithJid, donation]
+      [memberjid, donation]
     );
 
     // not updated
     if (res.rowCount === 0) {
+      const res2 = await pool.query(
+        "INSERT INTO members VALUES($1,$2,$3,$4);",
+        [memberjid, number, donation, []]
+      );
+      if (res2.rowCount === 1) return true;
       return false;
     }
     return true;

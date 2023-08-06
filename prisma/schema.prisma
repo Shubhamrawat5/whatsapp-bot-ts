@@ -63,7 +63,7 @@ model groups {
 model members {
   memberjid String   @id
   name      String
-  donation  Int?
+  donation  Int      @default(0)
   milestone String[]
 }
 

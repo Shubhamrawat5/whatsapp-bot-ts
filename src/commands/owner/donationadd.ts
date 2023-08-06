@@ -31,7 +31,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // console.log(`number: ${number}, amount: ${amount}`);
   if (number && number.length === 12 && amount && amount > 0) {
-    const addDonationRes = await setDonation(number, amount);
+    const numberWithJid = `${number}@s.whatsapp.net`;
+    const addDonationRes = await setDonation(numberWithJid, amount, number);
     if (addDonationRes) await reply("✔️ Added!");
     else await reply(`❌ There is some problem!`);
   } else {
