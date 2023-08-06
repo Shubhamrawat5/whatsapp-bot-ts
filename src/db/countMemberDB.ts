@@ -265,7 +265,7 @@ export const getCountVideo = async (
 ): Promise<GetCountVideo[]> => {
   try {
     const res = await pool.query(
-      "SELECT cm.memberjid,cm.video_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY video_count DESC;",
+      "SELECT cm.memberjid,cm.video_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 and video_count>0 ORDER BY video_count DESC;",
       [groupjid]
     );
 

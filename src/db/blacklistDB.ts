@@ -24,12 +24,12 @@ export const getBlacklist = async (
     let res;
     if (memberjid) {
       res = await pool.query(
-        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid WHERE memberjid=$1;",
+        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid WHERE bl.memberjid=$1;",
         [memberjid]
       );
     } else {
       res = await pool.query(
-        "SELECT bl.memberjid, bl.reason,  bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid ORDER BY memberjid;"
+        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid ORDER BY memberjid;"
       );
     }
 
