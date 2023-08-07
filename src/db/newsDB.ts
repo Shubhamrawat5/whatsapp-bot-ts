@@ -15,6 +15,9 @@ export const storeNews = async (
   at: string
 ): Promise<boolean> => {
   try {
+    // TODO: CHECK THIS
+    // SELECT query can be used instead to check if news is already there or not,
+    // but it'll lead to one extra query
     const res = await pool.query(
       "INSERT INTO news VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
       [headline, at]

@@ -144,7 +144,8 @@ export const messagesUpsert = async (
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
           from !== pvxgroups.pvxdeals &&
-          from !== pvxgroups.pvxtesting
+          from !== pvxgroups.pvxtesting &&
+          from !== pvxgroups.pvxtechonly
         ) {
           if (from === pvxgroups.pvxsticker && msg.message.stickerMessage) {
             console.log("skipping count of sticker message in PVX sticker.");

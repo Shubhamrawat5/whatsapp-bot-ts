@@ -62,7 +62,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     sender
   );
   if (addBlacklistRes) await reply("✔️ Added to blacklist!");
-  else await reply("❌ Number is already blacklisted!");
+  else await reply("❌ There is some problem or Number is already blacklisted");
 
   const groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))

@@ -26,7 +26,8 @@ table bday{
 table blacklist{
     memberjid TEXT PRIMARY KEY, 
     reason TEXT NOT NULL, 
-    admin TEXT NOT NULL
+    admin TEXT NOT ,
+    CONSTRAINT fk_blacklist_members FOREIGN KEY(memberjid) REFERENCES members(memberjid)
 }
 
 table countmember{

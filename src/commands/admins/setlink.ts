@@ -12,8 +12,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const setGroupsDataRes = await setGroupsData(
     from,
     groupName ?? "Not Found",
-    link,
-    []
+    link
   );
   if (setGroupsDataRes) {
     await reply(`✔ Group name & link data updated!`);

@@ -72,21 +72,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   else await reply(`❌ There is some problem!`);
 };
 
-// const handler = async (bot, msg, msgInfoObj) => {
-//   const { reply, args } = msgInfoObj;
-
-//   if (args.length === 0) {
-//     await reply(`❌ Give !milestoneaddtext milestoneText`);
-//     return;
-//   }
-
-//   const milestoneText = args.join(" ");
-
-//   const setMilestoneTextRes = await setMilestoneText(milestoneText);
-//   if (setMilestoneTextRes) await reply(`✔ Milestone text added!`);
-//   else await reply(`❌ There is some problem!`);
-// };
-
 const milestoneadd = () => {
   const cmd = ["milestoneadd", "addmilestone", "ma", "am"];
 

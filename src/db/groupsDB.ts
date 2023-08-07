@@ -44,10 +44,8 @@ export const getGroupsData = async (
 export const setGroupsData = async (
   groupjid: string,
   gname: string,
-  link: string | undefined,
-  disabled: string[]
+  link: string | undefined
 ): Promise<boolean> => {
-  const disabledJson = JSON.stringify(disabled);
   try {
     if (!groupjid.endsWith("@g.us")) return false;
 
@@ -62,7 +60,7 @@ export const setGroupsData = async (
         groupjid,
         gname,
         link,
-        disabledJson,
+        "[]",
       ]);
       if (res2.rowCount === 1) return true;
       return false;
@@ -74,7 +72,6 @@ export const setGroupsData = async (
       groupjid,
       gname,
       link,
-      disabled,
     });
     return false;
   }

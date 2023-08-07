@@ -120,7 +120,7 @@ export const getCountIndividualAllGroup = async (
 ): Promise<GetCountIndividualAllGroup[]> => {
   try {
     const res = await pool.query(
-      "SELECT memb.name,grps.gname,cm.message_count FROM countmember cm INNER JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY message_count DESC;",
+      "SELECT memb.name,grps.gname,cm.message_count FROM countmember cm LEFT JOIN members memb ON memb.memberjid=cm.memberjid INNER JOIN groups grps ON grps.groupjid=cm.groupjid WHERE cm.memberjid=$1 ORDER BY message_count DESC;",
       [memberjid]
     );
     if (res.rowCount) {
@@ -235,7 +235,7 @@ export const setCountMember = async (
         memberjid,
         name,
         0,
-        [],
+        "[]",
       ]);
     }
 

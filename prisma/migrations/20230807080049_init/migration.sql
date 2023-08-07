@@ -32,11 +32,11 @@ CREATE TABLE "bday" (
 
 -- CreateTable
 CREATE TABLE "blacklist" (
-    "memberjid" TEXT NOT NULL,
     "reason" TEXT NOT NULL,
     "admin" TEXT NOT NULL,
+    "member_memberjid" TEXT NOT NULL,
 
-    CONSTRAINT "blacklist_pkey" PRIMARY KEY ("memberjid")
+    CONSTRAINT "blacklist_pkey" PRIMARY KEY ("member_memberjid")
 );
 
 -- CreateTable
@@ -51,23 +51,23 @@ CREATE TABLE "countmember" (
 );
 
 -- CreateTable
-CREATE TABLE "groups" (
+CREATE TABLE "group" (
     "groupjid" TEXT NOT NULL,
     "gname" TEXT NOT NULL,
     "link" TEXT,
     "commands_disabled" TEXT[],
 
-    CONSTRAINT "groups_pkey" PRIMARY KEY ("groupjid")
+    CONSTRAINT "group_pkey" PRIMARY KEY ("groupjid")
 );
 
 -- CreateTable
-CREATE TABLE "members" (
+CREATE TABLE "member" (
     "memberjid" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "donation" INTEGER,
+    "donation" INTEGER NOT NULL DEFAULT 0,
     "milestone" TEXT[],
 
-    CONSTRAINT "members_pkey" PRIMARY KEY ("memberjid")
+    CONSTRAINT "member_pkey" PRIMARY KEY ("memberjid")
 );
 
 -- CreateTable
@@ -118,4 +118,7 @@ CREATE TABLE "unknowncmd" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "groups_link_key" ON "groups"("link");
+CREATE UNIQUE INDEX "group_link_key" ON "group"("link");
+
+-- AddForeignKey
+ALTER TABLE "blacklist" ADD CONSTRAINT "blacklist_member_memberjid_fkey" FOREIGN KEY ("member_memberjid") REFERENCES "member"("memberjid") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -119,6 +119,8 @@ chrome://inspect
 
 alter table countwarning add check(count BETWEEN 1 and 3);
 
+// memberjid that are in countmember but not in members table
+(SELECT countmember.memberjid, members.name from countmember left join members ON countmember.memberjid = members.memberjid WHERE name IS NULL group by countmember.memberjid, members.name ORDER BY memberjid)
 
 
 const main = async () => {

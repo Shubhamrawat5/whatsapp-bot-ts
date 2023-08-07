@@ -6,7 +6,8 @@ export const createBlacklistTable = async () => {
     `CREATE TABLE IF NOT EXISTS blacklist(
       memberjid TEXT PRIMARY KEY, 
       reason TEXT NOT NULL, 
-      admin TEXT NOT NULL
+      admin TEXT NOT NULL,
+      CONSTRAINT fk_blacklist_members FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
 };
@@ -48,21 +49,31 @@ export const addBlacklist = async (
   admin: string
 ): Promise<boolean> => {
   try {
-    const res = await pool.query(
+    const res = await pool.query("SELECT * FROM members WHERE memberjid = $1", [
+      memberjid,
+    ]);
+
+    // not there
+    if (res.rowCount === 0) {
+      const number = memberjid.split("@")[0];
+      const res2 = await pool.query(
+        "INSERT INTO members VALUES($1,$2,$3,$4);",
+        [memberjid, number, 0, "[]"]
+      );
+      if (res2.rowCount === 0) return false;
+    }
+
+    const res2 = await pool.query(
       "INSERT INTO blacklist VALUES($1,$2,$3) ON CONFLICT(memberjid) DO NOTHING;",
       [memberjid, reason, admin]
     );
 
-    if (res.rowCount === 1) {
+    if (res2.rowCount === 1) {
       return true;
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[addBlacklist DB]", error, {
-      memberjid,
-      reason,
-      admin,
-    });
+    console.log(error);
     return false;
   }
 };
@@ -82,3 +93,5 @@ export const removeBlacklist = async (memberjid: string): Promise<boolean> => {
     return false;
   }
 };
+
+// TODO: USE REGEX TO CHECK MEMBERJID, GROUPJID WHILE INSERTING IN DB

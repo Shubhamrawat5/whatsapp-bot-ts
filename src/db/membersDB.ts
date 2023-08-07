@@ -70,7 +70,7 @@ export const setDonation = async (
     if (res.rowCount === 0) {
       const res2 = await pool.query(
         "INSERT INTO members VALUES($1,$2,$3,$4);",
-        [memberjid, number, donation, []]
+        [memberjid, number, donation, "[]"]
       );
       if (res2.rowCount === 1) return true;
       return false;
