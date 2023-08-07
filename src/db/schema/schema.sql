@@ -37,7 +37,10 @@ table countmember{
     warning_count INTEGER NOT NULL DEFAULT 0, 
     video_count INTEGER NOT NULL DEFAULT 0, 
     PRIMARY KEY (memberjid, groupjid), 
-    CHECK(warning BETWEEN 0 and 3)
+    CHECK(warning BETWEEN 0 and 3),
+
+    CONSTRAINT fk_countmember_groups FOREIGN KEY (groupjid) REFERENCES groups (groupjid),
+    CONSTRAINT fk_countmember_members FOREIGN KEY (memberjid) REFERENCES members (memberjid)
 }
 
 table meta{

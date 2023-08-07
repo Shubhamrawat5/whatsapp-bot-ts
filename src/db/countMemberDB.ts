@@ -11,7 +11,10 @@ export const createCountMemberTable = async () => {
       warning_count INTEGER NOT NULL DEFAULT 0, 
       video_count INTEGER NOT NULL DEFAULT 0, 
       PRIMARY KEY (memberjid, groupjid), 
-      CHECK(warning_count BETWEEN 0 and 3)
+      CHECK(warning_count BETWEEN 0 and 3),
+
+      CONSTRAINT fk_countmember_groups FOREIGN KEY (groupjid) REFERENCES groups (groupjid),
+      CONSTRAINT fk_countmember_members FOREIGN KEY (memberjid) REFERENCES members (memberjid)
     );`
   );
 };
@@ -214,6 +217,20 @@ export const setCountMember = async (
   if (!checkMemberjid(memberjid)) return result;
 
   try {
+    // update username of member
+    const res2 = await pool.query(
+      "UPDATE members SET name=$1 WHERE memberjid=$2;",
+      [name, memberjid]
+    );
+    if (res2.rowCount === 0) {
+      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
+        memberjid,
+        name,
+        0,
+        "[]",
+      ]);
+    }
+
     // update count
     const res1 = await pool.query(
       "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
@@ -227,20 +244,6 @@ export const setCountMember = async (
       );
     } else {
       result.currentGroup = res1.rows[0].message_count;
-    }
-
-    // update username of member
-    const res2 = await pool.query(
-      "UPDATE members SET name=$1 WHERE memberjid=$2;",
-      [name, memberjid]
-    );
-    if (res2.rowCount === 0) {
-      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
-        memberjid,
-        name,
-        0,
-        "[]",
-      ]);
     }
 
     // get current group and all group message count
