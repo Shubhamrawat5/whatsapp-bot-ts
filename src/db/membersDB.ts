@@ -1,3 +1,4 @@
+import { checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -60,6 +61,8 @@ export const setDonation = async (
   donation: number,
   number: string
 ): Promise<boolean> => {
+  if (!checkMemberjid(memberjid)) return false;
+
   try {
     const res = await pool.query(
       "UPDATE members SET donation=$2 WHERE memberjid=$1;",
@@ -113,6 +116,8 @@ export const setMilestones = async (
   memberjid: string,
   milestones: string[]
 ): Promise<boolean> => {
+  if (!checkMemberjid(memberjid)) return false;
+
   try {
     const milestonesJson = JSON.stringify(milestones);
     const res = await pool.query(

@@ -1,3 +1,4 @@
+import { checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -48,6 +49,8 @@ export const addBlacklist = async (
   reason: string,
   admin: string
 ): Promise<boolean> => {
+  if (!checkMemberjid(memberjid)) return false;
+
   try {
     const res = await pool.query("SELECT * FROM members WHERE memberjid = $1", [
       memberjid,

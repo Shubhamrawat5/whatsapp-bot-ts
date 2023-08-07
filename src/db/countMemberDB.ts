@@ -1,3 +1,4 @@
+import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -209,6 +210,9 @@ export const setCountMember = async (
   name: string | undefined | null
 ): Promise<SetCountMember> => {
   const result = { currentGroup: 1, allGroup: 1 };
+  if (!checkGroupjid(groupjid)) return result;
+  if (!checkMemberjid(memberjid)) return result;
+
   try {
     // update count
     const res1 = await pool.query(
@@ -287,7 +291,8 @@ export const setCountVideo = async (
   memberjid: string,
   groupjid: string
 ): Promise<boolean> => {
-  if (!groupjid.endsWith("@g.us")) return false;
+  if (!checkGroupjid(groupjid)) return false;
+  if (!checkMemberjid(memberjid)) return false;
 
   try {
     const res = await pool.query(

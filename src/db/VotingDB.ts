@@ -1,3 +1,4 @@
+import { checkGroupjid } from "../functions/checkValue";
 import { getCurrentIndianDate } from "../functions/getDateTime";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
@@ -46,6 +47,8 @@ export const getVotingData = async (
 };
 
 export const stopVotingData = async (groupjid: string): Promise<boolean> => {
+  if (!checkGroupjid(groupjid)) return false;
+
   try {
     const todayDate = getCurrentIndianDate();
     const groupjidWithDate = `${groupjid} ${todayDate}`;
@@ -75,6 +78,8 @@ export const setVotingData = async (
   members_voted_for: string[][],
   voted_members: string[]
 ): Promise<boolean> => {
+  if (!checkGroupjid(groupjid)) return false;
+
   try {
     const choicesJson = JSON.stringify(choices);
     const countJson = JSON.stringify(count);

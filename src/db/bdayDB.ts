@@ -2,6 +2,7 @@
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
+// TODO: CHECK THESE TABLE NAMES (SINGULAR/PLURAL)
 export const createbdayTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS bday(
@@ -26,6 +27,7 @@ export interface Getbday {
   number: string;
 }
 
+// TODO: CHECK THESE FUNCTION NAMES (SINGULAR/PLURAL)
 export const getbday = async (): Promise<Getbday[]> => {
   try {
     const res = await pool.query("SELECT * FROM bday;");

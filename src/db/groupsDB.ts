@@ -1,3 +1,4 @@
+import { checkGroupjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -46,9 +47,9 @@ export const setGroupsData = async (
   gname: string,
   link: string | undefined
 ): Promise<boolean> => {
-  try {
-    if (!groupjid.endsWith("@g.us")) return false;
+  if (!checkGroupjid(groupjid)) return false;
 
+  try {
     // check if groupjid is present in DB or not
     const res = await pool.query(
       "UPDATE groups SET gname = $1, link=$2 WHERE groupjid=$3;",
@@ -82,6 +83,7 @@ export const setDisableCommand = async (
   gname: string,
   disabled: string[]
 ): Promise<boolean> => {
+  if (!checkGroupjid(groupjid)) return false;
   const disabledJson = JSON.stringify(disabled);
 
   try {

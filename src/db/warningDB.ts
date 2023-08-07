@@ -1,3 +1,4 @@
+import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -80,9 +81,10 @@ export const setCountWarning = async (
   memberjid: string,
   groupjid: string
 ): Promise<boolean> => {
-  try {
-    if (!groupjid.endsWith("@g.us")) return false;
+  if (!checkGroupjid(groupjid)) return false;
+  if (!checkMemberjid(memberjid)) return false;
 
+  try {
     const res = await pool.query(
       "UPDATE countmember SET warning_count = warning_count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
@@ -104,9 +106,10 @@ export const reduceCountWarning = async (
   memberjid: string,
   groupjid: string
 ): Promise<boolean> => {
-  try {
-    if (!groupjid.endsWith("@g.us")) return false;
+  if (!checkGroupjid(groupjid)) return false;
+  if (!checkMemberjid(memberjid)) return false;
 
+  try {
     const res = await pool.query(
       "UPDATE countmember SET warning_count = warning_count-1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
@@ -129,9 +132,10 @@ export const clearCountWarning = async (
   memberjid: string,
   groupjid: string
 ): Promise<boolean> => {
-  try {
-    if (!groupjid.endsWith("@g.us")) return false;
+  if (!checkGroupjid(groupjid)) return false;
+  if (!checkMemberjid(memberjid)) return false;
 
+  try {
     const res = await pool.query(
       "UPDATE countmember SET warning_count = 0 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
