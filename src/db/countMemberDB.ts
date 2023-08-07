@@ -1,5 +1,6 @@
 import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
+import { setMemberName } from "./membersDB";
 import pool from "./pool";
 
 export const createCountMemberTable = async () => {
@@ -218,18 +219,7 @@ export const setCountMember = async (
 
   try {
     // update username of member
-    const res2 = await pool.query(
-      "UPDATE members SET name=$1 WHERE memberjid=$2;",
-      [name, memberjid]
-    );
-    if (res2.rowCount === 0) {
-      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
-        memberjid,
-        name,
-        0,
-        "[]",
-      ]);
-    }
+    await setMemberName(name, memberjid);
 
     // update count
     const res1 = await pool.query(
@@ -247,13 +237,13 @@ export const setCountMember = async (
     }
 
     // get current group and all group message count
-    const res3 = await pool.query(
+    const res2 = await pool.query(
       "SELECT sum(message_count) as message_count, memberjid FROM countmember GROUP BY memberjid HAVING memberjid=$1;",
       [memberjid]
     );
 
-    if (res3.rowCount !== 0) {
-      result.allGroup = res3.rows[0].message_count;
+    if (res2.rowCount !== 0) {
+      result.allGroup = res2.rows[0].message_count;
     }
   } catch (error) {
     await loggerBot(undefined, "[setCountMember DB]", error, {

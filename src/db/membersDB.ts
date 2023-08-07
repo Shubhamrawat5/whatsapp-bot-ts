@@ -13,6 +13,35 @@ export const createMembersTable = async () => {
   );
 };
 
+export const setMemberName = async (
+  name: string | undefined | null,
+  memberjid: string
+): Promise<boolean> => {
+  if (!checkMemberjid(memberjid)) return false;
+
+  try {
+    const res2 = await pool.query(
+      "UPDATE members SET name=$1 WHERE memberjid=$2;",
+      [name, memberjid]
+    );
+    if (res2.rowCount === 0) {
+      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
+        memberjid,
+        name,
+        0,
+        "[]",
+      ]);
+    }
+    return true;
+  } catch (error) {
+    await loggerBot(undefined, "[setMemberName DB]", error, {
+      name,
+      memberjid,
+    });
+    return false;
+  }
+};
+
 export interface GetUsernames {
   [key: string]: string;
 }

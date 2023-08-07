@@ -45,7 +45,7 @@ export const getGroupsData = async (
 export const setGroupsData = async (
   groupjid: string,
   gname: string,
-  link: string | undefined
+  link: string | null
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
 
