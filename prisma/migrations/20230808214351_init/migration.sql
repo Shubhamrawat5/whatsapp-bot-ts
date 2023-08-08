@@ -1,17 +1,17 @@
 -- CreateTable
 CREATE TABLE "auth" (
     "id" SERIAL NOT NULL,
-    "noisekey" TEXT,
-    "signedidentitykey" TEXT,
-    "signedprekey" TEXT,
-    "registrationid" TEXT,
-    "advsecretkey" TEXT,
-    "nextprekeyid" TEXT,
-    "firstunuploadedprekeyid" TEXT,
+    "noisekey" TEXT NOT NULL,
+    "signedidentitykey" TEXT NOT NULL,
+    "signedprekey" TEXT NOT NULL,
+    "registrationid" INTEGER NOT NULL,
+    "advsecretkey" TEXT NOT NULL,
+    "nextprekeyid" INTEGER NOT NULL,
+    "firstunuploadedprekeyid" INTEGER NOT NULL,
     "account" TEXT,
     "me" TEXT,
     "signalidentities" TEXT,
-    "lastaccountsynctimestamp" TEXT,
+    "lastaccountsynctimestamp" INTEGER,
     "myappstatekeyid" TEXT,
 
     CONSTRAINT "auth_pkey" PRIMARY KEY ("id")
@@ -41,13 +41,13 @@ CREATE TABLE "blacklist" (
 
 -- CreateTable
 CREATE TABLE "countmember" (
-    "memberjid" TEXT NOT NULL,
-    "groupjid" TEXT NOT NULL,
     "message_count" INTEGER NOT NULL DEFAULT 0,
     "warning_count" INTEGER NOT NULL DEFAULT 0,
     "video_count" INTEGER NOT NULL DEFAULT 0,
+    "group_groupjid" TEXT NOT NULL,
+    "member_memberjid" TEXT NOT NULL,
 
-    CONSTRAINT "countmember_pkey" PRIMARY KEY ("memberjid","groupjid")
+    CONSTRAINT "countmember_pkey" PRIMARY KEY ("member_memberjid","group_groupjid")
 );
 
 -- CreateTable
@@ -80,11 +80,11 @@ CREATE TABLE "meta" (
 );
 
 -- CreateTable
-CREATE TABLE "milestone" (
+CREATE TABLE "milestonetext" (
     "sno" SERIAL NOT NULL,
     "milestone" TEXT NOT NULL,
 
-    CONSTRAINT "milestone_pkey" PRIMARY KEY ("milestone")
+    CONSTRAINT "milestonetext_pkey" PRIMARY KEY ("milestone")
 );
 
 -- CreateTable
@@ -120,5 +120,14 @@ CREATE TABLE "unknowncmd" (
 -- CreateIndex
 CREATE UNIQUE INDEX "group_link_key" ON "group"("link");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "milestonetext_sno_key" ON "milestonetext"("sno");
+
 -- AddForeignKey
 ALTER TABLE "blacklist" ADD CONSTRAINT "blacklist_member_memberjid_fkey" FOREIGN KEY ("member_memberjid") REFERENCES "member"("memberjid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "countmember" ADD CONSTRAINT "countmember_group_groupjid_fkey" FOREIGN KEY ("group_groupjid") REFERENCES "group"("groupjid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "countmember" ADD CONSTRAINT "countmember_member_memberjid_fkey" FOREIGN KEY ("member_memberjid") REFERENCES "member"("memberjid") ON DELETE RESTRICT ON UPDATE CASCADE;

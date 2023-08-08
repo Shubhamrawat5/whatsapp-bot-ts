@@ -76,7 +76,11 @@ export const addBlacklist = async (
     }
     return false;
   } catch (error) {
-    console.log(error);
+    await loggerBot(undefined, "[addBlacklist DB]", error, {
+      memberjid,
+      reason,
+      admin,
+    });
     return false;
   }
 };
@@ -96,5 +100,3 @@ export const removeBlacklist = async (memberjid: string): Promise<boolean> => {
     return false;
   }
 };
-
-// TODO: USE REGEX TO CHECK MEMBERJID, GROUPJID WHILE INSERTING IN DB

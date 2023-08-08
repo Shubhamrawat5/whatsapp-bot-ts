@@ -35,7 +35,7 @@ export const getMetaValues = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getMetaValues DB]", error, undefined);
+    await loggerBot(undefined, "[getMetaValues DB]", error, { variable });
   }
   return [];
 };

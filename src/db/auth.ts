@@ -1,29 +1,13 @@
 import {
   AuthenticationCreds,
   AuthenticationState,
+  KeyPair,
   SignalCreds,
+  SignalIdentity,
+  SignedKeyPair,
 } from "@whiskeysockets/baileys";
-import pool from "./pool";
+import prisma from "../prismaClient";
 import { loggerBot } from "../utils/logger";
-
-export const createAuthTable = async () => {
-  await pool.query(
-    `CREATE TABLE IF NOT EXISTS auth(
-      noisekey TEXT, 
-      signedidentitykey TEXT,
-      signedprekey TEXT, 
-      registrationid TEXT, 
-      advsecretkey TEXT, 
-      nextprekeyid TEXT, 
-      firstunuploadedprekeyid TEXT, 
-      account TEXT, 
-      me TEXT, 
-      signalidentities TEXT, 
-      lastaccountsynctimestamp TEXT, 
-      myappstatekeyid TEXT
-    );`
-  );
-};
 
 export const getAuth = async (
   state: AuthenticationState
@@ -31,21 +15,18 @@ export const getAuth = async (
   let creds: AuthenticationCreds | undefined;
 
   try {
-    const res = await pool.query("SELECT * FROM auth;");
-
     console.log("Fetching login data...");
-    const data = res.rows[0];
+    // TODO: findUnique
+    const auth = await prisma.auth.findFirst();
 
-    if (res.rowCount === 0) {
-      console.log("No login data found!");
-      creds = undefined;
-    } else {
+    if (auth) {
       console.log("Login data found!");
 
-      const noiseKey = JSON.parse(data.noisekey);
-      const signedIdentityKey = JSON.parse(data.signedidentitykey);
-      const signedPreKey = JSON.parse(data.signedprekey);
-      const signalIdentities = JSON.parse(data.signalidentities);
+      const noiseKey: KeyPair = JSON.parse(auth.noisekey);
+      const signedIdentityKey: KeyPair = JSON.parse(auth.signedidentitykey);
+      const signedPreKey: SignedKeyPair = JSON.parse(auth.signedprekey);
+      const signalIdentities: SignalIdentity[] =
+        auth.signalidentities && JSON.parse(auth.signalidentities);
 
       const signalCreds: SignalCreds = {
         signedIdentityKey: {
@@ -60,7 +41,7 @@ export const getAuth = async (
           signature: Buffer.from(signedPreKey.signature),
           keyId: signedPreKey.keyId,
         },
-        registrationId: Number(data.registrationid),
+        registrationId: auth.registrationid,
       };
 
       creds = {
@@ -70,20 +51,23 @@ export const getAuth = async (
           private: Buffer.from(noiseKey.private),
           public: Buffer.from(noiseKey.public),
         },
-        advSecretKey: data.advsecretkey,
-        me: JSON.parse(data.me),
-        account: JSON.parse(data.account),
+        advSecretKey: auth.advsecretkey,
+        me: auth.me && JSON.parse(auth.me),
+        account: auth.account && JSON.parse(auth.account),
         signalIdentities: [
           {
             identifier: signalIdentities[0].identifier,
             identifierKey: Buffer.from(signalIdentities[0].identifierKey),
           },
         ],
-        myAppStateKeyId: data.myappstatekeyid,
-        firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyid),
-        nextPreKeyId: Number(data.nextprekeyid),
-        lastAccountSyncTimestamp: Number(data.lastaccountsynctimestamp),
+        myAppStateKeyId: auth.myappstatekeyid || undefined,
+        firstUnuploadedPreKeyId: auth.firstunuploadedprekeyid,
+        nextPreKeyId: auth.nextprekeyid,
+        lastAccountSyncTimestamp: auth.lastaccountsynctimestamp || undefined,
       };
+    } else {
+      console.log("No login data found!");
+      creds = undefined;
     }
   } catch (error) {
     await loggerBot(undefined, "[getAuth DB]", error, undefined);
@@ -107,7 +91,9 @@ export const getAuth = async (
 // registration
 // platform
 
-export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
+export const updateAuth = async (
+  state: AuthenticationState
+): Promise<boolean> => {
   try {
     const noiseKey = JSON.stringify(state.creds.noiseKey);
     const signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
@@ -122,45 +108,44 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     const { lastAccountSyncTimestamp } = state.creds;
     const { myAppStateKeyId } = state.creds;
 
-    const res = await pool.query(
-      "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, account = $8, me = $9, signalIdentities = $10, lastAccountSyncTimestamp = $11, myAppStateKeyId = $12;",
-      [
-        noiseKey,
-        signedIdentityKey,
-        signedPreKey,
-        registrationId,
-        advSecretKey,
-        nextPreKeyId,
-        firstUnuploadedPreKeyId,
+    const auth = await prisma.auth.updateMany({
+      data: {
+        noisekey: noiseKey,
+        signedidentitykey: signedIdentityKey,
+        signedprekey: signedPreKey,
+        registrationid: registrationId,
+        advsecretkey: advSecretKey,
+        nextprekeyid: nextPreKeyId,
+        firstunuploadedprekeyid: firstUnuploadedPreKeyId,
         account,
         me,
-        signalIdentities,
-        lastAccountSyncTimestamp,
-        myAppStateKeyId,
-      ]
-    );
+        signalidentities: signalIdentities,
+        lastaccountsynctimestamp: lastAccountSyncTimestamp,
+        myappstatekeyid: myAppStateKeyId,
+      },
+    });
 
     // not updated. time to insert
-    if (res.rowCount === 0) {
+    if (!auth) {
       console.log("Inserting login data...");
-      const res2 = await pool.query(
-        "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);",
-        [
-          noiseKey,
-          signedIdentityKey,
-          signedPreKey,
-          registrationId,
-          advSecretKey,
-          nextPreKeyId,
-          firstUnuploadedPreKeyId,
+      const res = await prisma.auth.create({
+        data: {
+          noisekey: noiseKey,
+          signedidentitykey: signedIdentityKey,
+          signedprekey: signedPreKey,
+          registrationid: registrationId,
+          advsecretkey: advSecretKey,
+          nextprekeyid: nextPreKeyId,
+          firstunuploadedprekeyid: firstUnuploadedPreKeyId,
           account,
           me,
-          signalIdentities,
-          lastAccountSyncTimestamp,
-          myAppStateKeyId,
-        ]
-      );
-      if (res2.rowCount === 1) {
+          signalidentities: signalIdentities,
+          lastaccountsynctimestamp: lastAccountSyncTimestamp,
+          myappstatekeyid: myAppStateKeyId,
+        },
+      });
+
+      if (res) {
         console.log("New login data inserted!");
         return true;
       }
@@ -169,16 +154,16 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     console.log("Login data updated!");
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setAuth DB]", error, { state });
+    await loggerBot(undefined, "[updateAuth DB]", error, { state });
     return false;
   }
 };
 
 export const deleteAuth = async (): Promise<boolean> => {
   try {
-    const res = await pool.query("DELETE FROM auth;");
-    if (res.rowCount === 1) return true;
-    return false;
+    const auth = await prisma.auth.deleteMany();
+    if (auth.count === 0) return false;
+    return true;
   } catch (error) {
     await loggerBot(undefined, "[deleteAuth DB]", error, undefined);
     return false;

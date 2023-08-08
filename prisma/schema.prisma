@@ -10,19 +10,20 @@ datasource db {
   url      = env("DATABASE_URL_TEMP")
 }
 
+// TODO: ADD ALL AUTH VARIABLES
 model Auth {
   id                       Int     @id @default(autoincrement())
-  noisekey                 String?
-  signedidentitykey        String?
-  signedprekey             String?
-  registrationid           String?
-  advsecretkey             String?
-  nextprekeyid             String?
-  firstunuploadedprekeyid  String?
+  noisekey                 String
+  signedidentitykey        String
+  signedprekey             String
+  registrationid           Int
+  advsecretkey             String
+  nextprekeyid             Int
+  firstunuploadedprekeyid  Int
   account                  String?
   me                       String?
   signalidentities         String?
-  lastaccountsynctimestamp String?
+  lastaccountsynctimestamp Int?
   myappstatekeyid          String?
 
   @@map("auth")
@@ -53,7 +54,7 @@ model Countmember {
   message_count   Int    @default(0)
   warning_count   Int    @default(0)
   video_count     Int    @default(0)
-  // CHECK(warning BETWEEN 0 and 3)
+  // TODO: CHECK(warning BETWEEN 0 and 3)
   Group           Group  @relation(fields: [groupGroupjid], references: [groupjid])
   groupGroupjid   String @map("group_groupjid")
   Member          Member @relation(fields: [memberMemberjid], references: [memberjid])
@@ -92,11 +93,11 @@ model Meta {
   @@map("meta")
 }
 
-model Milestone {
-  sno       Int    @default(autoincrement())
+model Milestonetext {
+  sno       Int    @unique @default(autoincrement())
   milestone String @id
 
-  @@map("milestone")
+  @@map("milestonetext")
 }
 
 model News {
