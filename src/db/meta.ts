@@ -31,6 +31,29 @@ export const getMeta = async (variable: string): Promise<Meta | null> => {
 export const createMeta = async (
   variable: string,
   value: boolean
+): Promise<Meta | null> => {
+  try {
+    const meta = await prisma.meta.create({
+      data: {
+        variable,
+        value,
+        last_updated: new Date(),
+      },
+    });
+
+    return meta;
+  } catch (error) {
+    await loggerBot(undefined, "[createMeta DB]", error, {
+      variable,
+      value,
+    });
+    return null;
+  }
+};
+
+export const updateMeta = async (
+  variable: string,
+  value: boolean
 ): Promise<boolean> => {
   try {
     const meta = await prisma.meta.update({
@@ -44,19 +67,13 @@ export const createMeta = async (
     });
 
     if (!meta) {
-      const res = await prisma.meta.create({
-        data: {
-          variable,
-          value,
-          last_updated: new Date(),
-        },
-      });
+      const res = await createMeta(variable, value);
       if (!res) return false;
     }
 
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setMetaValues DB]", error, {
+    await loggerBot(undefined, "[updateMeta DB]", error, {
       variable,
       value,
     });

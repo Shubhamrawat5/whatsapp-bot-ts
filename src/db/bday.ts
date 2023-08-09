@@ -14,6 +14,43 @@ export const getbdays = async (): Promise<Bday[]> => {
   return [];
 };
 
+export const createBday = async (
+  name: string,
+  username: string,
+  date: number,
+  month: number,
+  year: number | null,
+  place: string,
+  number: string
+): Promise<Bday | null> => {
+  try {
+    const bday = await prisma.bday.create({
+      data: {
+        name,
+        username,
+        date,
+        month,
+        year,
+        place,
+        number,
+      },
+    });
+
+    return bday;
+  } catch (error) {
+    await loggerBot(undefined, "[createBday DB]", error, {
+      name,
+      username,
+      date,
+      month,
+      year,
+      place,
+      number,
+    });
+    return null;
+  }
+};
+
 export const updateBday = async (
   name: string,
   username: string,
@@ -43,17 +80,15 @@ export const updateBday = async (
     });
 
     if (!bday) {
-      const res = await prisma.bday.create({
-        data: {
-          name,
-          username,
-          date,
-          month,
-          year,
-          place,
-          number,
-        },
-      });
+      const res = await createBday(
+        name,
+        username,
+        date,
+        month,
+        year,
+        place,
+        number
+      );
 
       if (!res) {
         return false;

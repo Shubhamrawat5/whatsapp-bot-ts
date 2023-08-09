@@ -32,27 +32,47 @@ export const getUnknownCmd = async (
   }
 };
 
-export const updateUnknownCmd = async (
+export const createUnknownCmd = async (
   command: string
 ): Promise<Unknowncmd | null> => {
   try {
-    const res = await getUnknownCmd(command);
-    let unknowncmd: Unknowncmd;
-
-    if (res) {
-      unknowncmd = await prisma.unknowncmd.update({
-        data: { count: res.count + 1 },
-        where: { command },
-      });
-    } else {
-      unknowncmd = await prisma.unknowncmd.create({
-        data: { command, count: 1 },
-      });
-    }
-
+    const unknowncmd = await prisma.unknowncmd.create({
+      data: {
+        command,
+        count: 1,
+      },
+    });
     return unknowncmd;
   } catch (error) {
-    await loggerBot(undefined, "[updateUnknownCmd DB]", error, { command });
+    await loggerBot(undefined, "[createUnknownCmd DB]", error, {
+      command,
+    });
     return null;
+  }
+};
+
+export const updateUnknownCmd = async (command: string): Promise<boolean> => {
+  try {
+    const unknowncmd = await prisma.unknowncmd.update({
+      data: {
+        count: {
+          increment: 1,
+        },
+      },
+      where: { command },
+    });
+
+    if (!unknowncmd) {
+      const res = await createUnknownCmd(command);
+
+      if (!res) {
+        return false;
+      }
+    }
+
+    return true;
+  } catch (error) {
+    await loggerBot(undefined, "[updateUnknownCmd DB]", error, { command });
+    return false;
   }
 };
