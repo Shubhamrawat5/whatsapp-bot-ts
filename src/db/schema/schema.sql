@@ -53,14 +53,14 @@ table groups{
     groupjid TEXT PRIMARY KEY, 
     gname TEXT NOT NULL, 
     link TEXT, 
-    commands_disabled JSON
+    commands_disabled TEXT[] NOT NULL
 }
 
 table members{
     memberjid TEXT PRIMARY KEY, 
     name TEXT NOT NULL,
     donation INTEGER NOT NULL DEFAULT 0,
-    milestone JSON
+    milestone TEXT[] NOT NULL
 }
 
 table milestonetext{
@@ -78,10 +78,10 @@ table voting{
     is_started BOOLEAN NOT NULL, 
     started_by TEXT NOT NULL, 
     title TEXT NOT NULL, 
-    choices JSON NOT NULL, 
-    count JSON NOT NULL, 
-    members_voted_for JSON NOT NULL, 
-    voted_members JSON NOT NULL
+    choices TEXT[] NOT NULL, 
+    count TEXT[] NOT NULL, 
+    members_voted_for TEXT[][] NOT NULL, 
+    voted_members TEXT[] NOT NULL
 }
 
 table unknowncmd{

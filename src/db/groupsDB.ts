@@ -8,7 +8,7 @@ export const createGroupsTable = async () => {
       groupjid TEXT PRIMARY KEY, 
       gname TEXT NOT NULL, 
       link TEXT, 
-      commands_disabled JSON
+      commands_disabled TEXT[] NOT NULL 
     );`
   );
 };
@@ -81,15 +81,14 @@ export const setGroupsData = async (
 export const setDisableCommand = async (
   groupjid: string,
   gname: string,
-  disabled: string[]
+  commands_disabled: string[]
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
-  const disabledJson = JSON.stringify(disabled);
 
   try {
     const res = await pool.query(
       "UPDATE groups SET commands_disabled=$1 WHERE groupjid=$2;",
-      [disabledJson, groupjid]
+      [commands_disabled, groupjid]
     );
 
     // not updated. time to insert
@@ -98,7 +97,7 @@ export const setDisableCommand = async (
         groupjid,
         gname,
         null,
-        disabledJson,
+        commands_disabled,
       ]);
       if (res2.rowCount === 1) return true;
       return false;
@@ -108,7 +107,7 @@ export const setDisableCommand = async (
     await loggerBot(undefined, "[setDisableCommand DB]", error, {
       groupjid,
       gname,
-      disabled,
+      commands_disabled,
     });
     return false;
   }

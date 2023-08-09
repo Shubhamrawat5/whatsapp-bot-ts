@@ -10,10 +10,10 @@ export const createVotingTable = async () => {
       is_started BOOLEAN NOT NULL, 
       started_by TEXT NOT NULL, 
       title TEXT NOT NULL, 
-      choices JSON NOT NULL,
-      count JSON NOT NULL, 
-      members_voted_for JSON NOT NULL, 
-      voted_members JSON NOT NULL
+      choices TEXT[] NOT NULL,
+      count TEXT[] NOT NULL, 
+      members_voted_for TEXT[][] NOT NULL, 
+      voted_members TEXT[] NOT NULL
     );`
   );
 };
@@ -81,21 +81,16 @@ export const setVotingData = async (
   if (!checkGroupjid(groupjid)) return false;
 
   try {
-    const choicesJson = JSON.stringify(choices);
-    const countJson = JSON.stringify(count);
-    const membersVotedForJson = JSON.stringify(members_voted_for);
-    const votedMembersJson = JSON.stringify(voted_members);
-
     const res = await pool.query(
       "UPDATE voting SET is_started=$1, started_by=$2, title=$3, choices=$4, count=$5, members_voted_for=$6, voted_members=$7  WHERE groupjid=$8;",
       [
         is_started,
         started_by,
         title,
-        choicesJson,
-        countJson,
-        membersVotedForJson,
-        votedMembersJson,
+        choices,
+        count,
+        members_voted_for,
+        voted_members,
         groupjid,
       ]
     );
@@ -108,10 +103,10 @@ export const setVotingData = async (
           is_started,
           started_by,
           title,
-          choicesJson,
-          countJson,
-          membersVotedForJson,
-          votedMembersJson,
+          choices,
+          count,
+          members_voted_for,
+          voted_members,
         ]
       );
       if (res2.rowCount === 1) return true;

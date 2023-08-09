@@ -8,7 +8,7 @@ export const createMembersTable = async () => {
         memberjid TEXT PRIMARY KEY, 
         name TEXT NOT NULL, 
         donation INTEGER DEFAULT 0,
-        milestones JSON
+        milestones TEXT[] NOT NULL
     );`
   );
 };
@@ -148,10 +148,9 @@ export const setMilestones = async (
   if (!checkMemberjid(memberjid)) return false;
 
   try {
-    const milestonesJson = JSON.stringify(milestones);
     const res = await pool.query(
       "UPDATE members SET milestones=$2 WHERE memberjid=$1;",
-      [memberjid, milestonesJson]
+      [memberjid, milestones]
     );
 
     // not updated
