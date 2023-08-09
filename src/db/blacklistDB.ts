@@ -8,7 +8,7 @@ export const createBlacklistTable = async () => {
       memberjid TEXT PRIMARY KEY, 
       reason TEXT NOT NULL, 
       admin TEXT NOT NULL,
-      CONSTRAINT fk_blacklist_members FOREIGN KEY(memberjid) REFERENCES members(memberjid)
+      CONSTRAINT blacklist_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
 };

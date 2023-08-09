@@ -42,23 +42,24 @@ model Bday {
 }
 
 model Blacklist {
-  reason          String
-  admin           String
-  Member          Member @relation(fields: [memberMemberjid], references: [memberjid])
-  memberMemberjid String @id @map("member_memberjid")
+  reason          String?
+  admin           String?
+  Member          Member  @relation(fields: [memberMemberjid], references: [memberjid])
+  memberMemberjid String  @id @map("memberjid")
 
   @@map("blacklist")
 }
 
 model Countmember {
-  message_count   Int    @default(0)
-  warning_count   Int    @default(0)
-  video_count     Int    @default(0)
   // TODO: CHECK(warning BETWEEN 0 and 3)
   Group           Group  @relation(fields: [groupGroupjid], references: [groupjid])
-  groupGroupjid   String @map("group_groupjid")
+  groupGroupjid   String @map("groupjid")
   Member          Member @relation(fields: [memberMemberjid], references: [memberjid])
-  memberMemberjid String @map("member_memberjid")
+  memberMemberjid String @map("memberjid")
+
+  message_count Int @default(0)
+  warning_count Int @default(0)
+  video_count   Int @default(0)
 
   @@id([memberMemberjid, groupGroupjid])
   @@map("countmember")
@@ -71,18 +72,18 @@ model Group {
   commands_disabled String[]
   Countmember       Countmember[]
 
-  @@map("group")
+  @@map("groups")
 }
 
 model Member {
   memberjid   String        @id
   name        String
   donation    Int           @default(0)
-  milestone   String[]
+  milestones  String[]
   Blacklist   Blacklist?
   Countmember Countmember[]
 
-  @@map("member")
+  @@map("members")
 }
 
 model Meta {

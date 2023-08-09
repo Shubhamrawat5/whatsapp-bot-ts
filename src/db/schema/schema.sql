@@ -27,7 +27,7 @@ table blacklist{
     memberjid TEXT PRIMARY KEY, 
     reason TEXT NOT NULL, 
     admin TEXT NOT ,
-    CONSTRAINT fk_blacklist_members FOREIGN KEY(memberjid) REFERENCES members(memberjid)
+    CONSTRAINT blacklist_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
 }
 
 table countmember{
@@ -39,8 +39,8 @@ table countmember{
     PRIMARY KEY (memberjid, groupjid), 
     CHECK(warning BETWEEN 0 and 3),
 
-    CONSTRAINT fk_countmember_groups FOREIGN KEY (groupjid) REFERENCES groups (groupjid),
-    CONSTRAINT fk_countmember_members FOREIGN KEY (memberjid) REFERENCES members (memberjid)
+    CONSTRAINT countmember_groupjid_fkey FOREIGN KEY (groupjid) REFERENCES groups (groupjid),
+    CONSTRAINT countmember_memberjid_fkey FOREIGN KEY (memberjid) REFERENCES members (memberjid)
 }
 
 table meta{

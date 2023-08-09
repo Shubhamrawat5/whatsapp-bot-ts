@@ -25,6 +25,7 @@ module.exports = {
     "operator-linebreak": "off",
     "object-curly-newline": "off",
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
+    "max-len": "off",
     // "arrow-body-style": 0, // single line in func, Unexpected {} surrounding arrow body; move the returned value immediately after the `=>`
     // "object-shorthand": 0, // { name: name, id: id }
     // "function-paren-newline": 0, // Unexpected newline before ')'

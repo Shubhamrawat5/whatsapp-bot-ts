@@ -1,12 +1,60 @@
-import { Countmember } from "@prisma/client";
+import { Countmember, Member } from "@prisma/client";
 import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
 import prisma from "../prismaClient";
 import { loggerBot } from "../utils/logger";
+import { createCountMember } from "./countMember";
 
-export const getWarning = async (
+// export const getCountWarningAllGroup = async (): Promise<
+//   GetCountWarningAllGroup[]
+// > => {
+//   try {
+//     const res = await pool.query(
+//       "SELECT countmember.memberjid, sum(countmember.warning_count) as warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning_count>0 GROUP BY countmember.memberjid,members.name ORDER BY warning_count DESC;"
+//     );
+//     if (res.rowCount) {
+//       return res.rows;
+//     }
+//   } catch (error) {
+//     await loggerBot(
+//       undefined,
+//       "[getCountWarningAllGroup DB]",
+//       error,
+//       undefined
+//     );
+//     return [];
+//   }
+// };
+
+export const getCountWarningAll = async (
+  groupjid: string
+): Promise<(Countmember & { Member: Member })[]> => {
+  try {
+    const res = await prisma.countmember.findMany({
+      where: {
+        groupGroupjid: groupjid,
+        warning_count: {
+          gt: 0,
+        },
+      },
+      orderBy: {
+        warning_count: "desc",
+      },
+      include: {
+        Member: true,
+      },
+    });
+
+    return res;
+  } catch (error) {
+    await loggerBot(undefined, "[getCountWarningAll DB]", error, { groupjid });
+    return [];
+  }
+};
+
+export const getGroupMemberWarning = async (
   memberjid: string,
   groupjid: string
-): Promise<number | null> => {
+): Promise<Countmember | null> => {
   try {
     const countmember = await prisma.countmember.findUnique({
       where: {
@@ -17,70 +65,20 @@ export const getWarning = async (
       },
     });
 
-    if (countmember) return countmember.warning_count;
-    return null;
+    return countmember;
   } catch (error) {
-    await loggerBot(undefined, "[getCountWarning DB]", error, {
+    await loggerBot(undefined, "[getGroupMemberWarning DB]", error, {
       memberjid,
       groupjid,
     });
+    return null;
   }
-  return null;
 };
 
-export interface GetCountWarningAllGroup {
-  memberjid: string;
-  name: string;
-  warning_count: number;
-}
-
-export const getCountWarningAllGroup = async (): Promise<
-  GetCountWarningAllGroup[]
-> => {
-  try {
-    const res = await pool.query(
-      "SELECT countmember.memberjid, sum(countmember.warning_count) as warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning_count>0 GROUP BY countmember.memberjid,members.name ORDER BY warning_count DESC;"
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
-  } catch (error) {
-    await loggerBot(
-      undefined,
-      "[getCountWarningAllGroup DB]",
-      error,
-      undefined
-    );
-  }
-  return [];
-};
-export interface GetCountWarningAll {
-  name: string;
-  memberjid: string;
-  warning_count: number;
-}
-
-export const getCountWarningAll = async (
-  groupjid: string
-): Promise<GetCountWarningAll[]> => {
-  try {
-    const res = await pool.query(
-      "SELECT countmember.memberjid, countmember.warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
-      [groupjid]
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
-  } catch (error) {
-    await loggerBot(undefined, "[getCountWarningAll DB]", error, { groupjid });
-  }
-  return [];
-};
-
-export const updateWarning = async (
-  memberjid: string,
+export const updateGroupMemberWarning = async (
   groupjid: string,
-  count: number
+  memberjid: string,
+  warning_count: number
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
   if (!checkMemberjid(memberjid)) return false;
@@ -88,7 +86,7 @@ export const updateWarning = async (
   try {
     const countmember = await prisma.countmember.update({
       data: {
-        warning_count: count,
+        warning_count,
       },
       where: {
         memberMemberjid_groupGroupjid: {
@@ -99,11 +97,20 @@ export const updateWarning = async (
     });
 
     if (!countmember) {
-      // create
+        const res = await createCountMember(
+            groupjid,
+            memberjid,
+            0,
+            warning_count,
+            0
+        );
+      if (!res) {
+        return false;
+      }
     }
-    return false;
+    return true;
   } catch (error) {
-    await loggerBot(undefined, "[setCountWarning DB]", error, {
+    await loggerBot(undefined, "[updateGroupMemberWarning DB]", error, {
       memberjid,
       groupjid,
     });

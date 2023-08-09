@@ -1,43 +1,57 @@
+import { Countmember, Group, Member } from "@prisma/client";
 import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
+import prisma from "../prismaClient";
 import { loggerBot } from "../utils/logger";
 import { setMemberName } from "./membersDB";
 import pool from "./pool";
 
-export const createCountMemberTable = async () => {
-  await pool.query(
-    `CREATE TABLE IF NOT EXISTS countmember(
-      memberjid TEXT NOT NULL, 
-      groupjid TEXT NOT NULL, 
-      message_count INTEGER NOT NULL DEFAULT 0, 
-      warning_count INTEGER NOT NULL DEFAULT 0, 
-      video_count INTEGER NOT NULL DEFAULT 0, 
-      PRIMARY KEY (memberjid, groupjid), 
-      CHECK(warning_count BETWEEN 0 and 3),
+export const createCountMember = async (
+  groupjid: string,
+  memberjid: string,
+  message_count: number,
+  warning_count: number,
+  video_count: number
+): Promise<Countmember | null> => {
+  try {
+    const countmember = await prisma.countmember.create({
+      data: {
+        groupGroupjid: groupjid,
+        memberMemberjid: memberjid,
+        message_count,
+        warning_count,
+        video_count,
+      },
+    });
 
-      CONSTRAINT countmember_groupjid_fkey FOREIGN KEY (groupjid) REFERENCES groups (groupjid),
-      CONSTRAINT countmember_memberjid_fkey FOREIGN KEY (memberjid) REFERENCES members (memberjid)
-    );`
-  );
+    return countmember;
+  } catch (error) {
+    await loggerBot(undefined, "[createCountMember DB]", error, {
+      groupjid,
+      memberjid,
+      message_count,
+      warning_count,
+      video_count,
+    });
+    return null;
+  }
 };
-
-export interface GetCountGroupMembers {
-  memberjid: string;
-  message_count: number;
-  name: string;
-}
 
 // pvxm: current group member stats
 export const getCountGroupMembers = async (
   groupjid: string
-): Promise<GetCountGroupMembers[]> => {
+): Promise<(Countmember & { Member: Member })[]> => {
   try {
-    const res = await pool.query(
-      "SELECT cm.memberjid,cm.message_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 ORDER BY message_count DESC;",
-      [groupjid]
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
+    const res = await prisma.countmember.findMany({
+      where: {
+        groupGroupjid: groupjid,
+      },
+      include: { Member: true },
+      orderBy: {
+        message_count: "desc",
+      },
+    });
+
+    return res;
   } catch (error) {
     await loggerBot(undefined, "[getCountGroupMembers DB]", error, {
       groupjid,
@@ -189,14 +203,22 @@ export interface GetCountGroups {
 }
 
 // pvxg: all groups stats
-export const getCountGroups = async (): Promise<GetCountGroups[]> => {
+export const getCountGroups = async (): Promise<
+  (Countmember & { Group: Group })[]
+> => {
   try {
-    const res = await pool.query(
-      "SELECT groups.gname,SUM(countmember.message_count) as message_count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY message_count DESC;"
-    );
-    if (res.rowCount) {
-      return res.rows;
-    }
+    const res = await prisma.countmember.groupBy({
+      by: ["groupGroupjid"],
+      _sum: {
+        message_count: true,
+      },
+      
+    });
+
+    // const res = await pool.query(
+    //   "SELECT groups.gname,SUM(countmember.message_count) as message_count from countmember INNER JOIN groups ON countmember.groupjid = groups.groupjid GROUP BY groups.gname ORDER BY message_count DESC;"
+    // );
+    return res;
   } catch (error) {
     await loggerBot(undefined, "[getCountGroups DB]", error, undefined);
   }
@@ -256,6 +278,7 @@ export const setCountMember = async (
   return result;
 };
 
+/* ------------------------------- video count ------------------------------ */
 export interface GetCountVideo {
   memberjid: string;
   video_count: number;
@@ -264,16 +287,19 @@ export interface GetCountVideo {
 
 export const getCountVideo = async (
   groupjid: string
-): Promise<GetCountVideo[]> => {
+): Promise<(Countmember & { Member: Member })[]> => {
   try {
-    const res = await pool.query(
-      "SELECT cm.memberjid,cm.video_count,memb.name FROM countmember cm INNER JOIN members memb ON cm.memberjid=memb.memberjid WHERE groupjid=$1 and video_count>0 ORDER BY video_count DESC;",
-      [groupjid]
-    );
+    const res = await prisma.countmember.findMany({
+      where: {
+        groupGroupjid: groupjid,
+      },
+      include: { Member: true },
+      orderBy: {
+        video_count: "desc",
+      },
+    });
 
-    if (res.rowCount) {
-      return res.rows;
-    }
+    return res;
   } catch (error) {
     await loggerBot(undefined, "[getCountVideo DB]", error, { groupjid });
   }
@@ -288,20 +314,27 @@ export const setCountVideo = async (
   if (!checkMemberjid(memberjid)) return false;
 
   try {
-    const res = await pool.query(
-      "UPDATE countmember SET video_count = video_count+1 WHERE memberjid=$1 AND groupjid=$2;",
-      [memberjid, groupjid]
-    );
+    const countmember = await prisma.countmember.update({
+      data: {
+        video_count: {
+          increment: 1,
+        },
+      },
+      where: {
+        memberMemberjid_groupGroupjid: {
+          memberMemberjid: memberjid,
+          groupGroupjid: groupjid,
+        },
+      },
+    });
 
-    // not updated. time to insert
-    if (res.rowCount === 0) {
-      const res2 = await pool.query(
-        "INSERT INTO countmember VALUES($1,$2,$3,$4,$5);",
-        [memberjid, groupjid, 1, 0, 1]
-      );
-      if (res2.rowCount === 1) return true;
-      return false;
+    if (!countmember) {
+      const res = await createCountMember(groupjid, memberjid, 0, 0, 1);
+      if (!res) {
+        return false;
+      }
     }
+
     return true;
   } catch (error) {
     await loggerBot(undefined, "[setCountVideo DB]", error, {
