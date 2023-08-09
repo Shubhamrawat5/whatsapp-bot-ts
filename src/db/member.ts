@@ -32,7 +32,7 @@ export const createMember = async (
   memberjid: string,
   name: string,
   donation: number,
-  milestone: string[]
+  milestones: string[]
 ): Promise<Member | null> => {
   try {
     const member = await prisma.member.create({
@@ -40,7 +40,7 @@ export const createMember = async (
         memberjid,
         name,
         donation,
-        milestone,
+        milestones,
       },
     });
 
@@ -50,7 +50,7 @@ export const createMember = async (
       memberjid,
       name,
       donation,
-      milestone,
+      milestones,
     });
     return null;
   }
@@ -186,14 +186,14 @@ export const getMemberMilestone = async (
 export const updateMemberMilestone = async (
   memberjid: string,
   name: string,
-  milestone: string[]
+  milestones: string[]
 ): Promise<boolean> => {
   if (!checkMemberjid(memberjid)) return false;
 
   try {
     const member = await prisma.member.update({
       data: {
-        milestone,
+        milestones,
       },
       where: {
         memberjid,
@@ -201,7 +201,7 @@ export const updateMemberMilestone = async (
     });
 
     if (!member) {
-      const res = await createMember(memberjid, name, 0, milestone);
+      const res = await createMember(memberjid, name, 0, milestones);
       if (!res) {
         return false;
       }
@@ -211,7 +211,7 @@ export const updateMemberMilestone = async (
     await loggerBot(undefined, "[updateMemberMilestone DB]", error, {
       memberjid,
       name,
-      milestone,
+      milestones,
     });
     return false;
   }

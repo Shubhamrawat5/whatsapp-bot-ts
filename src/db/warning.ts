@@ -97,13 +97,13 @@ export const updateGroupMemberWarning = async (
     });
 
     if (!countmember) {
-        const res = await createCountMember(
-            groupjid,
-            memberjid,
-            0,
-            warning_count,
-            0
-        );
+      const res = await createCountMember(
+        groupjid,
+        memberjid,
+        0,
+        warning_count,
+        0
+      );
       if (!res) {
         return false;
       }

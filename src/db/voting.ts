@@ -44,9 +44,10 @@ export const createVoting = async (
   title: string,
   choices: string[],
   count: number[],
-  members_voted_for: string[][],
+  members_voted_for: string[],
   voted_members: string[]
 ): Promise<Voting | null> => {
+  // TODO: members_voted_for is 2D string
   try {
     const voting = await prisma.voting.create({
       data: {
@@ -83,7 +84,7 @@ export const updateVoting = async (
   title: string,
   choices: string[],
   count: number[],
-  members_voted_for: string[][],
+  members_voted_for: string[],
   voted_members: string[]
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
