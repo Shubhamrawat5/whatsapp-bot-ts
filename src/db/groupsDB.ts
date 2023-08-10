@@ -61,7 +61,7 @@ export const setGroupsData = async (
         groupjid,
         gname,
         link,
-        "[]",
+        [],
       ]);
       if (res2.rowCount === 1) return true;
       return false;

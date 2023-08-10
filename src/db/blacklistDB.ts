@@ -61,7 +61,7 @@ export const addBlacklist = async (
       const number = memberjid.split("@")[0];
       const res2 = await pool.query(
         "INSERT INTO members VALUES($1,$2,$3,$4);",
-        [memberjid, number, 0, "[]"]
+        [memberjid, number, 0, []]
       );
       if (res2.rowCount === 0) return false;
     }

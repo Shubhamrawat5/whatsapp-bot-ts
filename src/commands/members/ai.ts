@@ -43,6 +43,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
     await reply(`AI: ${response}`);
   } catch (err) {
+    console.log(err);
     if (err instanceof Error) {
       await reply(err.toString());
     }

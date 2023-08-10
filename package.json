@@ -11,6 +11,7 @@
     "start-prod": "npm run build && node dist/index.js",
     "db": "ts-node ./src/utils/dbTables.ts",
     "db-migrate": "npx prisma migrate dev",
+    "db-view": "npx prisma studio",
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix"
   },

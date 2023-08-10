@@ -42,10 +42,10 @@ model Bday {
 }
 
 model Blacklist {
-  reason          String?
-  admin           String?
   Member          Member  @relation(fields: [memberMemberjid], references: [memberjid])
   memberMemberjid String  @id @map("memberjid")
+  reason          String?
+  admin           String?
 
   @@map("blacklist")
 }
