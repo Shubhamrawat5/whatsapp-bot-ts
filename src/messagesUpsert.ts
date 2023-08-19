@@ -136,8 +136,28 @@ export const messagesUpsert = async (
 
       const groupName: string | undefined = groupMetadata?.subject;
 
-      // Count message
       if (pvxFunctionsEnabled === "true") {
+        // Forward all stickers
+        if (
+          groupName?.toUpperCase().startsWith("<{PVX}>") &&
+          msg.message.stickerMessage &&
+          forwardStickerEnabled === "true" &&
+          from !== pvxgroups.pvxstickeronly1 &&
+          from !== pvxgroups.pvxstickeronly2 &&
+          from !== pvxgroups.pvxmano
+        ) {
+          const forwardStickerRes = await forwardSticker(
+            bot,
+            msg.message.stickerMessage,
+            pvxgroups.pvxstickeronly1,
+            pvxgroups.pvxstickeronly2
+          );
+          if (forwardStickerRes) stats.stickerForwarded += 1;
+          else stats.stickerNotForwarded += 1;
+          return;
+        }
+
+        // Count message
         if (
           groupName?.toUpperCase().includes("<{PVX}>") &&
           pvxgroupsList.includes(from) &&
@@ -168,26 +188,6 @@ export const messagesUpsert = async (
         // count video
         if (from === pvxgroups.pvxmano && type === "videoMessage") {
           await setCountVideo(sender, from);
-        }
-
-        // Forward all stickers
-        if (
-          groupName?.toUpperCase().startsWith("<{PVX}>") &&
-          msg.message.stickerMessage &&
-          forwardStickerEnabled === "true" &&
-          from !== pvxgroups.pvxstickeronly1 &&
-          from !== pvxgroups.pvxstickeronly2 &&
-          from !== pvxgroups.pvxmano
-        ) {
-          const forwardStickerRes = await forwardSticker(
-            bot,
-            msg.message.stickerMessage,
-            pvxgroups.pvxstickeronly1,
-            pvxgroups.pvxstickeronly2
-          );
-          if (forwardStickerRes) stats.stickerForwarded += 1;
-          else stats.stickerNotForwarded += 1;
-          return;
         }
 
         // auto sticker maker in pvx sticker group [empty caption], less than 2mb
