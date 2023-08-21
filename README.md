@@ -1,57 +1,40 @@
-## New Multi Device Whatsapp Bot
+# Multi Device Whatsapp Bot in TS :robot:
 
-Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-ts/
+[Click to show Webpage](https://shubhamrawat5.github.io/whatsapp-bot-ts/)
 
+<!-- ![logo](https://i.ibb.co/Fmk9bhG/bot.jpg) -->
 <img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300">
 
-**_Requirements :_**
+## Setup:- :rocket:
 
-- Git
-- Node js
+1. Download and install [Git](https://git-scm.com/downloads)
+2. Download and install [Nodejs](https://nodejs.org/en/download)
+3. Open terminal and run - `git clone https://github.com/Shubhamrawat5/whatsapp-bot-ts`
+4. Open bot folder - `cd whatsapp-bot-ts`
+5. Install all dependencies - `npm install`
 
-# Instructions:- :rocket:
+## Local Run:- :rocket:
 
-## Git Setup
+1. Create account on [elephantsql](https://www.elephantsql.com/) for Database.
+2. After login, get the database URL from details section. It'll be like: postgres://abc@tiny.db.elephantsql.com/xyz
+3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 
-### Download and install git from (https://git-scm.com/downloads)
+   > DATABASE_URL = "postgres://your_DB_URL"\
+   > OWNER_NUMBER = "911234567890"
 
-    git clone https://github.com/Shubhamrawat5/whatsapp-bot-ts
-
-### Download and install nodejs from (https://nodejs.org/en/download)
-
-## Local Setup
-
-1. Create account on elephantsql. (https://www.elephantsql.com/)
-
-2. After login, get the database URL from details section. It'll be like: postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
-
-3. Create a local `.env` file with following 2 variables and save the file:
-
-   DATABASE_URL = "postgres://yourfullURL@tiny.db.elephantsql.com/yourURL"
-
-   OWNER_NUMBER = "911234567890"
-
-   [You can check all the .env variables in .env.sample file]
-
-4. Run command in teminal to create DB table `npm run db`
-
-5. Run command in terminal to start bot `npm start`
-
+4. Run command in teminal to create DB tables - `npm run db`
+5. Start the bot - `npm start`
 6. It'll ask for QR code scan, scan it and bot will start working.
 
-## Commands
+## NPM Commands:- :rocket:
 
-Create all DB tables -> `npm run db`
-
-Run dev environment -> `npm start` or `npm run dev`
-
-Run prod environment -> `npm run start-prod`
-
-Check linting errors -> `npm run lint`
-
+Create all DB tables -> `npm run db`\
+Run in dev environment -> `npm start` or `npm run dev`\
+Run in prod environment -> `npm run start-prod`\
+Check linting errors -> `npm run lint`\
 Fix linting errors -> `npm run lint-fix`
 
-# Features:- :rocket:
+## Features:- :rocket:
 
 1. It count messages of every member in all the groups in DB. (just the message count, not actual text message), so that we can see stats like top members, top groups, etc.
 2. It also forwards every sticker that is sent to any of the PVX groups to another group i.e. Sticker Only, where members can have access to different different types of stickers 24x7.
@@ -60,9 +43,9 @@ Fix linting errors -> `npm run lint-fix`
 5. It welcomes new users when joined with some questions/rules.
 6. It automatically bans any user with a non-Indian number (any number without +91 code).
 
-## Default prefix : `!`
+## Commands:- :rocket:
 
-## Commands :
+Default prefix: `!`
 
 |  Public Commands  |          Description           | Alias |
 | :---------------: | :----------------------------: | :---: |
@@ -79,7 +62,7 @@ Fix linting errors -> `npm run lint-fix`
 |     `!source`     |       Get the bot source       |       |
 |     `!steal`      | Change sticker name to PVX BOT |       |
 
-<hr>
+---
 
 | Member Commands |                    Description                    |    Alias     |
 | :-------------: | :-----------------------------------------------: | :----------: |
@@ -115,7 +98,7 @@ Fix linting errors -> `npm run lint-fix`
 | `!checkvotepvx` | Check status of current voting for all PVX groups |   `!cvpvx`   |
 |    `!rules`     |               Get PVX groups rules                |     `!r`     |
 
-<hr>
+---
 
 |   Admin Commands   |                          Description                           |     Alias     |
 | :----------------: | :------------------------------------------------------------: | :-----------: |
@@ -145,7 +128,7 @@ Fix linting errors -> `npm run lint-fix`
 |  `!blacklistadd`   |                    Add number to blacklist                     |    `!bla`     |
 | `!blacklistremove` |                  Remove number from blacklist                  |    `!blr`     |
 
-<hr>
+---
 
 | Owner Commands  |                  Description                  | Alias |
 | :-------------: | :-------------------------------------------: | :---: |
@@ -166,15 +149,10 @@ Fix linting errors -> `npm run lint-fix`
 
 - CRICKET SCORES:
 
-  > Put match id in starting of group description.
+  Put match id in the starting of group description\
+  Get match ID from cricbuzz url, Example: `https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021`, so match ID is `37572`
 
-  > Get match ID from cricbuzz url, Example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021, so match ID is `37572`
-
-  <!-- EXAMPLE:
-
-  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> -->
-
-# References:- :rocket:
+## References:- :rocket:
 
 - Nodejs package - [Baileys](https://github.com/adiwajshing/Baileys)
 - Old non-md wa bot - [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot)
