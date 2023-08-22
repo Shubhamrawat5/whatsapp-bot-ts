@@ -4,7 +4,7 @@ import { Bot } from "../../interfaces/Bot";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { isBotGroupAdmin, reply, from } = msgInfoObj;
+  const { isBotGroupAdmin, reply, from, groupAdmins } = msgInfoObj;
 
   if (!isBotGroupAdmin) {
     await reply("❌ I'm not Admin here!");
@@ -17,6 +17,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+
+  if (!groupAdmins.includes(participant)) {
+    await reply("_❌ Number is not an admin!_");
+    return;
+  }
 
   const response = await bot.groupParticipantsUpdate(
     from,
