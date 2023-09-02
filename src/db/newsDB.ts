@@ -15,6 +15,7 @@ export const storeNews = async (
   at: string
 ): Promise<boolean> => {
   try {
+    if (!headline) return false;
     // TODO: CHECK THIS
     // SELECT query can be used instead to check if news is already there or not,
     // but it'll lead to one extra query

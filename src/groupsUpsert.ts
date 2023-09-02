@@ -1,6 +1,6 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
-import { prefix } from "./utils/constants";
+// import { prefix } from "./utils/constants";
 import { loggerBot } from "./utils/logger";
 import { Bot } from "./interfaces/Bot";
 import { ownerNumberWithJid } from "./utils/config";
@@ -14,9 +14,9 @@ export const groupsUpsert = async (msgs: GroupsUpsert, bot: Bot) => {
       const from = msg.id;
       cache.del(`${from}:groupMetadata`);
 
-      await bot.sendMessage(from, {
-        text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
-      });
+      // await bot.sendMessage(from, {
+      //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+      // });
 
       if (ownerNumberWithJid) {
         await bot.sendMessage(ownerNumberWithJid, {

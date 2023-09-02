@@ -27,7 +27,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
   const number = donationList[1].trim();
-  const amount = Number(donationList[2].trim());
+  const amount = Math.trunc(Number(donationList[2].trim()));
 
   // console.log(`number: ${number}, amount: ${amount}`);
   if (number && number.length === 12 && amount && amount > 0) {
