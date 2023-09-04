@@ -223,7 +223,7 @@ export const setCountMember = async (
 
     // update count
     const res1 = await pool.query(
-      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
       [memberjid, groupjid]
     );
 
