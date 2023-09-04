@@ -14,6 +14,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
   root: true,
+  ignorePatterns: ["test/*"],
   parserOptions: { project: "./tsconfig.json" },
   rules: {
     "@typescript-eslint/no-floating-promises": ["error"],

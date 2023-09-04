@@ -4,7 +4,7 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 
-const getGender = async (name: string) => {
+const getGender = async (name: string): Promise<string | undefined> => {
   try {
     interface Gender {
       count: number;
@@ -24,6 +24,8 @@ const getGender = async (name: string) => {
       return err.stack;
     }
   }
+
+  return undefined;
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

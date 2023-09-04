@@ -223,15 +223,18 @@ export const setCountMember = async (
 
     // update count
     const res1 = await pool.query(
-      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
+      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
     if (res1.rowCount === 0) {
-      await pool.query(
-        "INSERT INTO countmember VALUES($1,$2,$3,$4,$5) RETURNING *;",
-        [memberjid, groupjid, 1, 0, 0]
-      );
+      await pool.query("INSERT INTO countmember VALUES($1,$2,$3,$4,$5);", [
+        memberjid,
+        groupjid,
+        1,
+        0,
+        0,
+      ]);
     } else {
       result.currentGroup = res1.rows[0].message_count;
     }

@@ -3,7 +3,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
-const getQuote = async () => {
+const getQuote = async (): Promise<string | undefined> => {
   try {
     interface Quote {
       q: string;
@@ -22,6 +22,8 @@ const getQuote = async () => {
       return err.stack;
     }
   }
+
+  return undefined;
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

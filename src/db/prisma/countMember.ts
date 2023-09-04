@@ -1,7 +1,7 @@
 import { Countmember, Member } from "@prisma/client";
 // import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
-import prisma from "../prismaClient";
-import { loggerBot } from "../utils/logger";
+import prisma from "./prismaClient";
+import { loggerBot } from "../../utils/logger";
 // import { setMemberName } from "./membersDB";
 // import pool from "./pool";
 

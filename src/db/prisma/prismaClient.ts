@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-export default prisma;
+// export default prisma;
 
 // const main = async () => {
 //   const blacklist = await prisma.blacklist.create({
