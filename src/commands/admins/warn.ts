@@ -13,6 +13,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+  if (groupAdmins.includes(participant)) {
+    await reply("❌ Cannot warn admin!");
+    return;
+  }
 
   if (!participant) return;
   const getCountWarningRes = await getCountWarning(participant, from);

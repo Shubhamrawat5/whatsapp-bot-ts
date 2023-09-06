@@ -19,7 +19,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const participant = await getMentionedOrTaggedParticipant(msg);
 
   if (groupAdmins.includes(participant)) {
-    // if admin then don't remove
     await reply("❌ Cannot remove admin!");
     return;
   }

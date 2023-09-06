@@ -9,26 +9,31 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let { sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
+
+  let participant: string;
+
   if (args.length) {
-    sender = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
   } else if (msg.message?.extendedTextMessage) {
-    sender = await getMentionedOrTaggedParticipant(msg);
+    participant = await getMentionedOrTaggedParticipant(msg);
+  } else {
+    participant = sender;
   }
 
-  if (sender.startsWith("+") || sender.startsWith("@")) {
-    sender = sender.slice(1);
+  if (participant.startsWith("+") || participant.startsWith("@")) {
+    participant = participant.slice(1);
   }
-  if (sender.length === 10 + 15) {
-    sender = `91${sender}`;
+  if (participant.length === 10 + 15) {
+    participant = `91${participant}`;
   }
 
   const getCountIndividualAllGroupRes = await getCountIndividualAllGroup(
-    sender
+    participant
   );
 
   const username: string = getCountIndividualAllGroupRes.length
     ? getCountIndividualAllGroupRes[0].name
-    : sender.split("@")[0];
+    : participant.split("@")[0];
 
   let countGroupMsg = `*📛 ${username} PVX STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
   let countGroupMsgTemp = "\n";

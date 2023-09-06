@@ -5,11 +5,13 @@ import { getCountWarning } from "../../db/warningDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { sender, from } = msgInfoObj;
+  const { sender, from, args } = msgInfoObj;
 
   let participant: string;
 
-  if (msg.message?.extendedTextMessage) {
+  if (args.length) {
+    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  } else if (msg.message?.extendedTextMessage) {
     participant = await getMentionedOrTaggedParticipant(msg);
   } else {
     participant = sender;

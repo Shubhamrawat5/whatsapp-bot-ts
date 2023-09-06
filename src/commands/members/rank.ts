@@ -9,28 +9,34 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, milestonesDefault, from } = msgInfoObj;
   let { sender } = msgInfoObj;
 
+  let participant: string;
+
   if (args.length) {
-    sender = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
   } else if (msg.message?.extendedTextMessage) {
-    sender = await getMentionedOrTaggedParticipant(msg);
+    participant = await getMentionedOrTaggedParticipant(msg);
+  } else {
+    participant = sender;
   }
 
-  if (sender.startsWith("+") || sender.startsWith("@")) {
-    sender = sender.slice(1);
+  if (participant.startsWith("+") || participant.startsWith("@")) {
+    participant = participant.slice(1);
   }
-  if (sender.length === 10 + 15) {
-    sender = `91${sender}`;
+  if (participant.length === 10 + 15) {
+    participant = `91${participant}`;
   }
 
-  const getRankInAllGroupsRes = await getRankInAllGroups(sender);
+  const getRankInAllGroupsRes = await getRankInAllGroups(participant);
   if (getRankInAllGroupsRes.length === 0) {
-    await reply(`❌ ERROR: ${sender.split("@")[0]} NOT FOUND in Database!`);
+    await reply(
+      `❌ ERROR: ${participant.split("@")[0]} NOT FOUND in Database!`
+    );
     return;
   }
 
   const { name, ranks, messageCount, totalUsers } = getRankInAllGroupsRes[0];
 
-  const res2 = await getCountIndividual(sender, from);
+  const res2 = await getCountIndividual(participant, from);
   const countCurGroup = res2.length ? res2[0].message_count : 0;
 
   // find rank
@@ -53,7 +59,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${messageCount}\nCurrent group  : ${countCurGroup}`;
 
-  const getMilestoneRes = await getMilestones(sender);
+  const getMilestoneRes = await getMilestones(participant);
 
   let flag = false;
   if (getMilestoneRes.length && getMilestoneRes[0].milestones?.length) {
@@ -64,9 +70,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     });
   }
 
-  if (milestonesDefault[sender]) {
+  if (milestonesDefault[participant]) {
     if (!flag) message += `\n`;
-    milestonesDefault[sender].forEach((milestone) => {
+    milestonesDefault[participant].forEach((milestone) => {
       message += `\n⭐ ${milestone}`;
     });
   }
