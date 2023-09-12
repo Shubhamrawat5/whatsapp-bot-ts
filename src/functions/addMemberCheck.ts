@@ -23,7 +23,7 @@ const addMemberCheck = async (
   try {
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       // if number is blacklisted
-      const getBlacklistRes = await getBlacklist(numSplit);
+      const getBlacklistRes = await getBlacklist(numJid);
       if (getBlacklistRes.length) {
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
         const { reason, adminname } = getBlacklistRes[0];
