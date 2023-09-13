@@ -14,7 +14,7 @@ const checkTodayBday = async (
     // DB connect
 
     const todayDate = date.getDate();
-    const todayMonth = date.getMonth();
+    const todayMonth = date.getMonth() + 1;
 
     // let url = "https://pvx-api-vercel.vercel.app/api/bday";
     // let { data } = await axios.get(url);
