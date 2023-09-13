@@ -32,7 +32,7 @@ import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
 import { getIndianDateTime } from "./functions/getIndianDateTime";
 import { pvxFunctionsEnabled } from "./utils/config";
 
-stats.started = getIndianDateTime().toString();
+stats.started = getIndianDateTime().toDateString();
 
 let dateCheckerInterval: NodeJS.Timeout;
 

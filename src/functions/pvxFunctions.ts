@@ -8,13 +8,14 @@ import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
 const pvxFunctions = async (bot: Bot) => {
-  let usedDate = getIndianDateTime();
+  let usedDate = getIndianDateTime().toDateString();
 
   return setInterval(async () => {
     console.log("SET INTERVAL.");
-    const todayDate = getIndianDateTime();
+    const date = getIndianDateTime();
+    const todayDate = date.toDateString();
 
-    const hour = todayDate.getHours();
+    const hour = date.getHours();
     if (hour === 25) {
       // 9 PM
       await postTechNewsList(bot, pvxgroups.pvxtechonly);
@@ -24,8 +25,10 @@ const pvxFunctions = async (bot: Bot) => {
       await postTechNewsHeadline(bot, pvxgroups.pvxtech);
       await postStudyInfo(bot, pvxgroups.pvxstudy);
     }
+    // if (hour % 12 === 0) {
+    //   kickZeroMano(bot, pvxgroups.pvxmano);
+    // }
 
-    // if (hour % 12 == 0) kickZeroMano(bot, pvxgroups.pvxmano);
     // TODO: STORE IN DB
     if (usedDate !== todayDate) {
       usedDate = todayDate;
