@@ -1,5 +1,5 @@
 import { checkGroupjid } from "../functions/checkValue";
-import { getCurrentIndianDate } from "../functions/getDateTime";
+import { getIndianDateTime } from "../functions/getIndianDateTime";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -50,7 +50,7 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
 
   try {
-    const todayDate = getCurrentIndianDate();
+    const todayDate = getIndianDateTime();
     const groupjidWithDate = `${groupjid} ${todayDate}`;
 
     const res = await pool.query(

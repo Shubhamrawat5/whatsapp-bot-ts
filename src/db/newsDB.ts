@@ -1,3 +1,4 @@
+import { getIndianDateTime } from "../functions/getIndianDateTime";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -10,18 +11,17 @@ export const createNewsTable = async () => {
   );
 };
 
-export const storeNews = async (
-  headline: string,
-  at: string
-): Promise<boolean> => {
+export const storeNews = async (headline: string): Promise<boolean> => {
   try {
+    const date = getIndianDateTime();
+
     if (!headline) return false;
     // TODO: CHECK THIS
     // SELECT query can be used instead to check if news is already there or not,
     // but it'll lead to one extra query
     const res = await pool.query(
       "INSERT INTO news VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
-      [headline, at]
+      [headline, date]
     );
 
     if (res.rowCount === 1) {
@@ -34,7 +34,7 @@ export const storeNews = async (
   }
 };
 
-export const deleteOldNews = async (atOld: string): Promise<boolean> => {
+export const deleteOldNews = async (atOld: Date): Promise<boolean> => {
   try {
     const res = await pool.query("DELETE FROM news WHERE at < $1", [atOld]);
 

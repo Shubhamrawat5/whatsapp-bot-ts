@@ -5,8 +5,7 @@ import { getCountIndividualAllGroup } from "../../db/countMemberDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { args, from } = msgInfoObj;
-  let { sender } = msgInfoObj;
+  const { args, from, sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

@@ -6,8 +6,7 @@ import { getMilestones } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args, milestonesDefault, from } = msgInfoObj;
-  let { sender } = msgInfoObj;
+  const { reply, args, milestonesDefault, from, sender } = msgInfoObj;
 
   let participant: string;
 

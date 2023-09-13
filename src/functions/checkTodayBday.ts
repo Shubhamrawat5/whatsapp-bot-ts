@@ -1,7 +1,7 @@
 import { getbday } from "../db/bdayDB";
 import { Bot } from "../interfaces/Bot";
 import { loggerBot } from "../utils/logger";
-import { getCurrentIndianDate } from "./getDateTime";
+import { getIndianDateTime } from "./getIndianDateTime";
 
 const checkTodayBday = async (
   bot: Bot,
@@ -9,13 +9,12 @@ const checkTodayBday = async (
   addMember: boolean
 ): Promise<boolean> => {
   try {
-    const today = getCurrentIndianDate();
-    console.log("CHECKING TODAY BDAY...", today);
+    const date = getIndianDateTime();
+    console.log("CHECKING TODAY BDAY...", date);
     // DB connect
 
-    const todayArr = today.split("/");
-    const todayDate = Number(todayArr[0]);
-    const todayMonth = Number(todayArr[1]);
+    const todayDate = date.getDate();
+    const todayMonth = date.getMonth();
 
     // let url = "https://pvx-api-vercel.vercel.app/api/bday";
     // let { data } = await axios.get(url);

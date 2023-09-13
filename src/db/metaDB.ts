@@ -1,13 +1,13 @@
-import { getCurrentIndianDateDbFormat } from "../functions/getDateTime";
+import { getIndianDateTime } from "../functions/getIndianDateTime";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
 export const createMetaTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS meta(
-      variable text PRIMARY KEY,
-      value boolean NOT NULL,
-      last_updated Date NOT NULL
+      variable TEXT PRIMARY KEY,
+      value BOOLEAN NOT NULL,
+      last_updated DATE NOT NULL
     );`
   );
 };
@@ -44,7 +44,7 @@ export const setMetaValues = async (
   variable: string,
   value: boolean
 ): Promise<boolean> => {
-  const date = getCurrentIndianDateDbFormat();
+  const date = getIndianDateTime();
   try {
     const res = await pool.query(
       "UPDATE meta SET value = $2, last_updated = $3 where variable=$1;",

@@ -3,22 +3,18 @@ import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interfaces/Bot";
 import checkTodayBday from "./checkTodayBday";
-import {
-  getCurrentIndianTime,
-  getCurrentIndianDate,
-  getOldIndianDateDbFormat,
-} from "./getDateTime";
+import { getIndianDateTime, getOldIndianDateTime } from "./getIndianDateTime";
 import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
 const pvxFunctions = async (bot: Bot) => {
-  let usedDate = getCurrentIndianDate();
+  let usedDate = getIndianDateTime();
 
   return setInterval(async () => {
     console.log("SET INTERVAL.");
-    const todayDate = getCurrentIndianDate();
+    const todayDate = getIndianDateTime();
 
-    const hour = Number(getCurrentIndianTime().split(":")[0]);
+    const hour = todayDate.getHours();
     if (hour === 25) {
       // 9 PM
       await postTechNewsList(bot, pvxgroups.pvxtechonly);
@@ -44,10 +40,10 @@ const pvxFunctions = async (bot: Bot) => {
         });
       }
 
-      const days = 2;
-      const atOld = getOldIndianDateDbFormat(days);
+      const daysSubtract = 2;
+      const oldDate = getOldIndianDateTime(daysSubtract);
 
-      const deleteOldNewsRes = await deleteOldNews(atOld);
+      const deleteOldNewsRes = await deleteOldNews(oldDate);
       if (!deleteOldNewsRes && ownerNumberWithJid) {
         await bot.sendMessage(ownerNumberWithJid, {
           text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",

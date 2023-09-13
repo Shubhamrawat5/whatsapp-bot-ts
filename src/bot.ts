@@ -29,10 +29,10 @@ import { messagesUpsert, MessageUpsert } from "./messagesUpsert";
 import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
-import { getCurrentIndianDate } from "./functions/getDateTime";
+import { getIndianDateTime } from "./functions/getIndianDateTime";
 import { pvxFunctionsEnabled } from "./utils/config";
 
-stats.started = getCurrentIndianDate();
+stats.started = getIndianDateTime().toString();
 
 let dateCheckerInterval: NodeJS.Timeout;
 

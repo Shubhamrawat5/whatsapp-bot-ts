@@ -3,7 +3,6 @@ import { loggerBot } from "../utils/logger";
 import { Bot } from "../interfaces/Bot";
 import getTechNews from "./getTechNews";
 import { storeNews } from "../db/newsDB";
-import { getCurrentIndianDateDbFormat } from "./getDateTime";
 import { newsApiKey } from "../utils/config";
 
 let countNews = 0;
@@ -47,10 +46,9 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
         const found = title.lastIndexOf("-");
         if (found !== -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
-        const at = getCurrentIndianDateDbFormat();
         storeNewsTechRes =
           // eslint-disable-next-line no-await-in-loop
-          source.name !== "Sportskeeda" && (await storeNews(title, at));
+          source.name !== "Sportskeeda" && (await storeNews(title));
         if (storeNewsTechRes) {
           console.log("NEW TECH NEWS!");
 
@@ -98,10 +96,8 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
           const index = Math.floor(Math.random() * data[randomWeb].length);
           const news = data[randomWeb][index];
 
-          const at = getCurrentIndianDateDbFormat();
-
           // eslint-disable-next-line no-await-in-loop
-          storeNewsTechRes = await storeNews(news, at);
+          storeNewsTechRes = await storeNews(news);
           if (storeNewsTechRes) {
             console.log("NEW TECH NEWS!");
             // eslint-disable-next-line no-await-in-loop

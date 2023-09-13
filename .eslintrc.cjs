@@ -9,7 +9,6 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "airbnb-base",
     "airbnb-typescript/base",
-    "@adiwajshing",
     // "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],
   parser: "@typescript-eslint/parser",
