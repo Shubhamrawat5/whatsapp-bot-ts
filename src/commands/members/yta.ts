@@ -19,9 +19,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
   const infoYt = await ytdl.getInfo(urlYt);
-  // 30 MIN
-  if (Number(infoYt.videoDetails.lengthSeconds) >= 1800) {
-    await reply(`❌ Video too big!`);
+  // 60 MIN
+  if (Number(infoYt.videoDetails.lengthSeconds) >= 3600) {
+    await reply(`❌ Cannot download! Audio duration limit: 60 min`);
     return;
   }
   const titleYt = infoYt.videoDetails.title;
@@ -42,7 +42,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // Convert the file size to megabytes (optional)
   const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
   console.log(`Audio downloaded ! Size: ${fileSizeInMegabytes}`);
-  if (fileSizeInMegabytes <= 40) {
+  if (fileSizeInMegabytes <= 100) {
     await bot.sendMessage(
       from,
       {
@@ -53,7 +53,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       { quoted: msg }
     );
   } else {
-    await reply(`❌ File size bigger than 40mb.`);
+    await reply(`❌ Cannot download! Audio size limit: 100 mb`);
   }
 
   fs.unlinkSync(`./${randomFileName}`);
