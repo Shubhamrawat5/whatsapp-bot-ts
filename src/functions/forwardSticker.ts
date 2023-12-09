@@ -5,6 +5,7 @@ import {
 } from "@whiskeysockets/baileys";
 import { Exif } from "wa-sticker-formatter";
 import { Bot } from "../interfaces/Bot";
+import { pvxgroups } from "../utils/constants";
 
 // TODO: GLOBAL VARIALBES
 let countSent = 0;
@@ -17,9 +18,7 @@ const last20SentStickersSize = [
 
 const forwardSticker = async (
   bot: Bot,
-  downloadFilePath: proto.Message.IStickerMessage,
-  pvxstickeronly1: string,
-  pvxstickeronly2: string
+  downloadFilePath: proto.Message.IStickerMessage
 ) => {
   try {
     const stickerSize = Number(downloadFilePath.fileLength);
@@ -49,16 +48,24 @@ const forwardSticker = async (
     }).add(buffer);
 
     // 1000*60*60*24 = 86400ms = 1 day
+    // await bot.sendMessage(
+    //   pvxstickeronly1,
+    //   { sticker: webpWithExif },
+    //   {
+    //     ephemeralExpiration: 86400,
+    //     mediaUploadTimeoutMs: 1000 * 60,
+    //   }
+    // );
+    // await bot.sendMessage(
+    //   pvxstickeronly2,
+    //   { sticker: webpWithExif },
+    //   {
+    //     ephemeralExpiration: 86400,
+    //     mediaUploadTimeoutMs: 1000 * 60,
+    //   }
+    // );
     await bot.sendMessage(
-      pvxstickeronly1,
-      { sticker: webpWithExif },
-      {
-        ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 60,
-      }
-    );
-    await bot.sendMessage(
-      pvxstickeronly2,
+      pvxgroups.pvxstickeronly3,
       { sticker: webpWithExif },
       {
         ephemeralExpiration: 86400,

@@ -144,13 +144,12 @@ export const messagesUpsert = async (
           forwardStickerEnabled === "true" &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
+          from !== pvxgroups.pvxstickeronly3 &&
           from !== pvxgroups.pvxmano
         ) {
           const forwardStickerRes = await forwardSticker(
             bot,
-            msg.message.stickerMessage,
-            pvxgroups.pvxstickeronly1,
-            pvxgroups.pvxstickeronly2
+            msg.message.stickerMessage
           );
           if (forwardStickerRes) stats.stickerForwarded += 1;
           else stats.stickerNotForwarded += 1;
@@ -163,6 +162,7 @@ export const messagesUpsert = async (
           pvxgroupsList.includes(from) &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
+          from !== pvxgroups.pvxstickeronly3 &&
           from !== pvxgroups.pvxdeals &&
           from !== pvxgroups.pvxtesting &&
           from !== pvxgroups.pvxtechonly
