@@ -43,7 +43,7 @@ export const connectionUpdate = async (
         }));
 
       groups.forEach(async (group) => {
-        console.log("SET metadata for: ", group.subject);
+        console.log(`SET metadata for: ${group.subject} (${group.id})`);
         cache.set(`${group.id}:groupMetadata`, group, 60 * 60 * 24); // 24 hours
         // await setGroupsData(group.id, group.subject, null);
       });

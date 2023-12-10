@@ -14,7 +14,7 @@ export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
       cache.del(`${from}:groupMetadata`);
     }
 
-    console.log(msgs.length); // TODO: CHECK - GETTING CALL FOR ALL THE GROUPS AT BEGINNING
+    // console.log(msgs.length); // TODO: CHECK - GETTING CALL FOR ALL THE GROUPS AT BEGINNING
     // DESCRIPTION CHANGE IS NOT GETTING HERE
 
     // msgs.forEach((msg) => {

@@ -1,0 +1,36 @@
+
+node:internal/process/promises:289
+triggerUncaughtException(err, true /* fromPromise */);
+^
+[UnhandledPromiseRejection: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). The promise rejected with the reason "1006".] {
+code: 'ERR_UNHANDLED_REJECTION'
+}
+Node.js v20.5.1
+connection update {
+connection: 'close',
+lastDisconnect: {
+error: Error: Connection Terminated
+at WebSocketClient.<anonymous> (/workspace/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:437:30)
+at WebSocketClient.emit (node:events:526:35)
+at WebSocket.<anonymous> (/workspace/node_modules/@whiskeysockets/baileys/lib/Socket/Client/web-socket-client.js:46:100)
+at WebSocket.emit (node:events:514:28)
+at WebSocket.emitClose (/workspace/node_modules/ws/lib/websocket.js:258:10)
+at Receiver.receiverOnFinish (/workspace/node_modules/ws/lib/websocket.js:1173:20)
+at Receiver.emit (node:events:514:28)
+at finish (node:internal/streams/writable:757:10)
+at node:internal/streams/writable:735:13
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+data: null,
+isBoom: true,
+isServer: false,
+output: [Object]
+},
+date: 2023-12-10T17:53:15.068Z
+}
+}
+Instance allocated in nomad
+Instance terminated in nomad
+Instance is starting
+Instance is unhealthy
+Instance is healthy
+[STARTING BOT]

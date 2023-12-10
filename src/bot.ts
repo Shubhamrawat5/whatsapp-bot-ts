@@ -38,12 +38,17 @@ let dateCheckerInterval: NodeJS.Timeout;
 
 let milestonesDefault: MilestonesDefault = {};
 
-const silentLogs = pino({ level: "silent" }); // to hide the chat logs
+// const silentLogs = pino({ level: "silent" }); // to hide the chat logs
 // let debugLogs = pino({ level: "debug" });
+const MAIN_LOGGER = pino({
+  timestamp: () => `,"time":"${new Date().toJSON()}"`,
+});
+const logger = MAIN_LOGGER.child({});
+logger.level = "silent";
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
-const store = useStore ? makeInMemoryStore({ logger: silentLogs }) : undefined;
+const store = useStore ? makeInMemoryStore({ logger }) : undefined;
 if (store) {
   store.readFromFile("./baileys_store_multi");
   setInterval(() => {
@@ -87,11 +92,11 @@ const startBot = async () => {
 
     const bot: Bot = makeWASocket({
       version,
-      logger: silentLogs,
+      logger,
       printQRInTerminal: true,
       auth: {
         creds: state.creds,
-        keys: makeCacheableSignalKeyStore(state.keys, silentLogs),
+        keys: makeCacheableSignalKeyStore(state.keys, logger),
       },
       msgRetryCounterCache,
       generateHighQualityLinkPreview: true,
