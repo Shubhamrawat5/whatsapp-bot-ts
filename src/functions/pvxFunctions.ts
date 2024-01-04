@@ -1,3 +1,4 @@
+import cron from "node-cron";
 import { ownerNumberWithJid } from "../utils/config";
 import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
@@ -7,11 +8,11 @@ import { getIndianDateTime, getOldIndianDateTime } from "./getIndianDateTime";
 import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 
-const pvxFunctions = async (bot: Bot) => {
+const pvxFunctions = async (bot: Bot): Promise<cron.ScheduledTask> => {
   let usedDate = getIndianDateTime().toDateString();
 
-  return setInterval(async () => {
-    console.log("SET INTERVAL.");
+  return cron.schedule("0 */20 * ? * *", async () => {
+    console.log("Cron 20 min !");
     const date = getIndianDateTime();
     const todayDate = date.toDateString();
 
@@ -53,7 +54,7 @@ const pvxFunctions = async (bot: Bot) => {
         });
       }
     }
-  }, 1000 * 60 * 30); // 30 min
+  });
 };
 
 export default pvxFunctions;

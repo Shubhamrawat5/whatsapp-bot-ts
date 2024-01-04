@@ -8,6 +8,7 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys";
 
 import pino from "pino";
+import cron from "node-cron";
 
 /* ----------------------------- add local files ---------------------------- */
 import { setAuth, getAuth } from "./db/authDB";
@@ -34,7 +35,7 @@ import { pvxFunctionsEnabled } from "./utils/config";
 
 stats.started = getIndianDateTime().toDateString();
 
-let dateCheckerInterval: NodeJS.Timeout;
+let cronJob: cron.ScheduledTask | undefined;
 
 let milestonesDefault: MilestonesDefault = {};
 
@@ -79,7 +80,7 @@ const startBot = async () => {
       commandsOwners,
       allCommandsName,
     } = await addCommands();
-    clearInterval(dateCheckerInterval);
+    cronJob?.stop();
 
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -106,7 +107,7 @@ const startBot = async () => {
     store?.bind(bot.ev);
 
     if (pvxFunctionsEnabled === "true") {
-      dateCheckerInterval = await pvxFunctions(bot);
+      cronJob = await pvxFunctions(bot);
     }
 
     let botNumberJid = bot.user ? bot.user.id : ""; // '1506xxxxx54:3@s.whatsapp.net'
