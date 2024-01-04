@@ -11,7 +11,7 @@ import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 const pvxFunctions = async (bot: Bot): Promise<cron.ScheduledTask> => {
   let usedDate = getIndianDateTime().toDateString();
 
-  return cron.schedule("0 */20 * ? * *", async () => {
+  return cron.schedule("0 */30 * * * *", async () => {
     console.log("Cron 20 min !");
     const date = getIndianDateTime();
     const todayDate = date.toDateString();
