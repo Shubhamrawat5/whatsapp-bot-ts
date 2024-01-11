@@ -20,7 +20,11 @@ import {
 } from "./functions/addDefaultMilestone";
 import { stats, useStore } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
-import pvxFunctions from "./functions/pvxFunctions";
+import {
+  postBdayCron,
+  postNewsCron,
+  postNewsListCron,
+} from "./functions/pvxFunctions";
 import {
   groupParticipantsUpdate,
   GroupParticipantUpdate,
@@ -35,7 +39,9 @@ import { pvxFunctionsEnabled } from "./utils/config";
 
 stats.started = getIndianDateTime().toDateString();
 
-let cronJob: cron.ScheduledTask | undefined;
+let bdayCronJob: cron.ScheduledTask | undefined;
+let newsCronJob: cron.ScheduledTask | undefined;
+let newsListCronJob: cron.ScheduledTask | undefined;
 
 let milestonesDefault: MilestonesDefault = {};
 
@@ -80,7 +86,10 @@ const startBot = async () => {
       commandsOwners,
       allCommandsName,
     } = await addCommands();
-    cronJob?.stop();
+
+    bdayCronJob?.stop();
+    newsCronJob?.stop();
+    newsListCronJob?.stop();
 
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -107,7 +116,9 @@ const startBot = async () => {
     store?.bind(bot.ev);
 
     if (pvxFunctionsEnabled === "true") {
-      cronJob = await pvxFunctions(bot);
+      bdayCronJob = await postBdayCron(bot);
+      newsCronJob = await postNewsListCron(bot);
+      newsListCronJob = await postNewsCron(bot);
     }
 
     let botNumberJid = bot.user ? bot.user.id : ""; // '1506xxxxx54:3@s.whatsapp.net'
