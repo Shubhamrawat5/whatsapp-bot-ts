@@ -23,6 +23,7 @@ const addMemberCheck = async (
     pvxstickeronly1,
     pvxstickeronly2,
     pvxstickeronly3,
+    pvxtechonly,
   } = pvxgroups;
   try {
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
@@ -43,14 +44,17 @@ const addMemberCheck = async (
       }
 
       if (!numSplit.startsWith("91")) {
-        if (
-          from === pvxstickeronly1 ||
-          from === pvxstickeronly2 ||
-          from === pvxstickeronly3 ||
-          from === pvxbotcommands
-        ) {
+        const groups = [
+          pvxstickeronly1,
+          pvxstickeronly2,
+          pvxstickeronly3,
+          pvxbotcommands,
+          pvxtechonly,
+        ];
+        if (groups.includes(from)) {
           return;
         }
+
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
         });
