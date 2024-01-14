@@ -16,7 +16,7 @@ import getGroupAdmins from "./functions/getGroupAdmins";
 import { getGroupsData } from "./db/groupsDB";
 import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot } from "./utils/logger";
-import { addUnknownCmd } from "./db/addUnknownCmdDB";
+import { addUnknownCmd } from "./db/unknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
 import { MilestonesDefault } from "./functions/addDefaultMilestone";
 import {
