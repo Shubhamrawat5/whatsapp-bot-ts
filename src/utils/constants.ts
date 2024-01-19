@@ -52,7 +52,7 @@ export interface Pvxgroups {
   pvxtesting: string;
 }
 
-export const prefix = "!";
+export const prefix = "$";
 export const useStore = false;
 
 export const stats = {
