@@ -1,4 +1,3 @@
-import { createUnknownCmdTable } from "../db/addUnknownCmdDB";
 import { createAuthTable } from "../db/authDB";
 import { createbdayTable } from "../db/bdayDB";
 import { createBlacklistTable } from "../db/blacklistDB";
@@ -8,7 +7,8 @@ import { createMetaTable } from "../db/metaDB";
 import { createGroupsTable } from "../db/groupsDB";
 import { createMilestoneTextTable } from "../db/milestoneDB";
 import { createNewsTable } from "../db/newsDB";
-import { createVotingTable } from "../db/VotingDB";
+import { createUnknownCmdTable } from "../db/unknownCmdDB";
+import { createVotingTable } from "../db/votingDB";
 
 const createDbTables = async () => {
   console.log("- Creating all DB tables");

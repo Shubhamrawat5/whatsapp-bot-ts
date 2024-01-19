@@ -19,7 +19,7 @@
 2. After login, get the database URL from details section. It'll be like: postgres://abc@tiny.db.elephantsql.com/xyz
 3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 
-   > DATABASE_URL = "postgres://your_DB_URL"\
+   > DATABASE_URL = "postgres://full_db_url"\
    > OWNER_NUMBER = "911234567890"
 
 4. Run command in teminal to create DB tables - `npm run db`

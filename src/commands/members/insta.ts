@@ -4,76 +4,83 @@
 // let isIgSetup = false;
 
 import { WAMessage } from "@whiskeysockets/baileys";
-import axios from "axios";
-import cheerio from "cheerio";
+// import axios from "axios";
+// import cheerio from "cheerio";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+// import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { args, reply, from } = msgInfoObj;
-  if (args.length === 0) {
-    await reply(`❌ URL is empty! \nSend ${prefix}insta url`);
-    return;
-  }
+  const { reply } = msgInfoObj;
 
-  let urlInsta = args[0];
-  // eslint-disable-next-line prefer-destructuring
-  if (urlInsta.includes("?")) urlInsta = urlInsta.split("/?")[0];
-  console.log(urlInsta);
-
-  try {
-    const form = {
-      url: urlInsta,
-      submit: "",
-    };
-
-    const { data } = await axios(`https://downloadgram.org/`, {
-      method: "POST",
-      data: form,
-    });
-    const $ = cheerio.load(data);
-
-    const directUrls: string[] = [];
-
-    $("#downloadhere > a").each((a, b) => {
-      const url = $(b).attr("href");
-      if (url) directUrls.push(url);
-    });
-
-    console.log(directUrls);
-
-    // async-await ERRORS are not caught inside forEach loop
-    for (let i = 0; i < directUrls.length; i++) {
-      const directUrl = directUrls[i];
-      if (directUrl.includes(".mp4")) {
-        // eslint-disable-next-line no-await-in-loop
-        await bot.sendMessage(
-          from,
-          {
-            video: { url: directUrl },
-          },
-          { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
-        );
-      } else if (directUrl.includes(".jpg")) {
-        // eslint-disable-next-line no-await-in-loop
-        await bot.sendMessage(
-          from,
-          {
-            image: { url: directUrl },
-          },
-          { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
-        );
-      }
-    }
-  } catch (err) {
-    if (err instanceof Error) {
-      await reply(err.toString());
-    }
-    // \n\nNote: only public insta videos can be downloaded!
-  }
+  await reply("Command temperory disabled!");
 };
+
+// const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
+
+//   const { args, reply, from } = msgInfoObj;
+//   if (args.length === 0) {
+//     await reply(`❌ URL is empty! \nSend ${prefix}insta url`);
+//     return;
+//   }
+
+//   let urlInsta = args[0];
+//   // eslint-disable-next-line prefer-destructuring
+//   if (urlInsta.includes("?")) urlInsta = urlInsta.split("/?")[0];
+//   console.log(urlInsta);
+
+//   try {
+//     const form = {
+//       url: urlInsta,
+//       submit: "",
+//     };
+
+//     const { data } = await axios(`https://downloadgram.org/`, {
+//       method: "POST",
+//       data: form,
+//     });
+//     const $ = cheerio.load(data);
+
+//     const directUrls: string[] = [];
+
+//     $("#downloadhere > a").each((a, b) => {
+//       const url = $(b).attr("href");
+//       if (url) directUrls.push(url);
+//     });
+
+//     console.log(directUrls);
+
+//     // async-await ERRORS are not caught inside forEach loop
+//     for (let i = 0; i < directUrls.length; i++) {
+//       const directUrl = directUrls[i];
+//       if (directUrl.includes(".mp4")) {
+//         // eslint-disable-next-line no-await-in-loop
+//         await bot.sendMessage(
+//           from,
+//           {
+//             video: { url: directUrl },
+//           },
+//           { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+//         );
+//       } else if (directUrl.includes(".jpg")) {
+//         // eslint-disable-next-line no-await-in-loop
+//         await bot.sendMessage(
+//           from,
+//           {
+//             image: { url: directUrl },
+//           },
+//           { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+//         );
+//       }
+//     }
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       await reply(err.toString());
+//     }
+//     // \n\nNote: only public insta videos can be downloaded!
+//   }
+// };
 
 const insta = () => {
   const cmd = ["insta", "i", "ig"];
