@@ -12,28 +12,23 @@ let countSent = 0;
 let countIn = 0;
 let countErr = 0;
 let sameSticker = 0;
-const last20SentStickersSize = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-];
+// it will be better to store this record in db or file
+const last20SentStickersSum = new Array<string>(50).fill("");
 
 const forwardSticker = async (
   bot: Bot,
-  downloadFilePath: proto.Message.IStickerMessage
+  downloadFilePath: proto.Message.IStickerMessage,
+  stickerChecksum: string
 ) => {
   try {
-    const stickerSize = Number(downloadFilePath.fileLength);
-    if (!stickerSize) {
-      return false;
-    }
-
-    if (last20SentStickersSize.includes(stickerSize)) {
+    if (last20SentStickersSum.includes(stickerChecksum)) {
       console.log("same sticker again.");
       sameSticker += 1;
       return false;
     }
 
-    last20SentStickersSize.shift();
-    last20SentStickersSize.push(stickerSize);
+    last20SentStickersSum.shift();
+    last20SentStickersSum.push(stickerChecksum);
     countIn += 1;
     const stream = await downloadContentFromMessage(
       downloadFilePath,
@@ -56,22 +51,24 @@ const forwardSticker = async (
         mediaUploadTimeoutMs: 1000 * 60,
       }
     );
+
     await bot.sendMessage(
-      pvxgroups.pvxstickeronly2,
+      pvxgroups.pvxstickeronly1,
       { sticker: webpWithExif },
       {
         ephemeralExpiration: 86400,
         mediaUploadTimeoutMs: 1000 * 60,
       }
     );
-    // await bot.sendMessage(
-    //   pvxgroups.pvxstickeronly3,
-    //   { sticker: webpWithExif },
-    //   {
-    //     ephemeralExpiration: 86400,
-    //     mediaUploadTimeoutMs: 1000 * 60,
-    //   }
-    // );
+
+    await bot.sendMessage(
+      pvxgroups.pvxstickeronly3,
+      { sticker: webpWithExif },
+      {
+        ephemeralExpiration: 86400,
+        mediaUploadTimeoutMs: 1000 * 60,
+      }
+    );
 
     countSent += 1;
     console.log(
