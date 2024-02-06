@@ -53,7 +53,7 @@ const forwardSticker = async (
     );
 
     await bot.sendMessage(
-      pvxgroups.pvxstickeronly1,
+      pvxgroups.pvxstickeronly2,
       { sticker: webpWithExif },
       {
         ephemeralExpiration: 86400,
@@ -61,14 +61,14 @@ const forwardSticker = async (
       }
     );
 
-    await bot.sendMessage(
-      pvxgroups.pvxstickeronly3,
-      { sticker: webpWithExif },
-      {
-        ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 60,
-      }
-    );
+    // await bot.sendMessage(
+    //   pvxgroups.pvxstickeronly3,
+    //   { sticker: webpWithExif },
+    //   {
+    //     ephemeralExpiration: 86400,
+    //     mediaUploadTimeoutMs: 1000 * 60,
+    //   }
+    // );
 
     countSent += 1;
     console.log(
