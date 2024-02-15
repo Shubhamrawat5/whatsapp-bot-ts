@@ -67,7 +67,7 @@ import technews from "../commands/members/technews";
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
 import donationadd from "../commands/owner/donationadd";
-import getgdata from "../commands/owner/getgdata";
+import getlink from "../commands/owner/getlink";
 import milestoneaddtext from "../commands/owner/milestoneaddtext";
 import tg from "../commands/owner/tg";
 
@@ -205,13 +205,7 @@ const addCommands = async () => {
     });
   });
 
-  const ownerCommands = [
-    broadcast,
-    donationadd,
-    getgdata,
-    milestoneaddtext,
-    tg,
-  ];
+  const ownerCommands = [broadcast, donationadd, getlink, milestoneaddtext, tg];
 
   ownerCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}

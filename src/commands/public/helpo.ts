@@ -21,7 +21,7 @@ _Restricted command for owner only!_
 📛 *${prefix}setlink* ✔
   - _Save all group name & links in DB!_  
   
-📛 *${prefix}getgdata* ✔
+📛 *${prefix}getlink* ✔
     - Get all group name & links from DB!_  
 
 📛 *${prefix}websitelink #number* ✔

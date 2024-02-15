@@ -142,7 +142,7 @@ Default prefix: `!`
 |    `!gname`     |            Save group names to DB             |       |
 | `!websitelink`  |   Enable/disable group link in PVX website    | `!wl` |
 |   `!setlink`    |       Set all group name & links in DB        |       |
-|   `!getgdata`   |      Get all group name & links from DB       |       |
+|   `!getlink`    |      Get all group name & links from DB       |       |
 |      `!tg`      |            Make TG to WA stickers             |       |
 |     `!stg`      |            Stop TG to WA stickers             |       |
 | `!groupbackup`  |            Take group backup in DB            |       |

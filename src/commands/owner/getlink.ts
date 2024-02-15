@@ -15,10 +15,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   await reply(message);
 };
 
-const getgdata = () => {
-  const cmd = ["getgdata"];
+const getlink = () => {
+  const cmd = ["getlink"];
 
   return { cmd, handler };
 };
 
-export default getgdata;
+export default getlink;
