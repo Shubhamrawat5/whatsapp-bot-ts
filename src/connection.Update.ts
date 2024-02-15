@@ -66,11 +66,11 @@ export const connectionUpdate = async (
         //   update
         // );
         await loggerTg(
-          `[CONNECTION-CLOSED]: ${lastDisconnect?.error?.toString()} Restarting Bot in 20 sec!`
+          `[CONNECTION-CLOSED]: ${lastDisconnect?.error?.toString()} Restarting Bot in 30 sec!`
         );
         startCount += 1;
 
-        return 20;
+        return 30;
       }
 
       // LOGOUT
