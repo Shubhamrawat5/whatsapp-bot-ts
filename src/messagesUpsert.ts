@@ -147,14 +147,9 @@ export const messagesUpsert = async (
           from !== pvxgroups.pvxstickeronly3 &&
           from !== pvxgroups.pvxmano
         ) {
-          const stickerSum = Buffer.from(
-            msg.message.stickerMessage.fileSha256!
-          ).toString("hex");
-
           const forwardStickerRes = await forwardSticker(
             bot,
-            msg.message.stickerMessage,
-            stickerSum
+            msg.message.stickerMessage
           );
           if (forwardStickerRes) stats.stickerForwarded += 1;
           else stats.stickerNotForwarded += 1;

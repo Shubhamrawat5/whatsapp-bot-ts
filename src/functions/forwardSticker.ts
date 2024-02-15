@@ -17,10 +17,15 @@ const last20SentStickersSum = new Array<string>(50).fill("");
 
 const forwardSticker = async (
   bot: Bot,
-  downloadFilePath: proto.Message.IStickerMessage,
-  stickerChecksum: string
+  downloadFilePath: proto.Message.IStickerMessage
 ) => {
   try {
+    const stickerChecksum = Buffer.from(downloadFilePath.fileSha256!).toString(
+      "hex"
+    );
+    // const stickerChecksum = downloadFilePath.fileSha256
+    //   ? Buffer.from(downloadFilePath.fileSha256).toString("hex")
+    //   : "";
     if (last20SentStickersSum.includes(stickerChecksum)) {
       console.log("same sticker again.");
       sameSticker += 1;

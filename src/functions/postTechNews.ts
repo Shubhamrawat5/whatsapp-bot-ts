@@ -98,7 +98,7 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
 
           // eslint-disable-next-line no-await-in-loop
           storeNewsTechRes = await storeNews(news);
-          if (storeNewsTechRes) {
+          if (storeNewsTechRes && !news.startsWith("Error")) {
             console.log("NEW TECH NEWS!");
             // eslint-disable-next-line no-await-in-loop
             await bot.sendMessage(pvxtech, { text: `📰 ${news}` });
