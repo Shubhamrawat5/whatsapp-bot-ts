@@ -30,13 +30,14 @@ model Auth {
 }
 
 model Bday {
-  number   String @id
-  name     String
-  username String
-  date     Int
-  month    Int
-  year     Int?
-  place    String
+  Member          Member @relation(fields: [memberMemberjid], references: [memberjid])
+  memberMemberjid String @id @map("memberjid")
+  name            String
+  username        String
+  date            Int
+  month           Int
+  year            Int?
+  place           String
 
   @@map("bday")
 }
@@ -82,6 +83,7 @@ model Member {
   milestones  String[]
   Blacklist   Blacklist?
   Countmember Countmember[]
+  Bday        Bday[]
 
   @@map("members")
 }

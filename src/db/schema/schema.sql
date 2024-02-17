@@ -14,13 +14,14 @@ table auth{
 }
 
 table bday{
-    number TEXT PRIMARY KEY
+    memberjid TEXT PRIMARY KEY
     name TEXT NOT NULL,
     username TEXT NOT NULL, 
     date INTEGER NOT NULL, 
     month INTEGER NOT NULL, 
     year INTEGER, 
     place TEXT NOT NULL, 
+    CONSTRAINT bday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
 }
 
 table blacklist{
