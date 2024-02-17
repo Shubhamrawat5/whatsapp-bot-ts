@@ -6,13 +6,14 @@ import pool from "./pool";
 export const createbdayTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS bday(
-      number TEXT PRIMARY KEY,
+      memberjid TEXT PRIMARY KEY,
       name TEXT NOT NULL, 
       username TEXT NOT NULL, 
       date INTEGER NOT NULL, 
       month INTEGER NOT NULL, 
       year INTEGER, 
       place TEXT NOT NULL
+      CONSTRAINT bday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
 };
@@ -24,7 +25,7 @@ export interface Getbday {
   month: number;
   year: number | null;
   place: string;
-  number: string;
+  memberjid: string;
 }
 
 // TODO: CHECK THESE FUNCTION NAMES (SINGULAR/PLURAL)
@@ -53,11 +54,12 @@ export const addbday = async (
   name = name.toLowerCase();
   username = username.toLowerCase();
   place = place.toLowerCase();
+  const memberjid = `${numb}@s.whatsapp.net`;
 
   try {
     const res = await pool.query(
-      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(number) DO NOTHING;",
-      [name, username, date, month, year, place, numb]
+      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(memberjid) DO NOTHING;",
+      [name, username, date, month, year, place, memberjid]
     );
 
     if (res.rowCount === 1) {

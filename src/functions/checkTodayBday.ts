@@ -34,8 +34,9 @@ const checkTodayBday = async (
         // bday.push(
         //   `${member.name.toUpperCase()} (${member.username.toUpperCase()})`
         // );
-        bday.push(`@${member.number} (${member.username})`);
-        mentions.push(`${member.number}@s.whatsapp.net`);
+        const number = member.memberjid.split("@")[0];
+        bday.push(`@${number} (${member.username})`);
+        mentions.push(member.memberjid);
         console.log(`Today is ${member.name} Birthday!`);
       }
     });

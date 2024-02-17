@@ -216,9 +216,16 @@
 //   },
 // };
 
+// const pool = require("../src/db/pool");
 // const main = async () => {
-//   const response = await google.search("TWDG", options);
-//   console.log(response.results[0]);
+//   const res = await pool.query("SELECT * FROM bday");
+//   console.log(res.rows);
+//   const allNumbs = [];
+//   res.rows.forEach((r) => {
+//     allNumbs.push(r.number);
+//   });
+
+//   console.log(allNumbs);
 // };
 
 // main();
