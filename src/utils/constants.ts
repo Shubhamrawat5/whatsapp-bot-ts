@@ -17,7 +17,6 @@ export const pvxgroups: Pvxgroups = {
   pvxstickeronly3: "120363186100386601@g.us",
   pvxdeals: "919557666582-1582555632@g.us",
   pvxgaming: "17028054150-1608057174@g.us",
-  pvxstatus: "919557666582-1627834788@g.us",
   pvxmemes: "919557666582-1551346051@g.us",
   pvxkrypto: "918329198682-1614096949@g.us",
   pvxbotcommands: "919675642959-1606755119@g.us",
@@ -45,7 +44,6 @@ export interface Pvxgroups {
   pvxstickeronly3: string;
   pvxdeals: string;
   pvxgaming: string;
-  pvxstatus: string;
   pvxmemes: string;
   pvxkrypto: string;
   pvxbotcommands: string;
