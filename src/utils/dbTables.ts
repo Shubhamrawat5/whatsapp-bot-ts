@@ -12,17 +12,17 @@ import { createVotingTable } from "../db/votingDB";
 
 const createDbTables = async () => {
   console.log("- Creating all DB tables");
-  await createUnknownCmdTable();
   await createAuthTable();
+  await createMembersTable();
+  await createGroupsTable();
   await createbdayTable();
   await createBlacklistTable();
   await createCountMemberTable();
-  await createMembersTable();
   await createMetaTable();
-  await createGroupsTable();
   await createMilestoneTextTable();
   await createNewsTable();
   await createVotingTable();
+  await createUnknownCmdTable();
   console.log("✔ Created all DB tables");
 };
 

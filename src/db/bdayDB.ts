@@ -12,7 +12,7 @@ export const createbdayTable = async () => {
       date INTEGER NOT NULL, 
       month INTEGER NOT NULL, 
       year INTEGER, 
-      place TEXT NOT NULL
+      place TEXT NOT NULL,
       CONSTRAINT bday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
