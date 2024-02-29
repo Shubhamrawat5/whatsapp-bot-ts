@@ -42,13 +42,13 @@ const checkTodayBday = async (
     });
     if (bday.length) {
       const bdayCombine = bday.join(" & ");
-      if (addMember) {
-        try {
-          await bot.groupParticipantsUpdate(groupjid, mentions, "add");
-        } catch (err) {
-          console.log(err);
-        }
-      }
+      // if (addMember) {
+      //   try {
+      //     await bot.groupParticipantsUpdate(groupjid, mentions, "add");
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
       const text = `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayCombine} Birthday 🍰 🎉🎉`;
       await bot.sendMessage(groupjid, { text, mentions });
       console.log(text);
