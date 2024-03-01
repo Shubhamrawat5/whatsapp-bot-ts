@@ -29,4 +29,5 @@ export const loggerBot = async (
 
 export const loggerTg = async (message: string) => {
   if (botTG) await botTG.sendMessage(kryptonChatId, message);
+  console.log(message);
 };
