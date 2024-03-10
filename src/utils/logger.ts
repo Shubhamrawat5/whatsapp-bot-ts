@@ -14,20 +14,28 @@ export const loggerBot = async (
   err: any,
   msgObj: any
 ) => {
-  const errMsg = err.stack ? err.stack : err.toString();
-  const msg = JSON.stringify(msgObj);
+  try {
+    const errMsg = err.stack ? err.stack : err.toString();
+    const msg = JSON.stringify(msgObj);
 
-  console.log(err);
-  const loggerMsg = `ERROR [${eventType}]:\n${errMsg}\nmsg: ${msg}`;
-  if (botTG) await botTG.sendMessage(kryptonChatId, loggerMsg);
-  if (botWA && ownerNumberWithJid) {
-    await botWA.sendMessage(ownerNumberWithJid, {
-      text: loggerMsg,
-    });
+    console.log(err);
+    const loggerMsg = `ERROR [${eventType}]:\n${errMsg}\nmsg: ${msg}`;
+    if (botTG) await botTG.sendMessage(kryptonChatId, loggerMsg);
+    if (botWA && ownerNumberWithJid) {
+      await botWA.sendMessage(ownerNumberWithJid, {
+        text: loggerMsg,
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const loggerTg = async (message: string) => {
-  if (botTG) await botTG.sendMessage(kryptonChatId, message);
-  console.log(message);
+  try {
+    if (botTG) await botTG.sendMessage(kryptonChatId, message);
+    console.log(message);
+  } catch (error) {
+    console.log(error);
+  }
 };

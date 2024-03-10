@@ -25,9 +25,8 @@
 4. Run command in teminal to create DB tables - `npm run db`
 5. Install typescript - `npm install -g typescript`
 6. Install ts-node to run directly - `npm install -g ts-node`
-7. Create all DB tables - `npm run db`
-8. Start the bot - `npm run dev`
-9. It'll ask for QR code scan, scan it and bot will start working.
+7. Start the bot - `npm run dev`
+8. It'll ask for QR code scan, scan it and bot will start working.
 
 ## NPM Commands:- :rocket:
 
