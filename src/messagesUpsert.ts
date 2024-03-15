@@ -100,14 +100,14 @@ export const messagesUpsert = async (
       if (!from) return;
       let sender = msg.key.participant ?? from;
 
-      // only for PVX groups temporary
-      if (
-        pvxFunctionsEnabled === "true" &&
-        !pvxgroupsList.includes(from) &&
-        sender !== ownerNumberWithJid
-      ) {
-        return;
-      }
+      // // only for PVX groups temporary
+      // if (
+      //   pvxFunctionsEnabled === "true" &&
+      //   !pvxgroupsList.includes(from) &&
+      //   sender !== ownerNumberWithJid
+      // ) {
+      //   return;
+      // }
 
       const isGroup = from.endsWith("@g.us");
 
@@ -144,7 +144,6 @@ export const messagesUpsert = async (
           forwardStickerEnabled === "true" &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
-          from !== pvxgroups.pvxstickeronly3 &&
           from !== pvxgroups.pvxmano
         ) {
           const forwardStickerRes = await forwardSticker(
@@ -162,7 +161,6 @@ export const messagesUpsert = async (
           pvxgroupsList.includes(from) &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
-          from !== pvxgroups.pvxstickeronly3 &&
           from !== pvxgroups.pvxdeals &&
           from !== pvxgroups.pvxtesting &&
           from !== pvxgroups.pvxtechonly
