@@ -22,7 +22,6 @@ const addMemberCheck = async (
     pvxbotcommands,
     pvxstickeronly1,
     pvxstickeronly2,
-    pvxstickeronly3,
     pvxtechonly,
   } = pvxgroups;
   try {
@@ -47,7 +46,6 @@ const addMemberCheck = async (
         const groups = [
           pvxstickeronly1,
           pvxstickeronly2,
-          pvxstickeronly3,
           pvxbotcommands,
           pvxtechonly,
         ];

@@ -66,15 +66,6 @@ const forwardSticker = async (
       }
     );
 
-    // await bot.sendMessage(
-    //   pvxgroups.pvxstickeronly3,
-    //   { sticker: webpWithExif },
-    //   {
-    //     ephemeralExpiration: 86400,
-    //     mediaUploadTimeoutMs: 1000 * 60,
-    //   }
-    // );
-
     countSent += 1;
     console.log(
       `${countSent} sticker sent! In:${countIn}, Err:${countErr}, Same: ${sameSticker}`
