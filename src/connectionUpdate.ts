@@ -6,6 +6,7 @@ import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interfaces/Bot";
 import { loggerBot, loggerTg } from "./utils/logger";
 import { ownerNumberWithJid } from "./utils/config";
+import updateQr from "./index";
 
 let startCount = 1;
 
@@ -19,10 +20,12 @@ export const connectionUpdate = async (
   try {
     // await loggerTg(`connection.update: ${JSON.stringify(update)}`);
     const { connection, lastDisconnect } = update;
+    updateQr(update.qr);
 
     // 'open' | 'connecting' | 'close'
     if (connection === "open") {
       console.log("Connected");
+
       // await loggerTg(`[STARTED BOT]: ${startCount}`);
 
       if (ownerNumberWithJid) {

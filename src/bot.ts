@@ -33,7 +33,7 @@ import { msgRetryCounterCache } from "./utils/cache";
 import { messagesUpsert, MessageUpsert } from "./messagesUpsert";
 import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
-import { ConnectionUpdate, connectionUpdate } from "./connection.Update";
+import { ConnectionUpdate, connectionUpdate } from "./connectionUpdate";
 import { getIndianDateTime } from "./functions/getIndianDateTime";
 import { pvxFunctionsEnabled } from "./utils/config";
 
