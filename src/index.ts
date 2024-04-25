@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import qrcode from "qrcode";
+import path from "path";
 import startBot from "./bot";
 
 let qr: string | undefined;
@@ -11,11 +12,12 @@ const server = async () => {
   const app: Express = express();
   const port = process.env.PORT || 80;
   app.use(express.urlencoded({ extended: true }));
-  app.use(express.static(__dirname));
+  app.use(express.static(path.join(__dirname, "..")));
 
   app.get("/", (req: Request, res: Response) => {
     console.log("Get request to /");
-    res.sendFile(`${__dirname}/index.html`);
+    const indexFilePath = path.join(__dirname, "..", "index.html");
+    res.sendFile(indexFilePath);
   });
 
   app.get("/connect", async (req: Request, res: Response) => {
