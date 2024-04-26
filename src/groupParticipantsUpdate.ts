@@ -68,7 +68,7 @@ export const groupParticipantsUpdate = async (
         const action =
           msg.action === "promote" ? "Promoted to Admin" : "Demoted to Member";
         const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;
-        await bot.sendMessage(pvxgroups.pvxadmin, { text });
+        // await bot.sendMessage(pvxgroups.pvxadmin, { text });
         await bot.sendMessage(pvxgroups.pvxsubadmin, { text });
       }
     });

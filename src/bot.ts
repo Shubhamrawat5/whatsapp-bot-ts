@@ -35,7 +35,7 @@ import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
 import { ConnectionUpdate, connectionUpdate } from "./connectionUpdate";
 import { getIndianDateTime } from "./functions/getIndianDateTime";
-import { pvxFunctionsEnabled } from "./utils/config";
+import { cronJobEnabled } from "./utils/config";
 
 stats.started = getIndianDateTime().toDateString();
 
@@ -115,7 +115,7 @@ const startBot = async () => {
 
     store?.bind(bot.ev);
 
-    if (pvxFunctionsEnabled === "true") {
+    if (cronJobEnabled === "true") {
       bdayCronJob = await postBdayCron(bot);
       newsCronJob = await postNewsListCron(bot);
       newsListCronJob = await postNewsCron(bot);

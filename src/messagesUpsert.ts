@@ -139,9 +139,9 @@ export const messagesUpsert = async (
       if (pvxFunctionsEnabled === "true") {
         // Forward all stickers
         if (
+          forwardStickerEnabled === "true" &&
           groupName?.toUpperCase().startsWith("<{PVX}>") &&
           msg.message.stickerMessage &&
-          forwardStickerEnabled === "true" &&
           from !== pvxgroups.pvxstickeronly1 &&
           from !== pvxgroups.pvxstickeronly2 &&
           from !== pvxgroups.pvxmano
@@ -189,16 +189,16 @@ export const messagesUpsert = async (
         }
 
         // auto sticker maker in pvx sticker group [empty caption], less than 2mb
-        if (
-          from === pvxgroups.pvxsticker &&
-          body === "" &&
-          (msg.message.imageMessage ||
-            (msg.message.videoMessage?.fileLength &&
-              Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000))
-        ) {
-          isCmd = true;
-          body = "!s";
-        }
+        // if (
+        //   from === pvxgroups.pvxsticker &&
+        //   body === "" &&
+        //   (msg.message.imageMessage ||
+        //     (msg.message.videoMessage?.fileLength &&
+        //       Number(msg.message.videoMessage.fileLength) < 2 * 1000 * 1000))
+        // ) {
+        //   isCmd = true;
+        //   body = "!s";
+        // }
       }
 
       if (!isCmd) {
