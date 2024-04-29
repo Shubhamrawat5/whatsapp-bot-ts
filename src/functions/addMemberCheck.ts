@@ -2,8 +2,7 @@ import { prefix, pvxgroups } from "../utils/constants";
 import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interfaces/Bot";
 
-import { loggerBot } from "../utils/logger";
-import { ownerNumberWithJid } from "../utils/config";
+import { loggerBot, sendLogToOwner } from "../utils/logger";
 
 const addMemberCheck = async (
   bot: Bot,
@@ -30,11 +29,11 @@ const addMemberCheck = async (
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${adminname}`,
         });
-        if (ownerNumberWithJid) {
-          await bot.sendMessage(ownerNumberWithJid, {
-            text: `${numSplit} is removed from ${groupSubject}. Blacklisted!`,
-          });
-        }
+
+        await sendLogToOwner(
+          bot,
+          `${numSplit} is removed from ${groupSubject}. Blacklisted!`
+        );
         return;
       }
 
@@ -54,11 +53,10 @@ const addMemberCheck = async (
         });
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-        if (ownerNumberWithJid) {
-          await bot.sendMessage(ownerNumberWithJid, {
-            text: `${numSplit} is removed from ${groupSubject}. Not 91!`,
-          });
-        }
+        await sendLogToOwner(
+          bot,
+          `${numSplit} is removed from ${groupSubject}. Not 91!`
+        );
       } else if (from === pvxmemes) {
         await bot.sendMessage(
           from,

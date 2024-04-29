@@ -39,3 +39,15 @@ export const loggerTg = async (message: string) => {
     console.log(error);
   }
 };
+
+export const sendLogToOwner = async (bot: Bot, message: string) => {
+  try {
+    // if (ownerNumberWithJid) {
+    //   await bot.sendMessage(ownerNumberWithJid, { text: message });
+    // }
+    if (botTG) await botTG.sendMessage(kryptonChatId, message);
+    console.log(message);
+  } catch (error) {
+    console.log(error);
+  }
+};

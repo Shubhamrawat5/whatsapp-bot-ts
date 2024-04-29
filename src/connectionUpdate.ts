@@ -4,8 +4,7 @@ import fs from "fs";
 import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interfaces/Bot";
-import { loggerBot, loggerTg } from "./utils/logger";
-import { ownerNumberWithJid } from "./utils/config";
+import { loggerBot, loggerTg, sendLogToOwner } from "./utils/logger";
 import updateQr from "./index";
 
 let startCount = 1;
@@ -27,12 +26,7 @@ export const connectionUpdate = async (
       console.log("Connected");
 
       // await loggerTg(`[STARTED BOT]: ${startCount}`);
-
-      if (ownerNumberWithJid) {
-        await bot.sendMessage(ownerNumberWithJid, {
-          text: `[BOT STARTED] - ${startCount}`,
-        });
-      }
+      await sendLogToOwner(bot, `[BOT STARTED] - ${startCount}`);
 
       // SET GROUP META DATA
       const chats = await bot.groupFetchAllParticipating();

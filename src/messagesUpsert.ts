@@ -15,7 +15,7 @@ import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
 import { getGroupsData } from "./db/groupsDB";
 import { MsgInfoObj } from "./interfaces/msgInfoObj";
-import { loggerBot } from "./utils/logger";
+import { loggerBot, loggerTg } from "./utils/logger";
 import { addUnknownCmd } from "./db/unknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
 import { MilestonesDefault } from "./functions/addDefaultMilestone";
@@ -271,12 +271,15 @@ export const messagesUpsert = async (
         cache.del(`${from}:resDisabled`);
       }
 
-      // send every command info to my whatsapp, won't work when i send something for bot
+      // send every command info to my whatsapp number, won't work when I send something to bot
       if (ownerNumberWithJid !== sender && ownerNumberWithJid) {
         stats.commandExecuted += 1;
-        await bot.sendMessage(ownerNumberWithJid, {
-          text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
-        });
+        // await bot.sendMessage(ownerNumberWithJid, {
+        //   text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
+        // });
+        await loggerTg(
+          `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`
+        );
       }
 
       switch (command) {

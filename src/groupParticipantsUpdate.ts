@@ -3,7 +3,7 @@ import addMemberCheck from "./functions/addMemberCheck";
 import { Bot } from "./interfaces/Bot";
 import { getUsernames } from "./db/membersDB";
 import { pvxgroups, stats } from "./utils/constants";
-import { loggerBot } from "./utils/logger";
+import { loggerBot, sendLogToOwner } from "./utils/logger";
 import { cache } from "./utils/cache";
 import { ownerNumberWithJid, pvxFunctionsEnabled } from "./utils/config";
 
@@ -25,11 +25,7 @@ export const groupParticipantsUpdate = async (
       const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
       if (numJid === botNumberJid && msg.action === "remove") {
         // bot is removed
-        if (ownerNumberWithJid) {
-          await bot.sendMessage(ownerNumberWithJid, {
-            text: `Bot is removed from group.`,
-          });
-        }
+        await sendLogToOwner(bot, `Bot is removed from group.`);
         return;
       }
 
@@ -41,17 +37,13 @@ export const groupParticipantsUpdate = async (
         await addMemberCheck(bot, from, numSplit, numJid, groupSubject);
 
         const text = `${groupSubject} [ADD] ${numSplit}`;
-        if (ownerNumberWithJid) {
-          await bot.sendMessage(ownerNumberWithJid, { text });
-        }
+        await sendLogToOwner(bot, text);
 
         console.log(text);
         stats.memberJoined += 1;
       } else if (msg.action === "remove") {
         const text = `${groupSubject} [REMOVE] ${numSplit}`;
-        if (ownerNumberWithJid) {
-          await bot.sendMessage(ownerNumberWithJid, { text });
-        }
+        await sendLogToOwner(bot, text);
 
         console.log(text);
         stats.memberLeft += 1;

@@ -8,6 +8,7 @@ import checkTodayBday from "./checkTodayBday";
 import { getOldIndianDateTime } from "./getIndianDateTime";
 import postStudyInfo from "./postStudyInfo";
 import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
+import { sendLogToOwner } from "../utils/logger";
 
 // 0 0 * * * - Every day at 12:00 AM
 // 0 */30 * * * * - Every 30 mins
@@ -53,9 +54,7 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
         true
       );
       if (!checkTodayBdayRes && ownerNumberWithJid) {
-        await bot.sendMessage(ownerNumberWithJid, {
-          text: "❌ THERE IS SOME PROBLEM WITH BDAY INFO!",
-        });
+        await sendLogToOwner(bot, "❌ THERE IS SOME PROBLEM WITH BDAY INFO!");
       }
 
       const daysSubtract = 2;
@@ -63,9 +62,10 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
 
       const deleteOldNewsRes = await deleteOldNews(oldDate);
       if (!deleteOldNewsRes && ownerNumberWithJid) {
-        await bot.sendMessage(ownerNumberWithJid, {
-          text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",
-        });
+        await sendLogToOwner(
+          bot,
+          "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!"
+        );
       }
     },
     {
