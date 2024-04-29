@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc",
     "start": "npm run build && node dist/index.js",
+    "heroku-prebuild": "npm install --only=dev",
     "dev": "ts-node src/index.ts",
     "start-prod": "npm run build && node dist/index.js",
     "db": "ts-node ./src/utils/dbTables.ts",
