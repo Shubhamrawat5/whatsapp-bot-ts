@@ -20,7 +20,8 @@
 3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 
    > DATABASE_URL = "postgres://full_db_url"\
-   > OWNER_NUMBER = "911234567890"
+   > OWNER_NUMBER = "911234567890"\
+   > NPM_CONFIG_PRODUCTION = "false" // For heroku only
 
 4. Run command in teminal to create DB tables - `npm run db`
 5. Install typescript - `npm install -g typescript`
