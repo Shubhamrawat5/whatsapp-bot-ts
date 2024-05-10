@@ -5,7 +5,7 @@ import { getUsernames } from "./db/membersDB";
 import { pvxgroups, stats } from "./utils/constants";
 import { loggerBot, sendLogToOwner } from "./utils/logger";
 import { cache } from "./utils/cache";
-import { ownerNumberWithJid, pvxFunctionsEnabled } from "./utils/config";
+import { pvxFunctionsEnabled } from "./utils/config";
 
 export interface GroupParticipantUpdate {
   id: string;

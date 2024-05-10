@@ -136,25 +136,25 @@ export const messagesUpsert = async (
 
       const groupName: string | undefined = groupMetadata?.subject;
 
-      if (pvxFunctionsEnabled === "true") {
-        // Forward all stickers
-        if (
-          forwardStickerEnabled === "true" &&
-          groupName?.toUpperCase().startsWith("<{PVX}>") &&
-          msg.message.stickerMessage &&
-          from !== pvxgroups.pvxstickeronly1 &&
-          from !== pvxgroups.pvxstickeronly2 &&
-          from !== pvxgroups.pvxmano
-        ) {
-          const forwardStickerRes = await forwardSticker(
-            bot,
-            msg.message.stickerMessage
-          );
-          if (forwardStickerRes) stats.stickerForwarded += 1;
-          else stats.stickerNotForwarded += 1;
-          return;
-        }
+      // Forward all stickers
+      if (
+        forwardStickerEnabled === "true" &&
+        groupName?.toUpperCase().startsWith("<{PVX}>") &&
+        msg.message.stickerMessage &&
+        from !== pvxgroups.pvxstickeronly1 &&
+        from !== pvxgroups.pvxstickeronly2 &&
+        from !== pvxgroups.pvxmano
+      ) {
+        const forwardStickerRes = await forwardSticker(
+          bot,
+          msg.message.stickerMessage
+        );
+        if (forwardStickerRes) stats.stickerForwarded += 1;
+        else stats.stickerNotForwarded += 1;
+        return;
+      }
 
+      if (pvxFunctionsEnabled === "true") {
         // Count message
         if (
           groupName?.toUpperCase().includes("<{PVX}>") &&
