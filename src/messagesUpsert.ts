@@ -343,6 +343,8 @@ export const messagesUpsert = async (
         allCommandsName,
       };
 
+      const botGroupLink = "https://chat.whatsapp.com/DCo1UEVYUt1GEclJ1uZzjA";
+
       try {
         /* ----------------------------- public commands ---------------------------- */
         if (commandsPublic[command]) {
@@ -357,7 +359,7 @@ export const messagesUpsert = async (
             return;
           }
           await reply(
-            "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+            `❌ Group command only!\n\nJoin group to use commands:\n${botGroupLink}`
           );
           return;
         }
@@ -373,7 +375,7 @@ export const messagesUpsert = async (
             return;
           }
           await reply(
-            "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+            `❌ Group command only!\n\nJoin group to use commands:\n${botGroupLink}`
           );
           return;
         }
