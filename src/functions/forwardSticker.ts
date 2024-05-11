@@ -19,6 +19,12 @@ const forwardSticker = async (
   bot: Bot,
   downloadFilePath: proto.Message.IStickerMessage
 ) => {
+  const randomBoolean = Math.random() < 0.5;
+  if (!randomBoolean) {
+    console.log("RandomBoolean", randomBoolean);
+    return;
+  }
+
   try {
     const stickerChecksum = Buffer.from(downloadFilePath.fileSha256!).toString(
       "hex"
