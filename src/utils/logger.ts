@@ -3,7 +3,8 @@ import { Bot } from "../interfaces/Bot";
 
 import { TgBotToken, ownerNumberWithJid } from "./config";
 
-const kryptonChatId = 649341653; // my chat id to receive all the updates
+const kryptonChatId = 7139058343;
+  // 649341653; // my chat id to receive all the updates
 const botTG = TgBotToken
   ? new TelegramBot(TgBotToken, { polling: false })
   : null;
