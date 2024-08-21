@@ -29,7 +29,7 @@ import checkvote from "../commands/members/checkvote";
 import count from "../commands/members/count";
 import fb from "../commands/members/fb";
 import gender from "../commands/members/gender";
-import gs from "../commands/members/gs";
+import search from "../commands/public/search";
 import horo from "../commands/members/horo";
 import image from "../commands/members/image";
 import imagesearch from "../commands/members/imagesearch";
