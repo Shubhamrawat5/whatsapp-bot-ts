@@ -109,6 +109,7 @@ const addCommands = async () => {
     source,
     steal,
     votecommand,
+    search
   ];
 
   publicCommands.forEach((command) => {
@@ -160,7 +161,6 @@ const addCommands = async () => {
     count,
     fb,
     gender,
-    gs,
     horo,
     image,
     imagesearch,
