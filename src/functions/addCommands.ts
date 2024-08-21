@@ -29,7 +29,6 @@ import checkvote from "../commands/members/checkvote";
 import count from "../commands/members/count";
 import fb from "../commands/members/fb";
 import gender from "../commands/members/gender";
-import search from "../commands/public/search";
 import horo from "../commands/members/horo";
 import image from "../commands/members/image";
 import imagesearch from "../commands/members/imagesearch";
@@ -83,6 +82,7 @@ import helpa from "../commands/public/helpa";
 import helpo from "../commands/public/helpo";
 import link from "../commands/public/link";
 import source from "../commands/public/source";
+import search from "../commands/public/search";
 import steal from "../commands/public/steal";
 import votecommand from "../commands/public/votecommand";
 
