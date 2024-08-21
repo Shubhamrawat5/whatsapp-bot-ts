@@ -74,7 +74,7 @@ import tg from "../commands/owner/tg";
 import alive from "../commands/public/alive";
 import ask from "../commands/public/ask";
 import cricketcommand from "../commands/public/cricketcommand";
-import deletee from "../commands/public/delete";
+import delete from "../commands/public/delete";
 import dev from "../commands/public/dev";
 import donation from "../commands/public/donation";
 import feedback from "../commands/public/feedback";
@@ -100,7 +100,7 @@ const addCommands = async () => {
     alive,
     ask,
     cricketcommand,
-    deletee,
+    delete,
     dev,
     donation,
     feedback,
