@@ -72,8 +72,9 @@ import tg from "../commands/owner/tg";
 
 /* ----------------------------- PUBLIC COMMANDS ---------------------------- */
 import alive from "../commands/public/alive";
+import ask from "../commands/public/ask";
 import cricketcommand from "../commands/public/cricketcommand";
-import deletee from "../commands/public/delete";
+import delete from "../commands/public/delete";
 import dev from "../commands/public/dev";
 import donation from "../commands/public/donation";
 import feedback from "../commands/public/feedback";
@@ -97,8 +98,9 @@ const addCommands = async () => {
 
   const publicCommands = [
     alive,
+    ask,
     cricketcommand,
-    deletee,
+    delete,
     dev,
     donation,
     feedback,
@@ -106,10 +108,10 @@ const addCommands = async () => {
     helpa,
     helpo,
     link,
+    search
     source,
     steal,
     votecommand,
-    search
   ];
 
   publicCommands.forEach((command) => {

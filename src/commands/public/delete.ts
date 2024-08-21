@@ -61,10 +61,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 };
 
-const deletee = () => {
+const delete = () => {
   const cmd = ["delete", "d"];
 
   return { cmd, handler };
 };
 
-export default deletee;
+export default delete;
