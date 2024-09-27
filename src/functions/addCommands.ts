@@ -108,7 +108,7 @@ const addCommands = async () => {
     helpa,
     helpo,
     link,
-    search
+    search,
     source,
     steal,
     votecommand,
