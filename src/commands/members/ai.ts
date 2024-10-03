@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
@@ -6,10 +6,8 @@ import { Bot } from "../../interfaces/Bot";
 import { prefix } from "../../utils/constants";
 import { openAiKey } from "../../utils/config";
 
-const configuration = new Configuration({
-  apiKey: openAiKey,
-});
-const openai = new OpenAIApi(configuration);
+const genAI = new GoogleGenerativeAI(openAiKey || "");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
@@ -18,7 +16,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (!openAiKey) {
     await reply(
-      `❌ openai key is not set!\nGet key from https://platform.openai.com/account/api-keys`
+      `❌ Gemini key is not set!\nGet key from https://aistudio.google.com/app/apikey`
     );
     return;
   }
@@ -31,16 +29,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
     const query = args.join(" ");
 
-    const chatCompletion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: query }],
-    });
-    let response =
-      chatCompletion.data.choices[0].message?.content ?? "❌ NO RESPONSE!";
-
+    let response = (await model.generateContent([query])).response.text();
     if (response.length > 400) {
-      response = response.slice(0, 100) + readMore + response.slice(100);
+      response = response.slice(0, 100) + readMore + response;
     }
+
     await reply(`AI: ${response}`);
   } catch (err) {
     console.log(err);

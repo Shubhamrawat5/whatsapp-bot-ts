@@ -27,6 +27,7 @@
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@google/generative-ai": "^0.21.0",
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^6.7.5",
     "adm-zip": "^0.5.9",
@@ -40,7 +41,6 @@
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.61.0",
-    "openai": "^3.3.0",
     "pg": "^8.7.3",
     "qrcode": "^1.5.3",
     "qrcode-terminal": "^0.12.0",
