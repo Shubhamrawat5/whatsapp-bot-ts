@@ -31,6 +31,8 @@ delete from countwarning a using countwarning b where a=b and a.ctid < b.ctid;
 ALTER table countmember ADD COLUMN video_count INTEGER NOT NULL DEFAULT 0; 
 ALTER TABLE groups DROP COLUMN commands_disabled; 
 
+INSERT INTO "public"."members" (memberjid, name, donation, milestones) VALUES ('91@s.whatsapp.net', 'PVX', 2500, '{}');
+
 begin;
 set transaction read write;
 ALTER TABLE countmember ADD COLUMN day text;

@@ -9,6 +9,7 @@ import { loggerBot } from "../utils/logger";
 export const createAuthTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS auth(
+      uuid UUID DEFAULT gen_random_uuid(),
       noisekey TEXT, 
       signedidentitykey TEXT,
       signedprekey TEXT, 
@@ -20,7 +21,9 @@ export const createAuthTable = async () => {
       me TEXT, 
       signalidentities TEXT, 
       lastaccountsynctimestamp TEXT, 
-      myappstatekeyid TEXT
+      myappstatekeyid TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -123,7 +126,7 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     const { myAppStateKeyId } = state.creds;
 
     const res = await pool.query(
-      "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, account = $8, me = $9, signalIdentities = $10, lastAccountSyncTimestamp = $11, myAppStateKeyId = $12;",
+      "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, account = $8, me = $9, signalIdentities = $10, lastAccountSyncTimestamp = $11, myAppStateKeyId = $12, updated_at = NOW();",
       [
         noiseKey,
         signedIdentityKey,
@@ -144,7 +147,7 @@ export const setAuth = async (state: AuthenticationState): Promise<boolean> => {
     if (res.rowCount === 0) {
       console.log("Inserting login data...");
       const res2 = await pool.query(
-        "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);",
+        "INSERT INTO auth (noisekey, signedidentitykey, signedprekey, registrationid, advsecretkey, nextprekeyid, firstunuploadedprekeyid, account, me, signalidentities, lastaccountsynctimestamp, myappstatekeyid) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);",
         [
           noiseKey,
           signedIdentityKey,

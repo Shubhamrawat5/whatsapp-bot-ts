@@ -6,11 +6,14 @@ import pool from "./pool";
 export const createCountMemberTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS countmember(
+      uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT NOT NULL, 
       groupjid TEXT NOT NULL, 
       message_count INTEGER NOT NULL DEFAULT 0, 
       warning_count INTEGER NOT NULL DEFAULT 0, 
       video_count INTEGER NOT NULL DEFAULT 0, 
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
       PRIMARY KEY (memberjid, groupjid), 
       CHECK(warning_count BETWEEN 0 and 3),
 
@@ -223,18 +226,15 @@ export const setCountMember = async (
 
     // update count
     const res1 = await pool.query(
-      "UPDATE countmember SET message_count = message_count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
+      "UPDATE countmember SET message_count = message_count+1, updated_at = NOW() WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
       [memberjid, groupjid]
     );
 
     if (res1.rowCount === 0) {
-      await pool.query("INSERT INTO countmember VALUES($1,$2,$3,$4,$5);", [
-        memberjid,
-        groupjid,
-        1,
-        0,
-        0,
-      ]);
+      await pool.query(
+        "INSERT INTO countmember (memberjid, groupjid, message_count, warning_count, video_count) VALUES($1,$2,$3,$4,$5);",
+        [memberjid, groupjid, 1, 0, 0]
+      );
     } else {
       result.currentGroup = res1.rows[0].message_count;
     }
@@ -292,14 +292,14 @@ export const setCountVideo = async (
 
   try {
     const res = await pool.query(
-      "UPDATE countmember SET video_count = video_count+1 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE countmember SET video_count = video_count+1, updated_at = NOW() WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO countmember VALUES($1,$2,$3,$4,$5);",
+        "INSERT INTO countmember (memberjid, groupjid, message_count, warning_count, video_count) VALUES($1,$2,$3,$4,$5);",
         [memberjid, groupjid, 1, 0, 1]
       );
       if (res2.rowCount === 1) return true;

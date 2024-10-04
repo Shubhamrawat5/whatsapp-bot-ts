@@ -5,10 +5,13 @@ import pool from "./pool";
 export const createMembersTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS members(
-        memberjid TEXT PRIMARY KEY, 
-        name TEXT NOT NULL, 
-        donation INTEGER DEFAULT 0,
-        milestones TEXT[] NOT NULL
+      uuid UUID DEFAULT gen_random_uuid()
+      memberjid TEXT PRIMARY KEY, 
+      name TEXT NOT NULL, 
+      donation INTEGER DEFAULT 0,
+      milestones TEXT[] NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -21,16 +24,14 @@ export const setMemberName = async (
 
   try {
     const res2 = await pool.query(
-      "UPDATE members SET name=$1 WHERE memberjid=$2;",
+      "UPDATE members SET name=$1, updated_at = NOW() WHERE memberjid=$2;",
       [name, memberjid]
     );
     if (res2.rowCount === 0) {
-      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
-        memberjid,
-        name,
-        0,
-        [],
-      ]);
+      await pool.query(
+        "INSERT INTO members(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        [memberjid, name, 0, []]
+      );
     }
     return true;
   } catch (error) {
@@ -94,14 +95,14 @@ export const setDonation = async (
 
   try {
     const res = await pool.query(
-      "UPDATE members SET donation=$2 WHERE memberjid=$1;",
+      "UPDATE members SET donation=$2, updated_at = NOW() WHERE memberjid=$1;",
       [memberjid, donation]
     );
 
     // not updated
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO members VALUES($1,$2,$3,$4);",
+        "INSERT INTO members(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
         [memberjid, number, donation, []]
       );
       if (res2.rowCount === 1) return true;
@@ -149,7 +150,7 @@ export const setMilestones = async (
 
   try {
     const res = await pool.query(
-      "UPDATE members SET milestones=$2 WHERE memberjid=$1;",
+      "UPDATE members SET milestones=$2, updated_at = NOW() WHERE memberjid=$1;",
       [memberjid, milestones]
     );
 

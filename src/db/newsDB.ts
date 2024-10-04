@@ -5,8 +5,11 @@ import pool from "./pool";
 export const createNewsTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS news(
+      uuid UUID DEFAULT gen_random_uuid(),
       headline TEXT PRIMARY KEY,
-      at DATE NOT NULL
+      at DATE NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -20,7 +23,7 @@ export const storeNews = async (headline: string): Promise<boolean> => {
     // SELECT query can be used instead to check if news is already there or not,
     // but it'll lead to one extra query
     const res = await pool.query(
-      "INSERT INTO news VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
+      "INSERT INTO news (headline, at) VALUES($1,$2) ON CONFLICT(headline) DO NOTHING;",
       [headline, date]
     );
 

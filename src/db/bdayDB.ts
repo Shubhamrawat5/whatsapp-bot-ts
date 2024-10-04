@@ -6,6 +6,7 @@ import pool from "./pool";
 export const createbdayTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS bday(
+      uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT PRIMARY KEY,
       name TEXT NOT NULL, 
       username TEXT NOT NULL, 
@@ -13,6 +14,8 @@ export const createbdayTable = async () => {
       month INTEGER NOT NULL, 
       year INTEGER, 
       place TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
       CONSTRAINT bday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
@@ -58,7 +61,7 @@ export const addbday = async (
 
   try {
     const res = await pool.query(
-      "INSERT INTO bday VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(memberjid) DO NOTHING;",
+      "INSERT INTO bday (name, username, date, month, year, place, memberjid) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(memberjid) DO NOTHING;",
       [name, username, date, month, year, place, memberjid]
     );
 

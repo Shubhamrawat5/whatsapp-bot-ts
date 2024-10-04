@@ -5,10 +5,13 @@ import pool from "./pool";
 export const createGroupsTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS groups(
+      uuid UUID DEFAULT gen_random_uuid(),
       groupjid TEXT PRIMARY KEY, 
       gname TEXT NOT NULL, 
       link TEXT, 
-      commands_disabled TEXT[] NOT NULL 
+      commands_disabled TEXT[] NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -32,7 +35,7 @@ export const getGroupsData = async (
     } else {
       res = await pool.query("SELECT * FROM groups;");
     }
-    // not updated. time to insert
+
     if (res.rowCount) {
       return res.rows;
     }
@@ -52,17 +55,15 @@ export const setGroupsData = async (
   try {
     // check if groupjid is present in DB or not
     const res = await pool.query(
-      "UPDATE groups SET gname = $1, link=$2 WHERE groupjid=$3;",
+      "UPDATE groups SET gname = $1, link=$2, updated_at = NOW() WHERE groupjid=$3;",
       [gname, link, groupjid]
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
-      const res2 = await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
-        groupjid,
-        gname,
-        link,
-        [],
-      ]);
+      const res2 = await pool.query(
+        "INSERT INTO groups (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
+        [groupjid, gname, link, []]
+      );
       if (res2.rowCount === 1) return true;
       return false;
     }
@@ -87,18 +88,16 @@ export const setDisableCommand = async (
 
   try {
     const res = await pool.query(
-      "UPDATE groups SET commands_disabled=$1 WHERE groupjid=$2;",
+      "UPDATE groups SET commands_disabled=$1, updated_at = NOW() WHERE groupjid=$2;",
       [commands_disabled, groupjid]
     );
 
     // not updated. time to insert
     if (res.rowCount === 0) {
-      const res2 = await pool.query("INSERT INTO groups VALUES($1,$2,$3,$4);", [
-        groupjid,
-        gname,
-        null,
-        commands_disabled,
-      ]);
+      const res2 = await pool.query(
+        "INSERT INTO groups (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
+        [groupjid, gname, null, commands_disabled]
+      );
       if (res2.rowCount === 1) return true;
       return false;
     }

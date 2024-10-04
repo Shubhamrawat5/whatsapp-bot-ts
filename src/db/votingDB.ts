@@ -6,6 +6,7 @@ import pool from "./pool";
 export const createVotingTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS voting(
+      uuid UUID DEFAULT gen_random_uuid(),
       groupjid TEXT PRIMARY KEY, 
       is_started BOOLEAN NOT NULL, 
       started_by TEXT NOT NULL, 
@@ -13,7 +14,9 @@ export const createVotingTable = async () => {
       choices TEXT[] NOT NULL,
       count TEXT[] NOT NULL, 
       members_voted_for TEXT[][] NOT NULL, 
-      voted_members TEXT[] NOT NULL
+      voted_members TEXT[] NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -54,7 +57,7 @@ export const stopVotingData = async (groupjid: string): Promise<boolean> => {
     const groupjidWithDate = `${groupjid} ${todayDate}`;
 
     const res = await pool.query(
-      "UPDATE voting SET groupjid=$1, is_started=$2 WHERE groupjid=$3;",
+      "UPDATE voting SET groupjid=$1, is_started=$2, updated_at = NOW() WHERE groupjid=$3;",
       [groupjidWithDate, false, groupjid]
     );
 
@@ -97,7 +100,7 @@ export const setVotingData = async (
     if (res.rowCount === 0) {
       // insert new
       const res2 = await pool.query(
-        "INSERT INTO voting VALUES($1,$2,$3,$4,$5,$6,$7,$8);",
+        "INSERT INTO voting (groupjid, is_started, started_by, title, choices, count, members_voted_for, voted_members) VALUES($1,$2,$3,$4,$5,$6,$7,$8);",
         [
           groupjid,
           is_started,

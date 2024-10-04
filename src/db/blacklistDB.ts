@@ -5,9 +5,12 @@ import pool from "./pool";
 export const createBlacklistTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS blacklist(
+      uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT PRIMARY KEY, 
       reason TEXT NOT NULL, 
       admin TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
       CONSTRAINT blacklist_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
@@ -60,14 +63,14 @@ export const addBlacklist = async (
     if (res.rowCount === 0) {
       const number = memberjid.split("@")[0];
       const res2 = await pool.query(
-        "INSERT INTO members VALUES($1,$2,$3,$4);",
+        "INSERT INTO members (memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
         [memberjid, number, 0, []]
       );
       if (res2.rowCount === 0) return false;
     }
 
     const res2 = await pool.query(
-      "INSERT INTO blacklist VALUES($1,$2,$3) ON CONFLICT(memberjid) DO NOTHING;",
+      "INSERT INTO blacklist (memberjid, reason, admin) VALUES($1,$2,$3) ON CONFLICT(memberjid) DO NOTHING;",
       [memberjid, reason, admin]
     );
 

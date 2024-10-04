@@ -29,7 +29,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
     const query = args.join(" ");
 
-    let response = (await model.generateContent([query])).response.text();
+    let response = (await model.generateContent(query)).response.text();
     if (response.length > 400) {
       response = response.slice(0, 100) + readMore + response;
     }

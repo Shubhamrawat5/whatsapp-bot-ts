@@ -4,8 +4,11 @@ import pool from "./pool";
 export const createMilestoneTextTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS milestonetext(
+      uuid UUID DEFAULT gen_random_uuid(),
       sno SERIAL NOT NULL, 
-      milestone TEXT PRIMARY KEY
+      milestone TEXT PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };

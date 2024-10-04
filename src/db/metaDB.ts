@@ -5,9 +5,12 @@ import pool from "./pool";
 export const createMetaTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS meta(
+      uuid UUID DEFAULT gen_random_uuid(),
       variable TEXT PRIMARY KEY,
       value BOOLEAN NOT NULL,
-      last_updated DATE NOT NULL
+      last_updated DATE NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };
@@ -47,16 +50,15 @@ export const setMetaValues = async (
   const date = getIndianDateTime();
   try {
     const res = await pool.query(
-      "UPDATE meta SET value = $2, last_updated = $3 where variable=$1;",
+      "UPDATE meta SET value = $2, last_updated = $3, updated_at = NOW() where variable=$1;",
       [variable, value, date]
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
-      const res2 = await pool.query("INSERT INTO meta VALUES($1,$2,$3);", [
-        variable,
-        value,
-        date,
-      ]);
+      const res2 = await pool.query(
+        "INSERT INTO meta (variable, value, last_updated) VALUES($1,$2,$3);",
+        [variable, value, date]
+      );
       if (res2.rowCount === 1) return true;
       return false;
     }
