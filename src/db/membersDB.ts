@@ -5,7 +5,7 @@ import pool from "./pool";
 export const createMembersTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS members(
-      uuid UUID DEFAULT gen_random_uuid()
+      uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT PRIMARY KEY, 
       name TEXT NOT NULL, 
       donation INTEGER DEFAULT 0,

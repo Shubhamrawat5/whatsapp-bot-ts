@@ -9,7 +9,7 @@ export const createUnknownCmdTable = async () => {
       command TEXT PRIMARY KEY, 
       count INTEGER NOT NULL DEFAULT 0,
       created_at TIMESTAMP DEFAULT NOW(),
-      updated_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );`
   );
 };

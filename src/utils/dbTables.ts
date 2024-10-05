@@ -1,10 +1,10 @@
 import { createAuthTable } from "../db/authDB";
+import { createMembersTable } from "../db/membersDB";
+import { createGroupsTable } from "../db/groupsDB";
 import { createbdayTable } from "../db/bdayDB";
 import { createBlacklistTable } from "../db/blacklistDB";
 import { createCountMemberTable } from "../db/countMemberDB";
-import { createMembersTable } from "../db/membersDB";
 import { createMetaTable } from "../db/metaDB";
-import { createGroupsTable } from "../db/groupsDB";
 import { createMilestoneTextTable } from "../db/milestoneDB";
 import { createNewsTable } from "../db/newsDB";
 import { createUnknownCmdTable } from "../db/unknownCmdDB";
