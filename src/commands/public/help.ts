@@ -74,12 +74,18 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
 📛 *${prefix}pvxg*
   - _Get stats of all groups message!_
+
+📛 *${prefix}pvxgg*
+  - _Get stats of all groups message this month!_
   
 📛 *${prefix}pvxm*
   - _Get stats of member messages of current group!_
   
 📛 *${prefix}pvxt <number>*
   - _Get top member stats of all groups!_
+
+📛 *${prefix}pvxtt <number>*
+  - _Get top member stats of all groups this month!_
 
 📛 *${prefix}pvxtm*
   - _Get stats of members with rank of current group!_

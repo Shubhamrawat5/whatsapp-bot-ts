@@ -24,6 +24,7 @@ import {
   ownerNumberWithJid,
   pvxFunctionsEnabled,
 } from "./utils/config";
+import { setCountMemberMonth } from "./db/countMemberMonthDB";
 
 export interface MessageUpsert {
   messages: WAMessage[];
@@ -174,6 +175,7 @@ export const messagesUpsert = async (
             from,
             senderName
           );
+          await setCountMemberMonth(sender, from, senderName);
           await countRemainder(
             bot,
             setCountMemberRes,

@@ -121,9 +121,11 @@ Default prefix: `!`
 |     `!enable`      |                Enable command for current group                |               |
 |     `!disable`     |               Disable command for current group                |               |
 |      `!pvxg`       |             Get message count stats of PVX groups              |               |
+|      `!pvxgg`      |        Get message count stats of PVX groups this month        |               |
 |      `!pvxm`       |      Get members message count stats of current PVX group      |               |
 |      `!pvxtm`      | Get members message count stats with rank of current PVX group |   `!pvxmt`    |
 |      `!pvxt`       |       Get top members message count stats of PVX groups        |               |
+|      `!pvxtt`      |  Get top members message count stats of PVX groups this month  |               |
 |      `!pvxt5`      |    Get top 5 members message count stats of all PVX groups     |               |
 |      `!zero`       |             Get members list with 0 message count              |               |
 |    `!pvxstats`     |                    Get stats of PVX groups                     |               |
