@@ -89,9 +89,8 @@ model Member {
 }
 
 model Meta {
-  variable     String   @id
-  value        Boolean
-  last_updated DateTime @updatedAt
+  variable String  @id
+  value    Boolean
 
   @@map("meta")
 }

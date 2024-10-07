@@ -8,7 +8,6 @@ export const createMetaTable = async () => {
       uuid UUID DEFAULT gen_random_uuid(),
       variable TEXT PRIMARY KEY,
       value BOOLEAN NOT NULL,
-      last_updated DATE NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     );`
@@ -18,7 +17,6 @@ export const createMetaTable = async () => {
 interface GetMetaValues {
   variable: string;
   value: boolean;
-  last_updated: string;
 }
 
 export const getMetaValues = async (
@@ -50,13 +48,13 @@ export const setMetaValues = async (
   const date = getIndianDateTime();
   try {
     const res = await pool.query(
-      "UPDATE meta SET value = $2, last_updated = $3, updated_at = NOW() where variable=$1;",
-      [variable, value, date]
+      "UPDATE meta SET value = $2, updated_at = NOW() where variable=$1;",
+      [variable, value]
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO meta (variable, value, last_updated) VALUES($1,$2,$3);",
+        "INSERT INTO meta (variable, value) VALUES($1,$2,$3);",
         [variable, value, date]
       );
       if (res2.rowCount === 1) return true;

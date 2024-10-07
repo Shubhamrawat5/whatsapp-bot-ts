@@ -60,7 +60,6 @@ table meta {
     uuid UUID,
     variable text PRIMARY KEY,
     value boolean NOT NULL,
-    last_updated Date NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 }
