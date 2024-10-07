@@ -2,7 +2,7 @@ import { checkGroupjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
-export const createGroupsTable = async () => {
+export const createGroupTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS groups(
       uuid UUID DEFAULT gen_random_uuid(),
@@ -16,16 +16,16 @@ export const createGroupsTable = async () => {
   );
 };
 
-export interface GetGroupsData {
+export interface GetGroupData {
   groupjid: string;
   gname: string;
   link?: string;
   commands_disabled?: string[];
 }
 
-export const getGroupsData = async (
+export const getGroupData = async (
   groupjid?: string
-): Promise<GetGroupsData[]> => {
+): Promise<GetGroupData[]> => {
   try {
     let res;
     if (groupjid) {
@@ -40,12 +40,12 @@ export const getGroupsData = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getGroupsData DB]", error, { groupjid });
+    await loggerBot(undefined, "[getGroupData DB]", error, { groupjid });
   }
   return [];
 };
 
-export const setGroupsData = async (
+export const setGroupData = async (
   groupjid: string,
   gname: string,
   link: string | null
@@ -70,7 +70,7 @@ export const setGroupsData = async (
 
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setGroupsData DB]", error, {
+    await loggerBot(undefined, "[setGroupData DB]", error, {
       groupjid,
       gname,
       link,

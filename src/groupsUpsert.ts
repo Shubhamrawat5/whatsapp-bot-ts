@@ -3,7 +3,6 @@ import { cache } from "./utils/cache";
 // import { prefix } from "./utils/constants";
 import { loggerBot, sendLogToOwner } from "./utils/logger";
 import { Bot } from "./interfaces/Bot";
-import { ownerNumberWithJid } from "./utils/config";
 
 export type GroupsUpsert = GroupMetadata[];
 

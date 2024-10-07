@@ -1,7 +1,7 @@
 import { createAuthTable } from "../db/authDB";
-import { createMembersTable } from "../db/membersDB";
-import { createGroupsTable } from "../db/groupsDB";
-import { createbdayTable } from "../db/bdayDB";
+import { createMemberTable } from "../db/membersDB";
+import { createGroupTable } from "../db/groupsDB";
+import { createbirthdayTable } from "../db/birthdayDB";
 import { createBlacklistTable } from "../db/blacklistDB";
 import { createCountMemberTable } from "../db/countMemberDB";
 import { createMetaTable } from "../db/metaDB";
@@ -13,9 +13,9 @@ import { createVotingTable } from "../db/votingDB";
 const createDbTables = async () => {
   console.log("- Creating all DB tables");
   await createAuthTable();
-  await createMembersTable();
-  await createGroupsTable();
-  await createbdayTable();
+  await createMemberTable();
+  await createGroupTable();
+  await createbirthdayTable();
   await createBlacklistTable();
   await createCountMemberTable();
   await createMetaTable();

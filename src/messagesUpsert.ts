@@ -13,7 +13,7 @@ import countRemainder from "./functions/countRemainder";
 import forwardSticker from "./functions/forwardSticker";
 import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
-import { getGroupsData } from "./db/groupsDB";
+import { getGroupData } from "./db/groupsDB";
 import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot, loggerTg } from "./utils/logger";
 import { addUnknownCmd } from "./db/unknownCmdDB";
@@ -95,7 +95,7 @@ export const messagesUpsert = async (
 
       body = body.replace(/\n|\r/g, ""); // remove all \n and \r
 
-      let isCmd = body.startsWith(prefix);
+      const isCmd = body.startsWith(prefix);
 
       const from = msg.key.remoteJid;
       if (!from) return;
@@ -256,7 +256,7 @@ export const messagesUpsert = async (
       if (groupMetadata && !isSenderGroupAdmin) {
         resDisabled = cache.get(`${from}:resDisabled`);
         if (!resDisabled) {
-          const getDisableCommandRes = await getGroupsData(from);
+          const getDisableCommandRes = await getGroupData(from);
           resDisabled =
             getDisableCommandRes.length &&
             getDisableCommandRes[0].commands_disabled

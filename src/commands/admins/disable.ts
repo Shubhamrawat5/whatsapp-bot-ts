@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getGroupsData, setDisableCommand } from "../../db/groupsDB";
+import { getGroupData, setDisableCommand } from "../../db/groupsDB";
 import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -20,7 +20,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const getDisableCommandRes = await getGroupsData(from);
+  const getDisableCommandRes = await getGroupData(from);
   const disabledCmdArray =
     getDisableCommandRes.length && getDisableCommandRes[0].commands_disabled
       ? getDisableCommandRes[0].commands_disabled

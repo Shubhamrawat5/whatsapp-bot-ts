@@ -1,4 +1,4 @@
-import { getbday } from "../db/bdayDB";
+import { getBirthday } from "../db/birthdayDB";
 import { Bot } from "../interfaces/Bot";
 import { loggerBot } from "../utils/logger";
 import { getIndianDateTime } from "./getIndianDateTime";
@@ -19,7 +19,7 @@ const checkTodayBday = async (
     // let url = "https://pvx-api-vercel.vercel.app/api/bday";
     // let { data } = await axios.get(url);
 
-    const data = await getbday();
+    const data = await getBirthday();
     if (data.length === 0) {
       // TODO: USE log, error, warn everywhere
       console.log("THERE IS SOME PROBLEM WITH BDAY INFO!");

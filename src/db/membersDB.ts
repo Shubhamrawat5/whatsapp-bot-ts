@@ -2,7 +2,7 @@ import { checkMemberjid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
-export const createMembersTable = async () => {
+export const createMemberTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS members(
       uuid UUID DEFAULT gen_random_uuid(),

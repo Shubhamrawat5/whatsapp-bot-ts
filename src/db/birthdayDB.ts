@@ -2,10 +2,9 @@
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
-// TODO: CHECK THESE TABLE NAMES (SINGULAR/PLURAL)
-export const createbdayTable = async () => {
+export const createbirthdayTable = async () => {
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS bday(
+    `CREATE TABLE IF NOT EXISTS birthday(
       uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT PRIMARY KEY,
       name TEXT NOT NULL, 
@@ -16,12 +15,12 @@ export const createbdayTable = async () => {
       place TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
-      CONSTRAINT bday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
+      CONSTRAINT birthday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
     );`
   );
 };
 
-export interface Getbday {
+export interface GetBirthday {
   name: string;
   username: string;
   date: number;
@@ -31,21 +30,20 @@ export interface Getbday {
   memberjid: string;
 }
 
-// TODO: CHECK THESE FUNCTION NAMES (SINGULAR/PLURAL)
-export const getbday = async (): Promise<Getbday[]> => {
+export const getBirthday = async (): Promise<GetBirthday[]> => {
   try {
-    const res = await pool.query("SELECT * FROM bday;");
+    const res = await pool.query("SELECT * FROM birthday;");
 
     if (res.rowCount) {
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getbday DB]", error, undefined);
+    await loggerBot(undefined, "[getBirthday DB]", error, undefined);
   }
   return [];
 };
 
-export const addbday = async (
+export const addBirthday = async (
   name: string,
   username: string,
   date: number,
@@ -61,7 +59,7 @@ export const addbday = async (
 
   try {
     const res = await pool.query(
-      "INSERT INTO bday (name, username, date, month, year, place, memberjid) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(memberjid) DO NOTHING;",
+      "INSERT INTO birthday (name, username, date, month, year, place, memberjid) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(memberjid) DO NOTHING;",
       [name, username, date, month, year, place, memberjid]
     );
 
@@ -70,7 +68,7 @@ export const addbday = async (
     }
     return false;
   } catch (error) {
-    await loggerBot(undefined, "[addbday DB]", error, {
+    await loggerBot(undefined, "[addBirthday DB]", error, {
       name,
       username,
       date,
