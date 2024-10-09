@@ -29,9 +29,9 @@ select memberjid,groupjid,count(*) from countmember group by memberjid,groupjid 
 delete from countwarning a using countwarning b where a=b and a.ctid < b.ctid;
 
 ALTER table countmember ADD COLUMN video_count INTEGER NOT NULL DEFAULT 0; 
-ALTER TABLE groups DROP COLUMN commands_disabled; 
+ALTER TABLE pvx_group DROP COLUMN commands_disabled; 
 
-INSERT INTO "public"."members" (memberjid, name, donation, milestones) VALUES ('91@s.whatsapp.net', 'PVX', 2500, '{}');
+INSERT INTO "public"."member" (memberjid, name, donation, milestones) VALUES ('91@s.whatsapp.net', 'PVX', 2500, '{}');
 
 begin;
 set transaction read write;
@@ -120,13 +120,13 @@ chrome://inspect
 
 alter table countwarning add check(count BETWEEN 1 and 3);
 
-// memberjid that are in countmember but not in members table
-(SELECT countmember.memberjid, members.name from countmember left join members ON countmember.memberjid = members.memberjid WHERE name IS NULL group by countmember.memberjid, members.name ORDER BY memberjid)
+// memberjid that are in countmember but not in member table
+(SELECT countmember.memberjid, member.name from countmember left join member ON countmember.memberjid = member.memberjid WHERE name IS NULL group by countmember.memberjid, member.name ORDER BY memberjid)
 
 
 const main = async () => {
   const res = await pool.query(
-    "SELECT * FROM blacklist WHERE memberjid NOT IN (SELECT memberjid FROM members);"
+    "SELECT * FROM blacklist WHERE memberjid NOT IN (SELECT memberjid FROM member);"
   );
 
   let time = 500;
@@ -137,7 +137,7 @@ const main = async () => {
     const number = memberjid.split("@")[0];
     setTimeout(async () => {
       console.log(number, index + 1);
-      await pool.query("INSERT INTO members VALUES($1,$2,$3,$4);", [
+      await pool.query("INSERT INTO member VALUES($1,$2,$3,$4);", [
         memberjid,
         number,
         0,

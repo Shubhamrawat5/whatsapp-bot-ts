@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { setGroupData } from "../../db/groupsDB";
+import { setGroupData } from "../../db/pvxGroupDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from, groupName } = msgInfoObj;

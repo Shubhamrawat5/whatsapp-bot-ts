@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getGroupData, setDisableCommand } from "../../db/groupsDB";
+import { getGroupData, setDisableCommand } from "../../db/pvxGroupDB";
 import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {

@@ -4,7 +4,7 @@ import pool from "./pool";
 
 export const createGroupTable = async () => {
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS groups(
+    `CREATE TABLE IF NOT EXISTS pvx_group(
       uuid UUID DEFAULT gen_random_uuid(),
       groupjid TEXT PRIMARY KEY, 
       gname TEXT NOT NULL, 
@@ -29,11 +29,11 @@ export const getGroupData = async (
   try {
     let res;
     if (groupjid) {
-      res = await pool.query("SELECT * FROM groups WHERE groupjid=$1;", [
+      res = await pool.query("SELECT * FROM pvx_group WHERE groupjid=$1;", [
         groupjid,
       ]);
     } else {
-      res = await pool.query("SELECT * FROM groups;");
+      res = await pool.query("SELECT * FROM pvx_group;");
     }
 
     if (res.rowCount) {
@@ -55,13 +55,13 @@ export const setGroupData = async (
   try {
     // check if groupjid is present in DB or not
     const res = await pool.query(
-      "UPDATE groups SET gname = $1, link=$2, updated_at = NOW() WHERE groupjid=$3;",
+      "UPDATE pvx_group SET gname = $1, link=$2, updated_at = NOW() WHERE groupjid=$3;",
       [gname, link, groupjid]
     );
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO groups (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
+        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
         [groupjid, gname, link, []]
       );
       if (res2.rowCount === 1) return true;
@@ -88,14 +88,14 @@ export const setDisableCommand = async (
 
   try {
     const res = await pool.query(
-      "UPDATE groups SET commands_disabled=$1, updated_at = NOW() WHERE groupjid=$2;",
+      "UPDATE pvx_group SET commands_disabled=$1, updated_at = NOW() WHERE groupjid=$2;",
       [commands_disabled, groupjid]
     );
 
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO groups (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
+        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
         [groupjid, gname, null, commands_disabled]
       );
       if (res2.rowCount === 1) return true;

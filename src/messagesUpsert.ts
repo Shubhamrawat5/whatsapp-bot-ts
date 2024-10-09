@@ -13,7 +13,7 @@ import countRemainder from "./functions/countRemainder";
 import forwardSticker from "./functions/forwardSticker";
 import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
-import { getGroupData } from "./db/groupsDB";
+import { getGroupData } from "./db/pvxGroupDB";
 import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot, loggerTg } from "./utils/logger";
 import { addUnknownCmd } from "./db/unknownCmdDB";

@@ -15,7 +15,7 @@ export const createbirthdayTable = async () => {
       place TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
-      CONSTRAINT birthday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
+      CONSTRAINT birthday_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES member(memberjid)
     );`
   );
 };

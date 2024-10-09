@@ -11,7 +11,7 @@ export const createBlacklistTable = async () => {
       admin TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
-      CONSTRAINT blacklist_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES members(memberjid)
+      CONSTRAINT blacklist_memberjid_fkey FOREIGN KEY(memberjid) REFERENCES member(memberjid)
     );`
   );
 };
@@ -29,12 +29,12 @@ export const getBlacklist = async (
     let res;
     if (memberjid) {
       res = await pool.query(
-        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid WHERE bl.memberjid=$1;",
+        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join member memb on bl.admin=memb.memberjid WHERE bl.memberjid=$1;",
         [memberjid]
       );
     } else {
       res = await pool.query(
-        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join members memb on bl.admin=memb.memberjid ORDER BY memberjid;"
+        "SELECT bl.memberjid, bl.reason, bl.admin, memb.name as adminname from blacklist bl left join member memb on bl.admin=memb.memberjid ORDER BY memberjid;"
       );
     }
 
@@ -55,7 +55,7 @@ export const addBlacklist = async (
   if (!checkMemberjid(memberjid)) return false;
 
   try {
-    const res = await pool.query("SELECT * FROM members WHERE memberjid = $1", [
+    const res = await pool.query("SELECT * FROM member WHERE memberjid = $1", [
       memberjid,
     ]);
 
@@ -63,7 +63,7 @@ export const addBlacklist = async (
     if (res.rowCount === 0) {
       const number = memberjid.split("@")[0];
       const res2 = await pool.query(
-        "INSERT INTO members (memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        "INSERT INTO member (memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
         [memberjid, number, 0, []]
       );
       if (res2.rowCount === 0) return false;

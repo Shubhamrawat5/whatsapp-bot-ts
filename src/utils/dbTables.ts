@@ -1,6 +1,6 @@
 import { createAuthTable } from "../db/authDB";
 import { createMemberTable } from "../db/membersDB";
-import { createGroupTable } from "../db/groupsDB";
+import { createGroupTable } from "../db/pvxGroupDB";
 import { createbirthdayTable } from "../db/birthdayDB";
 import { createBlacklistTable } from "../db/blacklistDB";
 import { createCountMemberTable } from "../db/countMemberDB";

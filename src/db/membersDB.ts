@@ -4,7 +4,7 @@ import pool from "./pool";
 
 export const createMemberTable = async () => {
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS members(
+    `CREATE TABLE IF NOT EXISTS member(
       uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT PRIMARY KEY, 
       name TEXT NOT NULL, 
@@ -24,12 +24,12 @@ export const setMemberName = async (
 
   try {
     const res2 = await pool.query(
-      "UPDATE members SET name=$1, updated_at = NOW() WHERE memberjid=$2;",
+      "UPDATE member SET name=$1, updated_at = NOW() WHERE memberjid=$2;",
       [name, memberjid]
     );
     if (res2.rowCount === 0) {
       await pool.query(
-        "INSERT INTO members(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        "INSERT INTO member(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
         [memberjid, name, 0, []]
       );
     }
@@ -53,7 +53,7 @@ export const getUsernames = async (
 ): Promise<GetUsernames[]> => {
   try {
     const res = await pool.query(
-      "SELECT * FROM members WHERE memberjid = ANY($1::TEXT[])",
+      "SELECT * FROM member WHERE memberjid = ANY($1::TEXT[])",
       [memberjidArray]
     );
     if (res.rowCount) {
@@ -75,7 +75,7 @@ export interface GetDonation {
 export const getDonation = async (): Promise<GetDonation[]> => {
   try {
     const res = await pool.query(
-      "SELECT * FROM members WHERE donation>0 ORDER BY donation DESC;"
+      "SELECT * FROM member WHERE donation>0 ORDER BY donation DESC;"
     );
     if (res.rowCount) {
       return res.rows;
@@ -95,14 +95,14 @@ export const setDonation = async (
 
   try {
     const res = await pool.query(
-      "UPDATE members SET donation=$2, updated_at = NOW() WHERE memberjid=$1;",
+      "UPDATE member SET donation=$2, updated_at = NOW() WHERE memberjid=$1;",
       [memberjid, donation]
     );
 
     // not updated
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO members(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        "INSERT INTO member(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
         [memberjid, number, donation, []]
       );
       if (res2.rowCount === 1) return true;
@@ -130,7 +130,7 @@ export const getMilestones = async (
 ): Promise<GetMilestones[]> => {
   try {
     const res = await pool.query(
-      "SELECT memberjid, name, milestones FROM members WHERE memberjid=$1;",
+      "SELECT memberjid, name, milestones FROM member WHERE memberjid=$1;",
       [memberjid]
     );
     if (res.rowCount) {
@@ -150,7 +150,7 @@ export const setMilestones = async (
 
   try {
     const res = await pool.query(
-      "UPDATE members SET milestones=$2, updated_at = NOW() WHERE memberjid=$1;",
+      "UPDATE member SET milestones=$2, updated_at = NOW() WHERE memberjid=$1;",
       [memberjid, milestones]
     );
 

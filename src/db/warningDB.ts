@@ -39,7 +39,7 @@ export const getCountWarningAllGroup = async (): Promise<
 > => {
   try {
     const res = await pool.query(
-      "SELECT countmember.memberjid, sum(countmember.warning_count) as warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE warning_count>0 GROUP BY countmember.memberjid,members.name ORDER BY warning_count DESC;"
+      "SELECT countmember.memberjid, sum(countmember.warning_count) as warning_count, member.name FROM countmember INNER JOIN member ON countmember.memberjid=member.memberjid WHERE warning_count>0 GROUP BY countmember.memberjid,member.name ORDER BY warning_count DESC;"
     );
     if (res.rowCount) {
       return res.rows;
@@ -65,7 +65,7 @@ export const getCountWarningAll = async (
 ): Promise<GetCountWarningAll[]> => {
   try {
     const res = await pool.query(
-      "SELECT countmember.memberjid, countmember.warning_count, members.name FROM countmember INNER JOIN members ON countmember.memberjid=members.memberjid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
+      "SELECT countmember.memberjid, countmember.warning_count, member.name FROM countmember INNER JOIN member ON countmember.memberjid=member.memberjid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
       [groupjid]
     );
     if (res.rowCount) {
