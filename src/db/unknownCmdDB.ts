@@ -4,7 +4,7 @@ import pool from "./pool";
 // 25/02/23
 export const createUnknownCmdTable = async () => {
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS unknowncmd(
+    `CREATE TABLE IF NOT EXISTS unknown_cmd(
       uuid UUID DEFAULT gen_random_uuid(),
       command TEXT PRIMARY KEY, 
       count INTEGER NOT NULL DEFAULT 0,
@@ -21,7 +21,7 @@ export interface GetUnknowCmdlist {
 
 export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
   try {
-    const res = await pool.query("SELECT * FROM unknowncmd ORDER BY count;");
+    const res = await pool.query("SELECT * FROM unknown_cmd ORDER BY count;");
 
     if (res.rowCount) {
       return res.rows;
@@ -35,14 +35,14 @@ export const getUnknowCmdlist = async (): Promise<GetUnknowCmdlist[]> => {
 export const addUnknownCmd = async (command: string): Promise<boolean> => {
   try {
     const res = await pool.query(
-      "UPDATE unknowncmd SET count = count+1, updated_at = NOW() WHERE command=$1;",
+      "UPDATE unknown_cmd SET count = count+1, updated_at = NOW() WHERE command=$1;",
       [command]
     );
 
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO unknowncmd (command, count) VALUES($1,$2);",
+        "INSERT INTO unknown_cmd (command, count) VALUES($1,$2);",
         [command, 1]
       );
       if (res2.rowCount === 1) return true;
