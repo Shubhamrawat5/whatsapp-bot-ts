@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getMilestoneText } from "../../db/milestoneDB";
+import { getBadgeText } from "../../db/badgeDB";
 import { prefix } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -10,11 +10,11 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let message = `*─「 <{PVX}> MILESTONES 」 ─*
+  let message = `*─「 <{PVX}> badges 」 ─*
 
-Send ${prefix}rank to know your rank with milestones.${readMore}
+Send ${prefix}rank to know your rank with badges.${readMore}
 
- *[DEFAULT MILESTONES]*
+ *[Default Badges]*
 ⭐ Main Admin of PVX
 ⭐ Sub-Admin of PVX
 ⭐ Most active member of PVX
@@ -25,21 +25,21 @@ Send ${prefix}rank to know your rank with milestones.${readMore}
 ⭐ Huge Contribution in PVX funds
 ⭐ Contribution in PVX funds`;
 
-  const getMilestoneTextRes = await getMilestoneText();
-  if (getMilestoneTextRes.length) {
-    message += `\n\n *[CUSTOM MILESTONES]*\nAdmin can give following milestones by ${prefix}milestoneadd #contact #sno\nEg: ${prefix}milestoneadd #919876.... #2`;
-    getMilestoneTextRes.forEach((milestoneRes, index) => {
-      message += `\n⭐ ${index + 1}. ${milestoneRes.milestone}`;
+  const getBadgeTextRes = await getBadgeText();
+  if (getBadgeTextRes.length) {
+    message += `\n\n *[CUSTOM BADGES]*\nAdmin can give following badges by ${prefix}badgeadd #contact #sno\nEg: ${prefix}badgeadd #919876.... #2`;
+    getBadgeTextRes.forEach((badgeRes, index) => {
+      message += `\n⭐ ${index + 1}. ${badgeRes.badge_info}`;
     });
   }
 
   await reply(message);
 };
 
-const milestone = () => {
-  const cmd = ["milestone", "milestones"];
+const badge = () => {
+  const cmd = ["badge", "badges"];
 
   return { cmd, handler };
 };
 
-export default milestone;
+export default badge;

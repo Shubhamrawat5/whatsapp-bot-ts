@@ -14,10 +14,7 @@ import cron from "node-cron";
 import { setAuth, getAuth } from "./db/authDB";
 import { loggerBot, loggerTg } from "./utils/logger";
 import addCommands from "./functions/addCommands";
-import {
-  addDefaultMilestones,
-  MilestonesDefault,
-} from "./functions/addDefaultMilestone";
+import { addDefaultbadges, DefaultBadge } from "./functions/addDefaultBadges";
 import { stats, useStore } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
 import {
@@ -43,7 +40,7 @@ let bdayCronJob: cron.ScheduledTask | undefined;
 let newsCronJob: cron.ScheduledTask | undefined;
 let newsListCronJob: cron.ScheduledTask | undefined;
 
-let milestonesDefault: MilestonesDefault = {};
+let defaultBadges: DefaultBadge = {};
 
 // const silentLogs = pino({ level: "silent" }); // to hide the chat logs
 // let debugLogs = pino({ level: "debug" });
@@ -155,14 +152,14 @@ const startBot = async () => {
         commandsAdmins,
         commandsOwners,
         allCommandsName,
-        milestonesDefault
+        defaultBadges
       );
     });
 
     bot.ev.on("connection.update", async (update: ConnectionUpdate) => {
       const res = await connectionUpdate(update, bot);
       if (update.connection === "open") {
-        milestonesDefault = await addDefaultMilestones(bot);
+        defaultBadges = await addDefaultbadges(bot);
       }
 
       if (res !== 0) {

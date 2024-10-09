@@ -9,7 +9,7 @@ export const createMemberTable = async () => {
       memberjid TEXT PRIMARY KEY, 
       name TEXT NOT NULL, 
       donation INTEGER DEFAULT 0,
-      milestones TEXT[] NOT NULL,
+      badges TEXT[] NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     );`
@@ -29,7 +29,7 @@ export const setMemberName = async (
     );
     if (res2.rowCount === 0) {
       await pool.query(
-        "INSERT INTO member(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        "INSERT INTO member(memberjid, name, donation, badges) VALUES($1,$2,$3,$4);",
         [memberjid, name, 0, []]
       );
     }
@@ -102,7 +102,7 @@ export const setDonation = async (
     // not updated
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO member(memberjid, name, donation, milestones) VALUES($1,$2,$3,$4);",
+        "INSERT INTO member(memberjid, name, donation, badges) VALUES($1,$2,$3,$4);",
         [memberjid, number, donation, []]
       );
       if (res2.rowCount === 1) return true;
@@ -118,40 +118,38 @@ export const setDonation = async (
   }
 };
 
-/* -------------------------------- MILESTONE ------------------------------- */
-export interface GetMilestones {
+/* -------------------------------- badge ------------------------------- */
+export interface GetBadges {
   memberjid: string;
   name: string;
-  milestones?: string[];
+  badges?: string[];
 }
 
-export const getMilestones = async (
-  memberjid: string
-): Promise<GetMilestones[]> => {
+export const getBadges = async (memberjid: string): Promise<GetBadges[]> => {
   try {
     const res = await pool.query(
-      "SELECT memberjid, name, milestones FROM member WHERE memberjid=$1;",
+      "SELECT memberjid, name, badges FROM member WHERE memberjid=$1;",
       [memberjid]
     );
     if (res.rowCount) {
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getMilestones DB]", error, { memberjid });
+    await loggerBot(undefined, "[getBadges DB]", error, { memberjid });
   }
   return [];
 };
 
-export const setMilestones = async (
+export const setBadges = async (
   memberjid: string,
-  milestones: string[]
+  badges: string[]
 ): Promise<boolean> => {
   if (!checkMemberjid(memberjid)) return false;
 
   try {
     const res = await pool.query(
-      "UPDATE member SET milestones=$2, updated_at = NOW() WHERE memberjid=$1;",
-      [memberjid, milestones]
+      "UPDATE member SET badges=$2, updated_at = NOW() WHERE memberjid=$1;",
+      [memberjid, badges]
     );
 
     // not updated
@@ -160,9 +158,9 @@ export const setMilestones = async (
     }
     return true;
   } catch (error) {
-    await loggerBot(undefined, "[setMilestones DB]", error, {
+    await loggerBot(undefined, "[setBadges DB]", error, {
       memberjid,
-      milestones,
+      badges,
     });
     return false;
   }

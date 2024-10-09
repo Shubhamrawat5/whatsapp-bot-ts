@@ -4,7 +4,7 @@ import pool from "./pool";
 
 export const createCountMemberTable = async () => {
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS countmembermonth(
+    `CREATE TABLE IF NOT EXISTS count_member_month(
       uuid UUID DEFAULT gen_random_uuid(),
       memberjid TEXT NOT NULL, 
       groupjid TEXT NOT NULL, 
@@ -34,7 +34,7 @@ export const getCountTopMonth = async (
 ): Promise<GetCountTopMonth[]> => {
   try {
     const res = await pool.query(
-      `SELECT member.name,countmembermonth.memberjid,sum(countmembermonth.message_count) as message_count FROM countmembermonth LEFT JOIN member ON countmembermonth.memberjid=member.memberjid GROUP BY countmembermonth.memberjid,member.name ORDER BY message_count DESC LIMIT ${noOfResult};`
+      `SELECT member.name,count_member_month.memberjid,sum(count_member_month.message_count) as message_count FROM count_member_month LEFT JOIN member ON count_member_month.memberjid=member.memberjid GROUP BY count_member_month.memberjid,member.name ORDER BY message_count DESC LIMIT ${noOfResult};`
     );
     if (res.rowCount) {
       return res.rows;
@@ -54,7 +54,7 @@ export interface GetCountGroupsMonth {
 export const getCountGroupsMonth = async (): Promise<GetCountGroupsMonth[]> => {
   try {
     const res = await pool.query(
-      "SELECT pvx_group.gname,SUM(countmembermonth.message_count) as message_count from countmembermonth INNER JOIN pvx_group ON countmembermonth.groupjid = pvx_group.groupjid GROUP BY pvx_group.gname ORDER BY message_count DESC;"
+      "SELECT pvx_group.gname,SUM(count_member_month.message_count) as message_count from count_member_month INNER JOIN pvx_group ON count_member_month.groupjid = pvx_group.groupjid GROUP BY pvx_group.gname ORDER BY message_count DESC;"
     );
     if (res.rowCount) {
       return res.rows;
@@ -76,13 +76,13 @@ export const setCountMemberMonth = async (
   try {
     // update count
     const res1 = await pool.query(
-      "UPDATE countmembermonth SET message_count = message_count+1, updated_at = NOW() WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE count_member_month SET message_count = message_count+1, updated_at = NOW() WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid]
     );
 
     if (res1.rowCount === 0) {
       await pool.query(
-        "INSERT INTO countmembermonth (memberjid, groupjid, message_count, warning_count, video_count) VALUES($1,$2,$3,$4,$5);",
+        "INSERT INTO count_member_month (memberjid, groupjid, message_count, warning_count, video_count) VALUES($1,$2,$3,$4,$5);",
         [memberjid, groupjid, 1, 0, 0]
       );
     }

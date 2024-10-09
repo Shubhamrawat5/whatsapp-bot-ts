@@ -1,11 +1,11 @@
 import { GroupParticipant } from "@whiskeysockets/baileys";
-import { MilestonesDefault } from "../functions/addDefaultMilestone";
+import { DefaultBadge } from "../functions/addDefaultBadges";
 
 export interface MsgInfoObj {
   from: string;
   command: string;
   args: string[];
-  milestonesDefault: MilestonesDefault;
+  defaultBadges: DefaultBadge;
   allCommandsName: string[];
 
   reply: (text: string | undefined) => Promise<boolean>;

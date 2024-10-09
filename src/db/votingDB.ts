@@ -44,7 +44,7 @@ export const getVotingData = async (
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getMilestoneText DB]", error, { groupjid });
+    await loggerBot(undefined, "[getVotingData DB]", error, { groupjid });
   }
   return [];
 };

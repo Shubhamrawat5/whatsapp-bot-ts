@@ -18,7 +18,7 @@ import { MsgInfoObj } from "./interfaces/msgInfoObj";
 import { loggerBot, loggerTg } from "./utils/logger";
 import { addUnknownCmd } from "./db/unknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
-import { MilestonesDefault } from "./functions/addDefaultMilestone";
+import { DefaultBadge } from "./functions/addDefaultBadges";
 import {
   forwardStickerEnabled,
   ownerNumberWithJid,
@@ -40,7 +40,7 @@ export const messagesUpsert = async (
   commandsAdmins: CommandsObj,
   commandsOwners: CommandsObj,
   allCommandsName: string[],
-  milestonesDefault: MilestonesDefault
+  defaultBadges: DefaultBadge
 ) => {
   // console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
   // console.log(msgs.messages);
@@ -341,7 +341,7 @@ export const messagesUpsert = async (
         command,
         args,
         reply,
-        milestonesDefault,
+        defaultBadges,
         allCommandsName,
       };
 

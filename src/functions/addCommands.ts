@@ -8,8 +8,8 @@ import disable from "../commands/admins/disable";
 import enable from "../commands/admins/enable";
 import promote from "../commands/admins/promote";
 import demote from "../commands/admins/demote";
-import milestoneadd from "../commands/admins/milestoneadd";
-import milestoneremove from "../commands/admins/milestoneremove";
+import badgeadd from "../commands/admins/badgeadd";
+import badgeremove from "../commands/admins/badgeremove";
 import mute from "../commands/admins/mute";
 import remove from "../commands/admins/remove";
 import rt from "../commands/admins/rt";
@@ -33,7 +33,7 @@ import horo from "../commands/members/horo";
 import image from "../commands/members/image";
 import imagesearch from "../commands/members/imagesearch";
 import insta from "../commands/members/insta";
-import milestone from "../commands/members/milestone";
+import badge from "../commands/members/badge";
 import movie from "../commands/members/movie";
 import pvxg from "../commands/members/pvxg";
 import pvxgg from "../commands/members/pvxgg";
@@ -69,7 +69,7 @@ import technews from "../commands/members/technews";
 import broadcast from "../commands/owner/broadcast";
 import donationadd from "../commands/owner/donationadd";
 import getlink from "../commands/owner/getlink";
-import milestoneaddtext from "../commands/owner/milestoneaddtext";
+import badgeaddtext from "../commands/owner/badgeaddtext";
 import tg from "../commands/owner/tg";
 
 /* ----------------------------- PUBLIC COMMANDS ---------------------------- */
@@ -135,8 +135,8 @@ const addCommands = async () => {
     enable,
     promote,
     demote,
-    milestoneadd,
-    milestoneremove,
+    badgeadd,
+    badgeremove,
     mute,
     remove,
     rt,
@@ -169,7 +169,7 @@ const addCommands = async () => {
     image,
     imagesearch,
     insta,
-    milestone,
+    badge,
     movie,
     pvxg,
     pvxgg,
@@ -211,7 +211,7 @@ const addCommands = async () => {
     });
   });
 
-  const ownerCommands = [broadcast, donationadd, getlink, milestoneaddtext, tg];
+  const ownerCommands = [broadcast, donationadd, getlink, badgeaddtext, tg];
 
   ownerCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}

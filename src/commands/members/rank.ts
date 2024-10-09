@@ -2,11 +2,11 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getCountIndividual, getRankInAllGroups } from "../../db/countMemberDB";
-import { getMilestones } from "../../db/membersDB";
+import { getBadges } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args, milestonesDefault, from, sender } = msgInfoObj;
+  const { reply, args, defaultBadges, from, sender } = msgInfoObj;
 
   let participant: string;
 
@@ -58,21 +58,21 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${messageCount}\nCurrent group  : ${countCurGroup}`;
 
-  const getMilestoneRes = await getMilestones(participant);
+  const getBadgeRes = await getBadges(participant);
 
   let flag = false;
-  if (getMilestoneRes.length && getMilestoneRes[0].milestones?.length) {
+  if (getBadgeRes.length && getBadgeRes[0].badges?.length) {
     flag = true;
     message += `\n`;
-    getMilestoneRes[0].milestones.forEach((milestone: string) => {
-      message += `\n⭐ ${milestone}`;
+    getBadgeRes[0].badges.forEach((badge: string) => {
+      message += `\n⭐ ${badge}`;
     });
   }
 
-  if (milestonesDefault[participant]) {
+  if (defaultBadges[participant]) {
     if (!flag) message += `\n`;
-    milestonesDefault[participant].forEach((milestone) => {
-      message += `\n⭐ ${milestone}`;
+    defaultBadges[participant].forEach((badge) => {
+      message += `\n⭐ ${badge}`;
     });
   }
 
