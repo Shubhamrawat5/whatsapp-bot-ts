@@ -10,6 +10,7 @@ export const createGroupTable = async () => {
       gname TEXT NOT NULL, 
       link TEXT, 
       commands_disabled TEXT[] NOT NULL,
+      type TEXT NOT NULL DEFAULT 'whatsapp',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     );`

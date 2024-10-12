@@ -10,6 +10,7 @@ export const createMemberTable = async () => {
       name TEXT NOT NULL, 
       donation INTEGER DEFAULT 0,
       badges TEXT[] NOT NULL,
+      role TEXT NOT NULL DEFAULT 'member',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     );`

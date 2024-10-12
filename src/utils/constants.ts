@@ -17,7 +17,7 @@ export const pvxgroups: Pvxgroups = {
   pvxdeals: "919557666582-1582555632@g.us",
   pvxgaming: "17028054150-1608057174@g.us",
   pvxmemes: "919557666582-1551346051@g.us",
-  pvxkrypto: "918329198682-1614096949@g.us",
+  pvxkrypto: "120363329317457388@g.us",
   pvxbotcommands: "919675642959-1606755119@g.us",
   pvxtesting: "120363189969342767@g.us",
 };
