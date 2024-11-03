@@ -166,37 +166,3 @@ export const setBadges = async (
     return false;
   }
 };
-
-export const setCoctag = async (
-  memberjid: string,
-  coctag: string[]
-): Promise<boolean> => {
-  try {
-    const res = await pool.query(
-      "UPDATE member SET coctag = $2 WHERE memberjid = $1;",
-      [memberjid, coctag]
-    );
-
-    if (res.rowCount === 1) return true;
-    return false;
-  } catch (error) {
-    await loggerBot(undefined, "[setCoctag DB]", error, undefined);
-    return false;
-  }
-};
-
-export const getCoctag = async (memberjid: string): Promise<string[]> => {
-  try {
-    const res = await pool.query(
-      "SELECT coctag FROM member WHERE memberjid = $1;",
-      [memberjid]
-    );
-
-    if (res.rowCount) {
-      return res.rows[0].coctag || [];
-    }
-  } catch (error) {
-    await loggerBot(undefined, "[getCoctag DB]", error, undefined);
-  }
-  return [];
-};

@@ -1,10 +1,10 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getCoctag } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 import { getPlayerDetails } from "../../utils/coc/apis";
 import { resolveTag } from "../../utils/coc/helpers";
+import { getCocTags } from "../../db/cocDb";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   // Get all coc tags for the user
-  const userTags = await getCoctag(participant);
+  const userTags = await getCocTags(participant);
 
   if (!userTags || userTags.length === 0) {
     await reply("❌ No COC tags found for this user!");

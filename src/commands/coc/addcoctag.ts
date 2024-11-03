@@ -1,9 +1,9 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getCoctag, setCoctag } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 import { isValidTag, resolveTag } from "../../utils/coc/helpers";
+import { addCocTag, getCocTags } from "../../db/cocDb";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
@@ -34,12 +34,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const newTag = args[0].toLowerCase();
 
-  const existingCoctags = await getCoctag(participant);
+  const existingCoctags = await getCocTags(participant);
 
   if (!existingCoctags.includes(newTag)) {
     existingCoctags.push(newTag);
 
-    const success = await setCoctag(participant, existingCoctags);
+    const success = await addCocTag(participant, newTag);
     if (success) {
       await reply(`✔ Tag "${newTag}" added successfully!`);
     } else {

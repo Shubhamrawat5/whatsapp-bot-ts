@@ -9,6 +9,7 @@ import { createBadgeTable } from "../db/badgeDB";
 import { createNewsTable } from "../db/newsDB";
 import { createUnknownCmdTable } from "../db/unknownCmdDB";
 import { createVotingTable } from "../db/votingDB";
+import { createCocTagTable } from "../db/cocDb";
 
 const createDbTables = async () => {
   console.log("- Creating all DB tables");
@@ -23,6 +24,7 @@ const createDbTables = async () => {
   await createNewsTable();
   await createVotingTable();
   await createUnknownCmdTable();
+  await createCocTagTable();
   console.log("✔ Created all DB tables");
 };
 
