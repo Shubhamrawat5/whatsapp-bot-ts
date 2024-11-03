@@ -32,21 +32,19 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  const newTag = args[0].toLowerCase();
-
   const existingCoctags = await getCocTags(participant);
 
-  if (!existingCoctags.includes(newTag)) {
-    existingCoctags.push(newTag);
+  if (!existingCoctags.includes(tag)) {
+    existingCoctags.push(tag);
 
-    const success = await addCocTag(participant, newTag);
+    const success = await addCocTag(participant, tag);
     if (success) {
-      await reply(`✔ Tag "${newTag}" added successfully!`);
+      await reply(`✔ Tag "${tag}" added successfully!`);
     } else {
-      await reply(`❌ Failed to add tag "${newTag}"!`);
+      await reply(`❌ Failed to add tag "${tag}"!`);
     }
   } else {
-    await reply(`❌ User already has the tag "${newTag}"!`);
+    await reply(`❌ User already has the tag "${tag}"!`);
   }
 };
 
