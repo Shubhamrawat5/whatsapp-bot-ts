@@ -25,7 +25,7 @@ export interface ClanDetails {
   isWarLogPublic: boolean;
   warLeague: League;
   members: number;
-  memberList: MemberList[];
+  memberList: ClanMember[];
   labels: Label[];
   requiredBuilderBaseTrophies: number;
   requiredTownhallLevel: number;
@@ -79,7 +79,7 @@ export interface Location {
   countryCode: string;
 }
 
-export interface MemberList {
+export interface ClanMember {
   tag: string;
   name: string;
   role: Role;

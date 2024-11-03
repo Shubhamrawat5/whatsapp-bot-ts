@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable */
 
 export const isValidTag = (tag: string) =>
   /^#[PYLQGRJCUV0289]{3,9}$/g.test(tag);
@@ -9,3 +9,5 @@ export const resolveTag = (tag: string) =>
     .replace(/[#]/g, "")
     .replace(/[\s]/g, "")
     .replace(/[O]/g, "0")}`;
+
+export const encodeTag = (tag: string) => tag.replace("#", "%23");

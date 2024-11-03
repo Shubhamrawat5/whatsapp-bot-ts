@@ -49,6 +49,16 @@ export const getCocTags = async (memberjid: string): Promise<string[]> => {
   return [];
 };
 
+export const getAllMembersByTags = async (
+  tags: string[]
+): Promise<string[]> => {
+  const res = await pool.query(
+    "SELECT memberjid FROM coc_tag WHERE tag = ANY($1)",
+    [tags]
+  );
+  return res.rows.map((row) => row.memberjid);
+};
+
 export const createCocTagTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS coc_tag(

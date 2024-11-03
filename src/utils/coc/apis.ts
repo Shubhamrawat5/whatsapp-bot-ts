@@ -1,26 +1,37 @@
 /* eslint-disable */
 import axios from "axios";
-import { ClanDetails, CocPlayer } from "../../interfaces/Coc";
-import { isValidTag, resolveTag } from "./helpers";
+import { ClanDetails, ClanMember, CocPlayer } from "../../interfaces/Coc";
+import { encodeTag, isValidTag, resolveTag } from "./helpers";
+import { clashApiUrl, cocApiKey, cocApiUrl } from "../config";
+import { mapKeyToValue, pvxClanTag } from "./constants";
 
 const clashKingApi = axios.create({
-  baseURL: "https://api.clashking.xyz/",
+  baseURL: clashApiUrl,
 });
 
 const officialCocApi = axios.create({
-  baseURL: `https://${atob("Y2xhc2hhcGk=")}.${atob("Y29saW5zY2htYWxl")}.dev/`,
+  baseURL: cocApiUrl,
   headers: {
-    [atob("QXBpa2V5")]: atob("dkFnZ1huaGZoR2REb1pEbXZiMlVCWlRt"),
+    [atob("QXBpa2V5")]: cocApiKey ?? "",
   },
 });
+
+const getCurrentPvxWar = async () => {
+  const { data } = await clashKingApi.get(
+    `v1/clans/${pvxClanTag}/currentwar/leaguegroup`
+  );
+  return data.rounds;
+};
 
 export const getPlayerDetails = async (tag: string) => {
   const resolvedTag = resolveTag(tag);
   if (!isValidTag(resolvedTag)) {
     return Promise.reject(new Error("Please Enter a Valid Tag"));
   }
-  const url = `/v1/players/${resolvedTag.replace("#", "%23")}`;
-  const { data } = await officialCocApi.get<CocPlayer>(url);
+
+  const { data } = await officialCocApi.get<CocPlayer>(
+    `/v1/players/${encodeTag(resolvedTag)}`
+  );
   return {
     name: data.name,
     clan: {
@@ -31,19 +42,33 @@ export const getPlayerDetails = async (tag: string) => {
   };
 };
 
-export const getPvxClanMembers = async () => {
-  const url = "/v1/clans/%232J2U2GGGP";
-  const { data } = await officialCocApi.get<ClanDetails>(url);
-  return data.memberList.map((member) => ({
-    name: member.name,
-    tag: member.tag,
-    trophies: member.trophies,
-    townHallLevel: member.townHallLevel,
-    role: member.role,
-  }));
+export const getPvxClanDetails = async () => {
+  const { data } = await officialCocApi.get<ClanDetails>(
+    `/v1/clans/${pvxClanTag}`
+  );
+  return {
+    currentMembersCount: data.memberList.length,
+    joinType: mapKeyToValue[data.type],
+    ...data,
+  };
 };
 
-// getPvxClanMembers()
+export const getPvxClanMembers = async () => {
+  const { data } = await officialCocApi.get<ClanMember[]>(
+    `/v1/clans/${encodeTag(pvxClanTag)}/members`
+  );
+
+  return data;
+};
+
+export const getPvxWarParticipants = async () => {
+  const { data } = await clashKingApi.get<ClanDetails>(
+    `v1/clanwarleagues/wars/${encodeTag(pvxClanTag)}`
+  );
+  return data;
+};
+
+// getPvxWarParticipants()
 //   .then((data) => {
 //     console.log("SUCCESS", data);
 //   })

@@ -93,6 +93,9 @@ import bday from "../commands/admins/bday";
 import { CommandsObj } from "../interfaces/CommandsObj";
 import addcoctag from "../commands/coc/addcoctag";
 import cocdetails from "../commands/coc/cocdetails";
+import clan from "../commands/coc/clan";
+import tagclan from "../commands/coc/tagclan";
+import clanmembers from "../commands/coc/clanmembers";
 
 const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
@@ -153,6 +156,7 @@ const addCommands = async () => {
     warnreduce,
     // coc
     addcoctag,
+    tagclan,
   ];
 
   adminCommands.forEach((command) => {
@@ -207,6 +211,8 @@ const addCommands = async () => {
     zero,
     // coc
     cocdetails,
+    clan,
+    clanmembers,
   ];
 
   membersCommands.forEach((command) => {
