@@ -12,3 +12,7 @@ export const TgBotToken = process.env.TG_BOT_TOKEN; // tg bot token here
 export const ownerNumberWithJid = ownerNumber
   ? `${ownerNumber}@s.whatsapp.net`
   : undefined;
+
+export const cocApiUrl = process.env.COC_API_URL;
+export const clashApiUrl = process.env.CLASHAPI_API_URL;
+export const cocApiKey = process.env.COC_API_KEY;

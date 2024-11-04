@@ -6,8 +6,8 @@ export const createMemberTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS member(
       uuid UUID DEFAULT gen_random_uuid(),
-      memberjid TEXT PRIMARY KEY, 
-      name TEXT NOT NULL, 
+      memberjid TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
       donation INTEGER DEFAULT 0,
       badges TEXT[] NOT NULL,
       role TEXT NOT NULL DEFAULT 'member',

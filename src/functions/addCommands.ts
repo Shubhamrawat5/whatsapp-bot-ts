@@ -91,6 +91,11 @@ import votecommand from "../commands/public/votecommand";
 
 import bday from "../commands/admins/bday";
 import { CommandsObj } from "../interfaces/CommandsObj";
+import addcoctag from "../commands/coc/addcoctag";
+import cocdetails from "../commands/coc/cocdetails";
+import clan from "../commands/coc/clan";
+import tagclan from "../commands/coc/tagclan";
+import clanmembers from "../commands/coc/clanmembers";
 
 const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
@@ -149,6 +154,9 @@ const addCommands = async () => {
     warnlist,
     warnlistall,
     warnreduce,
+    // coc
+    addcoctag,
+    tagclan,
   ];
 
   adminCommands.forEach((command) => {
@@ -201,6 +209,10 @@ const addCommands = async () => {
     yta,
     ytv,
     zero,
+    // coc
+    cocdetails,
+    clan,
+    clanmembers,
   ];
 
   membersCommands.forEach((command) => {
