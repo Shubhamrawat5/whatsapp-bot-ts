@@ -54,11 +54,11 @@ export const getPvxClanDetails = async () => {
 };
 
 export const getPvxClanMembers = async () => {
-  const { data } = await officialCocApi.get<ClanMember[]>(
-    `/v1/clans/${encodeTag(pvxClanTag)}/members`
-  );
+  const { data } = await officialCocApi.get<{
+    items: ClanMember[];
+  }>(`/v1/clans/${encodeTag(pvxClanTag)}/members`);
 
-  return data;
+  return data.items;
 };
 
 export const getPvxWarParticipants = async () => {
