@@ -11,12 +11,12 @@ const setCountMember = async (
   try {
     console.log(memberjid, groupjid, count);
     const res = await pool.query(
-      "UPDATE countmember SET message_count = message_count+$3 WHERE memberjid=$1 AND groupjid=$2;",
+      "UPDATE count_member SET message_count = message_count+$3 WHERE memberjid=$1 AND groupjid=$2;",
       [memberjid, groupjid, count]
     );
 
     if (res.rowCount === 0) {
-      await pool.query("INSERT INTO countmember values($1,$2,$3,$4);", [
+      await pool.query("INSERT INTO count_member values($1,$2,$3,$4);", [
         memberjid,
         groupjid,
         count,
@@ -31,7 +31,7 @@ const setCountMember = async (
 // count: user all group (with group wise) message count
 const getCountIndividualAllGroupWithName = async (): Promise<void> => {
   const result = await pool.query(
-    "SELECT * FROM countmember WHERE memberjid=$1;",
+    "SELECT * FROM count_member WHERE memberjid=$1;",
     [oldNum]
   );
   console.log(result.rows);
@@ -52,4 +52,4 @@ const getCountIndividualAllGroupWithName = async (): Promise<void> => {
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 getCountIndividualAllGroupWithName();
 
-// delete from countmember where memberjid = '9170031@s.whatsapp.net'
+// delete from count_member where memberjid = '9170031@s.whatsapp.net'

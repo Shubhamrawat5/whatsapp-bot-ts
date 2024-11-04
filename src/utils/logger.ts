@@ -3,8 +3,10 @@ import { Bot } from "../interfaces/Bot";
 
 import { TgBotToken, ownerNumberWithJid } from "./config";
 
-const kryptonChatId = 7139058343;
-  // 649341653; // my chat id to receive all the updates
+// const kryptonChatId = 7139058343;
+const logsChannelId = "-1002437471698";
+// 649341653; // my chat id to receive all the updates
+
 const botTG = TgBotToken
   ? new TelegramBot(TgBotToken, { polling: false })
   : null;
@@ -21,7 +23,7 @@ export const loggerBot = async (
 
     console.log(err);
     const loggerMsg = `ERROR [${eventType}]:\n${errMsg}\nmsg: ${msg}`;
-    if (botTG) await botTG.sendMessage(kryptonChatId, loggerMsg);
+    if (botTG) await botTG.sendMessage(logsChannelId, loggerMsg);
     if (botWA && ownerNumberWithJid) {
       await botWA.sendMessage(ownerNumberWithJid, {
         text: loggerMsg,
@@ -34,7 +36,7 @@ export const loggerBot = async (
 
 export const loggerTg = async (message: string) => {
   try {
-    if (botTG) await botTG.sendMessage(kryptonChatId, message);
+    if (botTG) await botTG.sendMessage(logsChannelId, message);
     console.log(message);
   } catch (error) {
     console.log(error);
@@ -46,7 +48,7 @@ export const sendLogToOwner = async (bot: Bot, message: string) => {
     // if (ownerNumberWithJid) {
     //   await bot.sendMessage(ownerNumberWithJid, { text: message });
     // }
-    if (botTG) await botTG.sendMessage(kryptonChatId, message);
+    if (botTG) await botTG.sendMessage(logsChannelId, message);
     console.log(message);
   } catch (error) {
     console.log(error);

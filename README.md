@@ -15,8 +15,9 @@
 
 ## Local Run:- :rocket:
 
-1. Create account on [elephantsql](https://www.elephantsql.com/) for Database.
-2. After login, get the database URL from details section. It'll be like: postgres://abc@tiny.db.elephantsql.com/xyz
+1. Create account on [supabase](https://supabase.com) for Database.
+2. After login, Go to Project settings then Database. It'll be like: postgresql://username:password@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres\
+   [Make sure to change the username and password in the database string]
 3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 
    > DATABASE_URL = "postgres://full_db_url"\
