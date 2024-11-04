@@ -7,17 +7,14 @@ import { resolveTag } from "../../utils/coc/helpers";
 import { getCocTags } from "../../db/cocDb";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply } = msgInfoObj;
+  const { reply, sender } = msgInfoObj;
 
-  if (!msg.message?.extendedTextMessage) {
-    await reply("❌ Tag someone!");
-    return;
-  }
+  let participant: string;
 
-  const participant = await getMentionedOrTaggedParticipant(msg);
-  if (!participant) {
-    await reply("❌ Tag someone!");
-    return;
+  if (msg.message?.extendedTextMessage) {
+    participant = await getMentionedOrTaggedParticipant(msg);
+  } else {
+    participant = sender;
   }
 
   // Get all coc tags for the user
