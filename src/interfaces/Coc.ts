@@ -150,7 +150,7 @@ export interface CocPlayer {
   donations: number;
   donationsReceived: number;
   clanCapitalContributions: number;
-  clan: Clan;
+  clan?: Clan;
   league: League;
   builderBaseLeague: BuilderBaseLeague;
   achievements: Achievement[];

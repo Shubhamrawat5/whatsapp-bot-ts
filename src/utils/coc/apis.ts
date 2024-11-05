@@ -35,7 +35,7 @@ export const getPlayerDetails = async (tag: string) => {
   return {
     name: data.name,
     clan: {
-      name: data.clan.name,
+      name: data.clan?.name || "None",
     },
     townHallLevel: data.townHallLevel,
     trophies: data.trophies,
