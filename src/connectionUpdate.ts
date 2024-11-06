@@ -5,6 +5,7 @@ import { cache } from "./utils/cache";
 import { deleteAuth } from "./db/authDB";
 import { Bot } from "./interfaces/Bot";
 import { loggerBot, loggerTg, sendLogToOwner } from "./utils/logger";
+// eslint-disable-next-line import/no-cycle
 import updateQr from "./index";
 
 let startCount = 1;

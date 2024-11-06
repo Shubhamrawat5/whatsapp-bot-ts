@@ -21,6 +21,7 @@ export interface Bot {
       handler: (events: Partial<BaileysEventMap>) => void | Promise<void>
     ): () => void;
     buffer(): void;
+    // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-explicit-any
     createBufferedFunction<A extends any[], T_1>(
       work: (...args: A) => Promise<T_1>
     ): (...args: A) => Promise<T_1>;

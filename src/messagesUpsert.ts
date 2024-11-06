@@ -289,6 +289,7 @@ export const messagesUpsert = async (
           let statsMessage = "📛 PVX BOT STATS 📛\n";
 
           let key: keyof typeof stats;
+          // eslint-disable-next-line no-restricted-syntax
           for (key in stats) {
             if (Object.prototype.hasOwnProperty.call(stats, key)) {
               statsMessage += `\n${key}: ${stats[key]}`;

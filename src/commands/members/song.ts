@@ -61,6 +61,7 @@ const downloadSong = async (randomFileName: string, query: string) => {
       return { info: "ERR", err: err.stack };
     }
   }
+  return null;
 };
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -72,6 +73,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
   const randomFileName = getRandomFileName(".mp3");
   const query = args.join("%20");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response: any = await downloadSong(randomFileName, query);
   if (response && response.info === "NF") {
     await reply(

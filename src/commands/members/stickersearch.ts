@@ -26,6 +26,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const name = args.join(" ");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gis(name, async (error: any, results: Result[]) => {
     if (error) {
       console.log(error);

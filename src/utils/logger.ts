@@ -14,11 +14,12 @@ const botTG = TgBotToken
 export const loggerBot = async (
   botWA: Bot | undefined,
   eventType: string,
-  err: any,
-  msgObj: any
+  err: unknown,
+  msgObj: unknown
 ) => {
   try {
-    const errMsg = err.stack ? err.stack : err.toString();
+    const errMsg =
+      err instanceof Error ? err.stack || err.toString() : String(err);
     const msg = JSON.stringify(msgObj);
 
     console.log(err);

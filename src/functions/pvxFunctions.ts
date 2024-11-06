@@ -11,13 +11,14 @@ import { postTechNewsHeadline, postTechNewsList } from "./postTechNews";
 import { sendLogToOwner } from "../utils/logger";
 
 // 0 0 * * * - Every day at 12:00 AM
+// 0 8-23 * * * - Every hour, between 08:00 AM and 11:59 PM
 // 0 */30 * * * * - Every 30 mins
 // 0 */30 8-23 * * * - Every 30 minutes, between 08:00 AM and 11:59 PM
 // 0 21 * * * - At 09:00 PM
 
 export const postNewsCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
   return cron.schedule(
-    "0 */30 8-23 * * *",
+    "0 8-23 * * *",
     async () => {
       await postTechNewsHeadline(bot, pvxgroups.pvxtech);
       await postStudyInfo(bot, pvxgroups.pvxstudy);

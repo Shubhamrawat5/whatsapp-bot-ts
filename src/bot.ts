@@ -7,6 +7,7 @@ import makeWASocket, {
   makeInMemoryStore,
 } from "@whiskeysockets/baileys";
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import pino from "pino";
 import cron from "node-cron";
 
@@ -30,6 +31,7 @@ import { msgRetryCounterCache } from "./utils/cache";
 import { messagesUpsert, MessageUpsert } from "./messagesUpsert";
 import { groupsUpsert, GroupsUpsert } from "./groupsUpsert";
 import { GroupsUpdate, groupsUpdate } from "./groupsUpdate";
+// eslint-disable-next-line import/no-cycle
 import { ConnectionUpdate, connectionUpdate } from "./connectionUpdate";
 import { getIndianDateTime } from "./functions/getIndianDateTime";
 import { cronJobEnabled } from "./utils/config";

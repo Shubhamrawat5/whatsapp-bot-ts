@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import qrcode from "qrcode";
 import path from "path";
+// eslint-disable-next-line import/no-cycle
 import startBot from "./bot";
 
 let qr: string | undefined;
