@@ -21,7 +21,7 @@ export const postNewsCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
     "0 8-23 * * *",
     async () => {
       await postTechNewsHeadline(bot, pvxgroups.pvxtech);
-      await postStudyInfo(bot, pvxgroups.pvxstudy);
+      // await postStudyInfo(bot, pvxgroups.pvxstudy);
     },
     {
       scheduled: true,
