@@ -147,6 +147,49 @@ export const messagesUpsert = async (
 
       const groupName: string | undefined = groupMetadata?.subject;
 
+      // Spam checker start
+      // console.log(JSON.stringify(spamMessageCheck));
+      if (spamMessageCheck[from] && spamMessageCheck[from][sender]) {
+        if (spamMessageCheck[from][sender].body === body && body) {
+          // If the body is the same, increment the count
+          spamMessageCheck[from][sender].count += 1;
+        } else {
+          spamMessageCheck[from][sender].count = 1;
+          spamMessageCheck[from][sender].body = body;
+        }
+      } else {
+        spamMessageCheck[from] = {
+          [sender]: {
+            count: 1,
+            body,
+          },
+        };
+      }
+
+      if (spamMessageCheck[from][sender].count === 10) {
+        console.log(
+          `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
+        );
+        await bot.sendMessage(pvxgroups.pvxsubadmin, {
+          text: `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`,
+        });
+        const response = await bot.groupParticipantsUpdate(
+          from,
+          [sender],
+          "remove"
+        );
+        if (response[0].status === "200") {
+          await bot.sendMessage(from, {
+            text: "_✔ Number removed from group due to spam!_",
+          });
+        } else {
+          await bot.sendMessage(from, {
+            text: "_❌ There was a problem removing the user!_",
+          });
+        }
+      }
+      // Spam checker end
+
       // Forward all stickers
       if (
         forwardStickerEnabled === "true" &&
@@ -212,49 +255,6 @@ export const messagesUpsert = async (
         //   body = "!s";
         // }
       }
-
-      // Spam checker start
-      // console.log(JSON.stringify(spamMessageCheck));
-      if (spamMessageCheck[from] && spamMessageCheck[from][sender]) {
-        if (spamMessageCheck[from][sender].body === body && body) {
-          // If the body is the same, increment the count
-          spamMessageCheck[from][sender].count += 1;
-        } else {
-          spamMessageCheck[from][sender].count = 1;
-          spamMessageCheck[from][sender].body = body;
-        }
-      } else {
-        spamMessageCheck[from] = {
-          [sender]: {
-            count: 1,
-            body,
-          },
-        };
-      }
-
-      if (spamMessageCheck[from][sender].count === 10) {
-        console.log(
-          `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
-        );
-        await bot.sendMessage(pvxgroups.pvxsubadmin, {
-          text: `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`,
-        });
-        const response = await bot.groupParticipantsUpdate(
-          from,
-          [sender],
-          "remove"
-        );
-        if (response[0].status === "200") {
-          await bot.sendMessage(from, {
-            text: "_✔ Number removed from group due to spam!_",
-          });
-        } else {
-          await bot.sendMessage(from, {
-            text: "_❌ There was a problem removing the user!_",
-          });
-        }
-      }
-      // Spam checker end
 
       if (!isCmd) {
         const messageLog = `[MESSAGE] ${
