@@ -32,37 +32,39 @@ export const postTechNewsHeadline = async (bot: Bot, pvxtech: string) => {
       let storeNewsTechRes = false;
       let count = 1;
 
-      while (!storeNewsTechRes) {
-        console.log(`TECH NEWS FUNCTION: ${count} times!`);
-        if (count > 10) {
-          // 10 times, already posted news comes up
-          return;
-        }
+      if (articles.length) {
+        while (!storeNewsTechRes) {
+          console.log(`TECH NEWS FUNCTION: ${count} times!`);
+          if (count > 10) {
+            // 10 times, already posted news comes up
+            return;
+          }
 
-        const index = Math.floor(Math.random() * articles.length);
-        const { url, source } = articles[index];
-        let { title } = articles[index];
+          const index = Math.floor(Math.random() * articles.length);
+          const { url, source } = articles[index];
+          let { title } = articles[index];
 
-        const found = title.lastIndexOf("-");
-        if (found !== -1) title = title.slice(0, title.lastIndexOf("-") - 1);
+          const found = title.lastIndexOf("-");
+          if (found !== -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
-        storeNewsTechRes =
-          // eslint-disable-next-line no-await-in-loop
-          source.name !== "Sportskeeda" && (await storeNews(title));
-        if (storeNewsTechRes) {
-          console.log("NEW TECH NEWS!");
+          storeNewsTechRes =
+            // eslint-disable-next-line no-await-in-loop
+            source.name !== "Sportskeeda" && (await storeNews(title));
+          if (storeNewsTechRes) {
+            console.log("NEW TECH NEWS!");
 
-          let message = `📰 ${title}\n`;
-          // if (description) message += `\n_${description}_`;
-          if (url) message += `\nSource: ${url}`;
+            let message = `📰 ${title}\n`;
+            // if (description) message += `\n_${description}_`;
+            if (url) message += `\nSource: ${url}`;
 
-          // eslint-disable-next-line no-await-in-loop
-          await bot.sendMessage(pvxtech, {
-            text: message,
-          });
-        } else {
-          console.log("OLD TECH NEWS!");
-          count += 1;
+            // eslint-disable-next-line no-await-in-loop
+            await bot.sendMessage(pvxtech, {
+              text: message,
+            });
+          } else {
+            console.log("OLD TECH NEWS!");
+            count += 1;
+          }
         }
       }
     } else {
