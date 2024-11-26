@@ -5,11 +5,11 @@ import pool from "./pool";
 export const createGroupTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS pvx_group(
-      uuid UUID DEFAULT gen_random_uuid(),
-      groupjid TEXT PRIMARY KEY, 
-      gname TEXT NOT NULL, 
-      link TEXT, 
-      commands_disabled TEXT[] NOT NULL,
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      groupjid TEXT UNIQUE NOT NULL,
+      gname TEXT NOT NULL,
+      link TEXT,
+      commands_disabled TEXT [] NOT NULL DEFAULT '{}',
       type TEXT NOT NULL DEFAULT 'whatsapp',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()

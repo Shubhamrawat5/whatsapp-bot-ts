@@ -5,11 +5,11 @@ import pool from "./pool";
 export const createMemberTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS member(
-      uuid UUID DEFAULT gen_random_uuid(),
-      memberjid TEXT PRIMARY KEY,
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      memberjid TEXT UNIQUE NOT NULL,
       name TEXT NOT NULL,
-      donation INTEGER DEFAULT 0,
-      badges TEXT[] NOT NULL,
+      donation INTEGER DEFAULT 0 CHECK (donation >= 0),
+      badges TEXT[] NOT NULL DEFAULT '{}',
       role TEXT NOT NULL DEFAULT 'member',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()

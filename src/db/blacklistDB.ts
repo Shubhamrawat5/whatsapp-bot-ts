@@ -5,9 +5,9 @@ import pool from "./pool";
 export const createBlacklistTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS blacklist(
-      uuid UUID DEFAULT gen_random_uuid(),
-      memberjid TEXT PRIMARY KEY, 
-      reason TEXT NOT NULL, 
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      memberjid TEXT UNIQUE NOT NULL,
+      reason TEXT NOT NULL,
       admin TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),

@@ -5,8 +5,8 @@ import pool from "./pool";
 export const createMetaTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS meta(
-      uuid UUID DEFAULT gen_random_uuid(),
-      variable TEXT PRIMARY KEY,
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      variable TEXT UNIQUE NOT NULL,
       value BOOLEAN NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()

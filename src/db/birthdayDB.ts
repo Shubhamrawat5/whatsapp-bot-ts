@@ -5,13 +5,13 @@ import pool from "./pool";
 export const createbirthdayTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS birthday(
-      uuid UUID DEFAULT gen_random_uuid(),
-      memberjid TEXT PRIMARY KEY,
-      name TEXT NOT NULL, 
-      username TEXT NOT NULL, 
-      date INTEGER NOT NULL, 
-      month INTEGER NOT NULL, 
-      year INTEGER, 
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      memberjid TEXT UNIQUE NOT NULL,
+      name TEXT NOT NULL,
+      username TEXT NOT NULL,
+      date INTEGER NOT NULL,
+      month INTEGER NOT NULL,
+      year INTEGER,
       place TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),

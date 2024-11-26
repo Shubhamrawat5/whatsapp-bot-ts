@@ -4,9 +4,9 @@ import pool from "./pool";
 export const createBadgeTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS badge(
-      uuid UUID DEFAULT gen_random_uuid(),
-      sno SERIAL NOT NULL, 
-      badge_info TEXT PRIMARY KEY,
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      sno SERIAL,
+      badge_info TEXT UNIQUE NOT NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     );`

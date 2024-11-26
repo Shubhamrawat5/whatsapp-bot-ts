@@ -5,17 +5,18 @@ import pool from "./pool";
 export const createCountMemberTable = async () => {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS count_member_month(
-      uuid UUID DEFAULT gen_random_uuid(),
-      memberjid TEXT NOT NULL, 
-      groupjid TEXT NOT NULL, 
-      message_count INTEGER NOT NULL DEFAULT 0, 
-      warning_count INTEGER NOT NULL DEFAULT 0, 
-      video_count INTEGER NOT NULL DEFAULT 0, 
+      uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      memberjid TEXT NOT NULL,
+      groupjid TEXT NOT NULL,
+      message_count INTEGER NOT NULL DEFAULT 0,
+      warning_count INTEGER NOT NULL DEFAULT 0 CHECK (
+          warning_count BETWEEN 0
+          AND 3
+      ),
+      video_count INTEGER NOT NULL DEFAULT 0,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
-      PRIMARY KEY (memberjid, groupjid), 
-      CHECK(warning_count BETWEEN 0 and 3),
-
+      UNIQUE (memberjid, groupjid),
       CONSTRAINT countmember_groupjid_fkey FOREIGN KEY (groupjid) REFERENCES pvx_group (groupjid),
       CONSTRAINT countmember_memberjid_fkey FOREIGN KEY (memberjid) REFERENCES member (memberjid)
     );`
