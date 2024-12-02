@@ -26,7 +26,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const response = await getCricketScore(matchId);
 
-  await bot.sendMessage(from, { text: response.message }, { quoted: msg });
+  await bot.sendMessage(from, { text: response }, { quoted: msg });
 };
 
 const score = () => {
