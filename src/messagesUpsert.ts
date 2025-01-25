@@ -15,7 +15,7 @@ import { Bot } from "./interfaces/Bot";
 import getGroupAdmins from "./functions/getGroupAdmins";
 import { getGroupData } from "./db/pvxGroupDB";
 import { MsgInfoObj } from "./interfaces/msgInfoObj";
-import { loggerBot, loggerTg } from "./utils/logger";
+import { loggerBot, loggerTg, sendLogToOwner } from "./utils/logger";
 import { addUnknownCmd } from "./db/unknownCmdDB";
 import { CommandsObj } from "./interfaces/CommandsObj";
 import { DefaultBadge } from "./functions/addDefaultBadges";
@@ -167,6 +167,7 @@ export const messagesUpsert = async (
       }
 
       if (spamMessageCheck[from][sender].count === 10) {
+        await sendLogToOwner(bot, JSON.stringify(spamMessageCheck));
         console.log(
           `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
         );
