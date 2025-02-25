@@ -3,7 +3,7 @@
 [Click to show Webpage](https://shubhamrawat5.github.io/whatsapp-bot-ts/)
 
 <!-- ![logo](https://i.ibb.co/Fmk9bhG/bot.jpg) -->
-<img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300">
+<img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300" alt="logo">
 
 ## Setup:- :rocket:
 
@@ -17,7 +17,7 @@
 
 1. Create account on [supabase](https://supabase.com) for Database.
 2. After login, Go to Project settings then Database. It'll be like: postgresql://username:password@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres\
-   [Make sure to change the username and password in the database string]
+   [Make sure to change the username and password in the database string, also do "Encode URL" of the database URI]
 3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 
    > DATABASE_URL = "postgres://full_db_url"\
@@ -157,6 +157,10 @@ Default prefix: `!`
 
   Put match id in the starting of group description\
   Get match ID from cricbuzz url, Example: `https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021`, so match ID is `37572`
+
+## Backup
+
+`pg_dump 'postgresql://postgres.....@aws-0-ap-south-1.pooler.supabase.com:6543/postgres' > dump.sql`
 
 ## References:- :rocket:
 
