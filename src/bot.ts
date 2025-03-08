@@ -22,6 +22,7 @@ import {
   postBdayCron,
   postNewsCron,
   postNewsListCron,
+  postTodayStatsCron,
 } from "./functions/pvxFunctions";
 import {
   groupParticipantsUpdate,
@@ -41,6 +42,7 @@ stats.started = getIndianDateTime().toDateString();
 let bdayCronJob: cron.ScheduledTask | undefined;
 let newsCronJob: cron.ScheduledTask | undefined;
 let newsListCronJob: cron.ScheduledTask | undefined;
+let todayStatsCronJob: cron.ScheduledTask | undefined;
 
 let defaultBadges: DefaultBadge = {};
 
@@ -89,6 +91,7 @@ const startBot = async () => {
     bdayCronJob?.stop();
     newsCronJob?.stop();
     newsListCronJob?.stop();
+    todayStatsCronJob?.stop();
 
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -118,6 +121,7 @@ const startBot = async () => {
       bdayCronJob = await postBdayCron(bot);
       newsCronJob = await postNewsListCron(bot);
       newsListCronJob = await postNewsCron(bot);
+      todayStatsCronJob = await postTodayStatsCron(bot);
     }
 
     let botNumberJid = bot.user ? bot.user.id : ""; // '1506xxxxx54:3@s.whatsapp.net'

@@ -29,7 +29,7 @@ export interface GetCountTopMonth {
   message_count: number;
 }
 
-// pvxt: top member stats of all groups
+// pvxtt: top member stats of all groups
 export const getCountTopMonth = async (
   noOfResult: number
 ): Promise<GetCountTopMonth[]> => {
@@ -51,7 +51,7 @@ export interface GetCountGroupsMonth {
   message_count: number;
 }
 
-// pvxg: all groups stats
+// pvxgg: all groups stats
 export const getCountGroupsMonth = async (): Promise<GetCountGroupsMonth[]> => {
   try {
     const res = await pool.query(
