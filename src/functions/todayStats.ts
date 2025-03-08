@@ -20,16 +20,16 @@ const todayStats = async (bot: Bot): Promise<string> => {
     const getCountGroupsRes = await getCountGroupsToday(noOfResult);
     let countGroupMsg = `*📛 TOP GROUP STATS 📛*`;
 
-    getCountGroupsRes.forEach((group) => {
+    getCountGroupsRes.forEach((group, index) => {
       let grpName = group.gname ?? "Not Found";
       if (grpName.toUpperCase().includes("<{PVX}>")) {
         // grpName = grpName.split(" ")[1];
         grpName = grpName.replace("<{PVX}> ", "");
-        countGroupMsg += `\n${group.message_count} - ${grpName}`;
+        countGroupMsg += `\n${index + 1}) ${grpName} - ${group.message_count}`;
       }
     });
 
-    const message = `📛 PVX TODAY"S STATS 📛\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
+    const message = `📛 PVX TODAY'S STATS 📛\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
     return message;
   } catch (err) {
     await loggerBot(bot, "todayStats", err, undefined);
