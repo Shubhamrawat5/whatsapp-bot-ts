@@ -64,6 +64,7 @@ import ytv from "../commands/members/ytv";
 import zero from "../commands/members/zero";
 import pvxv from "../commands/members/pvxv";
 import technews from "../commands/members/technews";
+import today from "../commands/members/today";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
@@ -213,6 +214,7 @@ const addCommands = async () => {
     cocdetails,
     clan,
     clanmembers,
+    today,
   ];
 
   membersCommands.forEach((command) => {
