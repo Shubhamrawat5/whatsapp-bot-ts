@@ -95,7 +95,7 @@ export const setCountMemberToday = async (
 
 export const deleteCountMemberToday = async (): Promise<boolean> => {
   try {
-    const res = await pool.query("DELETE FROM news");
+    const res = await pool.query("DELETE FROM count_member_today");
 
     if (res.rowCount && res.rowCount > 0) {
       return true;
