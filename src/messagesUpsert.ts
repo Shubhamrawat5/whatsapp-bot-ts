@@ -206,7 +206,6 @@ export const messagesUpsert = async (
         );
         if (forwardStickerRes) stats.stickerForwarded += 1;
         else stats.stickerNotForwarded += 1;
-        return;
       }
 
       if (pvxFunctionsEnabled === "true") {
