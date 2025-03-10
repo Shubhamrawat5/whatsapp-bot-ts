@@ -8,7 +8,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   const getCountGroupsRes = await getCountGroups();
-  let countGroupMsg = `*📛 PVX GROUP STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
+  let countGroupMsg = `*📛 PVX GROUPS STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;

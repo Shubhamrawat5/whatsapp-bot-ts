@@ -12,7 +12,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const monthName = today.toLocaleString("default", { month: "long" });
   const year = today.getFullYear();
 
-  let countGroupMsg = `*📛 PVX GROUP STATS 📛*\n_${monthName} ${year}_${readMore}\n`;
+  let countGroupMsg = `*📛 PVX GROUPS STATS 📛*\n_${monthName} ${year}_${readMore}\n`;
 
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;

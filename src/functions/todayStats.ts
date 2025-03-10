@@ -19,7 +19,7 @@ const todayStats = async (bot: Bot): Promise<string> => {
     });
 
     const getCountGroupsRes = await getCountGroupsToday();
-    let countGroupMsg = `*📛 TOP GROUP STATS 📛*`;
+    let countGroupMsg = `*📛 TOP GROUPS STATS 📛*`;
     let messageCount = 0;
     getCountGroupsRes.forEach((group, index) => {
       messageCount += Number(group.message_count);
@@ -43,7 +43,7 @@ const todayStats = async (bot: Bot): Promise<string> => {
       groupCount = getCountUniqueMemberRes[0].group_count;
     }
 
-    const message = `📛 PVX TODAY'S STATS 📛\nTotal message: ${messageCount}\nTotal Groups: ${groupCount}\nActive members: ${memberCount}\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
+    const message = `📛 PVX TODAY'S STATS 📛\nTotal messages: ${messageCount}\nActive Groups: ${groupCount}\nActive members: ${memberCount}\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
     return message;
   } catch (err) {
     await loggerBot(bot, "todayStats", err, undefined);
