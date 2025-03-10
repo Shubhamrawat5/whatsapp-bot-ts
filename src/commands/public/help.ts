@@ -51,6 +51,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
 📛 *${prefix}count*
   - _Know your message stats in all PVX groups!_
+
+📛 *${prefix}today*
+  - _Get today's stats of PVX!_
   
 📛 *${prefix}ytv url*
   - _Youtube videos downloader!_

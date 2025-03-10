@@ -73,6 +73,7 @@ Default prefix: `!`
 |  `!tagadmins`   |              Tag all admins of group              |    `!ta`     |
 |   `!sticker`    |     Create sticker from different media types     |     `!s`     |
 |      `!ai`      |                Ask questions to AI                |              |
+|    `!today`     |             Get today's stats of PVX              |              |
 |     `!text`     |             Create sticker from text              |              |
 |    `!insta`     |          Get insta reels or post videos           |     `!i`     |
 |     `!ytv`      |              Download youtube videos              |              |

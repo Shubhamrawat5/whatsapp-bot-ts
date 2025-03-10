@@ -1,6 +1,7 @@
 import {
   getCountGroupsToday,
   getCountTopToday,
+  getCountUniqueMemberToday,
 } from "../db/countMemberTodayDB";
 import { Bot } from "../interfaces/Bot";
 import { loggerBot } from "../utils/logger";
@@ -17,19 +18,32 @@ const todayStats = async (bot: Bot): Promise<string> => {
       }`;
     });
 
-    const getCountGroupsRes = await getCountGroupsToday(noOfResult);
+    const getCountGroupsRes = await getCountGroupsToday();
     let countGroupMsg = `*📛 TOP GROUP STATS 📛*`;
-
+    let messageCount = 0;
     getCountGroupsRes.forEach((group, index) => {
-      let grpName = group.gname ?? "Not Found";
-      if (grpName.toUpperCase().includes("<{PVX}>")) {
-        // grpName = grpName.split(" ")[1];
-        grpName = grpName.replace("<{PVX}> ", "");
-        countGroupMsg += `\n${index + 1}) ${grpName} - ${group.message_count}`;
+      messageCount += Number(group.message_count);
+      if (index < 5) {
+        let grpName = group.gname ?? "Not Found";
+        if (grpName.toUpperCase().includes("<{PVX}>")) {
+          // grpName = grpName.split(" ")[1];
+          grpName = grpName.replace("<{PVX}> ", "");
+          countGroupMsg += `\n${index + 1}) ${grpName} - ${
+            group.message_count
+          }`;
+        }
       }
     });
 
-    const message = `📛 PVX TODAY'S STATS 📛\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
+    const getCountUniqueMemberRes = await getCountUniqueMemberToday();
+    let memberCount = 0;
+    let groupCount = 0;
+    if (getCountUniqueMemberRes.length !== 0) {
+      memberCount = getCountUniqueMemberRes[0].member_count;
+      groupCount = getCountUniqueMemberRes[0].group_count;
+    }
+
+    const message = `📛 PVX TODAY'S STATS 📛\nTotal message: ${messageCount}\nTotal Groups: ${groupCount}\nActive members: ${memberCount}\n\n${countGroupMsgTop}\n\n${countGroupMsg}`;
     return message;
   } catch (err) {
     await loggerBot(bot, "todayStats", err, undefined);

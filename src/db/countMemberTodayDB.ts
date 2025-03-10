@@ -46,18 +46,42 @@ export interface GetCountGroupsToday {
   message_count: number;
 }
 
-export const getCountGroupsToday = async (
-  noOfResult: number
-): Promise<GetCountGroupsToday[]> => {
+export const getCountGroupsToday = async (): Promise<GetCountGroupsToday[]> => {
   try {
     const res = await pool.query(
-      `SELECT pvx_group.gname,SUM(count_member_today.message_count) as message_count from count_member_today INNER JOIN pvx_group ON count_member_today.groupjid = pvx_group.groupjid GROUP BY pvx_group.gname ORDER BY message_count DESC LIMIT ${noOfResult};`
+      `SELECT pvx_group.gname,SUM(count_member_today.message_count) as message_count from count_member_today INNER JOIN pvx_group ON count_member_today.groupjid = pvx_group.groupjid GROUP BY pvx_group.gname ORDER BY message_count DESC;`
     );
     if (res.rowCount) {
       return res.rows;
     }
   } catch (error) {
     await loggerBot(undefined, "[getCountGroupsToday DB]", error, undefined);
+  }
+  return [];
+};
+
+export interface GetCountUniqueMemberToday {
+  member_count: number;
+  group_count: number;
+}
+
+export const getCountUniqueMemberToday = async (): Promise<
+  GetCountUniqueMemberToday[]
+> => {
+  try {
+    const res = await pool.query(
+      `SELECT COUNT(DISTINCT memberjid) as member_count, COUNT(DISTINCT groupjid) as group_count FROM count_member_today;`
+    );
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    await loggerBot(
+      undefined,
+      "[getCountUniqueMemberToday DB]",
+      error,
+      undefined
+    );
   }
   return [];
 };

@@ -34,6 +34,8 @@ ALTER TABLE pvx_group DROP COLUMN commands_disabled;
 INSERT INTO "public"."member" (memberjid, name, donation, milestones) VALUES ('91@s.whatsapp.net', 'PVX', 2500, '{}');
 INSERT into "public"."pvx_group" (groupjid,gname,link,commands_disabled) values('120363329317457388@g.us','<{PVX}> Crypto/Stocks Discussion','https://chat.whatsapp.com/DkfARZxRBOcLmxdbmI0nrv','{}');
 
+INSERT into birthday (memberjid, name, username, date, month, year, place) VALUES('91@s.whatsapp.net','name','username',19,11,1998,'place');
+
 begin;
 set transaction read write;
 ALTER TABLE countmember ADD COLUMN day text;

@@ -36,11 +36,9 @@ import insta from "../commands/members/insta";
 import badge from "../commands/members/badge";
 import movie from "../commands/members/movie";
 import pvxg from "../commands/members/pvxg";
-import pvxgg from "../commands/members/pvxgg";
 import pvxm from "../commands/members/pvxm";
 import pvxstats from "../commands/members/pvxstats";
 import pvxt from "../commands/members/pvxt";
-import pvxtt from "../commands/members/pvxtt";
 import pvxt5 from "../commands/members/pvxt5";
 import pvxtm from "../commands/members/pvxtm";
 import quote from "../commands/members/quote";
@@ -181,11 +179,9 @@ const addCommands = async () => {
     badge,
     movie,
     pvxg,
-    pvxgg,
     pvxm,
     pvxstats,
     pvxt,
-    pvxtt,
     pvxt5,
     pvxm,
     pvxv,
