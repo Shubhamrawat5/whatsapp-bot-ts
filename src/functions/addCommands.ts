@@ -22,6 +22,7 @@ import warnlist from "../commands/admins/warnlist";
 import warnlistall from "../commands/admins/warnlistall";
 import warnreduce from "../commands/admins/warnreduce";
 import setlink from "../commands/admins/setlink";
+import today from "../commands/admins/today";
 
 /* ----------------------------- MEMBER COMMANDS ---------------------------- */
 import ai from "../commands/members/ai";
@@ -62,7 +63,6 @@ import ytv from "../commands/members/ytv";
 import zero from "../commands/members/zero";
 import pvxv from "../commands/members/pvxv";
 import technews from "../commands/members/technews";
-import today from "../commands/members/today";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
@@ -156,6 +156,7 @@ const addCommands = async () => {
     // coc
     addcoctag,
     tagclan,
+    today,
   ];
 
   adminCommands.forEach((command) => {
@@ -210,7 +211,6 @@ const addCommands = async () => {
     cocdetails,
     clan,
     clanmembers,
-    today,
   ];
 
   membersCommands.forEach((command) => {
