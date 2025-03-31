@@ -25,6 +25,7 @@ import {
   pvxFunctionsEnabled,
 } from "./utils/config";
 import { setCountMemberToday } from "./db/countMemberTodayDB";
+import fs from "fs";
 
 export interface MessageUpsert {
   messages: WAMessage[];
@@ -262,6 +263,17 @@ export const messagesUpsert = async (
           body ? body.substr(0, 30) : type
         } [FROM] ${senderNumber} [IN] ${groupName ?? from}`;
         console.log(messageLog);
+
+        // Bot is mentioned
+        if (body.includes(botNumberJid.split("@")[0])) {
+          await bot.sendMessage(
+            from,
+            {
+              sticker: fs.readFileSync(`${__dirname}/../asset/sticker.webp`),
+            },
+            { quoted: msg, mediaUploadTimeoutMs: 1000 * 60 }
+          );
+        }
         return;
       }
 
