@@ -20,7 +20,6 @@ import { stats, useStore } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
 import {
   postBdayCron,
-  postNewsCron,
   postNewsListCron,
   postTodayStatsCron,
 } from "./functions/pvxFunctions";
@@ -40,7 +39,6 @@ import { cronJobEnabled } from "./utils/config";
 stats.started = getIndianDateTime().toDateString();
 
 let bdayCronJob: cron.ScheduledTask | undefined;
-let newsCronJob: cron.ScheduledTask | undefined;
 let newsListCronJob: cron.ScheduledTask | undefined;
 let todayStatsCronJob: cron.ScheduledTask | undefined;
 
@@ -89,7 +87,6 @@ const startBot = async () => {
     } = await addCommands();
 
     bdayCronJob?.stop();
-    newsCronJob?.stop();
     newsListCronJob?.stop();
     todayStatsCronJob?.stop();
 
@@ -119,8 +116,7 @@ const startBot = async () => {
 
     if (cronJobEnabled === "true") {
       bdayCronJob = await postBdayCron(bot);
-      newsCronJob = await postNewsListCron(bot);
-      newsListCronJob = await postNewsCron(bot);
+      newsListCronJob = await postNewsListCron(bot);
       todayStatsCronJob = await postTodayStatsCron(bot);
     }
 
