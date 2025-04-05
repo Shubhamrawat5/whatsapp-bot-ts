@@ -21,6 +21,7 @@ export interface Pvxgroups {
   pvxbotcommands: string;
   pvxtesting: string;
   pvxfitness: string;
+  pvxjobupdates: string;
 }
 
 export const pvxgroups: Pvxgroups = {
@@ -46,6 +47,7 @@ export const pvxgroups: Pvxgroups = {
   pvxbotcommands: "919675642959-1606755119@g.us",
   pvxtesting: "120363189969342767@g.us",
   pvxfitness: "120363166048344466@g.us",
+  pvxjobupdates: "120363141318508852@g.us",
 };
 
 export const pvxgroupsList = Object.values(pvxgroups);
