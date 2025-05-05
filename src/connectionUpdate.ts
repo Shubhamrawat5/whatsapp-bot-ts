@@ -7,6 +7,7 @@ import { Bot } from "./interfaces/Bot";
 import { loggerBot, loggerTg, sendLogToOwner } from "./utils/logger";
 // eslint-disable-next-line import/no-cycle
 import updateQr from "./index";
+import { pvxgroups } from "./utils/constants";
 
 let startCount = 1;
 
@@ -42,6 +43,14 @@ export const connectionUpdate = async (
 
       groups.forEach(async (group) => {
         console.log(`SET metadata for: ${group.subject} (${group.id})`);
+
+        if (group.id === pvxgroups.pvxsubadmin) {
+          const subadmins = group.participants.map((member) => {
+            return member.id;
+          });
+          cache.set("subadmins", subadmins, 60 * 60 * 24); // 24 hours
+        }
+
         cache.set(`${group.id}:groupMetadata`, group, 60 * 60 * 24); // 24 hours
         // await setGroupsData(group.id, group.subject, null);
       });

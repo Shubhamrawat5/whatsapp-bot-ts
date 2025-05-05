@@ -210,15 +210,6 @@ export const messagesUpsert = async (
         else stats.stickerNotForwarded += 1;
       }
 
-      const groupDesc: string | undefined = groupMetadata?.desc?.toString();
-      const groupMembers: GroupParticipant[] | undefined =
-        groupMetadata?.participants;
-      const groupAdmins: string[] | undefined = getGroupAdmins(groupMembers);
-      const isBotGroupAdmin: boolean =
-        groupAdmins?.includes(botNumberJid) || false;
-      const isSenderGroupAdmin: boolean =
-        groupAdmins?.includes(sender) || false;
-
       if (pvxFunctionsEnabled === "true") {
         // Count message
         if (
@@ -240,7 +231,9 @@ export const messagesUpsert = async (
             from,
             senderName
           );
-          if (isSenderGroupAdmin) {
+
+          const subadmins: string[] | undefined = cache.get(`subadmins`);
+          if (subadmins && subadmins.includes(sender)) {
             await setCountMemberMonth(sender, from, senderName);
           }
           await setCountMemberToday(sender, from);
@@ -309,6 +302,15 @@ export const messagesUpsert = async (
         // for latest group desc
         groupMetadata = await bot.groupMetadata(from);
       }
+
+      const groupDesc: string | undefined = groupMetadata?.desc?.toString();
+      const groupMembers: GroupParticipant[] | undefined =
+        groupMetadata?.participants;
+      const groupAdmins: string[] | undefined = getGroupAdmins(groupMembers);
+      const isBotGroupAdmin: boolean =
+        groupAdmins?.includes(botNumberJid) || false;
+      const isSenderGroupAdmin: boolean =
+        groupAdmins?.includes(sender) || false;
 
       // let groupData: GroupData | undefined = undefined;
       // if (groupMetadata) {
