@@ -24,6 +24,12 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 📛 *${prefix}image*
   - _Create image from sticker!_
 
+📛 *${prefix}expert*
+  - _Get experts list in group!_
+
+📛 *${prefix}tagexpert*
+  - _Tag experts in group!_
+
 📛 *${prefix}ai*
   - _Ask questions to AI!_
   

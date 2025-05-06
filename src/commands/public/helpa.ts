@@ -26,9 +26,6 @@ _Admin commands only!_
 📛 *${prefix}expertremove <phone number>*
   - _Remove expert frpm group!_
 
-📛 *${prefix}expert*
-  - _Get experts list in group!_
-
 📛 *${prefix}mute | ${prefix}unmute*
   - _Mute and Unmute the group!_
 

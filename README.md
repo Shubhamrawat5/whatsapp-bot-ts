@@ -72,6 +72,8 @@ Default prefix: `!`
 | :-------------: | :-----------------------------------------------: | :----------: |
 |  `!tagadmins`   |              Tag all admins of group              |    `!ta`     |
 |   `!sticker`    |     Create sticker from different media types     |     `!s`     |
+|    `!expert`    |             Get experts list in group             |              |
+|  `!tagexpert`   |               Tag experts in group                |              |
 |      `!ai`      |                Ask questions to AI                |              |
 |    `!today`     |             Get today's stats of PVX              |              |
 |     `!text`     |             Create sticker from text              |              |
@@ -111,7 +113,6 @@ Default prefix: `!`
 |      `!kick`       |                     kick member from group                     |    `!ban`     |
 |    `!expertadd`    |                    Add new expert in group                     |               |
 |  `!expertremove`   |                    Remove expert frpm group                    |               |
-|     `!expert`      |                   Get experts list in group                    |               |
 |      `!mute`       |                         Mute the group                         |               |
 |     `!unmute`      |                        Unmute the group                        |               |
 |     `!promote`     |                        Promote to admin                        |               |
