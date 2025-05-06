@@ -173,7 +173,7 @@ export const getExpertNames = async (
 ): Promise<GetExpert[]> => {
   try {
     const res = await pool.query(
-      "SELECT m.name FROM pvx_group g JOIN LATERAL unnest(g.expert) AS expert_id ON true JOIN member m ON m.memberjid = expert_id WHERE g.groupjid=$1;",
+      "SELECT m.name AS expert FROM pvx_group g LEFT JOIN LATERAL unnest(g.expert) AS expert_id ON true LEFT JOIN member m ON m.memberjid = expert_id WHERE g.groupjid=$1;",
       [groupjid]
     );
 
