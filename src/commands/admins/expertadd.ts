@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { getGroupData, setExpertCommand } from "../../db/pvxGroupDB";
+import { getGroupData, setExpert } from "../../db/pvxGroupDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -26,7 +26,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
   expertArray.push(participant);
 
-  const setDisableCommandRes = await setExpertCommand(
+  const setDisableCommandRes = await setExpert(
     from,
     groupName ?? "Not Found",
     expertArray

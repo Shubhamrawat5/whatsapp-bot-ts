@@ -24,10 +24,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   );
 };
 
-const expert = () => {
-  const cmd = ["expert", "experts"];
+const tagexpert = () => {
+  const cmd = ["tagexpert", "tagexperts"];
 
   return { cmd, handler };
 };
 
-export default expert;
+export default tagexpert;

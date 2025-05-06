@@ -115,7 +115,7 @@ export const setDisableCommand = async (
   }
 };
 
-export const setExpertCommand = async (
+export const setExpert = async (
   groupjid: string,
   gname: string,
   expert: string[]
@@ -164,6 +164,24 @@ export const getExpert = async (groupjid: string): Promise<GetExpert[]> => {
     }
   } catch (error) {
     await loggerBot(undefined, "[getExpert DB]", error, { groupjid });
+  }
+  return [];
+};
+
+export const getExpertNames = async (
+  groupjid: string
+): Promise<GetExpert[]> => {
+  try {
+    const res = await pool.query(
+      "SELECT m.name FROM pvx_group g JOIN LATERAL unnest(g.expert) AS expert_id ON true JOIN member m ON m.memberjid = expert_id WHERE g.groupjid=$1;",
+      [groupjid]
+    );
+
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    await loggerBot(undefined, "[getExpertNames DB]", error, { groupjid });
   }
   return [];
 };

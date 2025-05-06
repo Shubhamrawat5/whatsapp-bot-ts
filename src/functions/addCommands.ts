@@ -23,7 +23,6 @@ import warnlistall from "../commands/admins/warnlistall";
 import warnreduce from "../commands/admins/warnreduce";
 import setlink from "../commands/admins/setlink";
 import today from "../commands/admins/today";
-import expert from "../commands/admins/expert";
 import expertadd from "../commands/admins/expertadd";
 import expertremove from "../commands/admins/expertremove";
 
@@ -68,6 +67,8 @@ import ytv from "../commands/members/ytv";
 import zero from "../commands/members/zero";
 import pvxv from "../commands/members/pvxv";
 import technews from "../commands/members/technews";
+import expert from "../commands/members/expert";
+import tagexpert from "../commands/members/tagexpert";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
@@ -162,7 +163,6 @@ const addCommands = async () => {
     addcoctag,
     tagclan,
     today,
-    expert,
     expertadd,
     expertremove,
   ];
@@ -221,6 +221,8 @@ const addCommands = async () => {
     cocdetails,
     clan,
     clanmembers,
+    expert,
+    tagexpert,
   ];
 
   membersCommands.forEach((command) => {
