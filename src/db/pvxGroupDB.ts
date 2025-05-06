@@ -148,7 +148,11 @@ export const setExpertCommand = async (
   }
 };
 
-export const getExpert = async (groupjid: string): Promise<string[]> => {
+export interface GetExpert {
+  expert: string[];
+}
+
+export const getExpert = async (groupjid: string): Promise<GetExpert[]> => {
   try {
     const res = await pool.query(
       "SELECT expert FROM pvx_group WHERE groupjid=$1;",

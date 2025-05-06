@@ -10,10 +10,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const jids: string[] = [];
   const getExpertRes = await getExpert(from);
-  let countGroupMsg = `*📛 GROUP EXPERTS 📛${readMore}\n`;
+  let countGroupMsg = `*📛 GROUP EXPERTS 📛*${readMore}\n`;
 
-  getExpertRes.forEach((expert, index) => {
-    countGroupMsg += `\n${index} - @${expert.split("@")[0]}`;
+  getExpertRes[0].expert.forEach((expert, index) => {
+    countGroupMsg += `\n${index + 1}) @${expert.split("@")[0]}`;
     jids.push(expert);
   });
 
