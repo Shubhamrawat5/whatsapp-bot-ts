@@ -3,7 +3,9 @@ import { Bot } from "../interfaces/Bot";
 import { getCountTop } from "../db/countMemberDB";
 import { getDonation } from "../db/membersDB";
 import { Chats } from "../interfaces/Chats";
+import { getGroupData } from "../db/pvxGroupDB";
 
+// {"12345678@s.whatsapp.net": [""Sub-Admin of PVX", "Top 10 active member of PVX"]}
 export interface DefaultBadge {
   [key: string]: string[];
 }
@@ -53,6 +55,16 @@ export const addDefaultbadges = async (bot: Bot) => {
     } else {
       defaultBadges[memberjid].push("Contribution in PVX funds");
     }
+  });
+
+  const getGroupRes = await getGroupData();
+  getGroupRes.forEach((group) => {
+    group.expert?.forEach((expert) => {
+      defaultBadges[expert] = defaultBadges[expert] || [];
+      defaultBadges[expert].push(
+        `Expert of ${group.gname.replace("<{PVX}> ", "")}`
+      );
+    });
   });
 
   console.log("Added default badges");
