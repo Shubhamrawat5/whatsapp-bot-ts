@@ -23,6 +23,9 @@ import warnlistall from "../commands/admins/warnlistall";
 import warnreduce from "../commands/admins/warnreduce";
 import setlink from "../commands/admins/setlink";
 import today from "../commands/admins/today";
+import expert from "../commands/admins/expert";
+import expertadd from "../commands/admins/expertadd";
+import expertremove from "../commands/admins/expertremove";
 
 /* ----------------------------- MEMBER COMMANDS ---------------------------- */
 import ai from "../commands/members/ai";
@@ -159,6 +162,9 @@ const addCommands = async () => {
     addcoctag,
     tagclan,
     today,
+    expert,
+    expertadd,
+    expertremove,
   ];
 
   adminCommands.forEach((command) => {

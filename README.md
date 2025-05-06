@@ -109,6 +109,9 @@ Default prefix: `!`
 | :----------------: | :------------------------------------------------------------: | :-----------: |
 |       `!add`       |                      Add member to group                       |               |
 |      `!kick`       |                     kick member from group                     |    `!ban`     |
+|    `!expertadd`    |                    Add new expert in group                     |               |
+|  `!expertremove`   |                    Remove expert frpm group                    |               |
+|     `!expert`      |                   Get experts list in group                    |               |
 |      `!mute`       |                         Mute the group                         |               |
 |     `!unmute`      |                        Unmute the group                        |               |
 |     `!promote`     |                        Promote to admin                        |               |

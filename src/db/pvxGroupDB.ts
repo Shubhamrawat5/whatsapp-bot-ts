@@ -10,6 +10,7 @@ export const createGroupTable = async () => {
       gname TEXT NOT NULL,
       link TEXT,
       commands_disabled TEXT [] NOT NULL DEFAULT '{}',
+      expert TEXT [] NOT NULL DEFAULT '{}',
       type TEXT NOT NULL DEFAULT 'whatsapp',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
@@ -22,6 +23,7 @@ export interface GetGroupData {
   gname: string;
   link?: string;
   commands_disabled?: string[];
+  expert?: string[];
 }
 
 export const getGroupData = async (
@@ -62,8 +64,8 @@ export const setGroupData = async (
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
-        [groupjid, gname, link, []]
+        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled, expert) VALUES($1,$2,$3,$4);",
+        [groupjid, gname, link, [], []]
       );
       if (res2.rowCount === 1) return true;
       return false;
@@ -96,8 +98,8 @@ export const setDisableCommand = async (
     // not updated. time to insert
     if (res.rowCount === 0) {
       const res2 = await pool.query(
-        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled) VALUES($1,$2,$3,$4);",
-        [groupjid, gname, null, commands_disabled]
+        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled, expert) VALUES($1,$2,$3,$4);",
+        [groupjid, gname, null, commands_disabled, []]
       );
       if (res2.rowCount === 1) return true;
       return false;
@@ -111,4 +113,53 @@ export const setDisableCommand = async (
     });
     return false;
   }
+};
+
+export const setExpertCommand = async (
+  groupjid: string,
+  gname: string,
+  expert: string[]
+): Promise<boolean> => {
+  if (!checkGroupjid(groupjid)) return false;
+
+  try {
+    const res = await pool.query(
+      "UPDATE pvx_group SET expert=$1, updated_at = NOW() WHERE groupjid=$2;",
+      [expert, groupjid]
+    );
+
+    // not updated. time to insert
+    if (res.rowCount === 0) {
+      const res2 = await pool.query(
+        "INSERT INTO pvx_group (groupjid, gname, link, commands_disabled, expert) VALUES($1,$2,$3,$4);",
+        [groupjid, gname, null, [], expert]
+      );
+      if (res2.rowCount === 1) return true;
+      return false;
+    }
+    return true;
+  } catch (error) {
+    await loggerBot(undefined, "[setExpertCommand DB]", error, {
+      groupjid,
+      gname,
+      expert,
+    });
+    return false;
+  }
+};
+
+export const getExpert = async (groupjid: string): Promise<string[]> => {
+  try {
+    const res = await pool.query(
+      "SELECT expert FROM pvx_group WHERE groupjid=$1;",
+      [groupjid]
+    );
+
+    if (res.rowCount) {
+      return res.rows;
+    }
+  } catch (error) {
+    await loggerBot(undefined, "[getExpert DB]", error, { groupjid });
+  }
+  return [];
 };

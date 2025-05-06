@@ -20,6 +20,15 @@ _Admin commands only!_
   - _Kick member from group!_
  [or tag message of member with *${prefix}kick*]
 
+📛 *${prefix}expertadd <phone number>*
+  - _Add new expert in group!_
+
+📛 *${prefix}expertremove <phone number>*
+  - _Remove expert frpm group!_
+
+📛 *${prefix}expert*
+  - _Get experts list in group!_
+
 📛 *${prefix}mute | ${prefix}unmute*
   - _Mute and Unmute the group!_
 
