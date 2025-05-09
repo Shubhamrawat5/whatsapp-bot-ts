@@ -6,7 +6,7 @@ import { getCountTopMonth } from "../../db/countMemberMonthDB";
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { args, reply } = msgInfoObj;
 
-  let noOfResult = 20;
+  let noOfResult = 100;
   // get number from args if available
   if (args.length) {
     const no = Number(args[0]);
@@ -22,7 +22,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const monthName = today.toLocaleString("default", { month: "long" });
   const year = today.getFullYear();
 
-  let countGroupMsgTop = `*📛 PVX TOP ${noOfResult} ADMINS 📛*\n_${monthName} ${year}_${readMore}\n`;
+  let countGroupMsgTop = `*📛 PVX TOP ADMINS 📛*\n_${monthName} ${year}_${readMore}\n`;
 
   let countGroupMsgTempTop = "\n";
   let totalGrpCountTop = 0;
