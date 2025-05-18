@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const getGender = async (name: string): Promise<string | undefined> => {
   try {
@@ -32,13 +32,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 
   if (args.length === 0) {
-    const message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
+    const message = `❌ Name is not given! \nSend ${PREFIX}gender firstname`;
     await reply(message);
     return;
   }
   const namePerson = args[0];
   if (namePerson.includes("@")) {
-    const message = `❌ Don't tag! \nSend ${prefix}gender firstname`;
+    const message = `❌ Don't tag! \nSend ${PREFIX}gender firstname`;
     await reply(message);
     return;
   }

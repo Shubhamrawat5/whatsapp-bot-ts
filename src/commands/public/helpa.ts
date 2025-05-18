@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
@@ -12,81 +12,81 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   ${readMore}
 _Admin commands only!_
 
-📛 *${prefix}add <phone number>*
+📛 *${PREFIX}add <phone number>*
   - _Add new member!_
- [or tag message of removed member with *${prefix}add*]
+ [or tag message of removed member with *${PREFIX}add*]
  
-📛 *${prefix}kick <mention>*
+📛 *${PREFIX}kick <mention>*
   - _Kick member from group!_
- [or tag message of member with *${prefix}kick*]
+ [or tag message of member with *${PREFIX}kick*]
 
-📛 *${prefix}expertadd <phone number>*
+📛 *${PREFIX}expertadd <phone number>*
   - _Add new expert in group!_
 
-📛 *${prefix}expertremove <phone number>*
+📛 *${PREFIX}expertremove <phone number>*
   - _Remove expert frpm group!_
 
-📛 *${prefix}mute | ${prefix}unmute*
+📛 *${PREFIX}mute | ${PREFIX}unmute*
   - _Mute and Unmute the group!_
 
-📛 *${prefix}delete*
+📛 *${PREFIX}delete*
   - _Delete anyone message!_
-Alias: *${prefix}d*
+Alias: *${PREFIX}d*
 
-📛 *${prefix}tagall* 
+📛 *${PREFIX}tagall* 
   - _Tag all the members!_  
-Alias: *${prefix}tagallhidden*
+Alias: *${PREFIX}tagallhidden*
 
-📛 *${prefix}disable <command>*
+📛 *${PREFIX}disable <command>*
   - _Disable command for current group!_
 
-📛 *${prefix}enable <command>*
+📛 *${PREFIX}enable <command>*
   - _Enable command for current group!_
 
-📛 *${prefix}promote <mention>*
+📛 *${PREFIX}promote <mention>*
   - _Promote to admin!_
 
-📛 *${prefix}demote <mention>*
+📛 *${PREFIX}demote <mention>*
   - _Demote from admin!_
 
-📛 *${prefix}rt*
+📛 *${PREFIX}rt*
   - _Tag a random member!_  
 
-📛 *${prefix}bday*
+📛 *${PREFIX}bday*
   - _Check today's birthday!_  
 
-📛 *${prefix}warning*
+📛 *${PREFIX}warning*
   - _Give warning to user!_
-Alias: *${prefix}warn*
+Alias: *${PREFIX}warn*
 
-📛 *${prefix}warninglist*
+📛 *${PREFIX}warninglist*
   - _Check warning of all members!_
-Alias: *${prefix}warnlist*
+Alias: *${PREFIX}warnlist*
 
-📛 *${prefix}warningreduce*
+📛 *${PREFIX}warningreduce*
   - Reduce warning to user!_
-Alias: *${prefix}warnreduce*
+Alias: *${PREFIX}warnreduce*
 
-📛 *${prefix}warningclear*
+📛 *${PREFIX}warningclear*
   - _Clear all warning to user!_
-Alias: *${prefix}warnclear*
+Alias: *${PREFIX}warnclear*
 
-📛 *${prefix}warningcheck*
+📛 *${PREFIX}warningcheck*
   - Check warning to user!_
-Alias: *${prefix}warncheck*
+Alias: *${PREFIX}warncheck*
 
-📛 *${prefix}blacklist*
+📛 *${PREFIX}blacklist*
   - _Get blacklist numbers!_ 
 
-📛 *${prefix}blacklistadd*
+📛 *${PREFIX}blacklistadd*
   - _Add number to blacklist!_
-Alias: *${prefix}bla*
+Alias: *${PREFIX}bla*
 
-📛 *${prefix}blacklistremove*
+📛 *${PREFIX}blacklistremove*
   - Remove number from blacklist!_  
-Alias: *${prefix}blr*
+Alias: *${PREFIX}blr*
 
-send ${prefix}source for sourcecode of BOT
+send ${PREFIX}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
   await reply(text);

@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getBlacklist, removeBlacklist } from "../../db/blacklistDB";
-import { prefix, pvxgroups } from "../../utils/constants";
+import { PREFIX, pvxgroups } from "../../utils/constants";
 import { Chats } from "../../interfaces/Chats";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -10,7 +10,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
-      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${prefix}blr number`
+      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${PREFIX}blr number`
     );
     return;
   }
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (blacklistNumb.length !== 12) {
     await reply(
-      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${prefix}blr number`
+      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${PREFIX}blr number`
     );
     return;
   }

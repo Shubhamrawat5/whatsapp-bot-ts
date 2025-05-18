@@ -9,7 +9,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 
 import { Bot } from "../../interfaces/Bot";
-// import { prefix } from "../../utils/constants";
+// import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
 //   const { args, reply, from } = msgInfoObj;
 //   if (args.length === 0) {
-//     await reply(`❌ URL is empty! \nSend ${prefix}insta url`);
+//     await reply(`❌ URL is empty! \nSend ${PREFIX}insta url`);
 //     return;
 //   }
 
@@ -91,7 +91,7 @@ const insta = () => {
 export default insta;
 
 // const handler = async (bot, msg, msgInfoObj) => {
-//   let { prefix, args, reply } = msgInfoObj;
+//   let { args, reply } = msgInfoObj;
 //   try {
 //     if (!isIgSetup) {
 //       // const username = process.env.USERNAME_IG;
@@ -106,7 +106,7 @@ export default insta;
 //     }
 
 //     if (args.length === 0) {
-//       reply(`❌ URL is empty! \nSend ${prefix}insta url`);
+//       reply(`❌ URL is empty! \nSend ${PREFIX}insta url`);
 //       return;
 //     }
 

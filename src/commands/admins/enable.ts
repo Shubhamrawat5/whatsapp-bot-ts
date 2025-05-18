@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getGroupData, setDisableCommand } from "../../db/pvxGroupDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, allCommandsName, groupName, from } = msgInfoObj;
@@ -16,7 +16,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   // check if cmd is actually a command or not
   if (!allCommandsName.includes(cmd)) {
-    await reply(`❌ ${prefix}${cmd} is not a command!`);
+    await reply(`❌ ${PREFIX}${cmd} is not a command!`);
     return;
   }
 
@@ -27,7 +27,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       : [];
 
   if (!disabledCmdArray.includes(cmd)) {
-    await reply(`❌ ${prefix}${cmd} is already enabled!`);
+    await reply(`❌ ${PREFIX}${cmd} is already enabled!`);
     return;
   }
 
@@ -39,7 +39,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     resNew
   );
 
-  if (setDisableCommandRes) await reply(`✔️ ${prefix}${cmd} command enabled!`);
+  if (setDisableCommandRes) await reply(`✔️ ${PREFIX}${cmd} command enabled!`);
   else await reply(`❌ There is some problem!`);
 };
 

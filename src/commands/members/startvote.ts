@@ -2,13 +2,13 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getVotingData, setVotingData } from "../../db/votingDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, sender, args, from } = msgInfoObj;
   if (args.length === 0) {
     await reply(
-      `❌ Give some values seperated with # to vote on like ${prefix}startvote #title #name1 #name2 #name3`
+      `❌ Give some values seperated with # to vote on like ${PREFIX}startvote #title #name1 #name2 #name3`
     );
     return;
   }
@@ -16,7 +16,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (getVotingDataRes.length && getVotingDataRes[0].is_started) {
     await reply(
-      `❌ Voting already going on, Stop by ${prefix}stopvote command`
+      `❌ Voting already going on, Stop by ${PREFIX}stopvote command`
     );
     return;
   }
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const body = msg.message?.conversation;
   if (!body) {
     await reply(
-      `❌ Give some values seperated with # to vote on like ${prefix}startvote #title #name1 #name2 #name3`
+      `❌ Give some values seperated with # to vote on like ${PREFIX}startvote #title #name1 #name2 #name3`
     );
     return;
   }
@@ -55,13 +55,13 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   );
 
   if (setVotingDataRes) {
-    let voteMsg = `*Voting started!*\nsend "${prefix}vote number" to vote\n\n*🗣️ ${voteTitle}*`;
+    let voteMsg = `*Voting started!*\nsend "${PREFIX}vote number" to vote\n\n*🗣️ ${voteTitle}*`;
 
     voteChoices.forEach((name: string, index: number) => {
       voteMsg += `\n${index + 1} for [${name.trim()}]`;
     });
 
-    voteMsg += `\n\n_send ${prefix}checkvote or ${prefix}cv to see current status and ${prefix}stopvote to stop voting and see the result._`;
+    voteMsg += `\n\n_send ${PREFIX}checkvote or ${PREFIX}cv to see current status and ${PREFIX}stopvote to stop voting and see the result._`;
     await reply(voteMsg);
   } else {
     await reply(`❌ There is some problem`);

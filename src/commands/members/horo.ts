@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import axios from "axios";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const getHoro = async (name: string): Promise<string> => {
   try {
@@ -49,7 +49,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 
   if (args.length === 0) {
-    const message = `❌ Name is not given! \nSend ${prefix}horo name`;
+    const message = `❌ Name is not given! \nSend ${PREFIX}horo name`;
     await reply(message);
     return;
   }
@@ -71,7 +71,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   ];
 
   if (!horos.includes(name)) {
-    const message = `❌ Wrong horo name given! \nSend ${prefix}horo name\n\nHoro List: ${JSON.stringify(
+    const message = `❌ Wrong horo name given! \nSend ${PREFIX}horo name\n\nHoro List: ${JSON.stringify(
       horos
     )}`;
     await reply(message);

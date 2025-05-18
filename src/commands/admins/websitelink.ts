@@ -2,12 +2,12 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { setMetaValues } from "../../db/metaDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args } = msgInfoObj;
 
-  const errorMessage = `❌ There is some problem!\nGive only integer value with ${prefix}websitelink 0 or 1`;
+  const errorMessage = `❌ There is some problem!\nGive only integer value with ${PREFIX}websitelink 0 or 1`;
 
   if (args.length === 0) {
     await reply(errorMessage);

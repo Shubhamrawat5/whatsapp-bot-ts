@@ -5,7 +5,7 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
 import getRandomFileName from "../../functions/getRandomFileName";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const downloadSong = async (randomFileName: string, query: string) => {
   try {
@@ -68,7 +68,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
-    await reply(`❌ Query is empty! \nSend ${prefix}song query`);
+    await reply(`❌ Query is empty! \nSend ${PREFIX}song query`);
     return;
   }
   const randomFileName = getRandomFileName(".mp3");
@@ -78,7 +78,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const response: any = await downloadSong(randomFileName, query);
   if (response && response.info === "NF") {
     await reply(
-      `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
+      `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${PREFIX}yta command to download correct song from youtube]`
     );
     return;
   }

@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getExpert } from "../../db/pvxGroupDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { from, reply } = msgInfoObj;
@@ -24,7 +24,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       { quoted: msg }
     );
   } else {
-    await reply(`No Expert in this group! Add by ${prefix}expertadd`);
+    await reply(`No Expert in this group! Add by ${PREFIX}expertadd`);
   }
 };
 

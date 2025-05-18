@@ -2,12 +2,12 @@ import axios from "axios";
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { args, reply, from } = msgInfoObj;
   if (args.length === 0) {
-    await reply(`❌ URL is empty! \nSend ${prefix}fb url`);
+    await reply(`❌ URL is empty! \nSend ${PREFIX}fb url`);
     return;
   }
 

@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getVotingData, stopVotingData } from "../../db/votingDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, isSenderGroupAdmin, sender, from } = msgInfoObj;
@@ -10,7 +10,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (getVotingDataRes.length === 0 || !getVotingDataRes[0].is_started) {
     await reply(
-      `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`
+      `❌ Voting is not started here, Start by \n${PREFIX}startvote #title #name1 #name2 #name3`
     );
     return;
   }

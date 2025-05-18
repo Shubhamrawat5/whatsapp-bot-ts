@@ -6,7 +6,7 @@ import {
   MessageUpsertType,
   WAMessage,
 } from "@whiskeysockets/baileys";
-import { prefix, pvxgroups, pvxgroupsList, stats } from "./utils/constants";
+import { PREFIX, pvxgroups, pvxgroupsList, stats } from "./utils/constants";
 import { cache } from "./utils/cache";
 import { setCountMember, setCountVideo } from "./db/countMemberDB";
 import countRemainder from "./functions/countRemainder";
@@ -107,7 +107,7 @@ export const messagesUpsert = async (
 
       body = body.replace(/\n|\r/g, ""); // remove all \n and \r
 
-      const isCmd = body.startsWith(prefix);
+      const isCmd = body.startsWith(PREFIX);
 
       const from = msg.key.remoteJid;
       if (!from) return;
@@ -349,10 +349,10 @@ export const messagesUpsert = async (
       if (ownerNumberWithJid !== sender && ownerNumberWithJid) {
         stats.commandExecuted += 1;
         // await bot.sendMessage(ownerNumberWithJid, {
-        //   text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
+        //   text: `${stats.commandExecuted}) [${PREFIX}${command}] [${groupName}]`,
         // });
         await loggerTg(
-          `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`
+          `${stats.commandExecuted}) [${PREFIX}${command}] [${groupName}]`
         );
       }
 
@@ -473,11 +473,11 @@ export const messagesUpsert = async (
       }
 
       /* ----------------------------- unknown command ---------------------------- */
-      let message = `Send ${prefix}help for <{PVX}> BOT commands list`;
+      let message = `Send ${PREFIX}help for <{PVX}> BOT commands list`;
 
       const matches = stringSimilarity.findBestMatch(command, allCommandsName);
       if (matches.bestMatch.rating > 0.5) {
-        message = `Did you mean ${prefix}${matches.bestMatch.target}\n\n${message}`;
+        message = `Did you mean ${PREFIX}${matches.bestMatch.target}\n\n${message}`;
       }
       await reply(message);
       if (command) {

@@ -5,13 +5,13 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
 import getRandomFileName from "../../functions/getRandomFileName";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
-    await reply(`❌ URL is empty! \nSend ${prefix}ytv url`);
+    await reply(`❌ URL is empty! \nSend ${PREFIX}ytv url`);
     return;
   }
   const urlYt = args[0];

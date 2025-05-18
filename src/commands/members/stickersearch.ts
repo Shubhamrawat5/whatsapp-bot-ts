@@ -4,7 +4,7 @@ import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import getRandomFileName from "../../functions/getRandomFileName";
-import { AUTHOR_NAME, PACK_NAME, prefix } from "../../utils/constants";
+import { AUTHOR_NAME, PACK_NAME, PREFIX } from "../../utils/constants";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const gis = require("g-i-s");
@@ -19,7 +19,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
-    const message = `❌ Query is not given! \nSend ${prefix}ss query`;
+    const message = `❌ Query is not given! \nSend ${PREFIX}ss query`;
     await reply(message);
     return;
   }

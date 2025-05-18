@@ -1,5 +1,5 @@
 import { WAMessage } from "@whiskeysockets/baileys";
-import { prefix } from "../utils/constants";
+import { PREFIX } from "../utils/constants";
 
 const checkTaggedMessage = async (msg: WAMessage) => {
   if (
@@ -31,7 +31,7 @@ const getMessage = async (msg: WAMessage, command: string) => {
     } else {
       message = await checkNonTaggedMessage(msg);
       message = message
-        ? message.replace(prefix, "").replace(command, "").trim()
+        ? message.replace(PREFIX, "").replace(command, "").trim()
         : message;
     }
   } catch (err) {

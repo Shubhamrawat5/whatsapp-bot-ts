@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getBadgeText } from "../../db/badgeDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
@@ -12,7 +12,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let message = `*─「 <{PVX}> badges 」 ─*
 
-Send ${prefix}rank to know your rank with badges.${readMore}
+Send ${PREFIX}rank to know your rank with badges.${readMore}
 
  *[Default Badges]*
 ⭐ Main Admin of PVX
@@ -27,7 +27,7 @@ Send ${prefix}rank to know your rank with badges.${readMore}
 
   const getBadgeTextRes = await getBadgeText();
   if (getBadgeTextRes.length) {
-    message += `\n\n *[CUSTOM BADGES]*\nAdmin can give following badges by ${prefix}badgeadd #contact #sno\nEg: ${prefix}badgeadd #919876.... #2`;
+    message += `\n\n *[CUSTOM BADGES]*\nAdmin can give following badges by ${PREFIX}badgeadd #contact #sno\nEg: ${PREFIX}badgeadd #919876.... #2`;
     getBadgeTextRes.forEach((badgeRes, index) => {
       message += `\n⭐ ${index + 1}. ${badgeRes.badge_info}`;
     });

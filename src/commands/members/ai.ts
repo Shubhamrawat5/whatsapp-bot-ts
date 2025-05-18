@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 import { openAiKey } from "../../utils/config";
 
 const genAI = new GoogleGenerativeAI(openAiKey || "");
@@ -23,7 +23,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   try {
     if (args.length === 0) {
-      await reply(`❌ Query is not given! \nSend ${prefix}ai query`);
+      await reply(`❌ Query is not given! \nSend ${PREFIX}ai query`);
       return;
     }
 

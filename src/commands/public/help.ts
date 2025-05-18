@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply } = msgInfoObj;
@@ -10,151 +10,151 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const text = `*─「 🔥 <{PVX}> BOT 🔥 」─*
   ${readMore}
-📛 *${prefix}sticker*
+📛 *${PREFIX}sticker*
 - _Create sticker from media!_
-  Alias: *${prefix}s*
+  Alias: *${PREFIX}s*
   
-📛 *${prefix}sticker crop*
+📛 *${PREFIX}sticker crop*
   - _Create full size sticker from media!_
-  Alias: *${prefix}s c*
+  Alias: *${PREFIX}s c*
 
-📛 *${prefix}text*
+📛 *${PREFIX}text*
   - _Create sticker from text!_
 
-📛 *${prefix}image*
+📛 *${PREFIX}image*
   - _Create image from sticker!_
 
-📛 *${prefix}expert*
+📛 *${PREFIX}expert*
   - _Get experts list in group!_
 
-📛 *${prefix}tagexpert*
+📛 *${PREFIX}tagexpert*
   - _Tag experts in group!_
 
-📛 *${prefix}ai*
+📛 *${PREFIX}ai*
   - _Ask questions to AI!_
   
-📛 *${prefix}imagesearch*
+📛 *${PREFIX}imagesearch*
   - _Search image from any name!_
-  Alias: *${prefix}is*
+  Alias: *${PREFIX}is*
   
-📛 *${prefix}searchsearch*
+📛 *${PREFIX}searchsearch*
   - _Search sticker from any name!_
-  Alias: *${prefix}ss*
+  Alias: *${PREFIX}ss*
 
-📛 *${prefix}insta url* 
+📛 *${PREFIX}insta url* 
   - _Download instagram posts!_
-  Alias: *${prefix}i url*📛
+  Alias: *${PREFIX}i url*📛
 
-📛 *${prefix}tagadmins*
+📛 *${PREFIX}tagadmins*
   - _Tag all the admins!_
-  Alias: *${prefix}ta*
+  Alias: *${PREFIX}ta*
 
-📛 *${prefix}rank*
+📛 *${PREFIX}rank*
   - _Know your message count & rank in all PVX groups!_
   
-📛 *${prefix}ranks*
+📛 *${PREFIX}ranks*
   - _Know ranks list of PVX groups!_
 
-📛 *${prefix}count*
+📛 *${PREFIX}count*
   - _Know your message stats in all PVX groups!_
 
-📛 *${prefix}today*
+📛 *${PREFIX}today*
   - _Get today's stats of PVX!_
   
-📛 *${prefix}ytv url*
+📛 *${PREFIX}ytv url*
   - _Youtube videos downloader!_
 
-📛 *${prefix}yta url*
+📛 *${PREFIX}yta url*
   - _Youtube audio downloader!_
 
-📛 *${prefix}steal*
+📛 *${PREFIX}steal*
   - _Change sticker name to PVX BOT!_
 
-📛 *${prefix}song name*
+📛 *${PREFIX}song name*
   - _Get songs in good quality!_
-  [Better use ${prefix}yta command to download correct song from youtube]
+  [Better use ${PREFIX}yta command to download correct song from youtube]
 
-📛 *${prefix}alive*
+📛 *${PREFIX}alive*
   - _Check if bot is ON or OFF!_
-  Alias: *${prefix}a*
+  Alias: *${PREFIX}a*
 
-📛 *${prefix}horo name*
+📛 *${PREFIX}horo name*
   - _Check today's horoscope!_
 
-📛 *${prefix}pvxg*
+📛 *${PREFIX}pvxg*
   - _Get stats of all groups message!_
 
-📛 *${prefix}pvxgg*
+📛 *${PREFIX}pvxgg*
   - _Get stats of all groups message this month!_
   
-📛 *${prefix}pvxm*
+📛 *${PREFIX}pvxm*
   - _Get stats of member messages of current group!_
   
-📛 *${prefix}pvxt <number>*
+📛 *${PREFIX}pvxt <number>*
   - _Get top member stats of all groups!_
 
-📛 *${prefix}pvxtt <number>*
+📛 *${PREFIX}pvxtt <number>*
   - _Get top member stats of all groups this month!_
 
-📛 *${prefix}pvxtm*
+📛 *${PREFIX}pvxtm*
   - _Get stats of members with rank of current group!_
 
-📛 *${prefix}pvxt5*
+📛 *${PREFIX}pvxt5*
   - _Get top 5 member stats of all groups!_
 
-📛 *${prefix}zero*
+📛 *${PREFIX}zero*
   - _Get numbers with 0 message of current group!_
   
-📛 *${prefix}pvxstats*
+📛 *${PREFIX}pvxstats*
   - _Get stats of PVX groups!_
 
-📛 *${prefix}cricketcommand*
+📛 *${PREFIX}cricketcommand*
   - _To get command details of cricket!_
-  Alias: *${prefix}cc*
+  Alias: *${PREFIX}cc*
 
-📛 *${prefix}votecommand*
+📛 *${PREFIX}votecommand*
   - _To get command details of voting!_
-  Alias: *${prefix}vc*
+  Alias: *${PREFIX}vc*
 
-📛 *${prefix}quote*
+📛 *${PREFIX}quote*
   - _Give a random quote!_
 
-📛 *${prefix}gender firstname*
+📛 *${PREFIX}gender firstname*
   - _Get gender from person first name!_
     
-📛 *${prefix}technews*
+📛 *${PREFIX}technews*
   - _Get latest Tech news from inshorts !_ 
 
-📛 *${prefix}pvxlink*
+📛 *${PREFIX}pvxlink*
   - _Get links for all PVX groups!_
-  Alias: *${prefix}link*
+  Alias: *${PREFIX}link*
 
-📛 *${prefix}donation*
+📛 *${PREFIX}donation*
   - _Get donation details and help PVX community!_
 
-📛 *${prefix}feedback*
+📛 *${PREFIX}feedback*
   - _Get feedback form!_
 
-📛 *${prefix}rules*
+📛 *${PREFIX}rules*
   - _Get PVX groups rules!_
-  Alias: *${prefix}r*
+  Alias: *${PREFIX}r*
 
-📛 *${prefix}source*
+📛 *${PREFIX}source*
   - _Get bot source code!_
 
-📛 *${prefix}dev*
+📛 *${PREFIX}dev*
   - _Get dev contact to report bug or to add new feature!_
 
-📛 *${prefix}help*
+📛 *${PREFIX}help*
   - _To get list of public commands!_
 
-📛 *${prefix}helpa*
+📛 *${PREFIX}helpa*
   - _To get list of admin commands!_
 
-📛 *${prefix}helpo*
+📛 *${PREFIX}helpo*
   - _To get list of owner commands!_
 
-send ${prefix}source for sourcecode of BOT
+send ${PREFIX}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
   await reply(text);

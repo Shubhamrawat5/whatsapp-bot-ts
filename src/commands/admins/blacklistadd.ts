@@ -2,28 +2,28 @@ import { GroupParticipant, WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { addBlacklist } from "../../db/blacklistDB";
-import { prefix, pvxgroups } from "../../utils/constants";
+import { PREFIX, pvxgroups } from "../../utils/constants";
 import { Chats } from "../../interfaces/Chats";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, sender } = msgInfoObj;
 
   if (args.length < 2) {
-    await reply(`❌ Wrong query!\nSend ${prefix}bla number reason`);
+    await reply(`❌ Wrong query!\nSend ${PREFIX}bla number reason`);
     return;
   }
 
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
-      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
+      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${PREFIX}bla number reason`
     );
     return;
   }
 
   const reason = args.slice(1).join(" ");
   if (!reason) {
-    await reply(`❌ Incorrect reason!\nSend ${prefix}bla number reason`);
+    await reply(`❌ Incorrect reason!\nSend ${PREFIX}bla number reason`);
     return;
   }
 
@@ -36,7 +36,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (blacklistNumb.length !== 12) {
     await reply(
-      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
+      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${PREFIX}bla number reason`
     );
     return;
   }

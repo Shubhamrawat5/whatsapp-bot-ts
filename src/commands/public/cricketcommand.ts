@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { from } = msgInfoObj;
@@ -12,14 +12,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 - example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 
 - so match ID is 37572 !
 
-📛 *${prefix}score*
+📛 *${PREFIX}score*
   - _current score of match!_
-📛 *${prefix}scorecard*
+📛 *${PREFIX}scorecard*
   - _current scorecard of players!_
-    Alias: ${prefix}sc ${prefix}sb
-📛 *${prefix}startc*
+    Alias: ${PREFIX}sc ${PREFIX}sb
+📛 *${PREFIX}startc*
   - _start match live score every 1 min!_
-📛 *${prefix}stopc*
+📛 *${PREFIX}stopc*
   - _Stop match live score!_`;
 
   await bot.sendMessage(from, { text }, { quoted: msg });

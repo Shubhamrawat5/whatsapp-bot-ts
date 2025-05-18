@@ -2,7 +2,7 @@ import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import { getVotingData } from "../../db/votingDB";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, from } = msgInfoObj;
@@ -10,7 +10,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (getVotingDataRes.length === 0 || !getVotingDataRes[0].is_started) {
     await reply(
-      `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`
+      `❌ Voting is not started here, Start by \n${PREFIX}startvote #title #name1 #name2 #name3`
     );
     return;
   }
@@ -19,7 +19,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let resultVoteMsg = "";
 
-  resultVoteMsg += `send "${prefix}vote number" to vote\n\n*🗣️ ${votingResult.title}*`;
+  resultVoteMsg += `send "${PREFIX}vote number" to vote\n\n*🗣️ ${votingResult.title}*`;
   votingResult.choices.forEach((name: string, index: number) => {
     resultVoteMsg += `\n${index + 1} for [${name.trim()}]`;
   });

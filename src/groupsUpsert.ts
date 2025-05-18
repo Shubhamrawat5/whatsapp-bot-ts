@@ -1,6 +1,6 @@
 import { GroupMetadata } from "@whiskeysockets/baileys";
 import { cache } from "./utils/cache";
-// import { prefix } from "./utils/constants";
+// import { PREFIX } from "./utils/constants";
 import { loggerBot, sendLogToOwner } from "./utils/logger";
 import { Bot } from "./interfaces/Bot";
 
@@ -14,7 +14,7 @@ export const groupsUpsert = async (msgs: GroupsUpsert, bot: Bot) => {
       cache.del(`${from}:groupMetadata`);
 
       // await bot.sendMessage(from, {
-      //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+      //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${PREFIX}help FOR BOT COMMANDS`,
       // });
 
       await sendLogToOwner(bot, `Bot is added to new group.`);

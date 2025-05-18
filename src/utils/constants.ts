@@ -54,7 +54,7 @@ export const pvxgroups: Pvxgroups = {
 
 export const pvxgroupsList = Object.values(pvxgroups);
 
-export const prefix = "!";
+export const PREFIX = "!";
 export const useStore = false;
 
 export const PACK_NAME = "BOT 🤖";

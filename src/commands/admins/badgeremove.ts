@@ -1,7 +1,7 @@
 import { WAMessage } from "@whiskeysockets/baileys";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
-import { prefix } from "../../utils/constants";
+import { PREFIX } from "../../utils/constants";
 import { getBadges, setBadges } from "../../db/membersDB";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
@@ -16,7 +16,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const badgeList = body.trim().split("#");
   if (badgeList.length !== 3) {
     await reply(
-      `❌ Give correct details\nCommand: ${prefix}badgeremove #contact #sno`
+      `❌ Give correct details\nCommand: ${PREFIX}badgeremove #contact #sno`
     );
     return;
   }
@@ -25,14 +25,14 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   if (!contact || !sno) {
     await reply(
-      `❌ Give correct details\nCommand: ${prefix}badgeremove #contact #sno`
+      `❌ Give correct details\nCommand: ${PREFIX}badgeremove #contact #sno`
     );
     return;
   }
 
   if (contact.length !== 12) {
     await reply(
-      `❌ Give correct Indian number with country code and no spaces\nCommand: ${prefix}badgeremove #contact #sno`
+      `❌ Give correct Indian number with country code and no spaces\nCommand: ${PREFIX}badgeremove #contact #sno`
     );
     return;
   }
@@ -43,7 +43,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   if (getBadgeRes.length && getBadgeRes[0].badges?.length) {
     if (!sno || sno < 0 || sno > getBadgeRes[0].badges.length) {
       await reply(
-        `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
+        `❌ Give correct serial number within the range\nTo know the sno: ${PREFIX}rank`
       );
       return;
     }

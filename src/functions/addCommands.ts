@@ -30,7 +30,6 @@ import expertremove from "../commands/admins/expertremove";
 import ai from "../commands/members/ai";
 import checkvote from "../commands/members/checkvote";
 import count from "../commands/members/count";
-import fb from "../commands/members/fb";
 import gender from "../commands/members/gender";
 import horo from "../commands/members/horo";
 import image from "../commands/members/image";
@@ -178,7 +177,6 @@ const addCommands = async () => {
     ai,
     checkvote,
     count,
-    fb,
     gender,
     horo,
     image,

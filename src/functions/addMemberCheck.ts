@@ -1,4 +1,4 @@
-import { prefix, pvxgroups } from "../utils/constants";
+import { PREFIX, pvxgroups } from "../utils/constants";
 import { getBlacklist } from "../db/blacklistDB";
 import { Bot } from "../interfaces/Bot";
 
@@ -103,7 +103,7 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
+            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nSend ${PREFIX}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
             mentions: [numJid],
           },
           {
@@ -124,7 +124,7 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
+            text: `Welcome @${numSplit}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${PREFIX}pvxv to know video count.\nInactive members will be kicked time to time.`,
             mentions: [numJid],
           },
           {
