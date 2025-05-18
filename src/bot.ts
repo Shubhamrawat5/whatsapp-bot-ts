@@ -16,7 +16,7 @@ import { setAuth, getAuth } from "./db/authDB";
 import { loggerBot, loggerTg } from "./utils/logger";
 import addCommands from "./functions/addCommands";
 import { addDefaultbadges, DefaultBadge } from "./functions/addDefaultBadges";
-import { stats, useStore } from "./utils/constants";
+import { stats, USE_STORE } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
 import {
   postBdayCron,
@@ -54,7 +54,7 @@ logger.level = "silent";
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
-const store = useStore ? makeInMemoryStore({ logger }) : undefined;
+const store = USE_STORE ? makeInMemoryStore({ logger }) : undefined;
 if (store) {
   store.readFromFile("./baileys_store_multi");
   setInterval(() => {

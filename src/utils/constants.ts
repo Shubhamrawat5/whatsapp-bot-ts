@@ -54,12 +54,6 @@ export const pvxgroups: Pvxgroups = {
 
 export const pvxgroupsList = Object.values(pvxgroups);
 
-export const PREFIX = "!";
-export const useStore = false;
-
-export const PACK_NAME = "BOT 🤖";
-export const AUTHOR_NAME = "pvxcommunity.com";
-
 export const stats = {
   started: "",
   totalMessages: 0,
@@ -75,3 +69,8 @@ export const stats = {
   memberJoined: 0,
   memberLeft: 0,
 };
+
+export const PREFIX = "!";
+export const USE_STORE = false;
+export const PACK_NAME = "BOT 🤖";
+export const AUTHOR_NAME = "pvxcommunity.com";
