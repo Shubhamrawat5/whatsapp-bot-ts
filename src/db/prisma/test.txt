@@ -1,2 +1,0 @@
-"db-migrate": "npx prisma migrate dev",
-"db-view": "npx prisma studio",
