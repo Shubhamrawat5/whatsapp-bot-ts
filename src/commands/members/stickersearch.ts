@@ -4,7 +4,7 @@ import { Sticker, StickerTypes } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import getRandomFileName from "../../functions/getRandomFileName";
-import { prefix } from "../../utils/constants";
+import { AUTHOR_NAME, PACK_NAME, prefix } from "../../utils/constants";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const gis = require("g-i-s");
@@ -47,11 +47,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
           const img = results[index].url;
           console.log(img);
 
-          const packName = "BOT 🤖";
-          const authorName = "pvxcommunity.com";
           const stickerMake = new Sticker(img, {
-            pack: packName,
-            author: authorName,
+            pack: PACK_NAME,
+            author: AUTHOR_NAME,
             type: StickerTypes.FULL,
             quality: 100,
           });

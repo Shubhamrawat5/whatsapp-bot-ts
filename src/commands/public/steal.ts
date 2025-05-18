@@ -6,12 +6,10 @@ import {
 import { Exif } from "wa-sticker-formatter";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
+import { AUTHOR_NAME, PACK_NAME } from "../../utils/constants";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
-
-  let packName = "BOT 🤖";
-  const authorName = "pvxcommunity.com";
 
   const downloadFilePath =
     msg.message?.extendedTextMessage?.contextInfo?.quotedMessage
@@ -22,6 +20,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
+  let packName = "";
   if (args.length) {
     packName = args.join(" ");
   }
@@ -35,8 +34,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const buffer = await toBuffer(stream);
 
   const webpWithExif = await new Exif({
-    pack: packName,
-    author: authorName,
+    pack: packName || PACK_NAME,
+    author: AUTHOR_NAME,
   }).add(buffer);
 
   await bot.sendMessage(

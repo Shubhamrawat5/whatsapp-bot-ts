@@ -13,7 +13,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 };
 
 const bday = () => {
-  const cmd = ["bday"];
+  const cmd = ["bday", "birthday"];
 
   return { cmd, handler };
 };

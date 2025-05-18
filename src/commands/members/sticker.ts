@@ -12,6 +12,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 import getRandomFileName from "../../functions/getRandomFileName";
+import { AUTHOR_NAME, PACK_NAME } from "../../utils/constants";
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
@@ -42,8 +43,6 @@ const downloadMedia = async (
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const { reply, args, from } = msgInfoObj;
   try {
-    const packName = "BOT 🤖";
-    const authorName = "pvxcommunity.com";
     let quality: number;
     let downloadFilePath: WAGenericMediaMessage | null | undefined;
     let mediaType: "image" | "video";
@@ -95,8 +94,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     console.log("Sticker Quality: ", quality);
 
     const stickerMake = new Sticker(buffer, {
-      pack: packName, // The pack name
-      author: authorName, // The author name
+      pack: PACK_NAME,
+      author: AUTHOR_NAME,
       type: isCrop ? StickerTypes.CROPPED : StickerTypes.FULL,
       quality,
     });

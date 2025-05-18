@@ -42,8 +42,6 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
 //   const buffer = textToImage.toBuffer(); // png by default
 
-//   let packName = "BOT 🤖";
-//   let authorName = "pvxcommunity.com";
 //   const stickerMake = new Sticker(buffer, {
 //     pack: packName,
 //     author: authorName,

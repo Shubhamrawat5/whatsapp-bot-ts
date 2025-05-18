@@ -21,7 +21,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 };
 
 const tagadmins = () => {
-  const cmd = ["tagadmin", "tagadmins", "ta"];
+  const cmd = ["tagadmin", "tagadmins", "ta", "report"];
 
   return { cmd, handler };
 };
