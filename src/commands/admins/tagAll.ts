@@ -11,7 +11,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let message = `ALL: ${await getMessage(msg, command)}\n\n`;
 
   groupMembers.forEach((member) => {
-    if (command === "tagall") message += `@${member.id.split("@")[0]} `;
+    // if (command === "tagall") message += `@${member.id.split("@")[0]} `;
     jids.push(member.id);
   });
 
