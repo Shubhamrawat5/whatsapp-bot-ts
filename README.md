@@ -24,9 +24,9 @@
    > OWNER_NUMBER = "911234567890"\
    > NPM_CONFIG_PRODUCTION = "false" // For heroku only
 
-4. Run command in teminal to create DB tables - `npm run db`
-5. Install typescript - `npm install -g typescript`
-6. Install ts-node to run directly - `npm install -g ts-node`
+4. Install typescript - `npm install -g typescript`
+5. Install ts-node to run directly - `npm install -g ts-node`
+6. Run command in teminal to create DB tables - `npm run db`
 7. Start the bot - `npm run dev`
 8. It'll ask for QR code scan, scan it and bot will start working.
 
