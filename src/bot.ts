@@ -90,7 +90,8 @@ const startBot = async () => {
     newsListCronJob?.stop();
     todayStatsCronJob?.stop();
 
-    const { version, isLatest } = await fetchLatestBaileysVersion();
+    const { isLatest } = await fetchLatestBaileysVersion();
+    const version: [number, number, number] = [2, 3000, 1023223821];
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
     // Fetch login auth
