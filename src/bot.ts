@@ -4,7 +4,7 @@ import makeWASocket, {
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
   isJidBroadcast,
-  makeInMemoryStore,
+  // makeInMemoryStore,
 } from "@whiskeysockets/baileys";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -16,7 +16,7 @@ import { setAuth, getAuth } from "./db/authDB";
 import { loggerBot, loggerTg } from "./utils/logger";
 import addCommands from "./functions/addCommands";
 import { addDefaultbadges, DefaultBadge } from "./functions/addDefaultBadges";
-import { stats, USE_STORE } from "./utils/constants";
+import { stats } from "./utils/constants";
 import { Bot } from "./interfaces/Bot";
 import {
   postBdayCron,
@@ -54,13 +54,13 @@ logger.level = "silent";
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
-const store = USE_STORE ? makeInMemoryStore({ logger }) : undefined;
-if (store) {
-  store.readFromFile("./baileys_store_multi");
-  setInterval(() => {
-    store.writeToFile("./baileys_store_multi");
-  }, 10_000);
-}
+// const store = USE_STORE ? makeInMemoryStore({ logger }) : undefined;
+// if (store) {
+//   store.readFromFile("./baileys_store_multi");
+//   setInterval(() => {
+//     store.writeToFile("./baileys_store_multi");
+//   }, 10_000);
+// }
 
 // try {
 //   fs.rmSync("./auth_info_multi", { recursive: true, force: true });
@@ -113,7 +113,7 @@ const startBot = async () => {
       shouldIgnoreJid: (jid: string) => isJidBroadcast(jid),
     });
 
-    store?.bind(bot.ev);
+    // store?.bind(bot.ev);
 
     if (cronJobEnabled === "true") {
       bdayCronJob = await postBdayCron(bot);
