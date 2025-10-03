@@ -37,27 +37,28 @@ const addMemberCheck = async (
         return;
       }
 
-      if (!numSplit.startsWith("91")) {
-        // const groups = [
-        //   pvxstickeronly1,
-        //   pvxstickeronly2,
-        //   pvxbotcommands,
-        //   pvxtechonly,
-        // ];
-        // if (groups.includes(from)) {
-        //   return;
-        // }
+      // if (!numSplit.startsWith("91")) {
+      //   // const groups = [
+      //   //   pvxstickeronly1,
+      //   //   pvxstickeronly2,
+      //   //   pvxbotcommands,
+      //   //   pvxtechonly,
+      //   // ];
+      //   // if (groups.includes(from)) {
+      //   //   return;
+      //   // }
 
-        await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
-        });
-        await bot.groupParticipantsUpdate(from, [numJid], "remove");
+      //   await bot.sendMessage(from, {
+      //     text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
+      //   });
+      //   await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-        await sendLogToOwner(
-          bot,
-          `${numSplit} is removed from ${groupSubject}. Not 91!`
-        );
-      } else if (from === pvxmemes) {
+      //   await sendLogToOwner(
+      //     bot,
+      //     `${numSplit} is removed from ${groupSubject}. Not 91!`
+      //   );
+      // } else 
+        if (from === pvxmemes) {
         await bot.sendMessage(
           from,
           {
