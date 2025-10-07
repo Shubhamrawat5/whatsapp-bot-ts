@@ -2,11 +2,11 @@ import { GroupMetadata } from "@whiskeysockets/baileys";
 import { loggerBot } from "./utils/logger";
 import { Bot } from "./interfaces/Bot";
 import { cache } from "./utils/cache";
-import { updateMemberLIDsFromSignal } from "./db/membersDB";
+// import { updateMemberLIDsFromSignal } from "./db/membersDB";
 // import { bulkUpdateMemberLids } from "./db/membersDB";
 
 export type GroupsUpdate = Partial<GroupMetadata>[];
-let updateIntervalStarted = false;
+// let updateIntervalStarted = false;
 
 export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
   try {
@@ -17,14 +17,14 @@ export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
       cache.del(`${from}:groupMetadata`);
     }
 
-    if (!updateIntervalStarted) {
-      updateIntervalStarted = true;
-      console.log("Starting LID update interval...");
+    // if (!updateIntervalStarted) {
+    //   updateIntervalStarted = true;
+    //   console.log("Starting LID update interval...");
 
-      setInterval(async () => {
-        await updateMemberLIDsFromSignal(bot);
-      }, 1000 * 60 * 10); // every 10 minutes
-    }
+    //   setInterval(async () => {
+    //     await updateMemberLIDsFromSignal(bot);
+    //   }, 1000 * 60 * 10); // every 10 minutes
+    // }
 
     // console.log(msgs.length); // TODO: CHECK - GETTING CALL FOR ALL THE GROUPS AT BEGINNING
     // DESCRIPTION CHANGE IS NOT GETTING HERE
