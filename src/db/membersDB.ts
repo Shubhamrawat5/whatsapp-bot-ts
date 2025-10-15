@@ -76,17 +76,33 @@ export const updateMemberLIDsFromSignal = async (bot: Bot) => {
     const lidResults: LIDMapping[] | null =
       await bot.signalRepository.lidMapping.getLIDsForPNs(membersToUpdate);
 
+    console.log("Found LIDs for members:", lidResults);
+
+    // 3️⃣ Handle case where bot returns null
     if (lidResults === null) {
-      console.log("LID results is null from bot.");
+      console.log("LID results is null from bot. Marking as NOT_FOUND...");
+      await bulkUpdateMemberLids(
+        membersToUpdate.map((jid) => ({
+          jid,
+          lid: "NOT_FOUND",
+        }))
+      );
       return;
     }
 
+    // 4️⃣ Handle case where bot returns empty array
     if (!lidResults.length) {
-      console.log("No LID results returned from bot.");
+      console.log("No LID results returned from bot. Marking as NOT_FOUND...");
+      await bulkUpdateMemberLids(
+        membersToUpdate.map((jid) => ({
+          jid,
+          lid: "NOT_FOUND",
+        }))
+      );
       return;
     }
 
-    // 3️⃣ Map to format for bulkUpdateMemberLids
+    // 5️⃣ Separate valid and invalid (no LID)
     const validMembers = lidResults
       .filter((m) => m.lid && m.pn)
       .map((m) => ({
@@ -94,14 +110,35 @@ export const updateMemberLIDsFromSignal = async (bot: Bot) => {
         lid: m.lid as string,
       }));
 
+    const notFoundMembers = lidResults
+      .filter((m) => !m.lid && m.pn)
+      .map((m) => ({
+        jid: m.pn as string,
+        lid: "NOT_FOUND",
+      }));
+
+    // 6️⃣ Also include any requested members missing from bot’s response
+    const missingFromResponse = membersToUpdate.filter(
+      (jid) => !lidResults.some((m) => m.pn === jid)
+    );
+    const missingUpdates = missingFromResponse.map((jid) => ({
+      jid,
+      lid: "NOT_FOUND",
+    }));
+
+    // Combine all updates
+    const allUpdates = [...validMembers, ...notFoundMembers, ...missingUpdates];
+
+    if (!allUpdates.length) {
+      console.log("No valid or missing members to update.");
+      return;
+    }
+
     console.log(
-      "Updating member LIDs in DB for:",
-      validMembers.length,
-      "members"
+      `Updating ${allUpdates.length} members (including NOT_FOUND)...`
     );
 
-    // 4️⃣ Bulk update the DB
-    await bulkUpdateMemberLids(validMembers);
+    await bulkUpdateMemberLids(allUpdates);
 
     console.log("Member LID update completed successfully!");
   } catch (error) {
