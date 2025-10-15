@@ -61,7 +61,7 @@ export const updateMemberLIDsFromSignal = async (bot: Bot) => {
   try {
     // 1️⃣ Fetch ~100 members from DB whose lid is 'unknown'
     const res = await pool.query(
-      "SELECT memberjid FROM member WHERE lid = 'unknown' LIMIT 10;"
+      "SELECT memberjid FROM member WHERE lid = 'unknown' LIMIT 1;"
     );
     const membersToUpdate: string[] = res.rows.map((r) => r.memberjid);
 
