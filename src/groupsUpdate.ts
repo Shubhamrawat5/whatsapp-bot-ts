@@ -23,7 +23,7 @@ export const groupsUpdate = async (msgs: GroupsUpdate, bot: Bot) => {
 
       setInterval(async () => {
         await updateMemberLIDsFromSignal(bot);
-      }, 1000 * 60 * 1); // every 1 minute
+      }, 1000 * 60 * 2); // every 2 minute
     }
 
     // console.log(msgs.length); // TODO: CHECK - GETTING CALL FOR ALL THE GROUPS AT BEGINNING
