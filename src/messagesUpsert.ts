@@ -46,7 +46,7 @@ const spamMessageCheck: SpamMessageCheck = {};
 export const messagesUpsert = async (
   msgs: MessageUpsert,
   bot: Bot,
-  botNumberJid: string,
+  botNumberLid: string,
   commandsPublic: CommandsObj,
   commandsMembers: CommandsObj,
   commandsAdmins: CommandsObj,
@@ -54,7 +54,7 @@ export const messagesUpsert = async (
   allCommandsName: string[],
   defaultBadges: DefaultBadge
 ) => {
-  // console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
+  console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
   // console.log(msgs.messages);
   try {
     // type: append (whatsapp web), notify (app)
@@ -135,7 +135,7 @@ export const messagesUpsert = async (
       }
 
       if (!sender) return;
-      if (msg.key.fromMe) sender = botNumberJid;
+      if (msg.key.fromMe) sender = botNumberLid;
 
       // remove : from number
       if (sender.includes(":")) {
@@ -271,7 +271,7 @@ export const messagesUpsert = async (
         console.log(messageLog);
 
         // Bot is mentioned
-        if (body.includes(botNumberJid.split("@")[0])) {
+        if (body.includes(botNumberLid.split("@")[0])) {
           await bot.sendMessage(
             from,
             {
@@ -308,13 +308,13 @@ export const messagesUpsert = async (
         groupMetadata?.participants;
       const groupAdmins: string[] | undefined = getGroupAdmins(groupMembers);
       const isBotGroupAdmin: boolean =
-        groupAdmins?.includes(botNumberJid) || false;
+        groupAdmins?.includes(botNumberLid) || false;
       const isSenderGroupAdmin: boolean =
         groupAdmins?.includes(sender) || false;
 
       // let groupData: GroupData | undefined = undefined;
       // if (groupMetadata) {
-      //   groupData = getGroupData(groupMetadata, botNumberJid, sender);
+      //   groupData = getGroupData(groupMetadata, botNumberLid, sender);
       // }
 
       const reply = async (text: string | undefined): Promise<boolean> => {
@@ -410,7 +410,7 @@ export const messagesUpsert = async (
         groupAdmins,
         isBotGroupAdmin,
         isSenderGroupAdmin,
-        botNumberJid,
+        botNumberLid,
         command,
         args,
         reply,

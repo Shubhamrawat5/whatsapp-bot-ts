@@ -3,7 +3,7 @@ import { MsgInfoObj } from "../../interfaces/msgInfoObj";
 import { Bot } from "../../interfaces/Bot";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { botNumberJid, reply, isSenderGroupAdmin, isBotGroupAdmin, from } =
+  const { botNumberLid, reply, isSenderGroupAdmin, isBotGroupAdmin, from } =
     msgInfoObj;
 
   if (!msg.message?.extendedTextMessage) {
@@ -11,9 +11,9 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     return;
   }
 
-  // bot message, anyone can delete
+  // bot message, anyone can delete // TODO: CHECK botNumberLid
   if (
-    msg.message.extendedTextMessage.contextInfo?.participant === botNumberJid
+    msg.message.extendedTextMessage.contextInfo?.participant === botNumberLid
   ) {
     // await reply("❌ Tag message of bot to delete.");
 
@@ -29,7 +29,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       await reply("❌ Cannot delete this message.");
     } else {
       const options = {
-        remoteJid: botNumberJid,
+        remoteJid: botNumberLid, // TODO: CHECK botNumberLid
         fromMe: true,
         id: msg.message.extendedTextMessage.contextInfo.stanzaId,
       };

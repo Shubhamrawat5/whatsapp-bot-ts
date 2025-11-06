@@ -12,7 +12,7 @@ export interface MsgInfoObj {
 
   sender: string;
   senderName: string;
-  botNumberJid: string;
+  botNumberLid: string;
 
   groupName: string | undefined;
   groupDesc: string | undefined;

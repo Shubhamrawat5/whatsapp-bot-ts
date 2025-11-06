@@ -121,10 +121,12 @@ const startBot = async () => {
       todayStatsCronJob = await postTodayStatsCron(bot);
     }
 
-    let botNumberJid = bot.user ? bot.user.id : ""; // '1506xxxxx54:3@s.whatsapp.net'
-    botNumberJid =
-      botNumberJid.slice(0, botNumberJid.search(":")) +
-      botNumberJid.slice(botNumberJid.search("@"));
+    let botNumberLid = bot.user ? bot.user.lid ?? "" : ""; // '824xxxxx7:1@lid'
+    botNumberLid =
+      botNumberLid.slice(0, botNumberLid.search(":")) +
+      botNumberLid.slice(botNumberLid.search("@"));
+
+    console.log("Bot Number LID: ", botNumberLid);
 
     bot.ev.on("groups.upsert", async (msgs: GroupsUpsert) => {
       // new group added
@@ -140,7 +142,7 @@ const startBot = async () => {
       "group-participants.update",
       async (msg: GroupParticipantUpdate) => {
         // participant add, remove, promote, demote
-        await groupParticipantsUpdate(msg, bot, botNumberJid);
+        await groupParticipantsUpdate(msg, bot, botNumberLid);
       }
     );
 
@@ -149,7 +151,7 @@ const startBot = async () => {
       await messagesUpsert(
         msgs,
         bot,
-        botNumberJid,
+        botNumberLid,
         commandsPublic,
         commandsMembers,
         commandsAdmins,

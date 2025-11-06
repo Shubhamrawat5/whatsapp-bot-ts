@@ -16,14 +16,14 @@ export interface GroupParticipantUpdate {
 export const groupParticipantsUpdate = async (
   msg: GroupParticipantUpdate,
   bot: Bot,
-  botNumberJid: string
+  botNumberLid: string
 ) => {
   console.log("[group-participants.update]");
   try {
     const from = msg.id;
     msg.participants.forEach(async (numJid) => {
       const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
-      if (numJid === botNumberJid && msg.action === "remove") {
+      if (numJid === botNumberLid && msg.action === "remove") {
         // bot is removed
         await sendLogToOwner(bot, `Bot is removed from group.`);
         return;

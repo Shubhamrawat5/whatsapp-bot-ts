@@ -4,7 +4,7 @@ import { GroupData } from "../interfaces/GroupData";
 
 const getGroupData = (
   groupMetadata: GroupMetadata,
-  botNumberJid: string,
+  botNumberLid: string,
   sender: string
 ): GroupData => {
   const groupDesc: string = groupMetadata.desc
@@ -12,7 +12,7 @@ const getGroupData = (
     : "";
   const groupMembers: GroupParticipant[] = groupMetadata.participants;
   const groupAdmins: string[] = getGroupAdmins(groupMembers);
-  const isBotGroupAdmin: boolean = groupAdmins?.includes(botNumberJid) || false;
+  const isBotGroupAdmin: boolean = groupAdmins?.includes(botNumberLid) || false;
   const isSenderGroupAdmin: boolean = groupAdmins?.includes(sender) || false;
 
   const groupData: GroupData = {
