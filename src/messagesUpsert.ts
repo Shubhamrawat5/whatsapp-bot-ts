@@ -21,7 +21,7 @@ import { CommandsObj } from "./interfaces/CommandsObj";
 import { DefaultBadge } from "./functions/addDefaultBadges";
 import {
   forwardStickerEnabled,
-  ownerNumberWithJid,
+  ownerNumberWithLid,
   pvxFunctionsEnabled,
 } from "./utils/config";
 import { setCountMemberToday } from "./db/countMemberTodayDB";
@@ -57,7 +57,7 @@ export const messagesUpsert = async (
   console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
   // console.log(msgs.messages);
   try {
-    // type: append (whatsapp web), notify (app)
+    // type: append (whatsapp web = bot response), notify (app)
     if (msgs.type === "append") return;
 
     msgs.messages.forEach(async (msg: WAMessage) => {
@@ -111,13 +111,14 @@ export const messagesUpsert = async (
 
       const from = msg.key.remoteJid;
       if (!from) return;
-      let sender = msg.key.participant ?? from;
+      const senderJid = msg.key.participantAlt ?? from;
+      let senderLid = msg.key.participant ?? from;
 
       // // only for PVX groups temporary
       // if (
       //   pvxFunctionsEnabled === "true" &&
       //   !pvxgroupsList.includes(from) &&
-      //   sender !== ownerNumberWithJid
+      //   sender !== ownerNumberWithLid
       // ) {
       //   return;
       // }
@@ -134,41 +135,41 @@ export const messagesUpsert = async (
         cache.set(`${from}:groupMetadata`, groupMetadata, 60 * 60 * 24); // 24 hours
       }
 
-      if (!sender) return;
-      if (msg.key.fromMe) sender = botNumberLid;
+      if (!senderLid) return;
+      if (msg.key.fromMe) senderLid = botNumberLid;
 
       // remove : from number
-      if (sender.includes(":")) {
-        sender =
-          sender.slice(0, sender.search(":")) +
-          sender.slice(sender.search("@"));
+      if (senderLid.includes(":")) {
+        senderLid =
+          senderLid.slice(0, senderLid.search(":")) +
+          senderLid.slice(senderLid.search("@"));
       }
-      const senderNumber = sender.split("@")[0];
+      const senderNumber = senderLid.split("@")[0]; // TODO: NOT A NUMBER ANYMORE
       let senderName = msg.pushName;
-      if (!senderName) senderName = "null";
+      if (!senderName) senderName = "NULL";
 
       const groupName: string | undefined = groupMetadata?.subject;
 
       // Spam checker start
       // console.log(JSON.stringify(spamMessageCheck));
-      if (spamMessageCheck[from] && spamMessageCheck[from][sender]) {
-        if (spamMessageCheck[from][sender].body === body && body) {
+      if (spamMessageCheck[from] && spamMessageCheck[from][senderLid]) {
+        if (spamMessageCheck[from][senderLid].body === body && body) {
           // If the body is the same, increment the count
-          spamMessageCheck[from][sender].count += 1;
+          spamMessageCheck[from][senderLid].count += 1;
         } else {
-          spamMessageCheck[from][sender].count = 1;
-          spamMessageCheck[from][sender].body = body;
+          spamMessageCheck[from][senderLid].count = 1;
+          spamMessageCheck[from][senderLid].body = body;
         }
       } else {
         spamMessageCheck[from] = {
-          [sender]: {
+          [senderLid]: {
             count: 1,
             body,
           },
         };
       }
 
-      if (spamMessageCheck[from][sender].count === 10) {
+      if (spamMessageCheck[from][senderLid].count === 10) {
         await sendLogToOwner(bot, JSON.stringify(spamMessageCheck));
         console.log(
           `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
@@ -178,9 +179,9 @@ export const messagesUpsert = async (
         });
         const response = await bot.groupParticipantsUpdate(
           from,
-          [sender],
+          [senderLid],
           "remove"
-        );
+        ); // TODO: CHECK FUNCTIONALITY
         if (response[0].status === "200") {
           await bot.sendMessage(from, {
             text: "_✔ Number removed from group due to spam!_",
@@ -227,28 +228,28 @@ export const messagesUpsert = async (
             return;
           }
           const setCountMemberRes = await setCountMember(
-            sender,
+            senderJid,
             from,
             senderName
           );
 
           const subadmins: string[] | undefined = cache.get(`subadmins`);
-          if (subadmins && subadmins.includes(sender)) {
-            await setCountMemberMonth(sender, from, senderName);
+          if (subadmins && subadmins.includes(senderLid)) {
+            await setCountMemberMonth(senderJid, from, senderName);
           }
-          await setCountMemberToday(sender, from);
+          await setCountMemberToday(senderJid, from);
           await countRemainder(
             bot,
             setCountMemberRes,
             from,
             senderNumber,
-            sender
+            senderJid
           );
         }
 
         // count video
         if (from === pvxgroups.pvxmano && type === "videoMessage") {
-          await setCountVideo(sender, from);
+          await setCountVideo(senderJid, from);
         }
 
         // auto sticker maker in pvx sticker group [empty caption], less than 2mb
@@ -310,7 +311,7 @@ export const messagesUpsert = async (
       const isBotGroupAdmin: boolean =
         groupAdmins?.includes(botNumberLid) || false;
       const isSenderGroupAdmin: boolean =
-        groupAdmins?.includes(sender) || false;
+        groupAdmins?.includes(senderLid) || false;
 
       // let groupData: GroupData | undefined = undefined;
       // if (groupMetadata) {
@@ -346,9 +347,9 @@ export const messagesUpsert = async (
       }
 
       // send every command info to my whatsapp number, won't work when I send something to bot
-      if (ownerNumberWithJid !== sender && ownerNumberWithJid) {
+      if (ownerNumberWithLid !== senderLid && ownerNumberWithLid) {
         stats.commandExecuted += 1;
-        // await bot.sendMessage(ownerNumberWithJid, {
+        // await bot.sendMessage(ownerNumberWithLid, {
         //   text: `${stats.commandExecuted}) [${PREFIX}${command}] [${groupName}]`,
         // });
         await loggerTg(
@@ -373,7 +374,7 @@ export const messagesUpsert = async (
         }
 
         case "test":
-          if (ownerNumberWithJid !== sender) {
+          if (ownerNumberWithLid !== senderLid) {
             await reply(`❌ Command only for owner for bot testing purpose!`);
             return;
           }
@@ -402,7 +403,7 @@ export const messagesUpsert = async (
 
       const msgInfoObj: MsgInfoObj = {
         from,
-        sender,
+        sender: senderJid,
         senderName,
         groupName,
         groupDesc,
@@ -457,7 +458,7 @@ export const messagesUpsert = async (
 
         /* ----------------------------- owner commands ----------------------------- */
         if (commandsOwners[command]) {
-          if (ownerNumberWithJid === sender) {
+          if (ownerNumberWithLid === senderLid) {
             await commandsOwners[command](bot, msg, msgInfoObj);
             return;
           }

@@ -10,7 +10,7 @@ const getGroupAdmins = (
     if (member.admin) admins.push(member.id);
   });
 
-  return admins;
+  return admins; // returns array of admin Lids
 };
 
 export default getGroupAdmins;

@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import cron from "node-cron";
-import { ownerNumberWithJid } from "../utils/config";
+import { ownerNumberWithLid } from "../utils/config";
 import { pvxgroups } from "../utils/constants";
 import { deleteOldNews } from "../db/newsDB";
 import { Bot } from "../interfaces/Bot";
@@ -73,7 +73,7 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
         pvxgroups.pvxcommunity,
         true
       );
-      if (!checkTodayBdayRes && ownerNumberWithJid) {
+      if (!checkTodayBdayRes && ownerNumberWithLid) {
         await sendLogToOwner(bot, "❌ THERE IS SOME PROBLEM WITH BDAY INFO!");
       }
 
@@ -81,7 +81,7 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
       const oldDate = getOldIndianDateTime(daysSubtract);
 
       const deleteOldNewsRes = await deleteOldNews(oldDate);
-      if (!deleteOldNewsRes && ownerNumberWithJid) {
+      if (!deleteOldNewsRes && ownerNumberWithLid) {
         await sendLogToOwner(
           bot,
           "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!"
@@ -123,8 +123,8 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
 //           pvxgroups.pvxcommunity,
 //           true
 //         );
-//         if (!checkTodayBdayRes && ownerNumberWithJid) {
-//           await bot.sendMessage(ownerNumberWithJid, {
+//         if (!checkTodayBdayRes && ownerNumberWithLid) {
+//           await bot.sendMessage(ownerNumberWithLid, {
 //             text: "❌ THERE IS SOME PROBLEM WITH BDAY INFO!",
 //           });
 //         }
@@ -133,8 +133,8 @@ export const postBdayCron = async (bot: Bot): Promise<cron.ScheduledTask> => {
 //         const oldDate = getOldIndianDateTime(daysSubtract);
 
 //         const deleteOldNewsRes = await deleteOldNews(oldDate);
-//         if (!deleteOldNewsRes && ownerNumberWithJid) {
-//           await bot.sendMessage(ownerNumberWithJid, {
+//         if (!deleteOldNewsRes && ownerNumberWithLid) {
+//           await bot.sendMessage(ownerNumberWithLid, {
 //             text: "❌ THERE IS SOME PROBLEM WITH DELETING OLD NEWS!",
 //           });
 //         }

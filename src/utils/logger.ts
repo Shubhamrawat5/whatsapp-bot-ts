@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import { Bot } from "../interfaces/Bot";
 
-import { TgBotToken, ownerNumberWithJid } from "./config";
+import { TgBotToken, ownerNumberWithLid } from "./config";
 
 // const kryptonChatId = 7139058343;
 const logsChannelId = "-1002437471698";
@@ -25,8 +25,8 @@ export const loggerBot = async (
     console.log(err);
     const loggerMsg = `ERROR [${eventType}]:\n${errMsg}\nmsg: ${msg}`;
     if (botTG) await botTG.sendMessage(logsChannelId, loggerMsg);
-    if (botWA && ownerNumberWithJid) {
-      await botWA.sendMessage(ownerNumberWithJid, {
+    if (botWA && ownerNumberWithLid) {
+      await botWA.sendMessage(ownerNumberWithLid, {
         text: loggerMsg,
       });
     }
@@ -46,8 +46,8 @@ export const loggerTg = async (message: string) => {
 
 export const sendLogToOwner = async (bot: Bot, message: string) => {
   try {
-    // if (ownerNumberWithJid) {
-    //   await bot.sendMessage(ownerNumberWithJid, { text: message });
+    // if (ownerNumberWithLid) {
+    //   await bot.sendMessage(ownerNumberWithLid, { text: message });
     // }
     if (botTG) await botTG.sendMessage(logsChannelId, message);
     console.log(message);

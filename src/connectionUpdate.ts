@@ -42,13 +42,13 @@ export const connectionUpdate = async (
         }));
 
       groups.forEach(async (group) => {
-        console.log(`SET metadata for: ${group.subject} (${group.id})`);
+        console.log(`SET Group Metadata for: ${group.subject} (${group.id})`);
 
         if (group.id === pvxgroups.pvxsubadmin) {
-          const subadmins = group.participants.map((member) => {
+          const subadminLids = group.participants.map((member) => {
             return member.id;
           });
-          cache.set("subadmins", subadmins, 60 * 60 * 24); // 24 hours
+          cache.set("subadmins", subadminLids, 60 * 60 * 24); // 24 hours
         }
 
         cache.set(`${group.id}:groupMetadata`, group, 60 * 60 * 24); // 24 hours
