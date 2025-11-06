@@ -14,7 +14,7 @@ import mute from "../commands/admins/mute";
 import remove from "../commands/admins/remove";
 import rt from "../commands/admins/rt";
 import websitelink from "../commands/admins/websiteLink";
-import tagall from "../commands/admins/tagAll";
+// import tagall from "../commands/admins/tagAll";
 import unmute from "../commands/admins/unmute";
 import warn from "../commands/admins/warn";
 import warnclear from "../commands/admins/warnClear";
@@ -56,7 +56,7 @@ import startvote from "../commands/members/startVote";
 import stickersearch from "../commands/members/stickerSearch";
 import sticker from "../commands/members/sticker";
 import stopvote from "../commands/members/stopVote";
-import tagadmins from "../commands/members/tagAdmins";
+// import tagadmins from "../commands/members/tagAdmins";
 import text from "../commands/members/text";
 import vote from "../commands/members/vote";
 import warncheck from "../commands/members/warnCheck";
@@ -65,8 +65,8 @@ import ytv from "../commands/members/ytv";
 import zero from "../commands/members/zero";
 import pvxv from "../commands/members/pvxv";
 import technews from "../commands/members/techNews";
-import expert from "../commands/members/expert";
-import tagexpert from "../commands/members/tagExpert";
+// import expert from "../commands/members/expert";
+// import tagexpert from "../commands/members/tagExpert";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
@@ -97,7 +97,7 @@ import { CommandsObj } from "../interfaces/CommandsObj";
 import addcoctag from "../commands/coc/addCocTag";
 import cocdetails from "../commands/coc/cocDetails";
 import clan from "../commands/coc/clan";
-import tagclan from "../commands/coc/tagClan";
+// import tagclan from "../commands/coc/tagClan";
 import clanmembers from "../commands/coc/clanMembers";
 
 const addCommands = async () => {
@@ -150,7 +150,7 @@ const addCommands = async () => {
     rt,
     setlink,
     websitelink,
-    tagall,
+    // tagall,
     unmute,
     warn,
     warnclear,
@@ -159,7 +159,7 @@ const addCommands = async () => {
     warnreduce,
     // coc
     addcoctag,
-    tagclan,
+    // tagclan,
     today,
     expertadd,
     expertremove,
@@ -205,7 +205,7 @@ const addCommands = async () => {
     sticker,
     stickersearch,
     stopvote,
-    tagadmins,
+    // tagadmins,
     technews,
     text,
     vote,
@@ -217,8 +217,8 @@ const addCommands = async () => {
     cocdetails,
     clan,
     clanmembers,
-    expert,
-    tagexpert,
+    // expert,
+    // tagexpert,
   ];
 
   membersCommands.forEach((command) => {
