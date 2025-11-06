@@ -8,8 +8,8 @@ import disable from "../commands/admins/disable";
 import enable from "../commands/admins/enable";
 import promote from "../commands/admins/promote";
 import demote from "../commands/admins/demote";
-import badgeadd from "../commands/admins/badgeAdd";
-import badgeremove from "../commands/admins/badgeRemove";
+// import badgeadd from "../commands/admins/badgeAdd";
+// import badgeremove from "../commands/admins/badgeRemove";
 import mute from "../commands/admins/mute";
 import remove from "../commands/admins/remove";
 import rt from "../commands/admins/rt";
@@ -23,12 +23,12 @@ import warnlistall from "../commands/admins/warnListAll";
 import warnreduce from "../commands/admins/warnReduce";
 import setlink from "../commands/admins/setLink";
 import today from "../commands/admins/today";
-import expertadd from "../commands/admins/expertAdd";
-import expertremove from "../commands/admins/expertRemove";
+// import expertadd from "../commands/admins/expertAdd";
+// import expertremove from "../commands/admins/expertRemove";
 
 /* ----------------------------- MEMBER COMMANDS ---------------------------- */
 import ai from "../commands/members/ai";
-import checkvote from "../commands/members/checkVote";
+// import checkvote from "../commands/members/checkVote";
 import count from "../commands/members/count";
 import gender from "../commands/members/gender";
 import horo from "../commands/members/horo";
@@ -48,17 +48,17 @@ import quote from "../commands/members/quote";
 import rank from "../commands/members/rank";
 import ranks from "../commands/members/ranks";
 import rules from "../commands/members/rules";
-import score from "../commands/members/score";
-import scorecard from "../commands/members/scoreCard";
-import song from "../commands/members/song";
-import startc from "../commands/members/startc";
-import startvote from "../commands/members/startVote";
+// import score from "../commands/members/score";
+// import scorecard from "../commands/members/scoreCard";
+// import song from "../commands/members/song";
+// import startc from "../commands/members/startc";
+// import startvote from "../commands/members/startVote";
 import stickersearch from "../commands/members/stickerSearch";
 import sticker from "../commands/members/sticker";
-import stopvote from "../commands/members/stopVote";
+// import stopvote from "../commands/members/stopVote";
 // import tagadmins from "../commands/members/tagAdmins";
-import text from "../commands/members/text";
-import vote from "../commands/members/vote";
+// import text from "../commands/members/text";
+// import vote from "../commands/members/vote";
 import warncheck from "../commands/members/warnCheck";
 import yta from "../commands/members/yta";
 import ytv from "../commands/members/ytv";
@@ -90,15 +90,15 @@ import link from "../commands/public/link";
 import source from "../commands/public/source";
 import search from "../commands/public/search";
 import steal from "../commands/public/steal";
-import votecommand from "../commands/public/voteCommand";
+// import votecommand from "../commands/public/voteCommand";
 
 import bday from "../commands/admins/bday";
 import { CommandsObj } from "../interfaces/CommandsObj";
-import addcoctag from "../commands/coc/addCocTag";
-import cocdetails from "../commands/coc/cocDetails";
-import clan from "../commands/coc/clan";
+// import addcoctag from "../commands/coc/addCocTag";
+// import cocdetails from "../commands/coc/cocDetails";
+// import clan from "../commands/coc/clan";
 // import tagclan from "../commands/coc/tagClan";
-import clanmembers from "../commands/coc/clanMembers";
+// import clanmembers from "../commands/coc/clanMembers";
 
 const addCommands = async () => {
   const commandsPublic: CommandsObj = {};
@@ -121,7 +121,7 @@ const addCommands = async () => {
     search,
     source,
     steal,
-    votecommand,
+    // votecommand,
   ];
 
   publicCommands.forEach((command) => {
@@ -143,8 +143,8 @@ const addCommands = async () => {
     enable,
     promote,
     demote,
-    badgeadd,
-    badgeremove,
+    // badgeadd,
+    // badgeremove,
     mute,
     remove,
     rt,
@@ -158,11 +158,11 @@ const addCommands = async () => {
     warnlistall,
     warnreduce,
     // coc
-    addcoctag,
+    // addcoctag,
     // tagclan,
     today,
-    expertadd,
-    expertremove,
+    // expertadd,
+    // expertremove,
   ];
 
   adminCommands.forEach((command) => {
@@ -175,7 +175,7 @@ const addCommands = async () => {
 
   const membersCommands = [
     ai,
-    checkvote,
+    // checkvote,
     count,
     gender,
     horo,
@@ -197,26 +197,26 @@ const addCommands = async () => {
     rank,
     ranks,
     rules,
-    score,
-    scorecard,
-    song,
-    startc,
-    startvote,
+    // score,
+    // scorecard,
+    // song,
+    // startc,
+    // startvote,
     sticker,
     stickersearch,
-    stopvote,
+    // stopvote,
     // tagadmins,
     technews,
-    text,
-    vote,
+    // text,
+    // vote,
     warncheck,
     yta,
     ytv,
     zero,
     // coc
-    cocdetails,
-    clan,
-    clanmembers,
+    // cocdetails,
+    // clan,
+    // clanmembers,
     // expert,
     // tagexpert,
   ];
