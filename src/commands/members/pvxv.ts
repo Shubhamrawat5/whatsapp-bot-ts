@@ -19,7 +19,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   let countGroupMsgIndi = `*📛 MANO VIDEO COUNT*\n_From 6 JUNE 2022_${readMore}\n`;
   const memWithMsg = new Set();
   getCountVideoRes.forEach((member) => {
-    memWithMsg.add(member.memberjid);
+    memWithMsg.add(member.memberlid);
   });
 
   let countGroupMsgTempIndi = "\n";

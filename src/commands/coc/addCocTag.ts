@@ -28,7 +28,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const participant = await getMentionedOrTaggedParticipant(msg);
   if (!participant) {
-    await reply("❌ Tag someone!");
+    await reply("❌ Tag or mention someone!");
     return;
   }
 

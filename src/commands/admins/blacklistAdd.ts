@@ -46,7 +46,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   let isSenderMainAdmin = false;
   chats[pvxgroups.pvxadmin]?.participants.forEach((member) => {
-    if (member.id === sender) {
+    if (member.phoneNumber === sender) {
       isSenderMainAdmin = true;
     }
   });

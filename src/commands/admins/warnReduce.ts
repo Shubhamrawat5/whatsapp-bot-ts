@@ -17,11 +17,16 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+  if (!participant) {
+    await reply("❌ Tag or mention someone!");
+    return;
+  }
 
-  if (!participant) return;
   const getCountWarningRes = await getCountWarning(participant, from);
-  let warnCount = getCountWarningRes.length ? getCountWarningRes[0].warning_count : 0;
-  const numSplit = participant.split("@s.whatsapp.net")[0];
+  let warnCount = getCountWarningRes.length
+    ? getCountWarningRes[0].warning_count
+    : 0;
+  const lidSplit = participant.split("@lid")[0];
 
   if (warnCount === 1) {
     const clearCountWarningRes = await clearCountWarning(participant, from);
@@ -39,7 +44,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
     }
   }
 
-  const warnMsg = `@${numSplit} ,Your warning have been reduced by 1. Warning status: (${warnCount}/3)`;
+  const warnMsg = `@${lidSplit} ,Your warning have been reduced by 1. Warning status: (${warnCount}/3)`;
 
   await bot.sendMessage(from, {
     text: warnMsg,

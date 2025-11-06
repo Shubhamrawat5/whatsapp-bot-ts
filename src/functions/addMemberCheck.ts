@@ -7,8 +7,8 @@ import { loggerBot, sendLogToOwner } from "../utils/logger";
 const addMemberCheck = async (
   bot: Bot,
   from: string,
-  numSplit: string,
-  numJid: string,
+  lidSplit: string,
+  memberlid: string,
   groupSubject: string
 ) => {
   const {
@@ -22,9 +22,9 @@ const addMemberCheck = async (
   try {
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       // if number is blacklisted
-      const getBlacklistRes = await getBlacklist(numJid);
+      const getBlacklistRes = await getBlacklist(memberlid); // TODO: NO LONGER WORKS WITH LID
       if (getBlacklistRes.length) {
-        await bot.groupParticipantsUpdate(from, [numJid], "remove");
+        await bot.groupParticipantsUpdate(from, [memberlid], "remove");
         const { reason, adminname } = getBlacklistRes[0];
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${reason}\nGiven by ${adminname}`,
@@ -32,12 +32,12 @@ const addMemberCheck = async (
 
         await sendLogToOwner(
           bot,
-          `${numSplit} is removed from ${groupSubject}. Blacklisted!`
+          `${lidSplit} is removed from ${groupSubject}. Blacklisted!`
         );
         return;
       }
 
-      // if (!numSplit.startsWith("91")) {
+      // if (!lidSplit.startsWith("91")) {
       //   // const groups = [
       //   //   pvxstickeronly1,
       //   //   pvxstickeronly2,
@@ -57,13 +57,13 @@ const addMemberCheck = async (
       //     bot,
       //     `${numSplit} is removed from ${groupSubject}. Not 91!`
       //   );
-      // } else 
-        if (from === pvxmemes) {
+      // } else
+      if (from === pvxmemes) {
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n1) No offensive/disrespectful/religious content allowed.\n2) Spamming or Posting personal pictures is strictly prohibited.`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}\nhttps://pvxcommunity.com/\n\n1) No offensive/disrespectful/religious content allowed.\n2) Spamming or Posting personal pictures is strictly prohibited.`,
+            mentions: [memberlid],
           },
           {
             quoted: {
@@ -83,8 +83,8 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nWhat are you currently watching..?`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}\nhttps://pvxcommunity.com/\n\nWhat are you currently watching..?`,
+            mentions: [memberlid],
           },
           {
             quoted: {
@@ -104,8 +104,8 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nSend ${PREFIX}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}\nhttps://pvxcommunity.com/\n\nSend ${PREFIX}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
+            mentions: [memberlid],
           },
           {
             quoted: {
@@ -125,8 +125,8 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${PREFIX}pvxv to know video count.\nInactive members will be kicked time to time.`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${PREFIX}pvxv to know video count.\nInactive members will be kicked time to time.`,
+            mentions: [memberlid],
           },
           {
             quoted: {
@@ -146,8 +146,8 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
+            mentions: [lidSplit],
           },
           {
             quoted: {
@@ -167,8 +167,8 @@ const addMemberCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
-            mentions: [numJid],
+            text: `Welcome @${lidSplit}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
+            mentions: [lidSplit],
           },
           {
             quoted: {
@@ -193,27 +193,3 @@ const addMemberCheck = async (
 };
 
 export default addMemberCheck;
-
-// for study group
-// if (from === pvxstudy) {
-//   await bot.sendMessage(
-//     from,
-//     {
-//       text: `Welcome @${numSplit}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
-//       mentions: [numJid],
-//     },
-//     {
-//       quoted: {
-//         key: {
-//           remoteJid: from,
-//           fromMe: false,
-//           id: "710B5CF29EE7471fakeid",
-//           participant: "0@s.whatsapp.net",
-//         },
-//         messageTimestamp: 1671784177,
-//         pushName: "WhatsApp",
-//         message: { conversation: "WELCOME TO PVX STUDY" },
-//       },
-//     }
-//   );
-// }

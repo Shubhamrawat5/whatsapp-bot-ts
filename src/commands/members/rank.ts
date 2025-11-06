@@ -6,13 +6,14 @@ import { getBadges } from "../../db/membersDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { reply, args, defaultBadges, from, sender } = msgInfoObj;
+  const { reply, defaultBadges, from, sender } = msgInfoObj;
 
   let participant: string;
 
-  if (args.length) {
-    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
-  } else if (msg.message?.extendedTextMessage) {
+  // if (args.length) {
+  //   participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  // } else
+  if (msg.message?.extendedTextMessage) {
     participant = await getMentionedOrTaggedParticipant(msg);
   } else {
     participant = sender;

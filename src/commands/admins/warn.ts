@@ -13,24 +13,32 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+  if (!participant) {
+    await reply("❌ Tag or mention someone!");
+    return;
+  }
+
   if (groupAdmins.includes(participant)) {
     await reply("❌ Cannot warn admin!");
     return;
   }
 
-  if (!participant) return;
+  if (!participant) {
+    await reply("❌ Tag or mention someone!");
+    return;
+  }
   const getCountWarningRes = await getCountWarning(participant, from);
   let warnCount = getCountWarningRes.length
     ? getCountWarningRes[0].warning_count
     : 0;
-  const numSplit = participant.split("@s.whatsapp.net")[0];
+  const lidSplit = participant.split("@lid")[0];
 
   if (warnCount < 3) {
     // 0,1,2
     const setCountWarningRes = await setCountWarning(participant, from);
     if (setCountWarningRes) warnCount += 1;
   }
-  const warnMsg = `@${numSplit} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
+  const warnMsg = `@${lidSplit} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
   await bot.sendMessage(from, {
     text: warnMsg,

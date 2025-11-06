@@ -16,9 +16,6 @@ const checkTodayBday = async (
     const todayDate = date.getDate();
     const todayMonth = date.getMonth() + 1;
 
-    // let url = "https://pvx-api-vercel.vercel.app/api/bday";
-    // let { data } = await axios.get(url);
-
     const data = await getBirthday();
     if (data.length === 0) {
       // TODO: USE log, error, warn everywhere

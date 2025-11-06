@@ -5,13 +5,14 @@ import { getCountWarning } from "../../db/warningDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { sender, from, args } = msgInfoObj;
+  const { sender, from } = msgInfoObj;
 
   let participant: string;
 
-  if (args.length) {
-    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
-  } else if (msg.message?.extendedTextMessage) {
+  // if (args.length) {
+  //   participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  // } else
+  if (msg.message?.extendedTextMessage) {
     participant = await getMentionedOrTaggedParticipant(msg);
   } else {
     participant = sender;
@@ -21,8 +22,8 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   const warnCount = getCountWarningRes.length
     ? getCountWarningRes[0].warning_count
     : 0;
-  const numSplit = participant.split("@s.whatsapp.net")[0];
-  const warnMsg = `@${numSplit} ,Your warning count is ${warnCount} for this group!`;
+  const lidSplit = participant.split("@lid")[0];
+  const warnMsg = `@${lidSplit} ,Your warning count is ${warnCount} for this group!`;
 
   await bot.sendMessage(from, {
     text: warnMsg,

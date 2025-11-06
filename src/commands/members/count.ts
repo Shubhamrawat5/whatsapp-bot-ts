@@ -5,15 +5,16 @@ import { getCountIndividualAllGroup } from "../../db/countMemberDB";
 import getMentionedOrTaggedParticipant from "../../functions/getParticipant";
 
 const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
-  const { args, from, sender } = msgInfoObj;
+  const { from, sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
   let participant: string;
 
-  if (args.length) {
-    participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
-  } else if (msg.message?.extendedTextMessage) {
+  // if (args.length) {
+  //   participant = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`;
+  // } else
+  if (msg.message?.extendedTextMessage) {
     participant = await getMentionedOrTaggedParticipant(msg);
   } else {
     participant = sender;

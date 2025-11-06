@@ -24,24 +24,24 @@ import {
   ownerNumberWithLid,
   pvxFunctionsEnabled,
 } from "./utils/config";
-import { setCountMemberToday } from "./db/countMemberTodayDB";
+// import { setCountMemberToday } from "./db/countMemberTodayDB";
 import fs from "fs";
-import { setCountMemberMonth } from "./db/countMemberMonthDB";
+// import { setCountMemberMonth } from "./db/countMemberMonthDB";
 
 export interface MessageUpsert {
   messages: WAMessage[];
   type: MessageUpsertType;
 }
 
-interface SpamMessageCheck {
-  [from: string]: {
-    [sender: string]: {
-      count: number;
-      body: string;
-    };
-  };
-}
-const spamMessageCheck: SpamMessageCheck = {};
+// interface SpamMessageCheck {
+//   [from: string]: {
+//     [sender: string]: {
+//       count: number;
+//       body: string;
+//     };
+//   };
+// }
+// const spamMessageCheck: SpamMessageCheck = {};
 
 export const messagesUpsert = async (
   msgs: MessageUpsert,
@@ -54,7 +54,7 @@ export const messagesUpsert = async (
   allCommandsName: string[],
   defaultBadges: DefaultBadge
 ) => {
-  console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
+  // console.log("msgs: ", JSON.stringify(msgs, undefined, 2));
   // console.log(msgs.messages);
   try {
     // type: append (whatsapp web = bot response), notify (app)
@@ -135,7 +135,14 @@ export const messagesUpsert = async (
         cache.set(`${from}:groupMetadata`, groupMetadata, 60 * 60 * 24); // 24 hours
       }
 
-      if (!senderLid) return;
+      if (!senderLid || !senderJid) {
+        await sendLogToOwner(
+          bot,
+          `Missing senderLid or senderJid: ${JSON.stringify(msg)}`
+        );
+        return;
+      }
+
       if (msg.key.fromMe) senderLid = botNumberLid;
 
       // remove : from number
@@ -150,48 +157,48 @@ export const messagesUpsert = async (
 
       const groupName: string | undefined = groupMetadata?.subject;
 
-      // Spam checker start
-      // console.log(JSON.stringify(spamMessageCheck));
-      if (spamMessageCheck[from] && spamMessageCheck[from][senderLid]) {
-        if (spamMessageCheck[from][senderLid].body === body && body) {
-          // If the body is the same, increment the count
-          spamMessageCheck[from][senderLid].count += 1;
-        } else {
-          spamMessageCheck[from][senderLid].count = 1;
-          spamMessageCheck[from][senderLid].body = body;
-        }
-      } else {
-        spamMessageCheck[from] = {
-          [senderLid]: {
-            count: 1,
-            body,
-          },
-        };
-      }
+      // // Spam checker start
+      // // console.log(JSON.stringify(spamMessageCheck));
+      // if (spamMessageCheck[from] && spamMessageCheck[from][senderLid]) {
+      //   if (spamMessageCheck[from][senderLid].body === body && body) {
+      //     // If the body is the same, increment the count
+      //     spamMessageCheck[from][senderLid].count += 1;
+      //   } else {
+      //     spamMessageCheck[from][senderLid].count = 1;
+      //     spamMessageCheck[from][senderLid].body = body;
+      //   }
+      // } else {
+      //   spamMessageCheck[from] = {
+      //     [senderLid]: {
+      //       count: 1,
+      //       body,
+      //     },
+      //   };
+      // }
 
-      if (spamMessageCheck[from][senderLid].count === 10) {
-        await sendLogToOwner(bot, JSON.stringify(spamMessageCheck));
-        console.log(
-          `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
-        );
-        await bot.sendMessage(pvxgroups.pvxsubadmin, {
-          text: `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`,
-        });
-        const response = await bot.groupParticipantsUpdate(
-          from,
-          [senderLid],
-          "remove"
-        ); // TODO: CHECK FUNCTIONALITY
-        if (response[0].status === "200") {
-          await bot.sendMessage(from, {
-            text: "_✔ Number removed from group due to spam!_",
-          });
-        } else {
-          await bot.sendMessage(from, {
-            text: "_❌ There was a problem removing the user!_",
-          });
-        }
-      }
+      // if (spamMessageCheck[from][senderLid].count === 10) {
+      //   await sendLogToOwner(bot, JSON.stringify(spamMessageCheck));
+      //   console.log(
+      //     `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`
+      //   );
+      //   await bot.sendMessage(pvxgroups.pvxsubadmin, {
+      //     text: `Spam detected! The message "${body}" has been sent 10 times by ${senderNumber} in group ${groupName}`,
+      //   });
+      //   const response = await bot.groupParticipantsUpdate(
+      //     from,
+      //     [senderLid],
+      //     "remove"
+      //   ); // TODO: CHECK FUNCTIONALITY
+      //   if (response[0].status === "200") {
+      //     await bot.sendMessage(from, {
+      //       text: "_✔ Number removed from group due to spam!_",
+      //     });
+      //   } else {
+      //     await bot.sendMessage(from, {
+      //       text: "_❌ There was a problem removing the user!_",
+      //     });
+      //   }
+      // }
       // Spam checker end
 
       // Forward all stickers
@@ -229,27 +236,22 @@ export const messagesUpsert = async (
           }
           const setCountMemberRes = await setCountMember(
             senderJid,
+            senderLid,
             from,
             senderName
           );
 
-          const subadmins: string[] | undefined = cache.get(`subadmins`);
-          if (subadmins && subadmins.includes(senderLid)) {
-            await setCountMemberMonth(senderJid, from, senderName);
-          }
-          await setCountMemberToday(senderJid, from);
-          await countRemainder(
-            bot,
-            setCountMemberRes,
-            from,
-            senderNumber,
-            senderJid
-          );
+          // const subadmins: string[] | undefined = cache.get(`subadmins`);
+          // if (subadmins && subadmins.includes(senderLid)) {
+          //   await setCountMemberMonth(senderJid, from, senderName);
+          // }
+          // await setCountMemberToday(senderJid, from);
+          await countRemainder(bot, setCountMemberRes, from, senderLid);
         }
 
         // count video
         if (from === pvxgroups.pvxmano && type === "videoMessage") {
-          await setCountVideo(senderJid, from);
+          await setCountVideo(senderJid, senderLid, from);
         }
 
         // auto sticker maker in pvx sticker group [empty caption], less than 2mb
@@ -419,7 +421,7 @@ export const messagesUpsert = async (
         allCommandsName,
       };
 
-      const botGroupLink = "https://chat.whatsapp.com/DCo1UEVYUt1GEclJ1uZzjA";
+      const botGroupLink = "https://chat.whatsapp.com/DOWcUnibMXS1DRxqpXMJgv";
 
       try {
         /* ----------------------------- public commands ---------------------------- */

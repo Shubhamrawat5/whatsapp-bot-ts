@@ -17,6 +17,10 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+  if (!participant) {
+    await reply("❌ Tag or mention someone!");
+    return;
+  }
 
   if (!groupAdmins.includes(participant)) {
     await reply("_❌ Number is not an admin!_");

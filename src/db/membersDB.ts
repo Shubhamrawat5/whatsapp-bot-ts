@@ -1,5 +1,5 @@
-import { checkMemberjid } from "../functions/checkValue";
-import { Bot } from "../interfaces/Bot";
+import { checkMemberlid, checkMemberjid } from "../functions/checkValue";
+// import { Bot } from "../interfaces/Bot";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -8,7 +8,7 @@ export const createMemberTable = async () => {
     `CREATE TABLE IF NOT EXISTS member(
       uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       memberjid TEXT UNIQUE NOT NULL,
-      lid TEXT NOT NULL DEFAULT 'unknown',
+      memberlid TEXT NOT NULL DEFAULT 'unknown',
       name TEXT NOT NULL,
       donation INTEGER DEFAULT 0 CHECK (donation >= 0),
       badges TEXT[] NOT NULL DEFAULT '{}',
@@ -19,148 +19,150 @@ export const createMemberTable = async () => {
   );
 };
 
-interface MemberLidData {
-  jid: string;
-  lid: string;
-}
+// interface MemberLidData {
+//   jid: string;
+//   lid: string;
+// }
 
-export const bulkUpdateMemberLids = async (members: MemberLidData[]) => {
-  // 1️⃣ If no members, skip
-  if (!members.length) return;
-  console.log("Updating LIDs for members:", members.length);
+// export const bulkUpdateMemberLids = async (members: MemberLidData[]) => {
+//   // 1️⃣ If no members, skip
+//   if (!members.length) return;
+//   console.log("Updating LIDs for members:", members.length);
 
-  // 2️⃣ Build a temporary VALUES table
-  // It’ll look like: VALUES ($1, $2), ($3, $4), ...
-  const values = members
-    .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
-    .join(",");
+//   // 2️⃣ Build a temporary VALUES table
+//   // It’ll look like: VALUES ($1, $2), ($3, $4), ...
+//   const values = members
+//     .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
+//     .join(",");
 
-  // 3️⃣ Flatten all parameters [jid, lid, jid, lid, ...]
-  const params = members.flatMap((m) => [m.jid, m.lid]);
+//   // 3️⃣ Flatten all parameters [jid, lid, jid, lid, ...]
+//   const params = members.flatMap((m) => [m.jid, m.lid]);
 
-  // 4️⃣ Use an UPDATE ... FROM query to join and update efficiently
-  const query = `
-    UPDATE member AS m
-    SET lid = v.lid,
-        updated_at = NOW()
-    FROM (VALUES ${values}) AS v(memberjid, lid)
-    WHERE m.memberjid = v.memberjid;
-  `;
+//   // 4️⃣ Use an UPDATE ... FROM query to join and update efficiently
+//   const query = `
+//     UPDATE member AS m
+//     SET lid = v.lid,
+//         updated_at = NOW()
+//     FROM (VALUES ${values}) AS v(memberjid, lid)
+//     WHERE m.memberjid = v.memberjid;
+//   `;
 
-  // 5️⃣ Execute once
-  const res = await pool.query(query, params);
-  console.log("Member LIDs updated successfully: ", res.rowCount);
-};
+//   // 5️⃣ Execute once
+//   const res = await pool.query(query, params);
+//   console.log("Member LIDs updated successfully: ", res.rowCount);
+// };
 
-interface LIDMapping {
-  lid: string;
-  pn: string; // phone number / memberjid
-}
+// interface LIDMapping {
+//   lid: string;
+//   pn: string; // phone number / memberjid
+// }
 
-export const updateMemberLIDsFromSignal = async (bot: Bot) => {
-  try {
-    // 1️⃣ Fetch ~100 members from DB whose lid is 'unknown'
-    const res = await pool.query(
-      "SELECT memberjid FROM member WHERE lid = 'unknown' ORDER BY RANDOM() LIMIT 1;"
-    );
-    const membersToUpdate: string[] = res.rows.map((r) => r.memberjid);
+// export const updateMemberLIDsFromSignal = async (bot: Bot) => {
+//   try {
+//     // 1️⃣ Fetch ~100 members from DB whose lid is 'unknown'
+//     const res = await pool.query(
+//       "SELECT memberjid FROM member WHERE lid = 'unknown' ORDER BY RANDOM() LIMIT 1;"
+//     );
+//     const membersToUpdate: string[] = res.rows.map((r) => r.memberjid);
 
-    if (!membersToUpdate.length) {
-      console.log("No members with 'unknown' lid to update.");
-      return;
-    }
+//     if (!membersToUpdate.length) {
+//       console.log("No members with 'unknown' lid to update.");
+//       return;
+//     }
 
-    console.log("Fetching LIDs for members:", membersToUpdate);
+//     console.log("Fetching LIDs for members:", membersToUpdate);
 
-    // 2️⃣ Call the bot's lidMapping function
-    const lidResults: LIDMapping[] | null =
-      await bot.signalRepository.lidMapping.getLIDsForPNs(membersToUpdate);
+//     // 2️⃣ Call the bot's lidMapping function
+//     const lidResults: LIDMapping[] | null =
+//       await bot.signalRepository.lidMapping.getLIDsForPNs(membersToUpdate);
 
-    console.log("Found LIDs for members:", lidResults);
+//     console.log("Found LIDs for members:", lidResults);
 
-    // 3️⃣ Handle case where bot returns null
-    if (lidResults === null) {
-      console.log("LID results is null from bot. Marking as NOT_FOUND...");
-      await bulkUpdateMemberLids(
-        membersToUpdate.map((jid) => ({
-          jid,
-          lid: "NOT_FOUND",
-        }))
-      );
-      return;
-    }
+//     // 3️⃣ Handle case where bot returns null
+//     if (lidResults === null) {
+//       console.log("LID results is null from bot. Marking as NOT_FOUND...");
+//       await bulkUpdateMemberLids(
+//         membersToUpdate.map((jid) => ({
+//           jid,
+//           lid: "NOT_FOUND",
+//         }))
+//       );
+//       return;
+//     }
 
-    // 4️⃣ Handle case where bot returns empty array
-    if (!lidResults.length) {
-      console.log("No LID results returned from bot. Marking as NOT_FOUND...");
-      await bulkUpdateMemberLids(
-        membersToUpdate.map((jid) => ({
-          jid,
-          lid: "NOT_FOUND",
-        }))
-      );
-      return;
-    }
+//     // 4️⃣ Handle case where bot returns empty array
+//     if (!lidResults.length) {
+//       console.log("No LID results returned from bot. Marking as NOT_FOUND...");
+//       await bulkUpdateMemberLids(
+//         membersToUpdate.map((jid) => ({
+//           jid,
+//           lid: "NOT_FOUND",
+//         }))
+//       );
+//       return;
+//     }
 
-    // 5️⃣ Separate valid and invalid (no LID)
-    const validMembers = lidResults
-      .filter((m) => m.lid && m.pn)
-      .map((m) => ({
-        jid: m.pn as string,
-        lid: m.lid as string,
-      }));
+//     // 5️⃣ Separate valid and invalid (no LID)
+//     const validMembers = lidResults
+//       .filter((m) => m.lid && m.pn)
+//       .map((m) => ({
+//         jid: m.pn as string,
+//         lid: m.lid as string,
+//       }));
 
-    const notFoundMembers = lidResults
-      .filter((m) => !m.lid && m.pn)
-      .map((m) => ({
-        jid: m.pn as string,
-        lid: "NOT_FOUND",
-      }));
+//     const notFoundMembers = lidResults
+//       .filter((m) => !m.lid && m.pn)
+//       .map((m) => ({
+//         jid: m.pn as string,
+//         lid: "NOT_FOUND",
+//       }));
 
-    // 6️⃣ Also include any requested members missing from bot’s response
-    const missingFromResponse = membersToUpdate.filter(
-      (jid) => !lidResults.some((m) => m.pn === jid)
-    );
-    const missingUpdates = missingFromResponse.map((jid) => ({
-      jid,
-      lid: "NOT_FOUND",
-    }));
+//     // 6️⃣ Also include any requested members missing from bot’s response
+//     const missingFromResponse = membersToUpdate.filter(
+//       (jid) => !lidResults.some((m) => m.pn === jid)
+//     );
+//     const missingUpdates = missingFromResponse.map((jid) => ({
+//       jid,
+//       lid: "NOT_FOUND",
+//     }));
 
-    // Combine all updates
-    const allUpdates = [...validMembers, ...notFoundMembers, ...missingUpdates];
+//     // Combine all updates
+//     const allUpdates = [...validMembers, ...notFoundMembers, ...missingUpdates];
 
-    if (!allUpdates.length) {
-      console.log("No valid or missing members to update.");
-      return;
-    }
+//     if (!allUpdates.length) {
+//       console.log("No valid or missing members to update.");
+//       return;
+//     }
 
-    console.log(
-      `Updating ${allUpdates.length} members (including NOT_FOUND)...`
-    );
+//     console.log(
+//       `Updating ${allUpdates.length} members (including NOT_FOUND)...`
+//     );
 
-    await bulkUpdateMemberLids(allUpdates);
+//     await bulkUpdateMemberLids(allUpdates);
 
-    console.log("Member LID update completed successfully!");
-  } catch (error) {
-    console.error("Error updating member LIDs:", error);
-  }
-};
+//     console.log("Member LID update completed successfully!");
+//   } catch (error) {
+//     console.error("Error updating member LIDs:", error);
+//   }
+// };
 
 export const setMemberName = async (
   name: string | undefined | null,
-  memberjid: string
+  memberjid: string,
+  memberlid: string
 ): Promise<boolean> => {
   if (!checkMemberjid(memberjid)) return false;
+  if (!checkMemberlid(memberlid)) return false;
 
   try {
     const res2 = await pool.query(
-      "UPDATE member SET name=$1, updated_at = NOW() WHERE memberjid=$2;",
-      [name, memberjid]
+      "UPDATE member SET name=$1, updated_at = NOW() WHERE memberlid=$2;",
+      [name, memberlid]
     );
     if (res2.rowCount === 0) {
       await pool.query(
-        "INSERT INTO member(memberjid, name, donation, badges) VALUES($1,$2,$3,$4);",
-        [memberjid, name, 0, []]
+        "INSERT INTO member(memberjid, memberlid, name, donation, badges) VALUES($1,$2,$3,$4,$5);",
+        [memberjid, memberlid, name, 0, []]
       );
     }
     return true;
@@ -168,6 +170,7 @@ export const setMemberName = async (
     await loggerBot(undefined, "[setMemberName DB]", error, {
       name,
       memberjid,
+      memberlid,
     });
     return false;
   }
@@ -179,18 +182,18 @@ export interface GetUsernames {
 
 // get usesrnames
 export const getUsernames = async (
-  memberjidArray: string[]
+  memberlidArray: string[]
 ): Promise<GetUsernames[]> => {
   try {
     const res = await pool.query(
-      "SELECT * FROM member WHERE memberjid = ANY($1::TEXT[])",
-      [memberjidArray]
+      "SELECT * FROM member WHERE memberlid = ANY($1::TEXT[])",
+      [memberlidArray]
     );
     if (res.rowCount) {
       return res.rows;
     }
   } catch (error) {
-    await loggerBot(undefined, "[getUsernames DB]", error, { memberjidArray });
+    await loggerBot(undefined, "[getUsernames DB]", error, { memberlidArray });
   }
   return [];
 };
@@ -198,7 +201,7 @@ export const getUsernames = async (
 /* -------------------------------- DONATIONS ------------------------------- */
 export interface GetDonation {
   name: string;
-  memberjid: string;
+  memberlid: string;
   donation: number;
 }
 
@@ -216,6 +219,7 @@ export const getDonation = async (): Promise<GetDonation[]> => {
   return [];
 };
 
+/* --------------------- TODO: CHECK ALL BELOW FUNCS --------------------- */
 export const setDonation = async (
   memberjid: string,
   donation: number,

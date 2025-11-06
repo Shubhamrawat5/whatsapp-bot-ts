@@ -21,9 +21,11 @@ export const groupParticipantsUpdate = async (
   console.log("[group-participants.update]");
   try {
     const from = msg.id;
-    msg.participants.forEach(async (numJid) => {
-      const numSplit = `${numJid.split("@s.whatsapp.net")[0]}`;
-      if (numJid === botNumberLid && msg.action === "remove") {
+    console.log(JSON.stringify(msg));
+
+    msg.participants.forEach(async (memberlid) => {
+      const lidsplit = memberlid.split("@lid")[0];
+      if (memberlid === botNumberLid && msg.action === "remove") {
         // bot is removed
         await sendLogToOwner(bot, `Bot is removed from group.`);
         return;
@@ -34,15 +36,15 @@ export const groupParticipantsUpdate = async (
       const groupSubject = groupMetadata.subject;
 
       if (msg.action === "add") {
-        await addMemberCheck(bot, from, numSplit, numJid, groupSubject);
+        await addMemberCheck(bot, from, lidsplit, memberlid, groupSubject);
 
-        const text = `${groupSubject} [ADD] ${numSplit}`;
+        const text = `${groupSubject} [ADD] ${lidsplit}`;
         await sendLogToOwner(bot, text);
 
         console.log(text);
         stats.memberJoined += 1;
       } else if (msg.action === "remove") {
-        const text = `${groupSubject} [REMOVE] ${numSplit}`;
+        const text = `${groupSubject} [REMOVE] ${lidsplit}`;
         await sendLogToOwner(bot, text);
 
         console.log(text);
@@ -53,10 +55,10 @@ export const groupParticipantsUpdate = async (
         groupSubject.startsWith("<{PVX}>")
       ) {
         // promote, demote
-        const getUsernamesRes = await getUsernames([numJid]);
+        const getUsernamesRes = await getUsernames([memberlid]);
         const username = getUsernamesRes.length
           ? getUsernamesRes[0].name
-          : numSplit;
+          : lidsplit;
         const action =
           msg.action === "promote" ? "Promoted to Admin" : "Demoted to Member";
         const text = `*ADMIN CHANGE ALERT!!*\n\nUser: ${username}\nGroup: ${groupSubject}\nAction: ${action}`;

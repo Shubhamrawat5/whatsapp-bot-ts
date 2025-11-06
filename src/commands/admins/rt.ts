@@ -12,7 +12,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
 
   const member = groupMembers[Math.floor(Math.random() * groupMembers.length)];
   message += ` @${member.id.split("@")[0]} `;
-  jids.push(member.id.replace("c.us", "s.whatsapp.net"));
+  jids.push(member.id);
 
   await bot.sendMessage(
     from,

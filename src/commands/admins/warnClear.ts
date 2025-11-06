@@ -13,11 +13,15 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   }
 
   const participant = await getMentionedOrTaggedParticipant(msg);
+  if (!participant) {
+    await reply("❌ Tag or mention someone!");
+    return;
+  }
 
   const clearCountWarningRes = await clearCountWarning(participant, from);
   if (clearCountWarningRes) {
-    const numSplit = participant && participant.split("@s.whatsapp.net")[0];
-    const warnMsg = `@${numSplit} ,Your warnings have been cleared for this group!`;
+    const lidSplit = participant && participant.split("@lid")[0];
+    const warnMsg = `@${lidSplit} ,Your warnings have been cleared for this group!`;
 
     await bot.sendMessage(from, {
       text: warnMsg,

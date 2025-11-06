@@ -1,6 +1,6 @@
 /* ----------------------------- ADMIN COMMANDS ----------------------------- */
-import add from "../commands/admins/add";
-import adminlist from "../commands/admins/adminList";
+// import add from "../commands/admins/add";
+// import adminlist from "../commands/admins/adminList";
 import blacklist from "../commands/admins/blacklist";
 import blacklistadd from "../commands/admins/blacklistAdd";
 import blacklistremove from "../commands/admins/blacklistRemove";
@@ -70,7 +70,7 @@ import technews from "../commands/members/techNews";
 
 /* ----------------------------- OWNER COMMANDS ----------------------------- */
 import broadcast from "../commands/owner/broadcast";
-import donationadd from "../commands/owner/donationAdd";
+// import donationadd from "../commands/owner/donationAdd";
 import getlink from "../commands/owner/getLink";
 import badgeaddtext from "../commands/owner/badgeAddText";
 import tg from "../commands/owner/tg";
@@ -79,7 +79,7 @@ import tg from "../commands/owner/tg";
 import alive from "../commands/public/alive";
 import ask from "../commands/public/ask";
 import cricketcommand from "../commands/public/cricketCommand";
-import deletee from "../commands/public/delete";
+// import deletee from "../commands/public/delete";
 import dev from "../commands/public/dev";
 import donation from "../commands/public/donation";
 import feedback from "../commands/public/feedback";
@@ -110,7 +110,7 @@ const addCommands = async () => {
     alive,
     ask,
     cricketcommand,
-    deletee,
+    // deletee,
     dev,
     donation,
     feedback,
@@ -133,8 +133,8 @@ const addCommands = async () => {
   });
 
   const adminCommands = [
-    add,
-    adminlist,
+    // add,
+    // adminlist,
     bday,
     blacklist,
     blacklistadd,
@@ -229,7 +229,13 @@ const addCommands = async () => {
     });
   });
 
-  const ownerCommands = [broadcast, donationadd, getlink, badgeaddtext, tg];
+  const ownerCommands = [
+    broadcast,
+    //  donationadd,
+    getlink,
+    badgeaddtext,
+    tg,
+  ];
 
   ownerCommands.forEach((command) => {
     const cmdinfo = command(); // {cmd:["",""], handler:function}

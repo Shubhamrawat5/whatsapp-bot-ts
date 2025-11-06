@@ -9,7 +9,7 @@ const kickZeroMano = async (bot: Bot, pvxmano: string) => {
 
     const memWithMsg = new Set();
     getCountVideoRes.forEach((member) => {
-      memWithMsg.add(member.memberjid);
+      memWithMsg.add(member.memberlid);
     });
 
     const groupMetadata: GroupMetadata = await bot.groupMetadata(pvxmano);

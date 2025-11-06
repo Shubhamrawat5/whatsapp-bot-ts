@@ -28,32 +28,32 @@ export const addDefaultbadges = async (bot: Bot) => {
 
   const getCountTopRes = await getCountTop(100);
   getCountTopRes.forEach((member, index) => {
-    const { memberjid } = member;
+    const { memberlid } = member;
     const number = index + 1;
-    defaultBadges[memberjid] = defaultBadges[memberjid] || [];
+    defaultBadges[memberlid] = defaultBadges[memberlid] || [];
 
     if (number > 50) {
-      defaultBadges[memberjid].push("Top 100 active member of PVX");
+      defaultBadges[memberlid].push("Top 100 active member of PVX");
     } else if (number > 10) {
-      defaultBadges[memberjid].push("Top 50 active member of PVX");
+      defaultBadges[memberlid].push("Top 50 active member of PVX");
     } else if (number > 1) {
-      defaultBadges[memberjid].push("Top 10 active member of PVX");
+      defaultBadges[memberlid].push("Top 10 active member of PVX");
     } else {
-      defaultBadges[memberjid].push("Most active member of PVX");
+      defaultBadges[memberlid].push("Most active member of PVX");
     }
   });
 
   const getDonationRes = await getDonation();
   getDonationRes.forEach((member, index) => {
-    const { memberjid } = member;
-    defaultBadges[memberjid] = defaultBadges[memberjid] || [];
+    const { memberlid } = member;
+    defaultBadges[memberlid] = defaultBadges[memberlid] || [];
 
     if (index === 0) {
-      defaultBadges[memberjid].push("Highest contribution in PVX funds");
+      defaultBadges[memberlid].push("Highest contribution in PVX funds");
     } else if (member.donation >= 1000) {
-      defaultBadges[memberjid].push("Huge Contribution in PVX funds");
+      defaultBadges[memberlid].push("Huge Contribution in PVX funds");
     } else {
-      defaultBadges[memberjid].push("Contribution in PVX funds");
+      defaultBadges[memberlid].push("Contribution in PVX funds");
     }
   });
 

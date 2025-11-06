@@ -1,4 +1,4 @@
-import { checkGroupjid, checkMemberjid } from "../functions/checkValue";
+import { checkGroupjid, checkMemberlid } from "../functions/checkValue";
 import { loggerBot } from "../utils/logger";
 import pool from "./pool";
 
@@ -7,13 +7,13 @@ export interface GetCountWarning {
 }
 
 export const getCountWarning = async (
-  memberjid: string,
+  memberlid: string,
   groupjid: string
 ): Promise<GetCountWarning[]> => {
   try {
     const result = await pool.query(
-      "SELECT warning_count FROM count_member WHERE memberjid=$1 AND groupjid=$2;",
-      [memberjid, groupjid]
+      "SELECT warning_count FROM count_member WHERE memberlid=$1 AND groupjid=$2;",
+      [memberlid, groupjid]
     );
 
     if (result.rowCount) {
@@ -21,7 +21,7 @@ export const getCountWarning = async (
     }
   } catch (error) {
     await loggerBot(undefined, "[getCountWarning DB]", error, {
-      memberjid,
+      memberlid,
       groupjid,
     });
   }
@@ -29,7 +29,7 @@ export const getCountWarning = async (
 };
 
 export interface GetCountWarningAllGroup {
-  memberjid: string;
+  memberlid: string;
   name: string;
   warning_count: number;
 }
@@ -39,7 +39,7 @@ export const getCountWarningAllGroup = async (): Promise<
 > => {
   try {
     const res = await pool.query(
-      "SELECT count_member.memberjid, sum(count_member.warning_count) as warning_count, member.name FROM count_member INNER JOIN member ON count_member.memberjid=member.memberjid WHERE warning_count>0 GROUP BY count_member.memberjid,member.name ORDER BY warning_count DESC;"
+      "SELECT count_member.memberlid, sum(count_member.warning_count) as warning_count, member.name FROM count_member INNER JOIN member ON count_member.memberlid=member.memberlid WHERE warning_count>0 GROUP BY count_member.memberlid,member.name ORDER BY warning_count DESC;"
     );
     if (res.rowCount) {
       return res.rows;
@@ -56,7 +56,7 @@ export const getCountWarningAllGroup = async (): Promise<
 };
 export interface GetCountWarningAll {
   name: string;
-  memberjid: string;
+  memberlid: string;
   warning_count: number;
 }
 
@@ -65,7 +65,7 @@ export const getCountWarningAll = async (
 ): Promise<GetCountWarningAll[]> => {
   try {
     const res = await pool.query(
-      "SELECT count_member.memberjid, count_member.warning_count, member.name FROM count_member INNER JOIN member ON count_member.memberjid=member.memberjid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
+      "SELECT count_member.memberlid, count_member.warning_count, member.name FROM count_member INNER JOIN member ON count_member.memberlid=member.memberlid WHERE groupjid=$1 and warning_count>0 ORDER BY warning_count DESC;",
       [groupjid]
     );
     if (res.rowCount) {
@@ -78,16 +78,16 @@ export const getCountWarningAll = async (
 };
 
 export const setCountWarning = async (
-  memberjid: string,
+  memberlid: string,
   groupjid: string
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
-  if (!checkMemberjid(memberjid)) return false;
+  if (!checkMemberlid(memberlid)) return false;
 
   try {
     const res = await pool.query(
-      "UPDATE count_member SET warning_count = warning_count+1 WHERE memberjid=$1 AND groupjid=$2;",
-      [memberjid, groupjid]
+      "UPDATE count_member SET warning_count = warning_count+1 WHERE memberlid=$1 AND groupjid=$2;",
+      [memberlid, groupjid]
     );
     if (res.rowCount === 1) {
       return true;
@@ -95,7 +95,7 @@ export const setCountWarning = async (
     return false;
   } catch (error) {
     await loggerBot(undefined, "[setCountWarning DB]", error, {
-      memberjid,
+      memberlid,
       groupjid,
     });
     return false;
@@ -103,16 +103,16 @@ export const setCountWarning = async (
 };
 
 export const reduceCountWarning = async (
-  memberjid: string,
+  memberlid: string,
   groupjid: string
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
-  if (!checkMemberjid(memberjid)) return false;
+  if (!checkMemberlid(memberlid)) return false;
 
   try {
     const res = await pool.query(
-      "UPDATE count_member SET warning_count = warning_count-1 WHERE memberjid=$1 AND groupjid=$2;",
-      [memberjid, groupjid]
+      "UPDATE count_member SET warning_count = warning_count-1 WHERE memberlid=$1 AND groupjid=$2;",
+      [memberlid, groupjid]
     );
     if (res.rowCount === 1) {
       return true;
@@ -121,7 +121,7 @@ export const reduceCountWarning = async (
     return false;
   } catch (error) {
     await loggerBot(undefined, "[reduceCountWarning DB]", error, {
-      memberjid,
+      memberlid,
       groupjid,
     });
     return false;
@@ -129,16 +129,16 @@ export const reduceCountWarning = async (
 };
 
 export const clearCountWarning = async (
-  memberjid: string,
+  memberlid: string,
   groupjid: string
 ): Promise<boolean> => {
   if (!checkGroupjid(groupjid)) return false;
-  if (!checkMemberjid(memberjid)) return false;
+  if (!checkMemberlid(memberlid)) return false;
 
   try {
     const res = await pool.query(
-      "UPDATE count_member SET warning_count = 0 WHERE memberjid=$1 AND groupjid=$2;",
-      [memberjid, groupjid]
+      "UPDATE count_member SET warning_count = 0 WHERE memberlid=$1 AND groupjid=$2;",
+      [memberlid, groupjid]
     );
 
     if (res.rowCount === 1) {
@@ -147,7 +147,7 @@ export const clearCountWarning = async (
     return false;
   } catch (error) {
     await loggerBot(undefined, "[clearCountWarning DB]", error, {
-      memberjid,
+      memberlid,
       groupjid,
     });
     return false;

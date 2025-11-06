@@ -5,9 +5,9 @@ const countRemainder = async (
   bot: Bot,
   SetCountMemberRes: SetCountMember,
   from: string,
-  senderNumber: string,
-  sender: string
+  memberlid: string
 ) => {
+  const lidsplit = memberlid.split("@lid")[0];
   const quotedCustomMessage = {
     key: {
       remoteJid: from,
@@ -27,8 +27,8 @@ const countRemainder = async (
     await bot.sendMessage(
       from,
       {
-        text: `⭐ Hey @${senderNumber}\nYou've completed ${SetCountMemberRes.currentGroup} messages in this group!`,
-        mentions: [sender],
+        text: `⭐ Hey @${lidsplit}\nYou've completed ${SetCountMemberRes.currentGroup} messages in this group!`,
+        mentions: [memberlid],
       },
       {
         quoted: quotedCustomMessage,
@@ -39,8 +39,8 @@ const countRemainder = async (
     await bot.sendMessage(
       from,
       {
-        text: `⭐ Hey @${senderNumber}\nYou've completed ${SetCountMemberRes.allGroup} messages in all PVX group!`,
-        mentions: [sender],
+        text: `⭐ Hey @${lidsplit}\nYou've completed ${SetCountMemberRes.allGroup} messages in all PVX group!`,
+        mentions: [memberlid],
       },
       {
         quoted: quotedCustomMessage,

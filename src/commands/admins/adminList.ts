@@ -22,20 +22,20 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
       participants: v.participants,
     }));
 
-  // get all jids of admin
-  const memberjidAllArray: string[] = [];
+  // get all lids of admin
+  const memberlidAllArray: string[] = [];
   groups.forEach((group) => {
     group.participants.forEach(async (member: GroupParticipant) => {
-      if (member.admin && !memberjidAllArray.includes(member.id)) {
-        memberjidAllArray.push(member.id);
+      if (member.admin && !memberlidAllArray.includes(member.id)) {
+        memberlidAllArray.push(member.id);
       }
     });
   });
 
   // get all jids name from DB
-  const getUsernamesRes = await getUsernames(memberjidAllArray);
+  const getUsernamesRes = await getUsernames(memberlidAllArray);
 
-  if (getUsernamesRes.length !== memberjidAllArray.length) {
+  if (getUsernamesRes.length !== memberlidAllArray.length) {
     await reply("Some names are not found in DB.");
   }
 
@@ -50,7 +50,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   });
 
   // create the message
-  let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberjidAllArray.length}${readMore}`;
+  let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberlidAllArray.length}${readMore}`;
 
   const subAdminPanel: string[] = [];
   // get all admins from sub admin panel

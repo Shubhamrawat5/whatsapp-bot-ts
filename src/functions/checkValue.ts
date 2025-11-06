@@ -4,6 +4,12 @@ export const checkMemberjid = (memberjid: string) => {
   return regex.test(memberjid);
 };
 
+export const checkMemberlid = (memberlid: string) => {
+  const regex = /\d+@lid/;
+
+  return regex.test(memberlid);
+};
+
 export const checkGroupjid = (groupjid: string) => {
   const regex = /\d+@g.us/;
 
