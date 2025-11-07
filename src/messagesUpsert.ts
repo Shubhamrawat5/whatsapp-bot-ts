@@ -405,7 +405,7 @@ export const messagesUpsert = async (
 
       const msgInfoObj: MsgInfoObj = {
         from,
-        sender: senderJid,
+        sender: senderLid,
         senderName,
         groupName,
         groupDesc,
