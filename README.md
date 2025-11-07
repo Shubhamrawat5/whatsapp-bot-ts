@@ -16,7 +16,7 @@
 ## Local Run:- :rocket:
 
 1. Create account on [supabase](https://supabase.com) for Database.
-2. After login, Go to Project settings then Database. It'll be like: postgresql://username:password@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres\
+2. After login, Go to Project settings then Database. It'll be like: postgresql://username:password@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres\
    [Make sure to change the username and password in the database string, also do "Encode URL" of the database URI]
 3. Create a local `.env` file with following variables and save the file. [You can check all the .env variables in .env.sample file]
 

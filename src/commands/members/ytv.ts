@@ -36,7 +36,7 @@ const handler = async (bot: Bot, msg: WAMessage, msgInfoObj: MsgInfoObj) => {
   // await reply("Downloading.. This may take upto 5 min!");
   await new Promise((resolve, reject) => {
     stream.on("error", reject);
-    stream.on("finish", resolve);
+    // stream.on("finish", resolve);
   });
 
   const stats = fs.statSync(`./${randomFileName}`);

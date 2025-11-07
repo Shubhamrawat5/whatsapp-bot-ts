@@ -103,7 +103,6 @@ const startBot = async () => {
     const bot: Bot = makeWASocket({
       version,
       logger,
-      printQRInTerminal: true,
       auth: {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, logger),

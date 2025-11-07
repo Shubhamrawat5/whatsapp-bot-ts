@@ -1,4 +1,4 @@
-import { ParticipantAction } from "@whiskeysockets/baileys";
+import { GroupParticipant, ParticipantAction } from "@whiskeysockets/baileys";
 import addMemberCheck from "./functions/addMemberCheck";
 import { Bot } from "./interfaces/Bot";
 import { getUsernames } from "./db/membersDB";
@@ -9,7 +9,9 @@ import { pvxFunctionsEnabled } from "./utils/config";
 
 export interface GroupParticipantUpdate {
   id: string;
-  participants: string[];
+  author: string;
+  authorPn?: string;
+  participants: GroupParticipant[];
   action: ParticipantAction;
 }
 
@@ -18,14 +20,14 @@ export const groupParticipantsUpdate = async (
   bot: Bot,
   botNumberLid: string
 ) => {
-  console.log("[group-participants.update]");
+  console.log("[group-participants.update]", msg.participants);
   try {
     const from = msg.id;
     console.log(JSON.stringify(msg));
 
-    msg.participants.forEach(async (memberlid) => {
-      const lidsplit = memberlid.split("@lid")[0];
-      if (memberlid === botNumberLid && msg.action === "remove") {
+    msg.participants.forEach(async (member) => {
+      const lidsplit = member.id.split("@lid")[0];
+      if (member.id === botNumberLid && msg.action === "remove") {
         // bot is removed
         await sendLogToOwner(bot, `Bot is removed from group.`);
         return;
@@ -36,7 +38,7 @@ export const groupParticipantsUpdate = async (
       const groupSubject = groupMetadata.subject;
 
       if (msg.action === "add") {
-        await addMemberCheck(bot, from, lidsplit, memberlid, groupSubject);
+        await addMemberCheck(bot, from, lidsplit, member.id, groupSubject);
 
         const text = `${groupSubject} [ADD] ${lidsplit}`;
         await sendLogToOwner(bot, text);
@@ -55,7 +57,7 @@ export const groupParticipantsUpdate = async (
         groupSubject.startsWith("<{PVX}>")
       ) {
         // promote, demote
-        const getUsernamesRes = await getUsernames([memberlid]);
+        const getUsernamesRes = await getUsernames([member.id]);
         const username = getUsernamesRes.length
           ? getUsernamesRes[0].name
           : lidsplit;
